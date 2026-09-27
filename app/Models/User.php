@@ -6,12 +6,39 @@ namespace App\Models;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\Siswa;
+use App\Models\Pemasukan;
+use App\Models\Pengeluaran;
+use App\Models\Pengumuman;
 use Illuminate\Notifications\Notifiable;
+
+
 
 class User extends Authenticatable
 {
+
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
+
+    public function siswa()
+    {
+        return $this->hasOne(Siswa::class);
+    }
+
+    public function pemasukan()
+    {
+        return $this->hasMany(Pemasukan::class);
+    }
+
+    public function pengeluaran()
+    {
+        return $this->hasMany(Pengeluaran::class);
+    }
+
+    public function pengumuman()
+    {
+        return $this->hasMany(Pengumuman::class);
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -22,6 +49,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**

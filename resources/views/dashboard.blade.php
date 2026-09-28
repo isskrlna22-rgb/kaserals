@@ -583,19 +583,19 @@
 
             <nav class="menu">
 
-                <a href="#" class="active">
+                <a href="{{ route('dashboard') }}" class="active">
                     <span class="menu-icon">▣</span>
                     Dashboard
                 </a>
 
-                <a href="#">
+                <a href="{{ route('data-siswa.index') }}">
                     <span class="menu-icon">◉</span>
                     Data Siswa
                 </a>
 
                 <div class="menu-title">TRANSAKSI</div>
 
-                <a href="#">
+                <a href="{{ route('pembayaran-kas.index') }}">
                     <span class="menu-icon">✓</span>
                     Pembayaran Kas
                 </a>

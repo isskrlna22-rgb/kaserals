@@ -16,7 +16,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
 Route::get('/dashboard', [DashboardController::class, 'view'])
     ->middleware(['auth'])
     ->name('dashboard');
@@ -33,6 +32,15 @@ Route::get('/test-admin', function () {
 
 Route::middleware(['auth', 'role:ADMIN,BENDAHARA'])->group(function () {
     Route::apiResource('siswa', SiswaController::class);
+
+    Route::get('/data-siswa', [SiswaController::class, 'page'])
+        ->name('data-siswa.index');
+
+    Route::get('/data-siswa/create', [SiswaController::class, 'createPage'])
+        ->name('data-siswa.create');
+
+        Route::post('/data-siswa', [SiswaController::class, 'storePage'])
+    ->name('data-siswa.store');
 });
 
 Route::apiResource('pembayaran-kas', PembayaranKasController::class)
@@ -58,6 +66,16 @@ Route::get('/api/status-pembayaran/{siswa}', [StatusPembayaranController::class,
 
 Route::get('/api/siswa/dashboard', [SiswaDashboardController::class, 'index'])
     ->middleware(['auth', 'role:SISWA']);
+
+
+Route::get('/data-siswa', [SiswaController::class, 'page'])
+    ->middleware(['auth', 'role:ADMIN,BENDAHARA'])
+    ->name('data-siswa.index');
+
+Route::get('/data-pembayaran', function () {
+    return view('pembayaran-kas.index');
+})->middleware(['auth', 'role:ADMIN,BENDAHARA'])
+    ->name('pembayaran-kas.index');
 
 
 require __DIR__ . '/auth.php';

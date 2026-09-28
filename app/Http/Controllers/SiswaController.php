@@ -13,7 +13,32 @@ class SiswaController extends Controller
 
         return response()->json($siswa);
     }
+    public function page()
+    {
+        $siswa = Siswa::latest()->get();
 
+        return view('siswa.index', compact('siswa'));
+    }
+    public function createPage()
+    {
+
+        return view('siswa.create');
+    }
+    public function storePage(Request $request)
+    {
+        $validated = $request->validate([
+            'nis' => 'required|string|max:50|unique:siswa,nis',
+            'nama' => 'required|string|max:255',
+            'kelas' => 'required|string|max:50',
+            'no_hp' => 'nullable|string|max:20',
+        ]);
+
+        Siswa::create($validated);
+
+        return redirect()
+            ->route('data-siswa.index')
+            ->with('success', 'Data siswa berhasil ditambahkan.');
+    }
     public function store(Request $request)
     {
         $validated = $request->validate([

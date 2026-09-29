@@ -29,6 +29,14 @@ class StatusPembayaranController extends Controller
 
         return response()->json($data);
     }
+    public function page()
+    {
+        $siswa = Siswa::with('pembayaranKas')
+            ->orderBy('nama')
+            ->get();
+
+        return view('status-pembayaran.index', compact('siswa'));
+    }
 
     public function show(Siswa $siswa)
     {

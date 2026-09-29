@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PembayaranKas;
 use Illuminate\Http\Request;
+use App\Models\Siswa;
 
 class PembayaranKasController extends Controller
 {
@@ -15,25 +16,6 @@ class PembayaranKasController extends Controller
 
         return response()->json($pembayaran);
     }
-
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'siswa_id' => 'required|exists:siswa,id',
-            'nominal' => 'required|numeric|min:0',
-            'periode' => 'required|string|max:50',
-            'tanggal' => 'required|date',
-            'keterangan' => 'nullable|string',
-        ]);
-
-        $pembayaran = PembayaranKas::create($validated);
-
-        return response()->json([
-            'message' => 'Pembayaran kas berhasil dicatat.',
-            'data' => $pembayaran->load('siswa'),
-        ], 201);
-    }
-
     public function show(PembayaranKas $pembayaranKas)
     {
         return response()->json(
@@ -68,5 +50,33 @@ class PembayaranKasController extends Controller
         return response()->json([
             'message' => 'Pembayaran kas berhasil dihapus.',
         ]);
+    }
+
+    public function page()
+    {
+        $siswa = Siswa::orderBy('nama')->get();
+
+        $pembayaran = PembayaranKas::with('siswa')
+            ->latest('tanggal')
+            ->get();
+
+        return view('pembayaran-kas.index', compact('siswa', 'pembayaran'));
+    }
+
+    public function storePage(Request $request)
+    {
+        $validated = $request->validate([
+            'siswa_id' => 'required|exists:siswa,id',
+            'nominal' => 'required|numeric|min:1',
+            'periode' => 'required|string|max:50',
+            'tanggal' => 'required|date',
+            'keterangan' => 'nullable|string',
+        ]);
+
+        PembayaranKas::create($validated);
+
+        return redirect()
+            ->route('pembayaran-kas.index')
+            ->with('success', 'Pembayaran kas berhasil dicatat.');
     }
 }

@@ -327,7 +327,6 @@
         }
 
         .progress-bar {
-            width: 82%;
             height: 100%;
             background: #0d9488;
             border-radius: 20px;
@@ -600,8 +599,7 @@
                     Pembayaran Kas
                 </a>
 
-                <a href="#">
-                    <span class="menu-icon">≡</span>
+                <a href="{{ route('status-pembayaran.index') }}">
                     Status Pembayaran
                 </a>
 
@@ -686,7 +684,7 @@
                         </div>
 
                         <div class="summary-value income">
-                            Rp 3.150.000
+                            Rp {{ number_format($totalPembayaran + $totalPemasukan, 0, ',', '.') }}
                         </div>
 
                         <div class="summary-date">
@@ -703,7 +701,7 @@
                         </div>
 
                         <div class="summary-value expense">
-                            Rp 700.000
+                            Rp {{ number_format($totalPengeluaran, 0, ',', '.') }}
                         </div>
 
                         <div class="summary-date">
@@ -718,9 +716,8 @@
                         <div class="summary-title">
                             SALDO KAS
                         </div>
-
                         <div class="summary-value">
-                            Rp 2.450.000
+                            Rp {{ number_format($saldo, 0, ',', '.') }}
                         </div>
 
                         <div class="summary-date">
@@ -741,7 +738,7 @@
 
                         <div class="card-header">
 
-                            <h2>Status Pembayaran Bulan Ini</h2>
+                            <h2>Status Pembayaran {{ $periodeAktif }}</h2>
 
                             <a href="#" class="card-link">
                                 Lihat semua →
@@ -750,11 +747,11 @@
                         </div>
 
                         <p class="payment-info">
-                            28 dari 34 siswa sudah membayar
+                            {{ $sudahBayar }} dari {{ $totalSiswa }} siswa sudah membayar
                         </p>
-
                         <div class="progress">
-                            <div class="progress-bar"></div>
+                            <div class="progress-bar" style="width: {{ $persentasePembayaran }}%;">
+                            </div>
                         </div>
 
                         <div class="payment-status">
@@ -762,7 +759,7 @@
                             <div class="status-box paid">
 
                                 <div class="status-number">
-                                    28
+                                    {{ $sudahBayar }}
                                 </div>
 
                                 <div class="status-label">
@@ -775,7 +772,7 @@
                             <div class="status-box unpaid">
 
                                 <div class="status-number">
-                                    6
+                                    {{ $belumBayar }}
                                 </div>
 
                                 <div class="status-label">
@@ -794,17 +791,22 @@
 
                         <h2>Aksi Cepat</h2>
 
-                        <button class="quick-btn primary">
+                        <a href="{{ route('pembayaran-kas.index') }}" class="quick-btn primary"
+                            style="display:flex; align-items:center; justify-content:center; text-decoration:none;">
                             + Catat Pembayaran
-                        </button>
+                        </a>
 
-                        <button class="quick-btn">
+                        <a href="{{ route('pemasukan.web.index') }}" class="quick-btn"
+                            style="display:flex; align-items:center; justify-content:center; text-decoration:none;">
+
                             + Catat Pemasukan
-                        </button>
 
-                        <button class="quick-btn">
+                        </a>
+
+                        <a href="{{ route('pengeluaran.web.index') }}" class="quick-btn"
+                            style="display:flex; align-items:center; justify-content:center; text-decoration:none;">
                             + Catat Pengeluaran
-                        </button>
+                        </a>
 
                     </div>
 
@@ -839,95 +841,47 @@
                                 </tr>
 
                             </thead>
-
                             <tbody>
 
-                                <tr>
+                                @forelse($transaksi as $item)
+                                    <tr>
 
-                                    <td>16 Nov</td>
+                                        <td>
+                                            {{ $item['tanggal']->format('d M') }}
+                                        </td>
 
-                                    <td>
-                                        <span class="badge payment">
-                                            Pembayaran
-                                        </span>
-                                    </td>
+                                        <td>
+                                            <span class="badge {{ $item['arah'] === 'in' ? 'income' : 'expense' }}">
+                                                {{ $item['jenis'] }}
+                                            </span>
+                                        </td>
 
-                                    <td>
+                                        <td>
+                                            <div class="student-name">
+                                                <div class="student-avatar">
+                                                    {{ strtoupper(substr($item['keterangan'], 0, 2)) }}
+                                                </div>
 
-                                        <div class="student-name">
-
-                                            <div class="student-avatar">
-                                                NS
+                                                {{ $item['keterangan'] }}
                                             </div>
+                                        </td>
 
-                                            Nesya — kas November
+                                        <td class="amount {{ $item['arah'] }}">
+                                            {{ $item['arah'] === 'in' ? '+' : '−' }}
+                                            Rp {{ number_format($item['nominal'], 0, ',', '.') }}
+                                        </td>
 
-                                        </div>
+                                    </tr>
 
-                                    </td>
+                                @empty
 
-                                    <td class="amount in">
-                                        + Rp 20.000
-                                    </td>
-
-                                </tr>
-
-
-                                <tr>
-
-                                    <td>15 Nov</td>
-
-                                    <td>
-                                        <span class="badge expense">
-                                            Pengeluaran
-                                        </span>
-                                    </td>
-
-                                    <td>
-                                        Spidol & penghapus papan tulis
-                                    </td>
-
-                                    <td class="amount out">
-                                        − Rp 45.000
-                                    </td>
-
-                                </tr>
-
-
-                                <tr>
-
-                                    <td>14 Nov</td>
-
-                                    <td>
-                                        <span class="badge income">
-                                            Pemasukan
-                                        </span>
-                                    </td>
-
-                                    <td>
-                                        Sisa dana class meeting
-                                    </td>
-
-                                    <td class="amount in">
-                                        + Rp 150.000
-                                    </td>
-
-                                </tr>
+                                    <tr>
+                                        <td colspan="4" style="text-align:center; padding:30px;">
+                                            Belum ada transaksi.
+                                        </td>
+                                    </tr>
+                                @endforelse
 
                             </tbody>
-
-                        </table>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-        </main>
-
-    </div>
-
-</body>
 
 </html>

@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Auth;
 
 class PengeluaranController extends Controller
 {
+    // =========================
+    // API
+    // =========================
+
     public function index()
     {
         $pengeluaran = Pengeluaran::latest()->get();
@@ -63,5 +67,35 @@ class PengeluaranController extends Controller
         return response()->json([
             'message' => 'Pengeluaran berhasil dihapus.',
         ]);
+    }
+
+
+    // =========================
+    // WEB
+    // =========================
+
+    public function page()
+    {
+        $pengeluaran = Pengeluaran::latest('tanggal')->get();
+
+        return view('pengeluaran.index', compact('pengeluaran'));
+    }
+
+    public function storePage(Request $request)
+    {
+        $validated = $request->validate([
+            'nominal' => 'required|numeric|min:1',
+            'tanggal' => 'required|date',
+            'kategori' => 'required|string|max:255',
+            'keterangan' => 'nullable|string',
+        ]);
+
+        $validated['user_id'] = Auth::id();
+
+        Pengeluaran::create($validated);
+
+        return redirect()
+            ->route('pengeluaran.web.index')
+            ->with('success', 'Pengeluaran berhasil dicatat.');
     }
 }

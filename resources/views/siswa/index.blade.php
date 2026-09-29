@@ -145,146 +145,149 @@
                         <p class="mt-2 text-lg text-slate-500">
                             {{ $siswa->count() }} siswa terdaftar
                         </p>
-
-                        <a href="{{ route('data-siswa.create') }}"
-                            class="rounded-2xl bg-kaserals px-8 py-4 text-lg font-bold text-white shadow-sm transition hover:bg-teal-700">
-
-                            + Tambah Siswa
-
-                        </a>
                     </div>
 
+                    <a href="{{ route('data-siswa.create') }}"
+                        class="rounded-2xl bg-kaserals px-8 py-4 text-lg font-bold text-white shadow-sm transition hover:bg-teal-700">
 
-                    <!-- SEARCH + FILTER -->
-                    <div class="mb-7 grid gap-4 lg:grid-cols-[1fr_380px]">
+                        + Tambah Siswa
 
-                        <!-- Search -->
-                        <div class="relative">
+                    </a>
 
-                            <span class="absolute left-5 top-1/2 -translate-y-1/2 text-2xl">
-                                🔍
-                            </span>
-
-                            <input type="text" placeholder="Cari nama atau NIS..."
-                                class="h-20 w-full rounded-2xl border-2 border-slate-300 bg-white pl-16 pr-5 text-lg outline-none transition focus:border-kaserals">
-
-                        </div>
+                </div>
 
 
-                        <!-- Filter -->
-                        <select
-                            class="h-20 rounded-2xl border-2 border-slate-300 bg-white px-6 text-lg text-slate-500 outline-none focus:border-kaserals">
+                <!-- SEARCH + FILTER -->
+                <div class="mb-7 grid gap-4 lg:grid-cols-[1fr_380px]">
 
-                            <option>Kelas: Semua</option>
-                            <option>XII PPLG 1</option>
-                            <option>XII PPLG 2</option>
-                            <option>XI PPLG 1</option>
+                    <!-- Search -->
+                    <div class="relative">
 
-                        </select>
+                        <span class="absolute left-5 top-1/2 -translate-y-1/2 text-2xl">
+                            🔍
+                        </span>
+
+                        <input type="text" placeholder="Cari nama atau NIS..."
+                            class="h-20 w-full rounded-2xl border-2 border-slate-300 bg-white pl-16 pr-5 text-lg outline-none transition focus:border-kaserals">
 
                     </div>
 
 
-                    <!-- TABLE -->
-                    <div class="overflow-hidden rounded-2xl border-2 border-slate-300 bg-white">
+                    <!-- Filter -->
+                    <select
+                        class="h-20 rounded-2xl border-2 border-slate-300 bg-white px-6 text-lg text-slate-500 outline-none focus:border-kaserals">
 
-                        <div class="overflow-x-auto">
+                        <option>Kelas: Semua</option>
+                        <option>XII PPLG 1</option>
+                        <option>XII PPLG 2</option>
+                        <option>XI PPLG 1</option>
 
-                            <table class="w-full min-w-[900px]">
+                    </select>
 
-                                <!-- HEADER -->
-                                <thead>
-                                    <tr
-                                        class="border-b-2 border-slate-300 text-left text-sm font-bold uppercase tracking-wide text-slate-400">
+                </div>
 
-                                        <th class="px-8 py-5">
-                                            Nama Siswa
-                                        </th>
 
-                                        <th class="px-6 py-5">
-                                            NIS
-                                        </th>
+                <!-- TABLE -->
+                <div class="overflow-hidden rounded-2xl border-2 border-slate-300 bg-white">
 
-                                        <th class="px-6 py-5">
-                                            Kelas
-                                        </th>
+                    <div class="overflow-x-auto">
 
-                                        <th class="px-6 py-5">
-                                            No. HP
-                                        </th>
+                        <table class="w-full min-w-[900px]">
 
-                                        <th class="px-6 py-5">
-                                            Aksi
-                                        </th>
+                            <!-- HEADER -->
+                            <thead>
+                                <tr
+                                    class="border-b-2 border-slate-300 text-left text-sm font-bold uppercase tracking-wide text-slate-400">
+
+                                    <th class="px-8 py-5">
+                                        Nama Siswa
+                                    </th>
+
+                                    <th class="px-6 py-5">
+                                        NIS
+                                    </th>
+
+                                    <th class="px-6 py-5">
+                                        Kelas
+                                    </th>
+
+                                    <th class="px-6 py-5">
+                                        No. HP
+                                    </th>
+
+                                    <th class="px-6 py-5">
+                                        Aksi
+                                    </th>
+
+                                </tr>
+                            </thead>
+
+
+                            <!-- BODY -->
+                            <!-- BODY -->
+                            <tbody>
+
+                                @forelse($siswa as $item)
+                                    <tr class="border-b border-slate-200">
+
+                                        <td class="px-8 py-5">
+                                            <div class="flex items-center gap-4">
+
+                                                <div
+                                                    class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-teal-100 font-bold text-kaserals">
+                                                    {{ strtoupper(substr($item->nama, 0, 2)) }}
+                                                </div>
+
+                                                <span class="text-lg font-medium">
+                                                    {{ $item->nama }}
+                                                </span>
+
+                                            </div>
+                                        </td>
+
+                                        <td class="px-6 py-5 text-lg">
+                                            {{ $item->nis }}
+                                        </td>
+
+                                        <td class="px-6 py-5 text-lg">
+                                            {{ $item->kelas }}
+                                        </td>
+
+                                        <td class="px-6 py-5 text-lg">
+                                            {{ $item->no_hp ?? '-' }}
+                                        </td>
+
+                                        <td class="px-6 py-5">
+
+                                            <div class="flex gap-2">
+
+                                                <button type="button"
+                                                    class="rounded-xl border-2 border-slate-300 px-5 py-3 font-bold hover:bg-slate-100">
+                                                    Ubah
+                                                </button>
+
+                                                <button type="button"
+                                                    class="rounded-xl border-2 border-red-300 px-5 py-3 font-bold text-red-600 hover:bg-red-50">
+                                                    Hapus
+                                                </button>
+
+                                            </div>
+
+                                        </td>
 
                                     </tr>
-                                </thead>
 
+                                @empty
 
-                                <!-- BODY -->
-                                <tbody>
+                                    <tr>
+                                        <td colspan="5" class="px-8 py-10 text-center text-lg text-slate-500">
+                                            Belum ada data siswa.
+                                        </td>
+                                    </tr>
+                                @endforelse
 
-                                    @forelse($siswa as $item)
-                                        <tr class="border-b border-slate-200">
+                            </tbody>
 
-                                            <td class="px-8 py-5">
-
-                                                <div class="flex items-center gap-4">
-
-                                                    <div
-                                                        class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-teal-100 font-bold text-kaserals">
-                                                        {{ strtoupper(substr($item->nama, 0, 2)) }}
-                                                    </div>
-
-                                                    <span class="text-lg font-medium">
-                                                        {{ $item->nama }}
-                                                    </span>
-
-                                                </div>
-
-                                            </td>
-
-                                            <td class="px-6 py-5 text-lg">
-                                                {{ $item->nis }}
-                                            </td>
-
-                                            <td class="px-6 py-5 text-lg">
-                                                {{ $item->kelas }}
-                                            </td>
-
-                                            <td class="px-6 py-5 text-lg">
-                                                {{ $item->no_hp ?? '-' }}
-                                            </td>
-
-                                            <td class="px-6 py-5">
-
-                                                <div class="flex gap-2">
-
-                                                    <button type="button"
-                                                        class="rounded-xl border-2 border-slate-300 px-5 py-3 font-bold hover:bg-slate-100">
-                                                        Ubah
-                                                    </button>
-
-                                                    <button type="button"
-                                                        class="rounded-xl border-2 border-red-300 px-5 py-3 font-bold text-red-600 hover:bg-red-50">
-                                                        Hapus
-                                                    </button>
-
-                                                </div>
-
-                                            </td>
-
-                                        </tr>
-
-                                    @empty
-
-                                        <tr>
-                                            <td colspan="5" class="px-8 py-10 text-center text-lg text-slate-500">
-                                                Belum ada data siswa.
-                                            </td>
-                                        </tr>
-                                    @endforelse
-
-                                </tbody>
+                        </table>
 
 </html>

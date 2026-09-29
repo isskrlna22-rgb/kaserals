@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Siswa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SiswaController extends Controller
 {
@@ -32,6 +33,7 @@ class SiswaController extends Controller
             'kelas' => 'required|string|max:50',
             'no_hp' => 'nullable|string|max:20',
         ]);
+
 
         Siswa::create($validated);
 

@@ -15,6 +15,12 @@ class PemasukanController extends Controller
 
         return response()->json($pemasukan);
     }
+    public function page()
+    {
+        $pemasukan = Pemasukan::latest('tanggal')->get();
+
+        return view('pemasukan.index', compact('pemasukan'));
+    }
 
     public function store(Request $request)
     {
@@ -26,7 +32,7 @@ class PemasukanController extends Controller
             'keterangan' => 'nullable|string',
         ]);
 
-     $validated['user_id'] = $validated['user_id'] ?? Auth::id();
+        $validated['user_id'] = $validated['user_id'] ?? Auth::id();
 
         $pemasukan = Pemasukan::create($validated);
 
@@ -34,6 +40,23 @@ class PemasukanController extends Controller
             'message' => 'Pemasukan berhasil dicatat.',
             'data' => $pemasukan,
         ], 201);
+    }
+    public function storePage(Request $request)
+    {
+        $validated = $request->validate([
+            'nominal' => 'required|numeric|min:1',
+            'tanggal' => 'required|date',
+            'sumber' => 'required|string|max:255',
+            'keterangan' => 'nullable|string',
+        ]);
+
+        $validated['user_id'] = Auth::id();
+
+        Pemasukan::create($validated);
+
+        return redirect()
+            ->route('pemasukan.web.index')
+            ->with('success', 'Pemasukan berhasil dicatat.');
     }
 
     public function show(Pemasukan $pemasukan)

@@ -11,6 +11,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\StatusPembayaranController;
 use App\Http\Controllers\SiswaDashboardController;
+use App\Http\Controllers\RiwayatController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -66,8 +67,13 @@ Route::middleware(['auth', 'role:ADMIN,BENDAHARA'])->group(function () {
     ->middleware(['auth', 'role:ADMIN,BENDAHARA,KETUA_KELAS,GURU_PEMBIMBING'])
     ->name('status-pembayaran.index');
 
+    Route::get('/riwayat-transaksi', [RiwayatController::class, 'index'])
+    ->middleware(['auth', 'role:ADMIN,BENDAHARA,KETUA_KELAS,GURU_PEMBIMBING'])
+    ->name('riwayat.index');
+
 
 });
+
 
 Route::apiResource('pembayaran-kas', PembayaranKasController::class)
     ->middleware(['auth', 'role:ADMIN,BENDAHARA']);

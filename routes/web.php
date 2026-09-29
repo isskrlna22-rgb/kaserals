@@ -50,28 +50,27 @@ Route::middleware(['auth', 'role:ADMIN,BENDAHARA'])->group(function () {
 
 
     Route::get('/data-pemasukan', [PemasukanController::class, 'page'])
-    ->name('pemasukan.web.index');
+        ->name('pemasukan.web.index');
 
     Route::post('/data-pemasukan', [PemasukanController::class, 'storePage'])
-    ->name('pemasukan.web.store');
+        ->name('pemasukan.web.store');
 
     Route::get('/data-pengeluaran', [PengeluaranController::class, 'page'])
-    ->middleware(['auth', 'role:ADMIN,BENDAHARA'])
-    ->name('pengeluaran.web.index');
+        ->middleware(['auth', 'role:ADMIN,BENDAHARA'])
+        ->name('pengeluaran.web.index');
 
     Route::post('/data-pengeluaran', [PengeluaranController::class, 'storePage'])
-    ->middleware(['auth', 'role:ADMIN,BENDAHARA'])
-    ->name('pengeluaran.web.store');
+        ->middleware(['auth', 'role:ADMIN,BENDAHARA'])
+        ->name('pengeluaran.web.store');
 
     Route::get('/status-pembayaran', [StatusPembayaranController::class, 'page'])
-    ->middleware(['auth', 'role:ADMIN,BENDAHARA,KETUA_KELAS,GURU_PEMBIMBING'])
-    ->name('status-pembayaran.index');
+        ->middleware(['auth', 'role:ADMIN,BENDAHARA,KETUA_KELAS,GURU_PEMBIMBING'])
+        ->name('status-pembayaran.index');
+
 
     Route::get('/riwayat-transaksi', [RiwayatController::class, 'index'])
-    ->middleware(['auth', 'role:ADMIN,BENDAHARA,KETUA_KELAS,GURU_PEMBIMBING'])
-    ->name('riwayat.index');
-
-
+        ->middleware(['auth', 'role:ADMIN,BENDAHARA,KETUA_KELAS,GURU_PEMBIMBING'])
+        ->name('riwayat.index');
 });
 
 

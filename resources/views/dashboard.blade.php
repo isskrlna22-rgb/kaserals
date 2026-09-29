@@ -615,8 +615,7 @@
 
                 <div class="menu-title">CATATAN</div>
 
-                <a href="#">
-                    <span class="menu-icon">↻</span>
+                <a href="{{ route('riwayat.index') }}">
                     Riwayat Transaksi
                 </a>
 

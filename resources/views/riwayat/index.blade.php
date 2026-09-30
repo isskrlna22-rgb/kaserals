@@ -171,6 +171,7 @@
                     <div class="mb-8 rounded-2xl border-2 border-teal-100 bg-teal-50/50 p-7">
 
 
+
                         <!-- BARIS 1 -->
                         <div class="grid gap-5 lg:grid-cols-[2fr_1fr]">
 
@@ -225,11 +226,8 @@
 
 
                             <!-- SAMPAI -->
-                            <input
-                                class="h-16 rounded-2xl border-2 border-slate-300 bg-white px-5 text-lg outline-none focus:border-kaserals"><input
-                                type="date" name="sampai" value="{{ request('sampai') }}"
+                            <input type="date" name="sampai" value="{{ request('sampai') }}"
                                 class="h-16 rounded-2xl border-2 border-slate-300 bg-white px-5 text-lg outline-none focus:border-kaserals">
-
 
                             <!-- KATEGORI -->
                             <select
@@ -379,7 +377,7 @@
                         </table>
 
                     </div>
-
+                    </form>
 
                     <!-- PAGINATION -->
                     <div class="mt-8 flex justify-end gap-2">

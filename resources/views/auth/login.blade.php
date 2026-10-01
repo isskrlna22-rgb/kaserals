@@ -12,133 +12,182 @@
     <style>
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f8fafc;
-            color: #0f172a;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* PERPADUAN DUA WARNA: Teal (#0d9488) & Indigo/Ungu (#4f46e5) */
+            background: linear-gradient(135deg, #0d9488 0%, #1e1b4b 50%, #4f46e5 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+            padding: 20px 0;
+        }
+
+        /* Hiasan Blobs Dua Warna di Background */
+        body::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: -100px;
+            width: 300px;
+            height: 300px;
+            background: rgba(13, 148, 136, 0.4);
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            right: -100px;
+            width: 300px;
+            height: 300px;
+            background: rgba(79, 70, 229, 0.4);
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
         }
 
         .page {
-            min-height: 100vh;
-            padding: 18px 14px 25px;
+            width: 100%;
             max-width: 420px;
-            margin: auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
         }
 
         /* =====================
-           HEADER
+            HEADER (Di Luar Box)
         ====================== */
 
         .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .brand-logo-container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 10px;
+            padding: 5px;
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 14px;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
         }
 
         .brand-logo {
-            width: 28px;
-            height: 28px;
+            width: 100%;
+            height: 100%;
             object-fit: contain;
-            border-radius: 8px;
         }
 
         .brand-name {
-            font-size: 15px;
+            font-size: 18px;
             font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 1px;
         }
 
         /* =====================
-           BAGIAN UTAMA
+            BAGIAN UTAMA (Glass Box Dua Warna)
         ====================== */
 
         .login-box {
-            background: white;
-            border-radius: 27px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+            background: rgba(15, 23, 42, 0.55);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 28px;
+            padding: 35px 25px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
         }
 
         /* =====================
-           WELCOME
+            ANIMASI MASKOT KASI
         ====================== */
 
-        .welcome-card {
-            position: relative;
-            overflow: hidden;
-            background: linear-gradient(135deg,
-                    #d5f8f3,
-                    #f3fbfa);
-
-            padding: 35px 18px 25px;
-            text-align: left;
+        @keyframes floatMascot {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        @keyframes shadowPulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(0.8); opacity: 0.15; }
+        }
+        @keyframes coinFlip {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
         }
 
-        .welcome-card::after {
-            content: "";
-            position: absolute;
-            width: 82px;
-            height: 82px;
-            right: -18px;
-            top: -18px;
-            background: rgba(13, 148, 136, 0.12);
-            border-radius: 50%;
+        .mascot-container {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 10px;
         }
 
-        .welcome-logo {
-            display: block;
-            width: 90px;
-            height: 90px;
-            object-fit: contain;
-            margin: 0 auto 18px;
-            position: relative;
-            z-index: 1;
+        .mascot-group {
+            animation: floatMascot 4s ease-in-out infinite;
+            transform-origin: center;
         }
+
+        .mascot-shadow {
+            animation: shadowPulse 4s ease-in-out infinite;
+            transform-origin: center;
+        }
+
+        /* =====================
+            WELCOME
+        ====================== */
 
         .welcome-title {
-            position: relative;
-            z-index: 1;
-            font-size: 21px;
-            margin: 0 0 7px;
+            font-size: 24px;
+            margin: 0 0 8px;
             font-weight: 700;
             text-align: center;
-
+            color: #ffffff;
         }
 
         .welcome-text {
-            z-index: 1;
-            margin: 0 auto;
-            max-width: 280px;
+            margin: 0 auto 25px;
+            max-width: 290px;
             text-align: center;
-
-            font-family: "Segoe UI", Arial, sans-serif;
-            font-size: 11px;
-            font-weight: 400;
-            line-height: 1.6;
-            letter-spacing: 0.1px;
-            color: #64748b;
+            font-size: 13px;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.85);
         }
 
+        /* Teks aksen dua warna */
         .welcome-text strong {
             font-weight: 700;
-            color: #0d9488;
-
+            background: linear-gradient(135deg, #2dd4bf, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         /* =====================
-           FORM LOGIN
+            FORM LOGIN
         ====================== */
 
-        .login-card {
-            background: white;
-            padding: 20px 18px 17px;
-        }
-
         .form-group {
-            margin-bottom: 10px;
+            margin-bottom: 16px;
+            text-align: left;
         }
 
         .input-wrapper {
@@ -147,127 +196,147 @@
 
         .input-icon {
             position: absolute;
-            left: 17px;
+            left: 18px;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 13px;
-            color: #94a3b8;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
             z-index: 2;
         }
 
         .form-input {
             width: 100%;
-            height: 44px;
-            border: 1px solid #dbe2ea;
-            border-radius: 24px;
-            padding: 0 42px;
-            font-size: 12px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            padding: 0 45px;
+            font-size: 13px;
+            color: #ffffff;
             outline: none;
-            background: #f8fafc;
+            transition: all 0.3s ease;
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
         }
 
         .form-input:focus {
-            border-color: #0d9488;
-            background: white;
-            box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.08);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #2dd4bf;
+            box-shadow: 0 0 12px rgba(45, 212, 191, 0.3);
         }
 
         .password-input {
-            padding-right: 42px;
+            padding-right: 45px;
         }
 
         .password-toggle {
             position: absolute;
-            right: 15px;
+            right: 18px;
             top: 50%;
             transform: translateY(-50%);
             border: none;
             background: transparent;
-            color: #94a3b8;
+            color: rgba(255, 255, 255, 0.6);
             cursor: pointer;
-            font-size: 12px;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .password-toggle:hover {
+            color: #ffffff;
         }
 
         /* =====================
-           LUPA PASSWORD
+            LUPA PASSWORD
         ====================== */
 
         .forgot-password {
             display: block;
-            margin: 10px 4px 16px;
+            margin: 8px 5px 22px;
             text-align: right;
-            color: #0d9488;
-            font-size: 11px;
+            color: #818cf8;
+            font-size: 12px;
             font-weight: 600;
             text-decoration: none;
+            transition: color 0.2s;
         }
 
         .forgot-password:hover {
+            color: #a5b4fc;
             text-decoration: underline;
         }
 
         /* =====================
-           ERROR
+            ERROR
         ====================== */
 
         .error {
-            color: #dc2626;
-            font-size: 10px;
-            margin: 4px 12px 0;
+            color: #fca5a5;
+            font-size: 11px;
+            margin: 5px 15px 0;
         }
 
         /* =====================
-           LOGIN BUTTON
+            TOMBOL LOGIN DUA WARNA
         ====================== */
 
         .login-button {
             width: 100%;
-            height: 46px;
+            height: 50px;
             border: none;
             border-radius: 25px;
-            background: #0d9488;
-            color: white;
-            font-size: 12px;
+            background: linear-gradient(135deg, #0d9488 0%, #4f46e5 100%);
+            color: #ffffff;
+            font-size: 15px;
             font-weight: 700;
+            letter-spacing: 0.5px;
             cursor: pointer;
-            box-shadow: 0 7px 15px rgba(13, 148, 136, 0.20);
+            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.35);
+            transition: all 0.3s ease;
         }
 
         .login-button:hover {
-            background: #0f766e;
+            background: linear-gradient(135deg, #14b8a6 0%, #6366f1 100%);
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.5);
+            transform: translateY(-2px);
         }
 
         /* =====================
-           FOOTER
+            FOOTER
         ====================== */
 
         .footer {
             text-align: center;
-            margin-top: 18px;
-            color: #94a3b8;
-            font-size: 10px;
+            margin-top: 25px;
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 12px;
+        }
+
+        .footer a {
+            color: #2dd4bf;
+            text-decoration: none;
         }
 
         .footer strong {
-            color: #0d9488;
+            font-weight: 700;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
         }
 
         /* =====================
-           MOBILE
+            RESPONSIVE MOBILE
         ====================== */
 
         @media (max-width: 430px) {
-
             .page {
-                padding: 20px 15px;
+                padding: 15px;
             }
-
-            .welcome-card {
-                padding: 30px 18px 22px;
-            }
-
-            .login-card {
-                padding: 18px 16px 16px;
+            .login-box {
+                padding: 30px 20px;
             }
         }
     </style>
@@ -277,88 +346,103 @@
 
     <div class="page">
 
-        <!-- HEADER -->
-
+        <!-- HEADER (Di Luar Box) -->
         <div class="brand">
-
-            <img src="{{ asset('images/logo k.png') }}" alt="Logo KASERALS" class="brand-logo">
-
+            <div class="brand-logo-container">
+                <img src="{{ asset('images/logo_kaserals.png') }}" alt="Logo KASERALS" class="brand-logo">
+            </div>
             <span class="brand-name">
                 KASERALS
             </span>
-
         </div>
 
-
-        <!-- KOTAK UTAMA -->
-        <!-- Welcome + Login SEKARANG MENYATU -->
-
+        <!-- KOTAK UTAMA (Glass Box Dua Warna) -->
         <div class="login-box">
 
-            <!-- =====================
-             WELCOME
-        ====================== -->
+            <!-- MASKOT KASI (SVG Interaktif) -->
+            <div class="mascot-container">
+                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+                    <!-- Bayangan Maskot -->
+                    <ellipse class="mascot-shadow" cx="100" cy="185" rx="45" ry="10" fill="#000000"/>
 
-            <div class="welcome-card">
+                    <!-- Grup Animasi Maskot -->
+                    <g class="mascot-group">
+                        <!-- Body Utama Celengan -->
+                        <path d="M70,80 Q100,50 130,80 L140,140 Q100,160 60,140 Z" fill="#f8fafc"/>
 
-                <img src="{{ asset('images/logo_kaserals.png') }}" alt="Logo KASERALS" class="welcome-logo">
+                        <!-- Telinga -->
+                        <path d="M70,80 L55,40 L90,65 Z" fill="#f8fafc"/>
+                        <path d="M130,80 L145,40 L110,65 Z" fill="#f8fafc"/>
+                        <path d="M68,75 L58,45 L85,62 Z" fill="#cbd5e1"/>
+                        <path d="M132,75 L142,45 L115,62 Z" fill="#cbd5e1"/>
 
+                        <!-- Mata -->
+                        <circle cx="85" cy="95" r="7" fill="#0f172a"/>
+                        <circle cx="115" cy="95" r="7" fill="#0f172a"/>
+                        <circle cx="83" cy="93" r="2.5" fill="#ffffff"/>
+                        <circle cx="113" cy="93" r="2.5" fill="#ffffff"/>
 
-                <h1 class="welcome-title" style="text-align: center;">
-                    SELAMAT DATANG!
+                        <!-- Kacamata -->
+                        <path d="M95,105 Q100,110 105,105" fill="none" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round"/>
+
+                        <!-- Senyum -->
+                        <path d="M90,112 Q100,120 110,112" fill="none" stroke="#f472b6" stroke-width="2" stroke-linecap="round"/>
+
+                        <!-- Baju Seragam / Kemeja -->
+                        <path d="M60,110 L140,110 L135,150 Q100,165 65,150 Z" fill="#0d9488"/>
+                        <path d="M85,110 L115,110 L110,135 Q100,145 90,135 Z" fill="#f8fafc"/>
+                        <!-- Dasi -->
+                        <path d="M95,115 L105,115 L105,125 L95,125 Z" fill="#f59e0b"/>
+
+                        <!-- Koin Berputar -->
+                        <g style="animation: coinFlip 3s infinite linear; transform-origin: 155px 95px;">
+                            <circle cx="155" cy="95" r="15" fill="#fbbf24" stroke="#d97706" stroke-width="2"/>
+                            <text x="155" y="100" font-family="Arial" font-weight="bold" font-size="14" fill="#d97706" text-anchor="middle">Rp</text>
+                        </g>
+
+                        <!-- Tangan Kanan -->
+                        <path d="M125,125 Q145,110 155,115" fill="none" stroke="#f8fafc" stroke-width="12" stroke-linecap="round"/>
+
+                        <!-- Tangan Kiri -->
+                        <path d="M75,125 Q55,110 45,115" fill="none" stroke="#f8fafc" stroke-width="12" stroke-linecap="round"/>
+                    </g>
+                </svg>
+            </div>
+
+            <!-- WELCOME -->
+            <div>
+                <h1 class="welcome-title">
+                    Selamat Datang
                 </h1>
                 <p class="welcome-text">
                     Login untuk lanjut mengelola kas kelas kamu bareng
                     <strong>KASERALS</strong>.
                 </p>
-
             </div>
 
-
-            <!-- =====================
-             FORM LOGIN
-        ====================== -->
-
-            <div class="login-card">
-
+            <!-- FORM LOGIN -->
+            <div>
                 <form method="POST" action="{{ route('login') }}">
-                     @csrf
-
+                    @csrf
 
                     <!-- EMAIL -->
-
                     <div class="form-group">
-
                         <div class="input-wrapper">
-
-                            <span class="input-icon">
-                                ✉
-                            </span>
-
+                            <span class="input-icon">✉</span>
                             <input id="email" type="email" name="email" value="{{ old('email') }}" required
                                 autofocus autocomplete="username" placeholder="Masukkan email" class="form-input">
-
                         </div>
-
                         @error('email')
                             <div class="error">
                                 {{ $message }}
                             </div>
                         @enderror
-
                     </div>
 
-
                     <!-- PASSWORD -->
-
                     <div class="form-group">
-
                         <div class="input-wrapper">
-
-                            <span class="input-icon">
-                                🔒
-                            </span>
-
+                            <span class="input-icon">🔒</span>
                             <input id="password" type="password" name="password" required
                                 autocomplete="current-password" placeholder="Masukkan password"
                                 class="form-input password-input">
@@ -366,42 +450,30 @@
                             <button type="button" class="password-toggle" onclick="togglePassword()">
                                 👁
                             </button>
-
                         </div>
-
                         @error('password')
                             <div class="error">
                                 {{ $message }}
                             </div>
                         @enderror
-
                     </div>
 
-
                     <!-- LUPA PASSWORD -->
-
                     @if (Route::has('password.request'))
                         <a href="{{ route('password.request') }}" class="forgot-password">
                             Lupa Password?
                         </a>
                     @endif
 
-
-                    <!-- LOGIN -->
-
+                    <!-- LOGIN BUTTON -->
                     <button type="submit" class="login-button">
                         Login
                     </button>
-
                 </form>
-
             </div>
-
         </div>
 
-
         <!-- FOOTER -->
-
         <div class="footer">
             Lupa password?
             <a href="https://wa.me/6281546422640?text=Hallo%20Admin%2C%0ASaya%20belum%20memiliki%20akun%20untuk%20login%20ke%20WEB%20KASERALS.%0A%0ANama%3A%20%0AKelas%3A%20%0A%0AMohon%20bantu%20dibuatkan%20akun%20saya.%0ATerima%20kasih."
@@ -410,25 +482,19 @@
             </a>
         </div>
 
+    </div>
 
-        <script>
-            function togglePassword() {
-
-                const password =
-                    document.getElementById('password');
-
-                if (password.type === 'password') {
-
-                    password.type = 'text';
-
-                } else {
-
-                    password.type = 'password';
-
-                }
-
+    <!-- SCRIPT -->
+    <script>
+        function togglePassword() {
+            const password = document.getElementById('password');
+            if (password.type === 'password') {
+                password.type = 'text';
+            } else {
+                password.type = 'password';
             }
-        </script>
+        }
+    </script>
 
 </body>
 

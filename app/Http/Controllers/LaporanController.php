@@ -8,6 +8,9 @@ use App\Models\Pengeluaran;
 
 class LaporanController extends Controller
 {
+    // =========================
+    // API LAPORAN
+    // =========================
     public function index()
     {
         $pembayaran = PembayaranKas::with('siswa')
@@ -19,7 +22,9 @@ class LaporanController extends Controller
         $pengeluaran = Pengeluaran::latest('tanggal')->get();
 
         $totalPembayaran = PembayaranKas::sum('nominal');
+
         $totalPemasukan = Pemasukan::sum('nominal');
+
         $totalPengeluaran = Pengeluaran::sum('nominal');
 
         $saldo = $totalPembayaran
@@ -37,5 +42,41 @@ class LaporanController extends Controller
             'pemasukan' => $pemasukan,
             'pengeluaran' => $pengeluaran,
         ]);
+    }
+
+    // =========================
+    // HALAMAN WEB LAPORAN
+    // =========================
+    public function page()
+    {
+        $pembayaran = PembayaranKas::with('siswa')
+            ->latest('tanggal')
+            ->get();
+
+        $pemasukan = Pemasukan::latest('tanggal')
+            ->get();
+
+        $pengeluaran = Pengeluaran::latest('tanggal')
+            ->get();
+
+        $totalPembayaran = PembayaranKas::sum('nominal');
+
+        $totalPemasukan = Pemasukan::sum('nominal');
+
+        $totalPengeluaran = Pengeluaran::sum('nominal');
+
+        $saldo = $totalPembayaran
+            + $totalPemasukan
+            - $totalPengeluaran;
+
+        return view('laporan.index', compact(
+            'pembayaran',
+            'pemasukan',
+            'pengeluaran',
+            'totalPembayaran',
+            'totalPemasukan',
+            'totalPengeluaran',
+            'saldo'
+        ));
     }
 }

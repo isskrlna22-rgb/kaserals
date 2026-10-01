@@ -46,7 +46,7 @@ class PengeluaranController extends Controller
     public function update(Request $request, Pengeluaran $pengeluaran)
     {
         $validated = $request->validate([
-            'nominal' => 'required|numeric|min:0',
+         'nominal' => 'required|numeric|min:1',
             'tanggal' => 'required|date',
             'kategori' => 'required|string|max:255',
             'keterangan' => 'nullable|string',

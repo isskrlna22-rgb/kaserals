@@ -6,12 +6,18 @@ use App\Models\PembayaranKas;
 use App\Models\Pemasukan;
 use App\Models\Pengeluaran;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class RiwayatController extends Controller
 {
     public function index(Request $request)
     {
-        // PEMBAYARAN KAS
+        /*
+        |--------------------------------------------------------------------------
+        | 1. PEMBAYARAN KAS
+        |--------------------------------------------------------------------------
+        */
+
         $pembayaran = PembayaranKas::with('siswa')
             ->get()
             ->map(function ($item) {
@@ -19,114 +25,75 @@ class RiwayatController extends Controller
                     'tanggal' => $item->tanggal,
                     'jenis' => 'Pembayaran Kas',
                     'keterangan' => $item->keterangan ?? 'Pembayaran kas',
-                    'nama_siswa' => $item->siswa->nama ?? '',
-                    'nominal' => $item->nominal,
+                    'nama_siswa' => $item->siswa?->nama ?? '',
+                    'nominal' => (float) $item->nominal,
                     'tipe' => 'masuk',
                 ];
             });
 
-        // PEMASUKAN
+
+        /*
+        |--------------------------------------------------------------------------
+        | 2. PEMASUKAN
+        |--------------------------------------------------------------------------
+        */
+
         $pemasukan = Pemasukan::get()
             ->map(function ($item) {
                 return [
                     'tanggal' => $item->tanggal,
                     'jenis' => 'Pemasukan',
-                    'keterangan' => $item->sumber,
-                    'nominal' => $item->nominal,
+                    'keterangan' => $item->sumber ?? 'Pemasukan kas',
+                    'nama_siswa' => '',
+                    'nominal' => (float) $item->nominal,
                     'tipe' => 'masuk',
                 ];
             });
 
-        // PENGELUARAN
+
+        /*
+        |--------------------------------------------------------------------------
+        | 3. PENGELUARAN
+        |--------------------------------------------------------------------------
+        */
+
         $pengeluaran = Pengeluaran::get()
             ->map(function ($item) {
                 return [
                     'tanggal' => $item->tanggal,
                     'jenis' => 'Pengeluaran',
-                    'keterangan' => $item->kategori,
-                    'nominal' => $item->nominal,
+                    'keterangan' => $item->kategori ?? 'Pengeluaran kas',
+                    'nama_siswa' => '',
+                    'nominal' => (float) $item->nominal,
                     'tipe' => 'keluar',
                 ];
             });
 
-        // FILTER JENIS
-        $jenis = $request->input('jenis');
 
-        if ($jenis) {
-            $pembayaran = $pembayaran->filter(function ($item) use ($jenis) {
-                return $item['jenis'] === $jenis;
-            });
+        /*
+        |--------------------------------------------------------------------------
+        | 4. GABUNGKAN SEMUA TRANSAKSI
+        |--------------------------------------------------------------------------
+        */
 
-            $pemasukan = $pemasukan->filter(function ($item) use ($jenis) {
-                return $item['jenis'] === $jenis;
-            });
-
-            $pengeluaran = $pengeluaran->filter(function ($item) use ($jenis) {
-                return $item['jenis'] === $jenis;
-            });
-        }
-
-        // FILTER TANGGAL
-        $dari = $request->input('dari');
-        $sampai = $request->input('sampai');
-
-        if ($dari || $sampai) {
-            $filterTanggal = function ($item) use ($dari, $sampai) {
-                $tanggal = \Carbon\Carbon::parse($item['tanggal'])->format('Y-m-d');
-
-                if ($dari && $tanggal < $dari) {
-                    return false;
-                }
-
-                if ($sampai && $tanggal > $sampai) {
-                    return false;
-                }
-
-                return true;
-            };
-
-            $pembayaran = $pembayaran->filter($filterTanggal);
-            $pemasukan = $pemasukan->filter($filterTanggal);
-            $pengeluaran = $pengeluaran->filter($filterTanggal);
-        }
-
-        // FILTER SEARCH
-        $search = $request->input('search');
-
-        if ($search) {
-            $search = strtolower($search);
-
-            $filterSearch = function ($item) use ($search) {
-                return str_contains(
-                    strtolower($item['keterangan'] ?? ''),
-                    $search
-                )
-                || str_contains(
-                    strtolower($item['nama_siswa'] ?? ''),
-                    $search
-                )
-                || str_contains(
-                    (string) $item['nominal'],
-                    $search
-                );
-            };
-
-            $pembayaran = $pembayaran->filter($filterSearch);
-            $pemasukan = $pemasukan->filter($filterSearch);
-            $pengeluaran = $pengeluaran->filter($filterSearch);
-        }
-
-        // GABUNGKAN SEMUA TRANSAKSI
-        $riwayat = $pembayaran
+        $semuaTransaksi = $pembayaran
             ->concat($pemasukan)
             ->concat($pengeluaran)
-            ->sortBy('tanggal')
+            ->sortBy(function ($item) {
+                return Carbon::parse($item['tanggal'])->timestamp;
+            })
             ->values();
 
-        // HITUNG SALDO
+
+        /*
+        |--------------------------------------------------------------------------
+        | 5. HITUNG SALDO BERJALAN
+        |--------------------------------------------------------------------------
+        */
+
         $saldo = 0;
 
-        $riwayat = $riwayat->map(function ($item) use (&$saldo) {
+        $semuaTransaksi = $semuaTransaksi->map(function ($item) use (&$saldo) {
 
             if ($item['tipe'] === 'masuk') {
                 $saldo += $item['nominal'];
@@ -139,10 +106,105 @@ class RiwayatController extends Controller
             return $item;
         });
 
-        // TRANSAKSI TERBARU DI ATAS
-        $riwayat = $riwayat
-            ->sortByDesc('tanggal')
+
+        /*
+        |--------------------------------------------------------------------------
+        | 6. FILTER JENIS
+        |--------------------------------------------------------------------------
+        */
+
+        $jenis = $request->input('jenis');
+
+        if ($jenis) {
+            $semuaTransaksi = $semuaTransaksi->filter(function ($item) use ($jenis) {
+                return $item['jenis'] === $jenis;
+            });
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | 7. FILTER TANGGAL
+        |--------------------------------------------------------------------------
+        */
+
+        $dari = $request->input('dari');
+        $sampai = $request->input('sampai');
+
+        if ($dari || $sampai) {
+
+            $semuaTransaksi = $semuaTransaksi->filter(function ($item) use ($dari, $sampai) {
+
+                $tanggal = Carbon::parse($item['tanggal'])->format('Y-m-d');
+
+                if ($dari && $tanggal < $dari) {
+                    return false;
+                }
+
+                if ($sampai && $tanggal > $sampai) {
+                    return false;
+                }
+
+                return true;
+            });
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | 8. FILTER SEARCH
+        |--------------------------------------------------------------------------
+        */
+
+        $search = trim($request->input('search', ''));
+
+        if ($search) {
+
+            $search = strtolower($search);
+
+            $semuaTransaksi = $semuaTransaksi->filter(function ($item) use ($search) {
+
+                return str_contains(
+                    strtolower($item['keterangan'] ?? ''),
+                    $search
+                )
+                ||
+                str_contains(
+                    strtolower($item['nama_siswa'] ?? ''),
+                    $search
+                )
+                ||
+                str_contains(
+                    strtolower($item['jenis'] ?? ''),
+                    $search
+                )
+                ||
+                str_contains(
+                    (string) $item['nominal'],
+                    $search
+                );
+            });
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | 9. URUTKAN TERBARU DI ATAS
+        |--------------------------------------------------------------------------
+        */
+
+        $riwayat = $semuaTransaksi
+            ->sortByDesc(function ($item) {
+                return Carbon::parse($item['tanggal'])->timestamp;
+            })
             ->values();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | 10. KIRIM KE VIEW
+        |--------------------------------------------------------------------------
+        */
 
         return view('riwayat.index', compact('riwayat'));
     }

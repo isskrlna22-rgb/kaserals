@@ -25,6 +25,34 @@ class SiswaController extends Controller
 
         return view('siswa.create');
     }
+    public function editPage(Siswa $siswa)
+    {
+        return view('siswa.edit', compact('siswa'));
+    }
+
+    public function updatePage(Request $request, Siswa $siswa)
+    {
+        $validated = $request->validate([
+            'nis' => 'required|string|max:50|unique:siswa,nis,' . $siswa->id,
+            'nama' => 'required|string|max:255',
+            'kelas' => 'required|string|max:50',
+            'no_hp' => 'nullable|string|max:20',
+        ]);
+
+        $siswa->update($validated);
+
+        return redirect()
+            ->route('data-siswa.index')
+            ->with('success', 'Data siswa berhasil diperbarui.');
+    }
+    public function destroyPage(Siswa $siswa)
+    {
+        $siswa->delete();
+
+        return redirect()
+            ->route('data-siswa.index')
+            ->with('success', 'Data siswa berhasil dihapus.');
+    }
     public function storePage(Request $request)
     {
         $validated = $request->validate([

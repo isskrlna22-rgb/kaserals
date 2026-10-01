@@ -68,7 +68,7 @@ class PemasukanController extends Controller
     {
         $validated = $request->validate([
             'user_id' => 'nullable|exists:users,id',
-            'nominal' => 'required|numeric|min:0',
+           'nominal' => 'required|numeric|min:1',
             'tanggal' => 'required|date',
             'sumber' => 'required|string|max:255',
             'keterangan' => 'nullable|string',

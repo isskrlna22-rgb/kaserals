@@ -79,4 +79,12 @@ class PembayaranKasController extends Controller
             ->route('pembayaran-kas.index')
             ->with('success', 'Pembayaran kas berhasil dicatat.');
     }
+    public function destroyPage(PembayaranKas $pembayaranKas)
+{
+    $pembayaranKas->delete();
+
+    return redirect()
+        ->route('pembayaran-kas.index')
+        ->with('success', 'Pembayaran kas berhasil dihapus.');
+}
 }

@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\PembayaranKas;
 use App\Models\Pemasukan;
 use App\Models\Pengeluaran;
-use App\Models\Siswa;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -27,129 +27,157 @@ class DashboardController extends Controller
             'saldo' => $saldo,
         ]);
     }
-   public function view()
-{
-    $totalPembayaran = PembayaranKas::sum('nominal');
-    $totalPemasukan = Pemasukan::sum('nominal');
-    $totalPengeluaran = Pengeluaran::sum('nominal');
 
-    $saldo = $totalPembayaran
-        + $totalPemasukan
-        - $totalPengeluaran;
+    public function view()
+    {
+        // =========================
+        // RINGKASAN KEUANGAN
+        // =========================
 
-    $totalSiswa = \App\Models\Siswa::count();
+        $totalPembayaran = PembayaranKas::sum('nominal');
+        $totalPemasukan = Pemasukan::sum('nominal');
+        $totalPengeluaran = Pengeluaran::sum('nominal');
 
-    $pembayaranTerbaru = PembayaranKas::latest('tanggal')->first();
+        $saldo = $totalPembayaran
+            + $totalPemasukan
+            - $totalPengeluaran;
 
-    $periodeAktif = $pembayaranTerbaru
-        ? $pembayaranTerbaru->periode
-        : now()->translatedFormat('F Y');
+        // =========================
+        // DATA SISWA & STATUS BAYAR
+        // =========================
 
-    $sudahBayar = $pembayaranTerbaru
-        ? PembayaranKas::where('periode', $periodeAktif)
-            ->distinct('siswa_id')
-            ->count('siswa_id')
-        : 0;
+        $totalSiswa = \App\Models\Siswa::count();
 
-    $belumBayar = max($totalSiswa - $sudahBayar, 0);
+        $pembayaranTerbaru = PembayaranKas::latest('tanggal')->first();
 
-    $persentasePembayaran = $totalSiswa > 0
-        ? round(($sudahBayar / $totalSiswa) * 100)
-        : 0;
+        $periodeAktif = $pembayaranTerbaru
+            ? $pembayaranTerbaru->periode
+            : now()->translatedFormat('F Y');
 
-    // =========================
-    // TRANSAKSI TERAKHIR
-    // =========================
+        $sudahBayar = $pembayaranTerbaru
+            ? PembayaranKas::where('periode', $periodeAktif)
+                ->distinct('siswa_id')
+                ->count('siswa_id')
+            : 0;
 
-    $transaksi = collect();
+        $belumBayar = max($totalSiswa - $sudahBayar, 0);
 
-    // Pembayaran Kas
-    $pembayaran = PembayaranKas::with('siswa')
-        ->latest('tanggal')
-        ->take(5)
-        ->get();
+        $persentasePembayaran = $totalSiswa > 0
+            ? round(($sudahBayar / $totalSiswa) * 100)
+            : 0;
 
-    foreach ($pembayaran as $item) {
-        $tanggal = $item->getAttribute('tanggal') ?? $item->created_at;
+        // =========================
+        // TRANSAKSI TERAKHIR
+        // =========================
 
-        $transaksi->push([
-            'tanggal' => Carbon::parse($tanggal),
-            'jenis' => 'Pembayaran',
-            'keterangan' => ($item->siswa?->nama ?? 'Siswa') .
-                ' — kas ' . $item->periode,
-            'nominal' => $item->nominal,
-            'arah' => 'in',
-        ]);
-    }
+        $transaksi = collect();
 
-    // Pemasukan
-    $pemasukan = Pemasukan::latest()->take(5)->get();
+        // Pembayaran Kas
+        $pembayaran = PembayaranKas::with('siswa')
+            ->latest('tanggal')
+            ->take(5)
+            ->get();
 
-    foreach ($pemasukan as $item) {
-        $tanggal = $item->getAttribute('tanggal') ?? $item->created_at;
+        foreach ($pembayaran as $item) {
+            $tanggal = $item->getAttribute('tanggal')
+                ?? $item->created_at;
 
-        $keterangan = null;
-
-        foreach (['keterangan', 'sumber', 'sumber_dana'] as $field) {
-            $value = $item->getAttribute($field);
-
-            if ($value !== null && $value !== '') {
-                $keterangan = $value;
-                break;
-            }
+            $transaksi->push([
+                'tanggal' => Carbon::parse($tanggal),
+                'jenis' => 'Pembayaran',
+                'keterangan' => ($item->siswa?->nama ?? 'Siswa')
+                    . ' — kas ' . $item->periode,
+                'nominal' => $item->nominal,
+                'arah' => 'in',
+            ]);
         }
 
-        $transaksi->push([
-            'tanggal' => Carbon::parse($tanggal),
-            'jenis' => 'Pemasukan',
-            'keterangan' => $keterangan ?? 'Pemasukan kas',
-            'nominal' => $item->nominal,
-            'arah' => 'in',
-        ]);
-    }
+        // Pemasukan
+        $pemasukan = Pemasukan::latest()
+            ->take(5)
+            ->get();
 
-    // Pengeluaran
-    $pengeluaran = Pengeluaran::latest()->take(5)->get();
+        foreach ($pemasukan as $item) {
+            $tanggal = $item->getAttribute('tanggal')
+                ?? $item->created_at;
 
-    foreach ($pengeluaran as $item) {
-        $tanggal = $item->getAttribute('tanggal') ?? $item->created_at;
+            $keterangan = null;
 
-        $keterangan = null;
+            foreach (['keterangan', 'sumber', 'sumber_dana'] as $field) {
+                $value = $item->getAttribute($field);
 
-        foreach (['keterangan', 'kategori'] as $field) {
-            $value = $item->getAttribute($field);
-
-            if ($value !== null && $value !== '') {
-                $keterangan = $value;
-                break;
+                if ($value !== null && $value !== '') {
+                    $keterangan = $value;
+                    break;
+                }
             }
+
+            $transaksi->push([
+                'tanggal' => Carbon::parse($tanggal),
+                'jenis' => 'Pemasukan',
+                'keterangan' => $keterangan ?? 'Pemasukan kas',
+                'nominal' => $item->nominal,
+                'arah' => 'in',
+            ]);
         }
 
-        $transaksi->push([
-            'tanggal' => Carbon::parse($tanggal),
-            'jenis' => 'Pengeluaran',
-            'keterangan' => $keterangan ?? 'Pengeluaran kas',
-            'nominal' => $item->nominal,
-            'arah' => 'out',
-        ]);
+        // Pengeluaran
+        $pengeluaran = Pengeluaran::latest()
+            ->take(5)
+            ->get();
+
+        foreach ($pengeluaran as $item) {
+            $tanggal = $item->getAttribute('tanggal')
+                ?? $item->created_at;
+
+            $keterangan = null;
+
+            foreach (['keterangan', 'kategori'] as $field) {
+                $value = $item->getAttribute($field);
+
+                if ($value !== null && $value !== '') {
+                    $keterangan = $value;
+                    break;
+                }
+            }
+
+            $transaksi->push([
+                'tanggal' => Carbon::parse($tanggal),
+                'jenis' => 'Pengeluaran',
+                'keterangan' => $keterangan ?? 'Pengeluaran kas',
+                'nominal' => $item->nominal,
+                'arah' => 'out',
+            ]);
+        }
+
+        $transaksi = $transaksi
+            ->sortByDesc('tanggal')
+            ->take(5)
+            ->values();
+
+        // =========================
+        // PILIH DASHBOARD BERDASARKAN ROLE
+        // =========================
+
+        $data = [
+            'totalPembayaran' => $totalPembayaran,
+            'totalPemasukan' => $totalPemasukan,
+            'totalPengeluaran' => $totalPengeluaran,
+            'saldo' => $saldo,
+            'totalSiswa' => $totalSiswa,
+            'periodeAktif' => $periodeAktif,
+            'sudahBayar' => $sudahBayar,
+            'belumBayar' => $belumBayar,
+            'persentasePembayaran' => $persentasePembayaran,
+            'transaksi' => $transaksi,
+        ];
+
+     $user = Auth::user();
+
+        if ($user->role === 'BENDAHARA') {
+            return view('dashboard-bendahara', $data);
+        }
+
+        return view('dashboard', $data);
     }
-
-    $transaksi = $transaksi
-        ->sortByDesc('tanggal')
-        ->take(5)
-        ->values();
-
-    return view('dashboard', [
-        'totalPembayaran' => $totalPembayaran,
-        'totalPemasukan' => $totalPemasukan,
-        'totalPengeluaran' => $totalPengeluaran,
-        'saldo' => $saldo,
-        'totalSiswa' => $totalSiswa,
-        'periodeAktif' => $periodeAktif,
-        'sudahBayar' => $sudahBayar,
-        'belumBayar' => $belumBayar,
-        'persentasePembayaran' => $persentasePembayaran,
-        'transaksi' => $transaksi,
-    ]);
-}
 }

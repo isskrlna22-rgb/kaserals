@@ -11,6 +11,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\StatusPembayaranController;
 use App\Http\Controllers\SiswaDashboardController;
+use App\Http\Controllers\RiwayatController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -49,29 +50,35 @@ Route::middleware(['auth', 'role:ADMIN,BENDAHARA'])->group(function () {
 
 
     Route::get('/data-pemasukan', [PemasukanController::class, 'page'])
-    ->name('pemasukan.web.index');
+        ->name('pemasukan.web.index');
 
     Route::post('/data-pemasukan', [PemasukanController::class, 'storePage'])
-    ->name('pemasukan.web.store');
+        ->name('pemasukan.web.store');
 
     Route::get('/data-pengeluaran', [PengeluaranController::class, 'page'])
-    ->middleware(['auth', 'role:ADMIN,BENDAHARA'])
-    ->name('pengeluaran.web.index');
+        ->middleware(['auth', 'role:ADMIN,BENDAHARA'])
+        ->name('pengeluaran.web.index');
 
     Route::post('/data-pengeluaran', [PengeluaranController::class, 'storePage'])
-    ->middleware(['auth', 'role:ADMIN,BENDAHARA'])
-    ->name('pengeluaran.web.store');
+        ->middleware(['auth', 'role:ADMIN,BENDAHARA'])
+        ->name('pengeluaran.web.store');
 
     Route::get('/status-pembayaran', [StatusPembayaranController::class, 'page'])
-    ->middleware(['auth', 'role:ADMIN,BENDAHARA,KETUA_KELAS,GURU_PEMBIMBING'])
-    ->name('status-pembayaran.index');
+        ->middleware(['auth', 'role:ADMIN,BENDAHARA,KETUA_KELAS,GURU_PEMBIMBING'])
+        ->name('status-pembayaran.index');
 
 
+    Route::get('/riwayat-transaksi', [RiwayatController::class, 'index'])
+        ->middleware(['auth', 'role:ADMIN,BENDAHARA,KETUA_KELAS,GURU_PEMBIMBING'])
+        ->name('riwayat.index');
 });
 
-Route::apiResource('pembayaran-kas', PembayaranKasController::class)
-    ->middleware(['auth', 'role:ADMIN,BENDAHARA']);
 
+
+
+Route::get('/pembayaran-kas', function () {
+    return view('pembayaran-kas');
+});
 Route::apiResource('pemasukan', PemasukanController::class)
     ->middleware(['auth', 'role:ADMIN,BENDAHARA']);
 
@@ -108,4 +115,3 @@ Route::post('/data-pembayaran', [PembayaranKasController::class, 'storePage'])
 
 
 require __DIR__ . '/auth.php';
-

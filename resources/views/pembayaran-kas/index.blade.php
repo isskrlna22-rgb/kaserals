@@ -3,428 +3,873 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Pembayaran Kas - KASERALS</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        kaserals: '#0D9488',
-                        navy: '#0F172A',
-                    }
-                }
+        body {
+            background: #f5f7fa;
+            color: #182230;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            position: fixed;
+            width: 350px;
+            height: 100vh;
+            background: #10192d;
+            color: white;
+            padding: 30px 22px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: #0ca99d;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo-text h2 {
+            font-size: 23px;
+        }
+
+        .logo-text p {
+            color: #8993a6;
+            font-size: 15px;
+            margin-top: 4px;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .menu-title {
+            color: #7f899d;
+            font-size: 14px;
+            font-weight: bold;
+            margin: 22px 12px 8px;
+            letter-spacing: 1px;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: #b7bfce;
+            padding: 15px 18px;
+            border-radius: 10px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: 0.2s;
+        }
+
+        .menu a:hover {
+            background: #17233c;
+            color: white;
+        }
+
+        .menu a.active {
+            background: #0ca99d;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: 350px;
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+        .header {
+            height: 100px;
+            background: white;
+            border-bottom: 1px solid #d8dde5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 38px;
+        }
+
+        .header h2 {
+            font-size: 23px;
+        }
+
+        .profile {
+            width: 55px;
+            height: 55px;
+            background: #d4faf3;
+            color: #099c91;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        /* CONTENT */
+        .content {
+            padding: 40px;
+        }
+
+        .content-header {
+            margin-bottom: 35px;
+        }
+
+        .content-header h1 {
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
+
+        .content-header p {
+            color: #8791a1;
+            font-size: 18px;
+        }
+
+        /* GRID */
+        .payment-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #d8dde5;
+            border-radius: 17px;
+            padding: 28px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+        }
+
+        .card h2 {
+            font-size: 23px;
+            margin-bottom: 28px;
+        }
+
+        /* FORM */
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 17px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            height: 55px;
+            border: 2px solid #dce1e7;
+            border-radius: 12px;
+            padding: 0 18px;
+            font-size: 17px;
+            color: #202938;
+            outline: none;
+            background: white;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #0ca99d;
+            box-shadow: 0 0 0 3px rgba(12,169,157,0.12);
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+        /* BUTTON */
+        .buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        button {
+            height: 58px;
+            padding: 0 25px;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .reset {
+            background: white;
+            border: 2px solid #d8dde5;
+            color: #202938;
+        }
+
+        .reset:hover {
+            background: #f2f4f7;
+        }
+
+        .save {
+            background: #0ca99d;
+            color: white;
+            border: none;
+        }
+
+        .save:hover {
+            background: #078e84;
+        }
+
+        /* PAYMENT LIST */
+        .payment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+        }
+
+        .payment-header h2 {
+            margin: 0;
+        }
+
+        .total {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .table-head {
+            display: grid;
+            grid-template-columns: 1fr 120px 100px;
+            padding: 0 15px 15px;
+            color: #929dac;
+            font-weight: bold;
+            border-bottom: 2px solid #e2e5e9;
+        }
+
+        .payment-item {
+            display: grid;
+            grid-template-columns: 1fr 120px 100px;
+            align-items: center;
+            padding: 20px 15px;
+            border-bottom: 1px solid #e4e7eb;
+        }
+
+        .student {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .student-icon {
+            width: 43px;
+            height: 43px;
+            background: #d5faf3;
+            color: #0aa093;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .student-name {
+            font-size: 17px;
+            line-height: 1.4;
+        }
+
+        .nominal {
+            font-weight: bold;
+            font-size: 17px;
+        }
+
+        .delete {
+            height: 48px;
+            background: white;
+            border: 2px solid #f0b5b5;
+            color: #c44343;
+            padding: 0 15px;
+        }
+
+        .delete:hover {
+            background: #fff1f1;
+        }
+
+        /* ALERT */
+        .alert {
+            display: none;
+            margin-top: 22px;
+            padding: 17px;
+            border: 2px solid #a9e9c4;
+            background: #effff5;
+            color: #39885c;
+            border-radius: 12px;
+            font-size: 17px;
+            line-height: 1.5;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1000px) {
+            .sidebar {
+                width: 230px;
+            }
+
+            .main {
+                margin-left: 230px;
+            }
+
+            .payment-grid {
+                grid-template-columns: 1fr;
             }
         }
-    </script>
+
+        @media (max-width: 700px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .row {
+                grid-template-columns: 1fr;
+            }
+
+            .table-head,
+            .payment-item {
+                grid-template-columns: 1fr 100px;
+            }
+
+            .table-head div:last-child {
+                display: none;
+            }
+
+            .delete {
+                margin-top: 8px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
 </head>
 
-<body class="bg-slate-50 text-slate-900">
+<body>
 
-<div class="flex min-h-screen">
+<!-- SIDEBAR -->
+<aside class="sidebar">
 
-    <!-- SIDEBAR -->
-    <aside class="hidden w-64 shrink-0 bg-navy text-white lg:block">
+    <div class="logo">
+        <div class="logo-icon">K</div>
 
-        <!-- LOGO -->
-        <div class="flex items-center gap-4 px-7 py-7">
+        <div class="logo-text">
+            <h2>KASERALS</h2>
+            <p>Kas Kelas Digital</p>
+        </div>
+    </div>
 
-            <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-kaserals text-2xl font-bold">
-                K
-            </div>
+    <nav class="menu">
 
-            <div>
-                <h1 class="text-2xl font-bold">
-                    KASERALS
-                </h1>
+        <a href="#">▢ Dashboard</a>
 
-                <p class="text-sm text-slate-400">
-                    Kas Kelas Digital
-                </p>
-            </div>
+        <a href="#">◉ Data Siswa</a>
+
+        <div class="menu-title">TRANSAKSI</div>
+
+        <a href="#" class="active">✓ Pembayaran Kas</a>
+
+        <a href="#">≡ Status Pembayaran</a>
+
+        <a href="#">↓ Pemasukan</a>
+
+        <a href="#">↑ Pengeluaran</a>
+
+        <div class="menu-title">CATATAN</div>
+
+        <a href="#">↻ Riwayat Transaksi</a>
+
+        <a href="#">▤ Laporan Keuangan</a>
+
+    </nav>
+
+</aside>
+
+
+<!-- MAIN -->
+<main class="main">
+
+    <!-- HEADER -->
+    <header class="header">
+
+        <h2>Pembayaran Kas</h2>
+
+        <div class="profile">
+            NS
+        </div>
+
+    </header>
+
+
+    <!-- CONTENT -->
+    <section class="content">
+
+        <div class="content-header">
+
+            <h1>Catat Pembayaran Kas</h1>
+
+            <p>
+                Pembayaran akan menambah saldo kas secara otomatis
+            </p>
 
         </div>
 
 
-        <!-- NAVIGATION -->
-        <nav class="mt-7 px-4">
+        <div class="payment-grid">
 
-            <a href="#"
-               class="mb-2 flex items-center gap-4 rounded-2xl px-5 py-4 text-lg text-slate-300 hover:bg-slate-800">
-                <span>□</span>
-                Dashboard
-            </a>
+            <!-- FORM -->
+            <div class="card">
 
-            <a href="#"
-               class="mb-7 flex items-center gap-4 rounded-2xl px-5 py-4 text-lg text-slate-300 hover:bg-slate-800">
-                <span>◉</span>
-                Data Siswa
-            </a>
+                <h2>Form Pembayaran</h2>
 
+                <form id="paymentForm">
 
-            <!-- TRANSAKSI -->
-            <p class="mb-3 px-6 text-sm font-bold tracking-widest text-slate-500">
-                TRANSAKSI
-            </p>
+                    <div class="form-group">
 
+                        <label>
+                            Pilih Siswa *
+                        </label>
 
-            <!-- ACTIVE -->
-            <a href="#"
-               class="mb-2 flex items-center gap-4 rounded-2xl bg-kaserals px-5 py-4 text-lg font-bold">
-                <span>✓</span>
-                Pembayaran Kas
-            </a>
+                        <select id="student" required>
 
+                            <option value="">
+                                Pilih siswa
+                            </option>
 
-            <a href="#"
-               class="mb-2 flex items-center gap-4 rounded-2xl px-5 py-4 text-lg text-slate-300 hover:bg-slate-800">
-                <span>≡</span>
-                Status Pembayaran
-            </a>
+                            <option value="Nesya Shahira">
+                                Nesya Shahira — 0085619367
+                            </option>
 
-            <a href="#"
-               class="mb-2 flex items-center gap-4 rounded-2xl px-5 py-4 text-lg text-slate-300 hover:bg-slate-800">
-                <span>↓</span>
-                Pemasukan
-            </a>
+                            <option value="Rizky Ananda">
+                                Rizky Ananda — 0085619368
+                            </option>
 
-            <a href="#"
-               class="mb-7 flex items-center gap-4 rounded-2xl px-5 py-4 text-lg text-slate-300 hover:bg-slate-800">
-                <span>↑</span>
-                Pengeluaran
-            </a>
+                            <option value="Melisa Novita">
+                                Melisa Novita — 0085619369
+                            </option>
 
+                            <option value="Alif Guntoro">
+                                Alif Guntoro — 0085619370
+                            </option>
 
-            <!-- CATATAN -->
-            <p class="mb-3 px-6 text-sm font-bold tracking-widest text-slate-500">
-                CATATAN
-            </p>
+                        </select>
 
-            <a href="#"
-               class="mb-2 flex items-center gap-4 rounded-2xl px-5 py-4 text-lg text-slate-300 hover:bg-slate-800">
-                <span>↻</span>
-                Riwayat Transaksi
-            </a>
+                    </div>
 
-            <a href="#"
-               class="flex items-center gap-4 rounded-2xl px-5 py-4 text-lg text-slate-300 hover:bg-slate-800">
-                <span>▤</span>
-                Laporan Keuangan
-            </a>
 
-        </nav>
+                    <div class="row">
 
-    </aside>
+                        <div class="form-group">
 
-
-    <!-- MAIN -->
-    <main class="flex min-w-0 flex-1 flex-col">
-
-
-        <!-- TOPBAR -->
-        <header class="flex h-24 items-center justify-between border-b border-slate-300 bg-white px-6 lg:px-9">
-
-            <h2 class="text-2xl font-bold">
-                Pembayaran Kas
-            </h2>
-
-            <div class="flex h-14 w-14 items-center justify-center rounded-full bg-teal-100 font-bold text-kaserals">
-                NS
-            </div>
-
-        </header>
-
-
-        <!-- CONTENT -->
-        <section class="flex-1 p-6 lg:p-9">
-
-
-            <!-- TITLE -->
-            <div class="mb-7">
-
-                <h1 class="text-3xl font-bold lg:text-4xl">
-                    Catat Pembayaran Kas
-                </h1>
-
-                <p class="mt-2 text-xl text-slate-500">
-                    Pembayaran akan menambah saldo kas secara otomatis
-                </p>
-
-            </div>
-
-
-            <!-- TWO COLUMNS -->
-            <div class="grid gap-6 xl:grid-cols-2">
-
-
-                <!-- FORM -->
-                <div class="rounded-2xl border-2 border-slate-300 bg-white p-7">
-
-                    <h2 class="mb-6 text-2xl font-bold">
-                        Form Pembayaran
-                    </h2>
-
-
-                    <form action="#" method="POST">
-
-                        @csrf
-
-
-                        <!-- PILIH SISWA -->
-                        <div class="mb-5">
-
-                            <label class="mb-3 block text-lg font-bold">
-                                Pilih Siswa *
-                            </label>
-
-                            <select
-                                name="siswa_id"
-                                class="h-16 w-full rounded-2xl border-2 border-kaserals bg-white px-5 text-lg outline-none ring-4 ring-teal-100">
-
-                                <option value="1">
-                                    Nesya Shahira — 0085619367
-                                </option>
-
-                                <option value="2">
-                                    Rizky Ananda — 0093451820
-                                </option>
-
-                                <option value="3">
-                                    Dea Putri — 0071129384
-                                </option>
-
-                            </select>
-
-                        </div>
-
-
-                        <!-- TANGGAL + NOMINAL -->
-                        <div class="mb-5 grid gap-5 sm:grid-cols-2">
-
-
-                            <!-- TANGGAL -->
-                            <div>
-
-                                <label class="mb-3 block text-lg font-bold">
-                                    Tanggal *
-                                </label>
-
-                                <input
-                                    type="date"
-                                    name="tanggal"
-                                    value="2026-11-16"
-                                    class="h-16 w-full rounded-2xl border-2 border-slate-300 px-5 text-lg outline-none focus:border-kaserals"
-                                >
-
-                            </div>
-
-
-                            <!-- NOMINAL -->
-                            <div>
-
-                                <label class="mb-3 block text-lg font-bold">
-                                    Nominal *
-                                </label>
-
-                                <input
-                                    type="number"
-                                    name="nominal"
-                                    placeholder="20000"
-                                    class="h-16 w-full rounded-2xl border-2 border-slate-300 px-5 text-lg outline-none focus:border-kaserals"
-                                >
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- PERIODE -->
-                        <div class="mb-5">
-
-                            <label class="mb-3 block text-lg font-bold">
-                                Periode
-                            </label>
-
-                            <select
-                                name="periode"
-                                class="h-16 w-full rounded-2xl border-2 border-slate-300 bg-white px-5 text-lg outline-none focus:border-kaserals">
-
-                                <option>
-                                    November 2026
-                                </option>
-
-                                <option>
-                                    Oktober 2026
-                                </option>
-
-                                <option>
-                                    September 2026
-                                </option>
-
-                            </select>
-
-                        </div>
-
-
-                        <!-- KETERANGAN -->
-                        <div class="mb-6">
-
-                            <label class="mb-3 block text-lg font-bold">
-                                Keterangan
+                            <label>
+                                Tanggal *
                             </label>
 
                             <input
-                                type="text"
-                                name="keterangan"
-                                placeholder="Opsional"
-                                class="h-16 w-full rounded-2xl border-2 border-slate-300 px-5 text-lg outline-none focus:border-kaserals"
+                                type="date"
+                                id="date"
+                                required
                             >
 
                         </div>
 
 
-                        <!-- BUTTONS -->
-                        <div class="flex justify-end gap-4">
+                        <div class="form-group">
 
-                            <button
-                                type="reset"
-                                class="rounded-2xl border-2 border-slate-300 bg-white px-7 py-4 text-lg font-bold hover:bg-slate-100">
+                            <label>
+                                Nominal *
+                            </label>
 
-                                Reset
-
-                            </button>
-
-
-                            <button
-                                type="submit"
-                                class="rounded-2xl bg-kaserals px-8 py-4 text-lg font-bold text-white hover:bg-teal-700">
-
-                                Simpan Pembayaran
-
-                            </button>
+                            <input
+                                type="number"
+                                id="amount"
+                                placeholder="20000"
+                                min="1"
+                                required
+                            >
 
                         </div>
 
-                    </form>
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Periode
+                        </label>
+
+                        <select id="period">
+
+                            <option>November 2026</option>
+                            <option>Desember 2026</option>
+                            <option>Januari 2027</option>
+                            <option>Februari 2027</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Keterangan
+                        </label>
+
+                        <input
+                            type="text"
+                            id="description"
+                            placeholder="Opsional"
+                        >
+
+                    </div>
+
+
+                    <div class="buttons">
+
+                        <button
+                            type="button"
+                            class="reset"
+                            onclick="resetForm()"
+                        >
+                            Reset
+                        </button>
+
+                        <button
+                            type="submit"
+                            class="save"
+                        >
+                            Simpan Pembayaran
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <!-- LIST PEMBAYARAN -->
+            <div class="card">
+
+                <div class="payment-header">
+
+                    <h2>Pembayaran Hari Ini</h2>
+
+                    <div class="total" id="total">
+                        Rp 340.000
+                    </div>
 
                 </div>
 
 
-                <!-- PEMBAYARAN HARI INI -->
-                <div class="rounded-2xl border-2 border-slate-300 bg-white p-7">
+                <div class="table-head">
 
-                    <!-- TITLE -->
-                    <div class="mb-6 flex items-center justify-between">
+                    <div>NAMA</div>
+                    <div>NOMINAL</div>
+                    <div></div>
 
-                        <h2 class="text-2xl font-bold">
-                            Pembayaran Hari Ini
-                        </h2>
-
-                        <span class="text-xl font-bold">
-                            Rp 340.000
-                        </span>
-
-                    </div>
+                </div>
 
 
-                    <!-- TABLE HEADER -->
-                    <div class="grid grid-cols-[1.5fr_1fr_auto] border-b-2 border-slate-300 pb-5 text-sm font-bold uppercase tracking-wide text-slate-400">
+                <div id="paymentList">
 
-                        <span>
-                            Nama
-                        </span>
+                    <div
+                        class="payment-item"
+                        data-amount="20000"
+                    >
 
-                        <span>
-                            Nominal
-                        </span>
+                        <div class="student">
 
-                        <span>
-                        </span>
-
-                    </div>
-
-
-                    <!-- SISWA 1 -->
-                    <div class="grid grid-cols-[1.5fr_1fr_auto] items-center gap-4 border-b border-slate-200 py-6">
-
-                        <div class="flex items-center gap-4">
-
-                            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-teal-100 font-bold text-kaserals">
+                            <div class="student-icon">
                                 NS
                             </div>
 
-                            <span class="text-lg font-medium">
-                                Nesya Shahira
-                            </span>
+                            <div class="student-name">
+                                Nesya<br>
+                                Shahira
+                            </div>
 
                         </div>
 
-                        <span class="text-right text-lg font-bold">
+                        <div class="nominal">
                             Rp 20.000
-                        </span>
+                        </div>
 
                         <button
-                            class="rounded-xl border-2 border-red-300 px-5 py-3 font-bold text-red-600 hover:bg-red-50">
-
+                            class="delete"
+                            onclick="deletePayment(this)"
+                        >
                             Hapus
-
                         </button>
 
                     </div>
 
 
-                    <!-- SISWA 2 -->
-                    <div class="grid grid-cols-[1.5fr_1fr_auto] items-center gap-4 border-b border-slate-200 py-6">
+                    <div
+                        class="payment-item"
+                        data-amount="20000"
+                    >
 
-                        <div class="flex items-center gap-4">
+                        <div class="student">
 
-                            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-teal-100 font-bold text-kaserals">
+                            <div class="student-icon">
                                 RA
                             </div>
 
-                            <span class="text-lg font-medium">
+                            <div class="student-name">
                                 Rizky Ananda
-                            </span>
+                            </div>
 
                         </div>
 
-                        <span class="text-right text-lg font-bold">
+                        <div class="nominal">
                             Rp 20.000
-                        </span>
+                        </div>
 
                         <button
-                            class="rounded-xl border-2 border-red-300 px-5 py-3 font-bold text-red-600 hover:bg-red-50">
-
+                            class="delete"
+                            onclick="deletePayment(this)"
+                        >
                             Hapus
-
                         </button>
 
                     </div>
 
+                </div>
 
-                    <!-- SUCCESS MESSAGE -->
-                    <div class="mt-7 rounded-2xl border-2 border-green-400 bg-green-50 p-4 text-lg text-green-700">
 
-                        <span class="font-bold">
-                            ✓
-                        </span>
-
-                        Pembayaran tersimpan. Status Nesya diperbarui menjadi Lunas.
-
-                    </div>
-
+                <div
+                    class="alert"
+                    id="alert"
+                >
+                    ✓ Pembayaran tersimpan.
+                    Status siswa diperbarui menjadi Lunas.
                 </div>
 
             </div>
 
-        </section>
+        </div>
 
-    </main>
+    </section>
 
-</div>
+</main>
+
+
+<script>
+
+    const form = document.getElementById("paymentForm");
+    const paymentList = document.getElementById("paymentList");
+    const totalElement = document.getElementById("total");
+    const alertBox = document.getElementById("alert");
+
+
+    // Format Rupiah
+    function rupiah(number) {
+
+        return new Intl.NumberFormat("id-ID", {
+            style: "currency",
+            currency: "IDR",
+            minimumFractionDigits: 0
+        }).format(number);
+
+    }
+
+
+    // Hitung total
+    function calculateTotal() {
+
+        let total = 0;
+
+        const payments =
+            document.querySelectorAll(".payment-item");
+
+        payments.forEach(payment => {
+
+            total += Number(
+                payment.dataset.amount
+            );
+
+        });
+
+        totalElement.textContent = rupiah(total);
+
+    }
+
+
+    // Simpan pembayaran
+    form.addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+        const student =
+            document.getElementById("student").value;
+
+        const amount =
+            Number(document.getElementById("amount").value);
+
+        if (!student || !amount) {
+            alert("Lengkapi data pembayaran!");
+            return;
+        }
+
+
+        // Ambil nama
+        const initials = student
+            .split(" ")
+            .map(word => word[0])
+            .join("")
+            .substring(0, 2)
+            .toUpperCase();
+
+
+        // Buat item baru
+        const item =
+            document.createElement("div");
+
+        item.className = "payment-item";
+
+        item.dataset.amount = amount;
+
+
+        item.innerHTML = `
+
+            <div class="student">
+
+                <div class="student-icon">
+                    ${initials}
+                </div>
+
+                <div class="student-name">
+                    ${student}
+                </div>
+
+            </div>
+
+            <div class="nominal">
+                ${rupiah(amount)}
+            </div>
+
+            <button
+                class="delete"
+                onclick="deletePayment(this)"
+            >
+                Hapus
+            </button>
+
+        `;
+
+
+        paymentList.appendChild(item);
+
+
+        // Update total
+        calculateTotal();
+
+
+        // Tampilkan notifikasi
+        alertBox.classList.add("show");
+
+        alertBox.innerHTML =
+            `✓ Pembayaran tersimpan. Status ${student} diperbarui menjadi Lunas.`;
+
+
+        // Reset form
+        form.reset();
+
+
+        // Hilangkan notifikasi setelah 4 detik
+        setTimeout(() => {
+
+            alertBox.classList.remove("show");
+
+        }, 4000);
+
+    });
+
+
+    // Hapus pembayaran
+    function deletePayment(button) {
+
+        const item =
+            button.closest(".payment-item");
+
+        if (
+            confirm(
+                "Yakin ingin menghapus pembayaran ini?"
+            )
+        ) {
+
+            item.remove();
+
+            calculateTotal();
+
+        }
+
+    }
+
+
+    // Reset form
+    function resetForm() {
+
+        form.reset();
+
+    }
+
+
+    // Set tanggal hari ini
+    const dateInput =
+        document.getElementById("date");
+
+    const today =
+        new Date().toISOString().split("T")[0];
+
+    dateInput.value = today;
+
+
+    // Hitung total saat halaman dibuka
+    calculateTotal();
+
+</script>
 
 </body>
 </html>

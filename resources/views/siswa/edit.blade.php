@@ -48,26 +48,26 @@
             <!-- FORM -->
             <div class="rounded-3xl border-2 border-slate-200 bg-white p-6 shadow-sm lg:p-9">
 
-                <form action="{{ route('data-siswa.update', $siswa->id) }}" method="POST">
+                <form action="{{ route('data-siswa.update', $siswa->id_siswa) }}" method="POST">
 
                     @csrf
                     @method('PUT')
 
-                    <!-- NIS -->
+                    <!-- NISN -->
                     <div class="mb-6">
-                        <label for="nis" class="mb-2 block text-lg font-bold">
-                            NIS
+                        <label for="nisn" class="mb-2 block text-lg font-bold">
+                            NISN
                         </label>
 
                         <input
                             type="text"
-                            id="nis"
-                            name="nis"
-                            value="{{ old('nis', $siswa->nis) }}"
+                            id="nisn"
+                            name="nisn"
+                            value="{{ old('nisn', $siswa->nisn) }}"
                             class="w-full rounded-2xl border-2 border-slate-300 px-5 py-4 text-lg outline-none focus:border-kaserals"
                             required>
 
-                        @error('nis')
+                        @error('nisn')
                             <p class="mt-2 text-sm font-medium text-red-600">
                                 {{ $message }}
                             </p>
@@ -76,19 +76,19 @@
 
                     <!-- NAMA -->
                     <div class="mb-6">
-                        <label for="nama" class="mb-2 block text-lg font-bold">
+                        <label for="nama_lengkap" class="mb-2 block text-lg font-bold">
                             Nama Siswa
                         </label>
 
                         <input
                             type="text"
-                            id="nama"
-                            name="nama"
-                            value="{{ old('nama', $siswa->nama) }}"
+                            id="nama_lengkap"
+                            name="nama_lengkap"
+                            value="{{ old('nama_lengkap', $siswa->nama_lengkap) }}"
                             class="w-full rounded-2xl border-2 border-slate-300 px-5 py-4 text-lg outline-none focus:border-kaserals"
                             required>
 
-                        @error('nama')
+                        @error('nama_lengkap')
                             <p class="mt-2 text-sm font-medium text-red-600">
                                 {{ $message }}
                             </p>

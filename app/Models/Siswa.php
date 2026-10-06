@@ -10,21 +10,34 @@ class Siswa extends Model
 {
     protected $table = 'siswa';
 
+    protected $primaryKey = 'id_siswa';
+
+    const CREATED_AT = 'created_at';
+    const UPDATED_AT = 'updated_at';
+
     protected $fillable = [
-        'user_id',
-        'nis',
-        'nama',
+        'id_user',
+        'nisn',
+        'nama_lengkap',
         'kelas',
         'no_hp',
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(
+            User::class,
+            'id_user',
+            'id_users'
+        );
     }
 
     public function pembayaranKas()
     {
-        return $this->hasMany(PembayaranKas::class);
+        return $this->hasMany(
+            PembayaranKas::class,
+            'id_siswa',
+            'id_siswa'
+        );
     }
 }

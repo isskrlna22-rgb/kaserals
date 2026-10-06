@@ -628,7 +628,7 @@
                     Pembayaran Kas
                 </a>
 
-                <a href="{{ route('status-pembayaran.index') }}">
+                <a href="{{ route('verifikasi-pembayaran.index') }}">
                     <span class="menu-icon">●</span>
                     Status Pembayaran
                 </a>

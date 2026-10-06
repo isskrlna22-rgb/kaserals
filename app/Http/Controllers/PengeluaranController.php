@@ -14,7 +14,9 @@ class PengeluaranController extends Controller
 
     public function index()
     {
-        $pengeluaran = Pengeluaran::latest()->get();
+        $pengeluaran = Pengeluaran::with('user')
+            ->latest()
+            ->get();
 
         return response()->json($pengeluaran);
     }
@@ -22,31 +24,33 @@ class PengeluaranController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nominal' => 'required|numeric|min:0',
+            'nominal' => 'required|numeric|min:1',
             'tanggal' => 'required|date',
             'kategori' => 'required|string|max:255',
             'keterangan' => 'nullable|string',
         ]);
 
-        $validated['user_id'] = Auth::id();
+        $validated['id_user'] = Auth::id();
 
         $pengeluaran = Pengeluaran::create($validated);
 
         return response()->json([
             'message' => 'Pengeluaran berhasil dicatat.',
-            'data' => $pengeluaran,
+            'data' => $pengeluaran->load('user'),
         ], 201);
     }
 
     public function show(Pengeluaran $pengeluaran)
     {
-        return response()->json($pengeluaran);
+        return response()->json(
+            $pengeluaran->load('user')
+        );
     }
 
     public function update(Request $request, Pengeluaran $pengeluaran)
     {
         $validated = $request->validate([
-         'nominal' => 'required|numeric|min:1',
+            'nominal' => 'required|numeric|min:1',
             'tanggal' => 'required|date',
             'kategori' => 'required|string|max:255',
             'keterangan' => 'nullable|string',
@@ -56,7 +60,7 @@ class PengeluaranController extends Controller
 
         return response()->json([
             'message' => 'Pengeluaran berhasil diperbarui.',
-            'data' => $pengeluaran,
+            'data' => $pengeluaran->load('user'),
         ]);
     }
 
@@ -76,7 +80,9 @@ class PengeluaranController extends Controller
 
     public function page()
     {
-        $pengeluaran = Pengeluaran::latest('tanggal')->get();
+        $pengeluaran = Pengeluaran::with('user')
+            ->latest('tanggal')
+            ->get();
 
         return view('pengeluaran.index', compact('pengeluaran'));
     }
@@ -90,12 +96,47 @@ class PengeluaranController extends Controller
             'keterangan' => 'nullable|string',
         ]);
 
-        $validated['user_id'] = Auth::id();
+        $validated['id_user'] = Auth::id();
 
         Pengeluaran::create($validated);
 
         return redirect()
             ->route('pengeluaran.web.index')
             ->with('success', 'Pengeluaran berhasil dicatat.');
+    }
+
+    // =========================
+    // WEB - UPDATE
+    // =========================
+
+    public function updatePage(
+        Request $request,
+        Pengeluaran $pengeluaran
+    ) {
+        $validated = $request->validate([
+            'nominal' => 'required|numeric|min:1',
+            'tanggal' => 'required|date',
+            'kategori' => 'required|string|max:255',
+            'keterangan' => 'nullable|string',
+        ]);
+
+        $pengeluaran->update($validated);
+
+        return redirect()
+            ->route('pengeluaran.web.index')
+            ->with('success', 'Pengeluaran berhasil diperbarui.');
+    }
+
+    // =========================
+    // WEB - DELETE
+    // =========================
+
+    public function destroyPage(Pengeluaran $pengeluaran)
+    {
+        $pengeluaran->delete();
+
+        return redirect()
+            ->route('pengeluaran.web.index')
+            ->with('success', 'Pengeluaran berhasil dihapus.');
     }
 }

@@ -6,23 +6,25 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('pengumuman', function (Blueprint $table) {
-    $table->id();
-    $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-    $table->string('judul');
-    $table->text('isi');
-    $table->timestamps();
-});
+            $table->id('id_pengumuman');
+
+            $table->unsignedBigInteger('id_user');
+
+            $table->string('judul');
+            $table->text('isi');
+
+            $table->timestamps();
+
+            $table->foreign('id_user')
+                  ->references('id_users')
+                  ->on('users')
+                  ->cascadeOnDelete();
+        });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('pengumuman');

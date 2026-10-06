@@ -4,21 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PembayaranKas extends Model
+class DetailPembayaran extends Model
 {
-    protected $table = 'pembayaran_kas';
+    protected $table = 'detail_pembayaran';
 
-    protected $primaryKey = 'id_pembayaran';
+    protected $primaryKey = 'id_detail';
+
+    public $timestamps = false;
 
     protected $fillable = [
         'id_siswa',
         'minggu_ke',
         'nominal',
-        'status',
-        'metode_pembayaran',
-        'bukti_transfer',
-        'tanggal',
-        'keterangan',
     ];
 
     public function siswa()

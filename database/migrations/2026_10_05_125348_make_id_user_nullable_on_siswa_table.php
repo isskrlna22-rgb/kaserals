@@ -9,18 +9,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('siswa', function (Blueprint $table) {
-            $table->foreignId('user_id')
-                ->nullable()
-                ->change();
+            $table->unsignedBigInteger('id_user')->nullable()->change();
         });
     }
 
     public function down(): void
     {
         Schema::table('siswa', function (Blueprint $table) {
-            $table->foreignId('user_id')
-                ->nullable(false)
-                ->change();
+            $table->unsignedBigInteger('id_user')->nullable(false)->change();
         });
     }
 };

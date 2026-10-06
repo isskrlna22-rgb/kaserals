@@ -9,14 +9,20 @@ class Pengumuman extends Model
 {
     protected $table = 'pengumuman';
 
+    protected $primaryKey = 'id_pengumuman';
+
     protected $fillable = [
-        'user_id',
+        'id_user',
         'judul',
         'isi',
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(
+            User::class,
+            'id_user',
+            'id_users'
+        );
     }
 }

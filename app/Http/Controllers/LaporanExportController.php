@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\PembayaranKas;
-use App\Models\Pemasukan;
 use App\Models\Pengeluaran;
 use App\Exports\LaporanExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -19,30 +18,24 @@ class LaporanExportController extends Controller
             ->latest('tanggal')
             ->get();
 
-        $pemasukan = Pemasukan::latest('tanggal')
+        $pengeluaran = Pengeluaran::with('user')
+            ->latest('tanggal')
             ->get();
 
-        $pengeluaran = Pengeluaran::latest('tanggal')
-            ->get();
-
-        $totalPembayaran = PembayaranKas::sum('nominal');
-
-        $totalPemasukan = Pemasukan::sum('nominal');
+        // Hanya pembayaran yang sudah diterima
+        $totalPembayaran = PembayaranKas::where('status', 'Diterima')
+            ->sum('nominal');
 
         $totalPengeluaran = Pengeluaran::sum('nominal');
 
-        $saldo = $totalPembayaran
-            + $totalPemasukan
-            - $totalPengeluaran;
+        $saldo = $totalPembayaran - $totalPengeluaran;
 
         $pdf = Pdf::loadView(
             'laporan.pdf',
             compact(
                 'pembayaran',
-                'pemasukan',
                 'pengeluaran',
                 'totalPembayaran',
-                'totalPemasukan',
                 'totalPengeluaran',
                 'saldo'
             )

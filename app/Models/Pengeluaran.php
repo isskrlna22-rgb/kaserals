@@ -9,21 +9,25 @@ class Pengeluaran extends Model
 {
     protected $table = 'pengeluaran';
 
+    protected $primaryKey = 'id_pengeluaran';
+
+    const CREATED_AT = 'created_at';
+    const UPDATED_AT = 'updated_at';
+
     protected $fillable = [
-        'user_id',
+        'id_user',
         'nominal',
         'tanggal',
         'kategori',
         'keterangan',
     ];
 
-    protected $casts = [
-        'tanggal' => 'date',
-        'nominal' => 'decimal:2',
-    ];
-
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(
+            User::class,
+            'id_user',
+            'id_users'
+        );
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\PembayaranKas;
-use App\Models\Pemasukan;
 use App\Models\Pengeluaran;
 
 class LaporanController extends Controller
@@ -13,33 +12,33 @@ class LaporanController extends Controller
     // =========================
     public function index()
     {
+        // Hanya pembayaran yang sudah diterima
         $pembayaran = PembayaranKas::with('siswa')
+            ->where('status', 'Diterima')
             ->latest('tanggal')
             ->get();
 
-        $pemasukan = Pemasukan::latest('tanggal')->get();
+        // Semua pengeluaran yang tercatat
+        $pengeluaran = Pengeluaran::with('user')
+            ->latest('tanggal')
+            ->get();
 
-        $pengeluaran = Pengeluaran::latest('tanggal')->get();
+        // Total pembayaran kas yang sudah diterima
+        $totalPembayaran = $pembayaran->sum('nominal');
 
-        $totalPembayaran = PembayaranKas::sum('nominal');
+        // Total seluruh pengeluaran
+        $totalPengeluaran = $pengeluaran->sum('nominal');
 
-        $totalPemasukan = Pemasukan::sum('nominal');
-
-        $totalPengeluaran = Pengeluaran::sum('nominal');
-
-        $saldo = $totalPembayaran
-            + $totalPemasukan
-            - $totalPengeluaran;
+        // Saldo akhir
+        $saldo = $totalPembayaran - $totalPengeluaran;
 
         return response()->json([
             'ringkasan' => [
                 'total_pembayaran' => $totalPembayaran,
-                'total_pemasukan' => $totalPemasukan,
                 'total_pengeluaran' => $totalPengeluaran,
                 'saldo' => $saldo,
             ],
             'pembayaran' => $pembayaran,
-            'pemasukan' => $pemasukan,
             'pengeluaran' => $pengeluaran,
         ]);
     }
@@ -49,32 +48,30 @@ class LaporanController extends Controller
     // =========================
     public function page()
     {
+        // Hanya pembayaran yang sudah diterima
         $pembayaran = PembayaranKas::with('siswa')
+            ->where('status', 'Diterima')
             ->latest('tanggal')
             ->get();
 
-        $pemasukan = Pemasukan::latest('tanggal')
+        // Semua pengeluaran yang tercatat
+        $pengeluaran = Pengeluaran::with('user')
+            ->latest('tanggal')
             ->get();
 
-        $pengeluaran = Pengeluaran::latest('tanggal')
-            ->get();
+        // Total pembayaran kas yang sudah diterima
+        $totalPembayaran = $pembayaran->sum('nominal');
 
-        $totalPembayaran = PembayaranKas::sum('nominal');
+        // Total seluruh pengeluaran
+        $totalPengeluaran = $pengeluaran->sum('nominal');
 
-        $totalPemasukan = Pemasukan::sum('nominal');
-
-        $totalPengeluaran = Pengeluaran::sum('nominal');
-
-        $saldo = $totalPembayaran
-            + $totalPemasukan
-            - $totalPengeluaran;
+        // Saldo akhir
+        $saldo = $totalPembayaran - $totalPengeluaran;
 
         return view('laporan.index', compact(
             'pembayaran',
-            'pemasukan',
             'pengeluaran',
             'totalPembayaran',
-            'totalPemasukan',
             'totalPengeluaran',
             'saldo'
         ));

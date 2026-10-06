@@ -47,13 +47,8 @@
     </p>
 
     <div class="total">
-        <strong>Total Pembayaran:</strong>
+        <strong>Total Pembayaran Diterima:</strong>
         Rp {{ number_format($totalPembayaran, 0, ',', '.') }}
-    </div>
-
-    <div class="total">
-        <strong>Total Pemasukan:</strong>
-        Rp {{ number_format($totalPemasukan, 0, ',', '.') }}
     </div>
 
     <div class="total">
@@ -74,7 +69,9 @@
                 <th>No</th>
                 <th>Tanggal</th>
                 <th>Nama Siswa</th>
-                <th>Periode</th>
+                <th>Minggu Ke</th>
+                <th>Metode</th>
+                <th>Status</th>
                 <th>Nominal</th>
             </tr>
         </thead>
@@ -89,11 +86,63 @@
                     </td>
 
                     <td>
-                        {{ $item->siswa->nama ?? '-' }}
+                        {{ $item->siswa?->nama_lengkap ?? '-' }}
                     </td>
 
                     <td>
-                        {{ $item->periode }}
+                        {{ $item->minggu_ke }}
+                    </td>
+
+                    <td>
+                        {{ $item->metode_pembayaran }}
+                    </td>
+
+                    <td>
+                        {{ $item->status }}
+                    </td>
+
+                    <td>
+                        Rp {{ number_format($item->nominal, 0, ',', '.') }}
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="7" style="text-align:center;">
+                        Belum ada data pembayaran.
+                    </td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+
+    <h3>Riwayat Pengeluaran</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Tanggal</th>
+                <th>Kategori</th>
+                <th>Keterangan</th>
+                <th>Nominal</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @forelse($pengeluaran as $item)
+                <tr>
+                    <td>{{ $loop->iteration }}</td>
+
+                    <td>
+                        {{ \Carbon\Carbon::parse($item->tanggal)->format('d-m-Y') }}
+                    </td>
+
+                    <td>
+                        {{ $item->kategori }}
+                    </td>
+
+                    <td>
+                        {{ $item->keterangan ?? '-' }}
                     </td>
 
                     <td>
@@ -103,7 +152,7 @@
             @empty
                 <tr>
                     <td colspan="5" style="text-align:center;">
-                        Belum ada data pembayaran.
+                        Belum ada data pengeluaran.
                     </td>
                 </tr>
             @endforelse

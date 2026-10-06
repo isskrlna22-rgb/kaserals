@@ -4,11 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pembayaran Kas - KASERALS</title>
+    <title>Detail Pembayaran - KASERALS</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Menggunakan font Nunito agar lebih membulat & gemes -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
     <style>
         * {
@@ -39,7 +38,7 @@
             min-height: 100vh;
         }
 
-        /* SIDEBAR */
+        /* ================= SIDEBAR ================= */
         .sidebar {
             width: 260px;
             flex-shrink: 0;
@@ -82,7 +81,6 @@
             color: #94a3b8;
         }
 
-        /* NAVIGATION EXTRA GEMES */
         .navigation {
             flex: 1;
             padding: 0 16px;
@@ -104,7 +102,7 @@
             border-radius: 18px;
             color: #cbd5e1;
             font-size: 15px;
-            font-weight: 500;
+            font-weight: 600;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             overflow: hidden;
         }
@@ -222,7 +220,7 @@
             box-shadow: 0 5px 15px rgba(239, 68, 68, 0.3);
         }
 
-        /* MAIN & TOPBAR */
+        /* ================= MAIN & TOPBAR ================= */
         .main {
             display: flex;
             flex: 1;
@@ -283,23 +281,13 @@
             margin-bottom: 30px;
         }
 
-        /* ================================
-           LAYOUT COLUMNS (KIRI FORM, KANAN TRANSAKSI)
-        ================================ */
+        /* ================= CARDS & FORMS ================= */
         .columns {
             display: grid;
-            grid-template-columns: 1.2fr 1fr; /* Form sedikit lebih lebar dari list transaksi */
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 30px;
-            align-items: start; /* Supaya kotak kanan ga ikutan manjang ke bawah otomatis */
         }
 
-        @media (max-width: 1024px) {
-            .columns {
-                grid-template-columns: 1fr; /* Jika layar kecil, otomatis numpuk ke bawah */
-            }
-        }
-
-        /* KARTU / CARD */
         .card {
             padding: 30px;
             border: none;
@@ -320,7 +308,6 @@
             color: #1e293b;
         }
 
-        /* FORM */
         .form-group {
             margin-bottom: 20px;
         }
@@ -342,6 +329,7 @@
             background: #f8fafc;
             font-size: 15px;
             outline: none;
+            font-weight: 600;
             transition: all 0.3s ease;
         }
 
@@ -351,13 +339,7 @@
             box-shadow: 0 0 0 4px rgba(13, 148, 136, .1);
         }
 
-        .form-row {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 20px;
-        }
-
-        /* BUTTONS */
+        /* ================= BUTTONS ================= */
         .buttons {
             display: flex;
             justify-content: flex-end;
@@ -401,7 +383,7 @@
             transform: translateY(0);
         }
 
-        /* LIST PEMBAYARAN */
+        /* ================= LIST DETAIL ================= */
         .payment-header {
             display: flex;
             align-items: center;
@@ -409,56 +391,25 @@
             margin-bottom: 24px;
         }
 
-        .payment-header h2 {
-            margin-bottom: 0; /* Override margin dari card */
-        }
-
-        .total {
-            font-size: 16px;
-            font-weight: 900;
-            color: #0d9488;
-            background: #ccfbf1;
-            padding: 7px 13px;
-            border-radius: 12px;
-        }
-
         .payment-row {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            padding: 16px;
-            margin-bottom: 12px;
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
-            transition: all 0.25s ease;
-        }
-
-        .payment-row:hover {
-            transform: translateY(-2px);
-            border-color: #99f6e4;
-            box-shadow: 0 8px 20px rgba(13, 148, 136, 0.10);
-        }
-
-        .payment-row-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
+            display: grid;
+            grid-template-columns: 1.5fr 1.2fr 1fr auto;
+            gap: 16px;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px dashed #cbd5e1;
         }
 
         .student-avatar {
-            width: 38px;
-            height: 38px;
-            flex-shrink: 0;
-            border-radius: 11px;
-            background: linear-gradient(135deg, #ccfbf1, #99f6e4);
-            color: #0d9488;
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
+            color: #4338ca;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
-            font-weight: 900;
+            font-weight: 800;
         }
 
         .delete-btn {
@@ -468,7 +419,6 @@
             background: #fee2e2;
             color: #ef4444;
             font-weight: bold;
-            font-size: 12px;
             cursor: pointer;
             transition: 0.3s;
         }
@@ -479,7 +429,17 @@
             transform: scale(1.05);
         }
 
-        /* EFEK MASCOT KASI */
+        .badge-minggu {
+            background: #f1f5f9;
+            color: #475569;
+            padding: 6px 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        /* ================= EFEK MASCOT KASI ================= */
         .mascot-container {
             position: fixed;
             bottom: 40px;
@@ -500,7 +460,7 @@
             font-size: 14px;
             font-weight: 800;
             color: #0f172a;
-            max-width: 220px;
+            max-width: 240px;
             text-align: center;
             opacity: 0;
             transform: translateY(20px) scale(0.9);
@@ -545,22 +505,46 @@
         }
 
         @keyframes floatMascot {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
         }
 
         @keyframes blink {
-            0%, 96%, 98% { opacity: 1; }
-            97% { opacity: 0; transform: scaleY(0.1); }
+
+            0%,
+            96%,
+            98% {
+                opacity: 1;
+            }
+
+            97% {
+                opacity: 0;
+                transform: scaleY(0.1);
+            }
         }
 
         @keyframes pulse-gemes {
-            0% { box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.4); }
-            70% { box-shadow: 0 0 0 15px rgba(13, 148, 136, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(13, 148, 136, 0); }
+            0% {
+                box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 15px rgba(13, 148, 136, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(13, 148, 136, 0);
+            }
         }
 
-        /* MODAL EFEK GEMES */
+        /* ================= MODAL EFEK GEMES ================= */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -603,8 +587,8 @@
         .modal-icon {
             width: 70px;
             height: 70px;
-            background: #ccfbf1;
-            color: #0d9488;
+            background: #e0e7ff;
+            color: #4338ca;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -665,40 +649,38 @@
                     class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                     <span>◫</span> Dashboard
                 </a>
-
                 <a href="{{ route('data-siswa.index') }}"
                     class="nav-link {{ request()->routeIs('data-siswa.*') ? 'active' : '' }}">
                     <span>◉</span> Data Siswa
                 </a>
 
                 <p class="section-title">TRANSAKSI</p>
-
-                <a href="{{ route('pembayaran-kas.index') }}" class="nav-link active">
+                <a href="{{ route('pembayaran-kas.index') }}"
+                    class="nav-link {{ request()->routeIs('pembayaran-kas.*') ? 'active' : '' }}">
                     <span>✓</span> Pembayaran Kas
                 </a>
-
                 <a href="{{ route('verifikasi-pembayaran.index') }}"
                     class="nav-link {{ request()->routeIs('verifikasi-pembayaran.*') ? 'active' : '' }}">
                     <span>●</span> Verifikasi Pembayaran
                 </a>
-
+                <!-- MENU DETAIL PEMBAYARAN -->
+                <a href="{{ route('detail-pembayaran.index') }}" class="nav-link active">
+                    <span>📄</span> Detail Pembayaran
+                </a>
                 <a href="{{ route('pengeluaran.web.index') }}"
                     class="nav-link {{ request()->routeIs('pengeluaran.*') ? 'active' : '' }}">
                     <span>↑</span> Pengeluaran
                 </a>
 
                 <p class="section-title">CATATAN & LAPORAN</p>
-
                 <a href="{{ route('riwayat.index') }}"
                     class="nav-link {{ request()->routeIs('riwayat.*') ? 'active' : '' }}">
                     <span>↻</span> Riwayat Transaksi
                 </a>
-
                 <a href="{{ route('pengumuman.index') }}"
                     class="nav-link {{ request()->routeIs('pengumuman.*') ? 'active' : '' }}">
                     <span>▣</span> Pengumuman
                 </a>
-
                 <a href="{{ route('laporan.index') }}"
                     class="nav-link {{ request()->routeIs('laporan.*') ? 'active' : '' }}">
                     <span>▤</span> Laporan Keuangan
@@ -722,38 +704,36 @@
             </div>
         </aside>
 
-        <!-- MAIN -->
+        <!-- MAIN CONTENT -->
         <main class="main">
 
             <header class="topbar">
-                <h2>Pembayaran Kas</h2>
+                <h2>Detail Pembayaran</h2>
                 <div class="avatar">
                     {{ strtoupper(substr(Auth::user()->name ?? 'BE', 0, 2)) }}
                 </div>
             </header>
 
             <section class="content">
-
                 <div class="title">
-                    <h1>Catat Pembayaran 💸</h1>
-                    <p>Catat total pembayaran kas siswa. Rincian tagihan dapat diisi di menu Detail Pembayaran.</p>
+                    <h1>Rincian Tagihan Siswa 📝</h1>
+                    <p>Masukkan data spesifik (minggu dan nominal) dari uang kas yang sudah dibayar siswa.</p>
                 </div>
 
-                <!-- KOLOM: KIRI FORM, KANAN TRANSAKSI -->
                 <div class="columns">
 
-                    <!-- KOLOM KIRI: KARTU FORM PEMBAYARAN -->
+                    <!-- FORM DETAIL PEMBAYARAN -->
                     <div class="card">
-                        <h2>Form Pembayaran Kas</h2>
-                        <form id="paymentForm" action="{{ route('pembayaran-kas.store') }}" method="POST"
-                            enctype="multipart/form-data">
+                        <h2>Tambah Detail</h2>
+
+                        <form id="detailForm" action="{{ route('detail-pembayaran.store') }}" method="POST">
                             @csrf
 
-                            <!-- SISWA -->
+                            <!-- ID SISWA (Relasi FK) -->
                             <div class="form-group">
-                                <label for="id_siswa">Pilih Siswa *</label>
+                                <label for="id_siswa">Nama Siswa *</label>
                                 <select id="id_siswa" name="id_siswa" class="form-control" required>
-                                    <option value="">Pilih siswa...</option>
+                                    <option value="">Pilih siswa yang sudah bayar...</option>
                                     @foreach ($siswa ?? [] as $item)
                                         <option value="{{ $item->id_siswa }}">
                                             {{ $item->nama_lengkap }} — NISN {{ $item->nisn }}
@@ -762,129 +742,128 @@
                                 </select>
                             </div>
 
-                            <!-- TOTAL BAYAR -->
+                            <!-- MINGGU KE (Varchar) -->
                             <div class="form-group">
-                                <label for="Total_bayar">Total Bayar (Rp) *</label>
-                                <input id="Total_bayar" type="number" name="nominal" class="form-control"
-                                    placeholder="Contoh: 20000" min="1" step="1" required>
+                                <label for="minggu_ke">Tagihan Untuk (Minggu Ke) *</label>
+
+                                <input type="number" id="minggu_ke" name="minggu_ke" class="form-control"
+                                    placeholder="Contoh: 1" min="1" required>
                             </div>
 
-                            <!-- METODE & BUKTI (Di Sebelah / Satuin Di Form Kiri) -->
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="metode_pembayaran">Metode Pembayaran *</label>
-                                    <select id="metode_pembayaran" name="metode_pembayaran" class="form-control" required>
-                                        <option value="">Pilih metode...</option>
-                                        <option value="Tunai">Tunai</option>
-                                        <option value="Transfer">Transfer</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="bukti_transfer">Bukti Transfer</label>
-                                    <input type="file" id="bukti_transfer" name="bukti_transfer" class="form-control"
-                                        accept=".jpg,.jpeg,.png,.pdf" style="padding-top: 13px;">
-                                </div>
+                            <!-- NOMINAL (Decimal) -->
+                            <div class="form-group">
+                                <label for="nominal">Nominal (Rp) *</label>
+                                <input type="number" id="nominal" name="nominal" class="form-control"
+                                    placeholder="Masukkan nominal pembayaran" min="0" required
+                                    style="color: #0d9488; font-size: 18px;">
                             </div>
 
                             <div class="buttons">
                                 <button type="reset" class="btn btn-reset">Bersihkan</button>
-                                <button type="button" class="btn btn-save" onclick="showConfirmModal()">Simpan Data</button>
+                                <button type="button" class="btn btn-save" onclick="showConfirmModal()">Simpan
+                                    Detail</button>
                             </div>
                         </form>
                     </div>
 
-                    <!-- KOLOM KANAN: KARTU TRANSAKSI HARI INI -->
+                    <!-- DAFTAR DETAIL TERAKHIR -->
                     <div class="card">
                         <div class="payment-header">
-                            <h2>Transaksi Hari Ini</h2>
-                            <span class="total">
-                                Rp {{ number_format($transaksiHariIni->sum('nominal'), 0, ',', '.') }}
-                            </span>
+                            <h2>Detail Tersimpan</h2>
                         </div>
 
-                        @if ($transaksiHariIni->count() > 0)
-                            @foreach ($transaksiHariIni as $transaksi)
+                        <!-- Contoh Layout Looping Data -->
+                        @if ($detailPembayaran->count() > 0)
+
+                            @foreach ($detailPembayaran as $detail)
                                 <div class="payment-row">
-                                    <div class="payment-row-top">
-                                        {{-- DATA SISWA --}}
-                                        <div style="display:flex; gap:12px; align-items:center; min-width:0;">
-                                            <div class="student-avatar">
-                                                {{ strtoupper(substr($transaksi->siswa->nama_lengkap ?? 'S', 0, 2)) }}
+
+                                    <div style="display:flex; gap:12px; align-items:center;">
+
+                                        <div class="student-avatar">
+                                            {{ strtoupper(substr($detail->siswa->nama_lengkap ?? 'S', 0, 2)) }}
+                                        </div>
+
+                                        <div>
+                                            <div style="font-weight:900; font-size:16px;">
+                                                {{ $detail->siswa->nama_lengkap ?? 'Siswa tidak ditemukan' }}
                                             </div>
-                                            <div style="min-width:0;">
-                                                <div style="font-weight:bold; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-                                                    {{ $transaksi->siswa->nama_lengkap ?? 'Siswa tidak ditemukan' }}
-                                                </div>
-                                                <div style="font-size:12px; color:#64748b;">
-                                                    {{ $transaksi->status }}
-                                                </div>
+
+                                            <div style="font-size:12px; color:#64748b; margin-top:2px;">
+                                                ID Detail: #{{ $detail->id_detail }}
                                             </div>
                                         </div>
-                                        {{-- TOMBOL HAPUS --}}
-                                        <form action="{{ route('pembayaran-kas.destroy', $transaksi->id_pembayaran) }}"
-                                            method="POST" onsubmit="return confirm('Yakin ingin menghapus pembayaran ini?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="delete-btn">Hapus</button>
-                                        </form>
+
                                     </div>
 
-                                    <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:4px;">
-                                        <div>
-                                            {{-- METODE & BUKTI --}}
-                                            <div style="font-size:13px; font-weight:bold; color:#64748b; margin-bottom: 4px;">
-                                                {{ $transaksi->metode_pembayaran }}
-                                            </div>
-                                            @if ($transaksi->bukti_transfer)
-                                                <a href="{{ asset('storage/' . $transaksi->bukti_transfer) }}" target="_blank"
-                                                    style="display:inline-block; padding:5px 10px; background:#ccfbf1; color:#0d9488; border-radius:8px; font-size:11px; font-weight:bold;">
-                                                    📎 Bukti
-                                                </a>
-                                            @endif
-                                        </div>
-                                        {{-- NOMINAL --}}
-                                        <div style="font-size: 16px; font-weight:900; color:#0d9488;">
-                                            Rp {{ number_format($transaksi->nominal, 0, ',', '.') }}
-                                        </div>
+                                    <div>
+                                        <span class="badge-minggu">
+                                            {{ $detail->minggu_ke }}
+                                        </span>
                                     </div>
+
+                                    <div style="font-weight:900; color:#0d9488; font-size:16px;">
+                                        Rp {{ number_format($detail->nominal, 0, ',', '.') }}
+                                    </div>
+
+                                    <form action="{{ route('detail-pembayaran.destroy', $detail->id_detail) }}"
+                                        method="POST" onsubmit="return confirm('Hapus detail pembayaran ini?')">
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button type="submit" class="delete-btn">
+                                            Hapus
+                                        </button>
+                                    </form>
+
                                 </div>
                             @endforeach
                         @else
-                            <div style="text-align:center; padding:40px 20px; color:#94a3b8;">
-                                <div style="font-size:40px; margin-bottom:10px;">📝</div>
-                                <div style="font-weight:800; color:#64748b;">Belum ada transaksi hari ini.</div>
-                                <div style="font-size:13px; margin-top:5px;">Pembayaran yang berhasil dicatat akan muncul di sini.</div>
+                            <div style="text-align:center; padding:50px 20px; color:#94a3b8;">
+                                <div style="font-size:40px; margin-bottom:10px;">
+                                    📝
+                                </div>
+
+                                <div style="font-weight:800; color:#64748b;">
+                                    Belum ada detail pembayaran.
+                                </div>
+
+                                <div style="font-size:13px; margin-top:5px;">
+                                    Tambahkan detail pembayaran melalui form di sebelah kiri.
+                                </div>
                             </div>
+
                         @endif
                     </div>
 
                 </div>
 
-            </section>
-        </main>
+    </div>
+    </section>
+    </main>
     </div>
 
-    <!-- ================= MASCOT KASI ================= -->
+    <!-- ================= MASCOT KASI (MENGAMBANG GEMES) ================= -->
     <div class="mascot-container">
         <div class="mascot-bubble">
-            Halo Kak Bendahara! 👋<br>
-            <span>Jangan lupa isi rincian minggunya di menu Detail Pembayaran ya~ ✨</span>
+            Haloo Kak! 👋<br>
+            <span>Di sini tempatnya buat masukin bayaran per minggunya yaa, biar catatannya rapi! 📝✨</span>
         </div>
         <div class="mascot-body">
             <div class="mascot-face">^ᴗ^</div>
         </div>
     </div>
 
-    <!-- ================= MODAL KONFIRMASI ================= -->
+    <!-- ================= MODAL KONFIRMASI (ANIMASI MANTUL) ================= -->
     <div class="modal-overlay" id="confirmModal">
         <div class="modal-box">
-            <div class="modal-icon">✨</div>
-            <h3 class="modal-title">Simpan Transaksi?</h3>
-            <p style="color: #64748b; font-size: 15px; margin-bottom: 10px;">Pastikan nominal dan nama siswa sudah benar ya!</p>
+            <div class="modal-icon">📝</div>
+            <h3 class="modal-title">Simpan Detail?</h3>
+            <p style="color: #64748b; font-size: 15px; margin-bottom: 10px;">Pastikan nominal dan rincian minggunya
+                udah pas ya Kak!</p>
 
             <div class="modal-buttons">
-                <button class="btn btn-reset" style="flex:1;" onclick="closeConfirmModal()">Cek Lagi</button>
+                <button class="btn btn-reset" style="flex:1;" onclick="closeConfirmModal()">Batal</button>
                 <button class="btn-confirm" onclick="submitForm()">Ya, Simpan!</button>
             </div>
         </div>
@@ -892,23 +871,12 @@
 
     <!-- ================= SCRIPT ================= -->
     <script>
-        // Script Bukti Transfer Wajib
-        const metodePembayaran = document.getElementById('metode_pembayaran');
-        const buktiTransfer = document.getElementById('bukti_transfer');
-
-        metodePembayaran.addEventListener('change', function() {
-            if (this.value === 'Transfer') {
-                buktiTransfer.required = true;
-            } else {
-                buktiTransfer.required = false;
-            }
-        });
-
-        // Script Modal
+        // Script Modal Animasi Gemes
         const modal = document.getElementById('confirmModal');
-        const form = document.getElementById('paymentForm');
+        const form = document.getElementById('detailForm');
 
         function showConfirmModal() {
+            // Cek apakah form sudah terisi (HTML5 Validation)
             if (form.checkValidity()) {
                 modal.classList.add('active');
             } else {

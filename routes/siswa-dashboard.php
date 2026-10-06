@@ -17,4 +17,18 @@ Route::middleware(['auth'])->group(function () {
         [SiswaDashboardController::class, 'index']
     )->name('dashboard.siswa.data');
 
+    Route::get(
+        '/dashboard-siswa/pembayaran',
+        [SiswaDashboardController::class, 'pembayaran']
+    )->name('dashboard.siswa.pembayaran');
+
+    Route::get(
+        '/dashboard-siswa/status-pembayaran',
+        [SiswaDashboardController::class, 'statusPembayaran']
+    )->name('dashboard.siswa.status');
+
+    Route::get(
+    '/dashboard-siswa/riwayat',
+    [SiswaDashboardController::class, 'riwayat']
+)->name('dashboard.siswa.riwayat');
 });

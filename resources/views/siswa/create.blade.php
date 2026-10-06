@@ -116,39 +116,46 @@
             Masukkan data siswa untuk menambahkan siswa baru.
         </p>
 
-       <form action="{{ route('data-siswa.store') }}" method="POST">
+        <form action="{{ route('data-siswa.store') }}" method="POST">
             @csrf
 
+            {{-- NISN --}}
             <div class="form-group">
-                <label for="nis">NIS</label>
+                <label for="nisn">NISN</label>
 
                 <input
                     type="text"
-                    id="nis"
-                    name="nis"
-                    value="{{ old('nis') }}"
-                    placeholder="Masukkan NIS">
+                    id="nisn"
+                    name="nisn"
+                    value="{{ old('nisn') }}"
+                    placeholder="Masukkan NISN"
+                    required
+                >
 
-                @error('nis')
+                @error('nisn')
                     <div class="error">{{ $message }}</div>
                 @enderror
             </div>
 
+            {{-- NAMA LENGKAP --}}
             <div class="form-group">
-                <label for="nama">Nama Siswa</label>
+                <label for="nama_lengkap">Nama Siswa</label>
 
                 <input
                     type="text"
-                    id="nama"
-                    name="nama"
-                    value="{{ old('nama') }}"
-                    placeholder="Masukkan nama siswa">
+                    id="nama_lengkap"
+                    name="nama_lengkap"
+                    value="{{ old('nama_lengkap') }}"
+                    placeholder="Masukkan nama lengkap siswa"
+                    required
+                >
 
-                @error('nama')
+                @error('nama_lengkap')
                     <div class="error">{{ $message }}</div>
                 @enderror
             </div>
 
+            {{-- KELAS --}}
             <div class="form-group">
                 <label for="kelas">Kelas</label>
 
@@ -157,13 +164,16 @@
                     id="kelas"
                     name="kelas"
                     value="{{ old('kelas') }}"
-                    placeholder="Contoh: XI RPL 1">
+                    placeholder="Contoh: XII RPL 1"
+                    required
+                >
 
                 @error('kelas')
                     <div class="error">{{ $message }}</div>
                 @enderror
             </div>
 
+            {{-- NO HP --}}
             <div class="form-group">
                 <label for="no_hp">No. HP</label>
 
@@ -172,16 +182,18 @@
                     id="no_hp"
                     name="no_hp"
                     value="{{ old('no_hp') }}"
-                    placeholder="Masukkan nomor HP">
+                    placeholder="Masukkan nomor HP"
+                >
 
                 @error('no_hp')
                     <div class="error">{{ $message }}</div>
                 @enderror
             </div>
 
+            {{-- BUTTON --}}
             <div class="actions">
 
-                <a href="{{ route('siswa.index') }}" class="btn btn-back">
+                <a href="{{ route('data-siswa.index') }}" class="btn btn-back">
                     Kembali
                 </a>
 
@@ -198,4 +210,5 @@
 </div>
 
 </body>
+
 </html>

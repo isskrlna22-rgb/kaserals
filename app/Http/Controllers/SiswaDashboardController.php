@@ -5,50 +5,54 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Siswa;
 use App\Models\PembayaranKas;
-use App\Models\Pemasukan;
 use App\Models\Pengeluaran;
 
 class SiswaDashboardController extends Controller
 {
-    // Untuk halaman Dashboard Siswa
+    // =========================
+    // DASHBOARD SISWA
+    // =========================
+
     public function page()
     {
         $user = Auth::user();
 
-        $siswa = Siswa::where('user_id', $user->id)->first();
+        $siswa = Siswa::where('id_user', $user->id_users)->first();
 
         if (!$siswa) {
             abort(404, 'Data siswa belum terhubung dengan akun ini.');
         }
 
-        // Pembayaran kas milik siswa yang login
-        $pembayaran = PembayaranKas::where('siswa_id', $siswa->id)
+        // Semua pembayaran siswa
+        $pembayaran = PembayaranKas::where('id_siswa', $siswa->id_siswa)
             ->latest('tanggal')
             ->get();
 
-        // Total pembayaran siswa
-        $totalPembayaranSiswa = $pembayaran->sum('nominal');
+        // Hanya pembayaran yang sudah diterima
+        $pembayaranDiterima = $pembayaran->where('status', 'Diterima');
 
-        // Jumlah transaksi pembayaran siswa
-        $jumlahPembayaran = $pembayaran->count();
+        // Total pembayaran siswa
+        $totalPembayaranSiswa = $pembayaranDiterima->sum('nominal');
+
+        // Jumlah transaksi siswa
+        $jumlahPembayaran = $pembayaranDiterima->count();
 
         // Pembayaran terakhir
         $pembayaranTerakhir = $pembayaran->first();
 
         // Status pembayaran siswa
-        $statusPembayaran = $pembayaran->isNotEmpty()
+        $statusPembayaran = $pembayaranDiterima->isNotEmpty()
             ? 'SUDAH BAYAR'
             : 'BELUM BAYAR';
 
-        // Informasi keuangan seluruh kas kelas
-        $totalPembayaranKas = PembayaranKas::sum('nominal');
-        $totalPemasukan = Pemasukan::sum('nominal');
+        // Total kas kelas
+        $totalPembayaranKas = PembayaranKas::where('status', 'Diterima')
+            ->sum('nominal');
+
         $totalPengeluaran = Pengeluaran::sum('nominal');
 
         // Saldo kas kelas
-        $saldoKas = $totalPembayaranKas
-            + $totalPemasukan
-            - $totalPengeluaran;
+        $saldoKas = $totalPembayaranKas - $totalPengeluaran;
 
         return view('dashboard-siswa', compact(
             'siswa',
@@ -57,18 +61,58 @@ class SiswaDashboardController extends Controller
             'jumlahPembayaran',
             'pembayaranTerakhir',
             'statusPembayaran',
-            'totalPemasukan',
             'totalPengeluaran',
             'saldoKas'
         ));
     }
 
-    // API/data JSON Dashboard Siswa
+
+    // =========================
+    // STATUS PEMBAYARAN
+    // =========================
+
+    public function statusPembayaran()
+    {
+        $user = Auth::user();
+
+        $siswa = Siswa::where('id_user', $user->id_users)->first();
+
+        if (!$siswa) {
+            abort(404, 'Data siswa belum terhubung dengan akun ini.');
+        }
+
+        $pembayaran = PembayaranKas::where('id_siswa', $siswa->id_siswa)
+            ->latest('tanggal')
+            ->get();
+
+        $pembayaranDiterima = $pembayaran->where('status', 'Diterima');
+
+        $totalPembayaranSiswa = $pembayaranDiterima->sum('nominal');
+        $jumlahPembayaran = $pembayaranDiterima->count();
+
+        $statusPembayaran = $pembayaranDiterima->isNotEmpty()
+            ? 'SUDAH BAYAR'
+            : 'BELUM BAYAR';
+
+        return view('siswa.status-pembayaran', compact(
+            'siswa',
+            'pembayaran',
+            'totalPembayaranSiswa',
+            'jumlahPembayaran',
+            'statusPembayaran'
+        ));
+    }
+
+
+    // =========================
+    // API / DATA JSON
+    // =========================
+
     public function index()
     {
         $user = Auth::user();
 
-        $siswa = Siswa::where('user_id', $user->id)->first();
+        $siswa = Siswa::where('id_user', $user->id_users)->first();
 
         if (!$siswa) {
             return response()->json([
@@ -76,30 +120,31 @@ class SiswaDashboardController extends Controller
             ], 404);
         }
 
-        $pembayaran = PembayaranKas::where('siswa_id', $siswa->id)
+        $pembayaran = PembayaranKas::where('id_siswa', $siswa->id_siswa)
             ->latest('tanggal')
             ->get();
 
-        $totalPembayaran = PembayaranKas::sum('nominal');
-        $totalPemasukan = Pemasukan::sum('nominal');
+        $pembayaranDiterima = $pembayaran->where('status', 'Diterima');
+
+        $totalPembayaranKas = PembayaranKas::where('status', 'Diterima')
+            ->sum('nominal');
+
         $totalPengeluaran = Pengeluaran::sum('nominal');
 
-        $saldo = $totalPembayaran
-            + $totalPemasukan
-            - $totalPengeluaran;
+        $saldo = $totalPembayaranKas - $totalPengeluaran;
 
         return response()->json([
             'siswa' => [
-                'id' => $siswa->id,
-                'nis' => $siswa->nis,
-                'nama' => $siswa->nama,
+                'id_siswa' => $siswa->id_siswa,
+                'nisn' => $siswa->nisn,
+                'nama_lengkap' => $siswa->nama_lengkap,
                 'kelas' => $siswa->kelas,
             ],
 
             'pembayaran' => [
-                'total' => $pembayaran->sum('nominal'),
-                'jumlah_transaksi' => $pembayaran->count(),
-                'status' => $pembayaran->count() > 0
+                'total' => $pembayaranDiterima->sum('nominal'),
+                'jumlah_transaksi' => $pembayaranDiterima->count(),
+                'status' => $pembayaranDiterima->isNotEmpty()
                     ? 'SUDAH BAYAR'
                     : 'BELUM BAYAR',
             ],
@@ -107,10 +152,41 @@ class SiswaDashboardController extends Controller
             'riwayat_pembayaran' => $pembayaran,
 
             'informasi_kas' => [
-                'total_pemasukan' => $totalPemasukan,
+                'total_pembayaran' => $totalPembayaranKas,
                 'total_pengeluaran' => $totalPengeluaran,
                 'saldo_kas' => $saldo,
             ],
         ]);
+    }
+
+        public function pembayaran()
+{
+    $user = Auth::user();
+
+    $siswa = Siswa::where('id_user', $user->id_users)->first();
+
+    if (!$siswa) {
+        abort(404, 'Data siswa belum terhubung dengan akun ini.');
+    }
+
+    return view('siswa.pembayaran', compact('siswa'));
+}
+
+public function riwayat()
+{
+    $user = Auth::user();
+
+    $siswa = Siswa::where('id_user', $user->id_users)->first();
+
+    if (!$siswa) {
+        abort(404, 'Data siswa belum terhubung dengan akun ini.');
+    }
+
+    $pembayaran = PembayaranKas::where('id_siswa', $siswa->id_siswa)
+        ->latest('tanggal')
+        ->get();
+
+    return view('siswa.riwayat', compact('siswa', 'pembayaran'));
+
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Exports;
 
 use App\Models\PembayaranKas;
-use App\Models\Pemasukan;
 use App\Models\Pengeluaran;
 use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -27,6 +26,7 @@ class LaporanExport implements FromArray, WithHeadings
 
         // ================= PEMBAYARAN KAS =================
         $pembayaran = PembayaranKas::with('siswa')
+            ->where('status', 'Diterima')
             ->latest('tanggal')
             ->get();
 
@@ -35,21 +35,7 @@ class LaporanExport implements FromArray, WithHeadings
                 $item->tanggal,
                 'Pembayaran Kas',
                 $item->keterangan ?? 'Pembayaran kas siswa',
-                $item->siswa->nama ?? '-',
-                $item->nominal,
-            ];
-        }
-
-        // ================= PEMASUKAN =================
-        $pemasukan = Pemasukan::latest('tanggal')
-            ->get();
-
-        foreach ($pemasukan as $item) {
-            $data[] = [
-                $item->tanggal,
-                'Pemasukan',
-                $item->sumber ?? 'Pemasukan lainnya',
-                '-',
+                $item->siswa?->nama_lengkap ?? '-',
                 $item->nominal,
             ];
         }
@@ -62,7 +48,7 @@ class LaporanExport implements FromArray, WithHeadings
             $data[] = [
                 $item->tanggal,
                 'Pengeluaran',
-                $item->kategori ?? 'Pengeluaran kas',
+                $item->keterangan ?? $item->kategori ?? 'Pengeluaran kas',
                 '-',
                 $item->nominal,
             ];

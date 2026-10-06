@@ -8,56 +8,66 @@ use Illuminate\Support\Facades\Auth;
 
 class PengumumanController extends Controller
 {
+    // =========================
+    // TAMPIL HALAMAN
+    // =========================
     public function index()
     {
-        $pengumuman = Pengumuman::latest()->get();
+        $pengumuman = Pengumuman::with('user')
+            ->latest('created_at')
+            ->get();
 
-        return response()->json($pengumuman);
+        return view('pengumuman.index', compact('pengumuman'));
     }
 
+
+    // =========================
+    // SIMPAN PENGUMUMAN
+    // =========================
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'judul' => 'required|string|max:255',
+            'judul' => 'required|string|max:150',
             'isi' => 'required|string',
         ]);
 
-        $validated['user_id'] = Auth::id();
+       $validated['id_user'] = Auth::id();
 
-        $pengumuman = Pengumuman::create($validated);
+        Pengumuman::create($validated);
 
-        return response()->json([
-            'message' => 'Pengumuman berhasil ditambahkan.',
-            'data' => $pengumuman,
-        ], 201);
+        return redirect()
+            ->route('pengumuman.index')
+            ->with('success', 'Pengumuman berhasil ditambahkan.');
     }
 
-    public function show(Pengumuman $pengumuman)
-    {
-        return response()->json($pengumuman);
-    }
 
+    // =========================
+    // UPDATE PENGUMUMAN
+    // =========================
     public function update(Request $request, Pengumuman $pengumuman)
     {
         $validated = $request->validate([
-            'judul' => 'required|string|max:255',
+            'judul' => 'required|string|max:150',
             'isi' => 'required|string',
         ]);
 
         $pengumuman->update($validated);
 
-        return response()->json([
-            'message' => 'Pengumuman berhasil diperbarui.',
-            'data' => $pengumuman,
-        ]);
+        return redirect()
+            ->route('pengumuman.index')
+            ->with('success', 'Pengumuman berhasil diperbarui.');
     }
 
+
+    // =========================
+    // HAPUS PENGUMUMAN
+    // =========================
     public function destroy(Pengumuman $pengumuman)
     {
         $pengumuman->delete();
 
-        return response()->json([
-            'message' => 'Pengumuman berhasil dihapus.',
-        ]);
+        return redirect()
+            ->route('pengumuman.index')
+            ->with('success', 'Pengumuman berhasil dihapus.');
     }
 }

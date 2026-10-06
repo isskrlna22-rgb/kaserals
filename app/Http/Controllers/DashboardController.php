@@ -3,181 +3,135 @@
 namespace App\Http\Controllers;
 
 use App\Models\PembayaranKas;
-use App\Models\Pemasukan;
 use App\Models\Pengeluaran;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Siswa;
+use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        $totalPembayaran = PembayaranKas::sum('nominal');
-        $totalPemasukan = Pemasukan::sum('nominal');
+        /*
+        |--------------------------------------------------------------------------
+        | TOTAL PEMBAYARAN KAS
+        |--------------------------------------------------------------------------
+        | Hanya pembayaran yang statusnya Diterima
+        */
+
+        $totalPembayaran = PembayaranKas::where('status', 'Diterima')
+            ->sum('nominal');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | TOTAL PENGELUARAN
+        |--------------------------------------------------------------------------
+        */
+
         $totalPengeluaran = Pengeluaran::sum('nominal');
 
-        $saldo = $totalPembayaran
-            + $totalPemasukan
-            - $totalPengeluaran;
 
-        return response()->json([
-            'total_pembayaran' => $totalPembayaran,
-            'total_pemasukan' => $totalPemasukan,
-            'total_pengeluaran' => $totalPengeluaran,
-            'saldo' => $saldo,
-        ]);
-    }
+        /*
+        |--------------------------------------------------------------------------
+        | SALDO KAS
+        |--------------------------------------------------------------------------
+        */
 
-    public function view()
-    {
-        // =========================
-        // RINGKASAN KEUANGAN
-        // =========================
+        $saldo = $totalPembayaran - $totalPengeluaran;
 
-        $totalPembayaran = PembayaranKas::sum('nominal');
-        $totalPemasukan = Pemasukan::sum('nominal');
-        $totalPengeluaran = Pengeluaran::sum('nominal');
 
-        $saldo = $totalPembayaran
-            + $totalPemasukan
-            - $totalPengeluaran;
+        /*
+        |--------------------------------------------------------------------------
+        | DATA SISWA
+        |--------------------------------------------------------------------------
+        */
 
-        // =========================
-        // DATA SISWA & STATUS BAYAR
-        // =========================
+        $totalSiswa = Siswa::count();
 
-        $totalSiswa = \App\Models\Siswa::count();
 
-        $pembayaranTerbaru = PembayaranKas::latest('tanggal')->first();
+        /*
+        |--------------------------------------------------------------------------
+        | SISWA SUDAH BAYAR
+        |--------------------------------------------------------------------------
+        | Siswa dianggap sudah bayar jika mempunyai
+        | minimal satu pembayaran dengan status Diterima.
+        */
 
-        $periodeAktif = $pembayaranTerbaru
-            ? $pembayaranTerbaru->periode
-            : now()->translatedFormat('F Y');
+        $sudahBayar = Siswa::whereHas('pembayaranKas', function ($query) {
+            $query->where('status', 'Diterima');
+        })->count();
 
-        $sudahBayar = $pembayaranTerbaru
-            ? PembayaranKas::where('periode', $periodeAktif)
-                ->distinct('siswa_id')
-                ->count('siswa_id')
-            : 0;
 
-        $belumBayar = max($totalSiswa - $sudahBayar, 0);
+        /*
+        |--------------------------------------------------------------------------
+        | SISWA BELUM BAYAR
+        |--------------------------------------------------------------------------
+        */
+
+        $belumBayar = $totalSiswa - $sudahBayar;
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | PERSENTASE PEMBAYARAN
+        |--------------------------------------------------------------------------
+        */
 
         $persentasePembayaran = $totalSiswa > 0
             ? round(($sudahBayar / $totalSiswa) * 100)
             : 0;
 
-        // =========================
-        // TRANSAKSI TERAKHIR
-        // =========================
 
-        $transaksi = collect();
+        /*
+        |--------------------------------------------------------------------------
+        | PEMBAYARAN MENUNGGU VERIFIKASI
+        |--------------------------------------------------------------------------
+        */
 
-        // Pembayaran Kas
-        $pembayaran = PembayaranKas::with('siswa')
+        $pembayaranMenunggu = PembayaranKas::with('siswa')
+            ->where('status', 'Menunggu')
             ->latest('tanggal')
-            ->take(5)
+            ->latest('id_pembayaran')
+            ->take(3)
             ->get();
 
-        foreach ($pembayaran as $item) {
-            $tanggal = $item->getAttribute('tanggal')
-                ?? $item->created_at;
 
-            $transaksi->push([
-                'tanggal' => Carbon::parse($tanggal),
-                'jenis' => 'Pembayaran',
-                'keterangan' => ($item->siswa?->nama ?? 'Siswa')
-                    . ' — kas ' . $item->periode,
-                'nominal' => $item->nominal,
-                'arah' => 'in',
-            ]);
-        }
+        /*
+        |--------------------------------------------------------------------------
+        | JUMLAH PEMBAYARAN MENUNGGU
+        |--------------------------------------------------------------------------
+        */
 
-        // Pemasukan
-        $pemasukan = Pemasukan::latest()
-            ->take(5)
-            ->get();
+        $jumlahMenunggu = PembayaranKas::where('status', 'Menunggu')
+            ->count();
 
-        foreach ($pemasukan as $item) {
-            $tanggal = $item->getAttribute('tanggal')
-                ?? $item->created_at;
 
-            $keterangan = null;
+        /*
+        |--------------------------------------------------------------------------
+        | MINGGU AKTIF
+        |--------------------------------------------------------------------------
+        */
 
-            foreach (['keterangan', 'sumber', 'sumber_dana'] as $field) {
-                $value = $item->getAttribute($field);
+        $mingguAktif = PembayaranKas::max('minggu_ke');
 
-                if ($value !== null && $value !== '') {
-                    $keterangan = $value;
-                    break;
-                }
-            }
 
-            $transaksi->push([
-                'tanggal' => Carbon::parse($tanggal),
-                'jenis' => 'Pemasukan',
-                'keterangan' => $keterangan ?? 'Pemasukan kas',
-                'nominal' => $item->nominal,
-                'arah' => 'in',
-            ]);
-        }
+        /*
+        |--------------------------------------------------------------------------
+        | KIRIM DATA KE DASHBOARD
+        |--------------------------------------------------------------------------
+        */
 
-        // Pengeluaran
-        $pengeluaran = Pengeluaran::latest()
-            ->take(5)
-            ->get();
-
-        foreach ($pengeluaran as $item) {
-            $tanggal = $item->getAttribute('tanggal')
-                ?? $item->created_at;
-
-            $keterangan = null;
-
-            foreach (['keterangan', 'kategori'] as $field) {
-                $value = $item->getAttribute($field);
-
-                if ($value !== null && $value !== '') {
-                    $keterangan = $value;
-                    break;
-                }
-            }
-
-            $transaksi->push([
-                'tanggal' => Carbon::parse($tanggal),
-                'jenis' => 'Pengeluaran',
-                'keterangan' => $keterangan ?? 'Pengeluaran kas',
-                'nominal' => $item->nominal,
-                'arah' => 'out',
-            ]);
-        }
-
-        $transaksi = $transaksi
-            ->sortByDesc('tanggal')
-            ->take(5)
-            ->values();
-
-        // =========================
-        // PILIH DASHBOARD BERDASARKAN ROLE
-        // =========================
-
-        $data = [
-            'totalPembayaran' => $totalPembayaran,
-            'totalPemasukan' => $totalPemasukan,
-            'totalPengeluaran' => $totalPengeluaran,
-            'saldo' => $saldo,
-            'totalSiswa' => $totalSiswa,
-            'periodeAktif' => $periodeAktif,
-            'sudahBayar' => $sudahBayar,
-            'belumBayar' => $belumBayar,
-            'persentasePembayaran' => $persentasePembayaran,
-            'transaksi' => $transaksi,
-        ];
-
-     $user = Auth::user();
-
-        if ($user->role === 'BENDAHARA') {
-            return view('dashboard-bendahara', $data);
-        }
-
-        return view('dashboard', $data);
+        return view('dashboard-bendahara', compact(
+            'totalPembayaran',
+            'totalPengeluaran',
+            'saldo',
+            'totalSiswa',
+            'sudahBayar',
+            'belumBayar',
+            'persentasePembayaran',
+            'pembayaranMenunggu',
+            'jumlahMenunggu',
+            'mingguAktif'
+        ));
     }
 }

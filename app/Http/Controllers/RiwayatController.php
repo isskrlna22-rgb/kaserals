@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\PembayaranKas;
-use App\Models\Pemasukan;
 use App\Models\Pengeluaran;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -19,41 +18,22 @@ class RiwayatController extends Controller
         */
 
         $pembayaran = PembayaranKas::with('siswa')
+            ->where('status', 'Diterima')
             ->get()
             ->map(function ($item) {
                 return [
                     'tanggal' => $item->tanggal,
                     'jenis' => 'Pembayaran Kas',
                     'keterangan' => $item->keterangan ?? 'Pembayaran kas',
-                    'nama_siswa' => $item->siswa?->nama ?? '',
+                    'nama_siswa' => $item->siswa?->nama_lengkap ?? '',
                     'nominal' => (float) $item->nominal,
                     'tipe' => 'masuk',
                 ];
             });
 
-
         /*
         |--------------------------------------------------------------------------
-        | 2. PEMASUKAN
-        |--------------------------------------------------------------------------
-        */
-
-        $pemasukan = Pemasukan::get()
-            ->map(function ($item) {
-                return [
-                    'tanggal' => $item->tanggal,
-                    'jenis' => 'Pemasukan',
-                    'keterangan' => $item->sumber ?? 'Pemasukan kas',
-                    'nama_siswa' => '',
-                    'nominal' => (float) $item->nominal,
-                    'tipe' => 'masuk',
-                ];
-            });
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | 3. PENGELUARAN
+        | 2. PENGELUARAN
         |--------------------------------------------------------------------------
         */
 
@@ -62,32 +42,31 @@ class RiwayatController extends Controller
                 return [
                     'tanggal' => $item->tanggal,
                     'jenis' => 'Pengeluaran',
-                    'keterangan' => $item->kategori ?? 'Pengeluaran kas',
+                    'keterangan' => $item->keterangan
+                        ?? $item->kategori
+                        ?? 'Pengeluaran kas',
                     'nama_siswa' => '',
                     'nominal' => (float) $item->nominal,
                     'tipe' => 'keluar',
                 ];
             });
 
-
         /*
         |--------------------------------------------------------------------------
-        | 4. GABUNGKAN SEMUA TRANSAKSI
+        | 3. GABUNGKAN TRANSAKSI
         |--------------------------------------------------------------------------
         */
 
         $semuaTransaksi = $pembayaran
-            ->concat($pemasukan)
             ->concat($pengeluaran)
             ->sortBy(function ($item) {
                 return Carbon::parse($item['tanggal'])->timestamp;
             })
             ->values();
 
-
         /*
         |--------------------------------------------------------------------------
-        | 5. HITUNG SALDO BERJALAN
+        | 4. HITUNG SALDO BERJALAN
         |--------------------------------------------------------------------------
         */
 
@@ -106,10 +85,9 @@ class RiwayatController extends Controller
             return $item;
         });
 
-
         /*
         |--------------------------------------------------------------------------
-        | 6. FILTER JENIS
+        | 5. FILTER JENIS TRANSAKSI
         |--------------------------------------------------------------------------
         */
 
@@ -121,10 +99,9 @@ class RiwayatController extends Controller
             });
         }
 
-
         /*
         |--------------------------------------------------------------------------
-        | 7. FILTER TANGGAL
+        | 6. FILTER TANGGAL
         |--------------------------------------------------------------------------
         */
 
@@ -149,10 +126,9 @@ class RiwayatController extends Controller
             });
         }
 
-
         /*
         |--------------------------------------------------------------------------
-        | 8. FILTER SEARCH
+        | 7. FILTER PENCARIAN
         |--------------------------------------------------------------------------
         */
 
@@ -186,10 +162,9 @@ class RiwayatController extends Controller
             });
         }
 
-
         /*
         |--------------------------------------------------------------------------
-        | 9. URUTKAN TERBARU DI ATAS
+        | 8. URUTKAN TRANSAKSI TERBARU
         |--------------------------------------------------------------------------
         */
 
@@ -199,13 +174,14 @@ class RiwayatController extends Controller
             })
             ->values();
 
-
         /*
         |--------------------------------------------------------------------------
-        | 10. KIRIM KE VIEW
+        | 9. KIRIM KE VIEW
         |--------------------------------------------------------------------------
         */
 
-        return view('riwayat.index', compact('riwayat'));
+        return view('riwayat.index', compact(
+            'riwayat'
+        ));
     }
 }

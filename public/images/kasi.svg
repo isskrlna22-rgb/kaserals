@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+    <style>
+        @keyframes floatMascot {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes shadowPulse {
+            0%, 100% { transform: scale(1); opacity: 0.25; }
+            50% { transform: scale(0.8); opacity: 0.1; }
+        }
+        @keyframes coinFlip {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+        .mascot-group {
+            animation: floatMascot 4s ease-in-out infinite;
+            transform-origin: center;
+        }
+        .mascot-shadow {
+            animation: shadowPulse 4s ease-in-out infinite;
+            transform-origin: center;
+        }
+        .coin-group {
+            animation: coinFlip 3s infinite linear;
+            transform-origin: 155px 95px;
+        }
+    </style>
+
+    <!-- Bayangan di Bawah -->
+    <ellipse class="mascot-shadow" cx="100" cy="185" rx="45" ry="10" fill="#000000"/>
+
+    <!-- Grup Maskot KASI -->
+    <g class="mascot-group">
+        <!-- Telinga KASI -->
+        <path d="M70,80 L55,40 L90,65 Z" fill="#f8fafc"/>
+        <path d="M130,80 L145,40 L110,65 Z" fill="#f8fafc"/>
+        <path d="M68,75 L58,45 L85,62 Z" fill="#cbd5e1"/>
+        <path d="M132,75 L142,45 L115,62 Z" fill="#cbd5e1"/>
+
+        <!-- Kepala & Badan Bulat (Celengan Pintar) -->
+        <path d="M70,80 Q100,50 130,80 L140,140 Q100,160 60,140 Z" fill="#f8fafc"/>
+
+        <!-- Lubang Celengan Koin di Jidat -->
+        <ellipse cx="100" cy="62" rx="14" ry="3.5" fill="#0f172a" opacity="0.8"/>
+
+        <!-- Mata Bulat Hitam -->
+        <circle cx="85" cy="95" r="7" fill="#0f172a"/>
+        <circle cx="115" cy="95" r="7" fill="#0f172a"/>
+        <!-- Kilau Binar Mata -->
+        <circle cx="83" cy="93" r="2.5" fill="#ffffff"/>
+        <circle cx="113" cy="93" r="2.5" fill="#ffffff"/>
+
+        <!-- Frame Kacamata Pintar -->
+        <path d="M95,105 Q100,110 105,105" fill="none" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round"/>
+
+        <!-- Senyum Ceria -->
+        <path d="M90,112 Q100,120 110,112" fill="none" stroke="#f472b6" stroke-width="2.5" stroke-linecap="round"/>
+
+        <!-- Seragam / Rompi Toska KASERALS -->
+        <path d="M60,110 L140,110 L135,150 Q100,165 65,150 Z" fill="#0d9488"/>
+        <path d="M85,110 L115,110 L110,135 Q100,145 90,135 Z" fill="#f8fafc"/>
+        
+        <!-- Dasi/Pin Emas KASERALS -->
+        <path d="M95,115 L105,115 L105,125 L95,125 Z" fill="#f59e0b"/>
+
+        <!-- Koin Emas "Rp" yang Berputar -->
+        <g class="coin-group">
+            <circle cx="155" cy="95" r="15" fill="#fbbf24" stroke="#d97706" stroke-width="2"/>
+            <text x="155" y="100" font-family="'Inter', sans-serif" font-weight="800" font-size="12" fill="#d97706" text-anchor="middle">Rp</text>
+        </g>
+
+        <!-- Tangan Kanan (Memegang Koin) -->
+        <path d="M125,125 Q145,110 155,115" fill="none" stroke="#f8fafc" stroke-width="12" stroke-linecap="round"/>
+
+        <!-- Tangan Kiri (Melambaikan Tangan) -->
+        <path d="M75,125 Q55,110 45,115" fill="none" stroke="#f8fafc" stroke-width="12" stroke-linecap="round"/>
+    </g>
+</svg>

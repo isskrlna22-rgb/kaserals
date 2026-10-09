@@ -17,10 +17,11 @@ class UserSeeder extends Seeder
             'role' => 'ADMIN',
         ]);
 
+
         User::create([
             'name' => 'Bendahara Kelas',
             'email' => 'bendahara@kaserals.test',
-            'password' => Hash::make('password'),
+            'password_hash' => Hash::make('password'),
             'role' => 'BENDAHARA',
         ]);
     }

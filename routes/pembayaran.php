@@ -17,4 +17,15 @@ Route::middleware(['auth', 'role:ADMIN,BENDAHARA'])->group(function () {
     Route::delete('/data-pembayaran/{pembayaranKas}', [PembayaranKasController::class, 'destroy'])
         ->name('pembayaran-kas.destroy');
 
+        // Halaman pembayaran milik siswa
+Route::get(
+    '/dashboard-siswa/pembayaran',
+    [PembayaranKasController::class, 'pembayaranSiswa']
+)->name('dashboard.siswa.pembayaran');
+
+// Menyimpan pembayaran milik siswa
+Route::post(
+    '/dashboard-siswa/pembayaran',
+    [PembayaranKasController::class, 'simpanPembayaranSiswa']
+)->name('dashboard.siswa.pembayaran.simpan');
 });

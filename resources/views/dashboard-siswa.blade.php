@@ -8,8 +8,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         * {
@@ -26,10 +25,25 @@
                 #edf7f5;
             color: #0f172a;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* ================= SIDEBAR ================= */
+        /* ================= ANIMASI ================= */
+        @keyframes floatMascot {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
 
+        @keyframes pulseLogo {
+            0% { box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.4); }
+            70% { box-shadow: 0 0 0 12px rgba(13, 148, 136, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(13, 148, 136, 0); }
+        }
+
+        /* Animasi Maskot Pojok */
+        @keyframes blink { 0%, 96%, 98% { opacity: 1; } 97% { opacity: 0; transform: scaleY(0.1); } }
+
+        /* ================= SIDEBAR ================= */
         .sidebar {
             position: fixed;
             left: 0;
@@ -65,6 +79,7 @@
             font-weight: 800;
             color: white;
             box-shadow: 0 8px 20px rgba(13, 148, 136, 0.35);
+            animation: pulseLogo 2.5s infinite;
         }
 
         .brand-name {
@@ -104,14 +119,14 @@
             margin-bottom: 4px;
             font-size: 13px;
             font-weight: 600;
-            transition: 0.2s;
+            transition: all 0.3s ease;
             cursor: pointer;
         }
 
         .menu-item:hover {
             color: white;
             background: rgba(255, 255, 255, 0.06);
-            transform: translateX(3px);
+            transform: translateX(5px);
         }
 
         .menu-item.active {
@@ -128,16 +143,21 @@
         .menu-item.logout-item:hover {
             background: rgba(239, 68, 68, 0.15);
             color: #fca5a5;
+            transform: translateY(-2px);
         }
 
         .menu-icon {
             width: 20px;
             text-align: center;
             font-size: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-item:hover .menu-icon {
+            transform: scale(1.1) rotate(-5deg);
         }
 
         /* ================= MAIN ================= */
-
         .main {
             margin-left: 250px;
             padding: 32px 40px 50px;
@@ -169,6 +189,12 @@
             gap: 12px;
             padding: 6px 12px;
             border-radius: 30px;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .profile:hover {
+            transform: scale(1.02);
         }
 
         .avatar {
@@ -197,7 +223,6 @@
         }
 
         /* ================= HERO ================= */
-
         .welcome {
             position: relative;
             overflow: hidden;
@@ -258,11 +283,11 @@
             max-height: 180px;
             object-fit: contain;
             z-index: 3;
-            filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.15));
+            filter: drop-shadow(0 15px 15px rgba(0, 0, 0, 0.2));
+            animation: floatMascot 4s ease-in-out infinite; /* ANIMASI MELAYANG */
         }
 
         /* ================= CARDS ================= */
-
         .cards {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -277,6 +302,12 @@
             border-radius: 22px;
             padding: 22px;
             box-shadow: 0 10px 30px -5px rgba(13, 148, 136, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px -5px rgba(13, 148, 136, 0.15);
         }
 
         .card-label {
@@ -302,7 +333,6 @@
         }
 
         /* ================= STATUS ================= */
-
         .status-card {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(16px);
@@ -311,6 +341,7 @@
             padding: 22px;
             margin-bottom: 24px;
             box-shadow: 0 10px 30px -5px rgba(13, 148, 136, 0.05);
+            transition: transform 0.3s ease;
         }
 
         .status-top {
@@ -353,7 +384,6 @@
         }
 
         /* ================= CONTENT GRID ================= */
-
         .content-grid {
             display: grid;
             grid-template-columns: 1.5fr 1fr;
@@ -367,6 +397,11 @@
             border-radius: 22px;
             padding: 22px;
             box-shadow: 0 10px 30px -5px rgba(13, 148, 136, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .panel:hover {
+            box-shadow: 0 15px 35px -5px rgba(13, 148, 136, 0.1);
         }
 
         .panel.announcement-panel {
@@ -385,10 +420,14 @@
             color: #0d9488;
             font-weight: 700;
             text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .panel-link:hover {
+            text-decoration: underline;
         }
 
         /* TABLE */
-
         .table-head,
         .table-row {
             display: grid;
@@ -415,6 +454,12 @@
         .table-row {
             padding: 12px 6px;
             border-bottom: 1px solid #f8fafc;
+            transition: 0.2s ease;
+        }
+
+        .table-row:hover {
+            background: #f0fdfa;
+            border-radius: 8px;
         }
 
         .table-row span {
@@ -429,7 +474,6 @@
         }
 
         /* INFO */
-
         .info-item {
             display: flex;
             justify-content: space-between;
@@ -467,6 +511,7 @@
             justify-content: space-between;
             align-items: center;
             margin-top: 16px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
         }
 
         .saldo-dark-title {
@@ -481,8 +526,17 @@
             color: white;
         }
 
-        /* ================= BOTTOM NAV ================= */
+        /* ================= MASCOT POJOK BAWAH ================= */
+        .mascot-container { position: fixed; bottom: 40px; right: 40px; z-index: 100; display: flex; flex-direction: column; align-items: flex-end; animation: floatMascot 4s ease-in-out infinite; }
+        .mascot-bubble { background: white; padding: 14px 20px; border-radius: 20px 20px 0 20px; box-shadow: 0 10px 25px rgba(13, 148, 136, 0.2); margin-bottom: 16px; font-size: 14px; font-weight: 800; color: #0f172a; max-width: 250px; text-align: center; opacity: 0; transform: translateY(20px) scale(0.9); transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); border: 2px solid #ccfbf1; }
+        .mascot-bubble span { color: #0d9488; }
+        .mascot-body { width: 80px; height: 80px; background: linear-gradient(135deg, #2dd4bf, #0d9488); border-radius: 40%; display: flex; align-items: center; justify-content: center; box-shadow: 0 15px 30px rgba(13, 148, 136, 0.4); cursor: pointer; border: 4px solid #f8fafc; transition: all 0.3s ease; position: relative; }
+        .mascot-face { font-size: 28px; color: white; font-weight: bold; animation: blink 4s infinite; }
+        .mascot-container:hover .mascot-bubble { opacity: 1; transform: translateY(0) scale(1); }
+        .mascot-container:hover .mascot-body { transform: scale(1.1) rotate(10deg); border-radius: 50%; }
 
+
+        /* ================= BOTTOM NAV ================= */
         .bottom-nav {
             display: none;
             position: fixed;
@@ -494,6 +548,7 @@
             grid-template-columns: repeat(4, 1fr);
             padding: 10px 12px 14px;
             z-index: 100;
+            backdrop-filter: blur(10px);
         }
 
         .nav-item {
@@ -503,11 +558,16 @@
             text-decoration: none;
             color: #94a3b8;
             gap: 2px;
+            transition: 0.3s;
         }
 
         .nav-item.active {
             color: #0d9488;
             font-weight: 700;
+        }
+
+        .nav-item:hover {
+            color: #0d9488;
         }
 
         .nav-icon {
@@ -519,66 +579,55 @@
         }
 
         /* ================= RESPONSIVE ================= */
-
         @media (max-width: 1024px) {
-
             .cards {
                 grid-template-columns: repeat(2, 1fr);
             }
-
             .content-grid {
                 grid-template-columns: 1fr;
             }
         }
 
         @media (max-width: 768px) {
-
             .sidebar {
                 display: none;
             }
-
             .main {
                 margin-left: 0;
                 padding: 20px 16px 90px;
             }
-
             .page-title {
                 font-size: 22px;
             }
-
             .welcome {
                 min-height: 160px;
                 padding: 24px 20px;
             }
-
             .welcome h1 {
                 font-size: 22px;
             }
-
             .mascot {
                 width: 110px;
                 right: 10px;
             }
-
             .cards {
                 grid-template-columns: 1fr 1fr;
                 gap: 12px;
             }
-
             .card {
                 padding: 16px;
             }
-
             .card-value {
                 font-size: 18px;
             }
-
             .status-amount {
                 font-size: 22px;
             }
-
             .bottom-nav {
                 display: grid;
+            }
+            .mascot-container {
+                display: none; /* Sembunyikan maskot pojok saat buka di HP biar ga nutupin layar */
             }
         }
     </style>
@@ -598,7 +647,6 @@
             </div>
         </div>
 
-
         <div class="menu-section">
 
             <div class="menu-title">
@@ -614,7 +662,6 @@
             </a>
 
         </div>
-
 
         <div class="menu-section">
 
@@ -640,7 +687,6 @@
 
         </div>
 
-
         <div class="menu-section">
 
             <div class="menu-title">
@@ -665,7 +711,6 @@
 
         </div>
 
-
         <!-- LOGOUT -->
         <div class="menu-section" style="margin-top:auto;">
 
@@ -686,7 +731,6 @@
 
     </aside>
 
-
     <!-- MAIN -->
     <main class="main">
 
@@ -694,7 +738,6 @@
         <div class="topbar">
 
             <div>
-
                 <div class="page-title">
                     Halo, {{ $siswa->nama_lengkap ?? 'Siswa' }}
                 </div>
@@ -703,9 +746,7 @@
                     {{ $siswa->kelas ?? '-' }}
                     · NISN {{ $siswa->nisn ?? '-' }}
                 </div>
-
             </div>
-
 
             <div class="profile">
 
@@ -727,7 +768,6 @@
 
         </div>
 
-
         <!-- HERO -->
         <section class="welcome">
 
@@ -748,252 +788,150 @@
 
             </div>
 
+            <!-- MASKOT KASI_2.SVG DENGAN ANIMASI MELAYANG -->
             <img src="{{ asset('images/kasi.svg') }}"
                 alt="Mascot KASERALS"
                 class="mascot">
 
         </section>
 
-
         <!-- SUMMARY -->
         <section class="cards">
 
             <div class="card">
-
                 <div class="card-label">
                     TOTAL DIBAYAR
                 </div>
-
                 <div class="card-value green">
                     Rp {{ number_format($totalPembayaranSiswa ?? 0, 0, ',', '.') }}
                 </div>
-
             </div>
 
-
             <div class="card">
-
                 <div class="card-label">
                     TERTUNGGAK
                 </div>
-
                 <div class="card-value warning">
                     {{ $tertunggakPeriode ?? 0 }} periode
                 </div>
-
             </div>
 
-
             <div class="card">
-
                 <div class="card-label">
                     JUMLAH TRANSAKSI
                 </div>
-
                 <div class="card-value">
                     {{ $jumlahPembayaran ?? 0 }} transaksi
                 </div>
-
             </div>
 
         </section>
-
 
         <!-- STATUS -->
         <section class="status-card">
 
             <div class="status-top">
-
                 <div class="section-title">
                     Status Pembayaran
                 </div>
-
                 <div class="status-badge">
                     {{ $statusPembayaran ?? 'Belum Ada Data' }}
                 </div>
-
             </div>
-
 
             <div class="status-detail">
 
                 <div class="status-amount">
-
                     @if(isset($pembayaranTerakhir))
-
                         Rp {{ number_format($pembayaranTerakhir->nominal, 0, ',', '.') }}
-
                     @else
-
                         Rp 0
-
                     @endif
-
                 </div>
 
-
                 <div class="status-date">
-
                     @if(isset($pembayaranTerakhir))
-
                         Dicatat bendahara ·
                         {{ \Carbon\Carbon::parse($pembayaranTerakhir->tanggal)->format('d M Y') }}
-
                     @else
-
                         Belum ada pembayaran
-
                     @endif
-
                 </div>
 
             </div>
 
         </section>
 
-
         <!-- CONTENT GRID -->
         <section class="content-grid">
-
 
             <!-- PEMBAYARAN TERAKHIR -->
             <div class="panel">
 
                 <div class="panel-header">
-
                     <div class="section-title">
                         Pembayaran Terakhir
                     </div>
-
-                    <a href="{{ route('dashboard.siswa.riwayat') }}"
-                        class="panel-link">
-
+                    <a href="{{ route('dashboard.siswa.riwayat') }}" class="panel-link">
                         Lihat Riwayat →
-
                     </a>
-
                 </div>
 
-
                 <div class="table-head">
-
                     <span>PERIODE</span>
                     <span>TANGGAL</span>
                     <span>NOMINAL</span>
-
                 </div>
 
-
                 @if(isset($pembayaran) && count($pembayaran) > 0)
-
                     @foreach($pembayaran->take(5) as $item)
-
                         <div class="table-row">
-
-                            <span>
-                                Minggu ke-{{ $item->minggu_ke }}
-                            </span>
-
-                            <span>
-                                {{ \Carbon\Carbon::parse($item->tanggal)->format('d/m/Y') }}
-                            </span>
-
-                            <span class="nominal">
-                                Rp {{ number_format($item->nominal, 0, ',', '.') }}
-                            </span>
-
+                            <span>Minggu ke-{{ $item->minggu_ke }}</span>
+                            <span>{{ \Carbon\Carbon::parse($item->tanggal)->format('d/m/Y') }}</span>
+                            <span class="nominal">Rp {{ number_format($item->nominal, 0, ',', '.') }}</span>
                         </div>
-
                     @endforeach
-
                 @else
-
                     <div class="table-row">
-
                         <span>-</span>
                         <span>-</span>
                         <span class="nominal">Belum ada</span>
-
                     </div>
-
                 @endif
 
             </div>
 
-
             <!-- INFORMASI -->
             <div style="display:flex; flex-direction:column; gap:20px;">
 
-
                 <!-- PENGUMUMAN -->
                 <div class="panel announcement-panel">
-
                     <div class="panel-header">
-
-                        <div class="section-title">
-                            📢 Pengumuman
-                        </div>
-
+                        <div class="section-title">📢 Pengumuman</div>
                     </div>
-
                     <p style="font-size:12px; color:#64748b; line-height:1.6;">
-
                         {{ $pengumuman ?? 'Belum ada pengumuman terbaru.' }}
-
                     </p>
-
                 </div>
-
 
                 <!-- INFO KAS -->
                 <div class="panel">
-
-                    <div class="section-title"
-                        style="margin-bottom:14px;">
-
-                        Info Kas Kelas
-
-                    </div>
-
+                    <div class="section-title" style="margin-bottom:14px;">Info Kas Kelas</div>
 
                     <div class="info-item">
-
-                        <span class="info-label">
-                            Total Pembayaran Kas
-                        </span>
-
-                        <span class="info-value">
-                            Rp {{ number_format($totalPembayaranSiswa ?? 0, 0, ',', '.') }}
-                        </span>
-
+                        <span class="info-label">Total Pembayaran Kas</span>
+                        <span class="info-value">Rp {{ number_format($totalPembayaranSiswa ?? 0, 0, ',', '.') }}</span>
                     </div>
-
 
                     <div class="info-item">
-
-                        <span class="info-label">
-                            Total Pengeluaran
-                        </span>
-
-                        <span class="info-value expense">
-                            Rp {{ number_format($totalPengeluaran ?? 0, 0, ',', '.') }}
-                        </span>
-
+                        <span class="info-label">Total Pengeluaran</span>
+                        <span class="info-value expense">Rp {{ number_format($totalPengeluaran ?? 0, 0, ',', '.') }}</span>
                     </div>
-
 
                     <div class="saldo-card-dark">
-
-                        <span class="saldo-dark-title">
-                            Saldo Kas Kelas
-                        </span>
-
-                        <span class="saldo-dark-val">
-                            Rp {{ number_format($saldoKas ?? 0, 0, ',', '.') }}
-                        </span>
-
+                        <span class="saldo-dark-title">Saldo Kas Kelas</span>
+                        <span class="saldo-dark-val">Rp {{ number_format($saldoKas ?? 0, 0, ',', '.') }}</span>
                     </div>
-
                 </div>
 
             </div>
@@ -1002,58 +940,47 @@
 
     </main>
 
+    <!-- ================= MASCOT POJOK BAWAH (^ᴗ^) ================= -->
+    <div class="mascot-container">
+        <div class="mascot-bubble">
+            Halo, semangat belajarnya hari ini! 📚<br>
+            <span>Jangan lupa cek tagihan kas kamu ya! ✨</span>
+        </div>
+        <div class="mascot-body">
+            <div class="mascot-face">^ᴗ^</div>
+        </div>
+    </div>
 
     <!-- BOTTOM NAV MOBILE -->
     <nav class="bottom-nav">
-
-        <a href="{{ route('dashboard.siswa') }}"
-            class="nav-item active">
-
+        <a href="{{ route('dashboard.siswa') }}" class="nav-item active">
             <span class="nav-icon">▢</span>
             <span class="nav-text">Beranda</span>
-
         </a>
 
-
-        <a href="{{ route('dashboard.siswa.status') }}"
-            class="nav-item">
-
+        <a href="{{ route('dashboard.siswa.status') }}" class="nav-item">
             <span class="nav-icon">✓</span>
             <span class="nav-text">Status</span>
-
         </a>
 
-
-        <a href="{{ route('dashboard.siswa.riwayat') }}"
-            class="nav-item">
-
+        <a href="{{ route('dashboard.siswa.riwayat') }}" class="nav-item">
             <span class="nav-icon">↺</span>
             <span class="nav-text">Riwayat</span>
-
         </a>
 
-
-        <a href="{{ route('dashboard.siswa') }}"
-            class="nav-item">
-
+        <a href="{{ route('dashboard.siswa') }}" class="nav-item">
             <span class="nav-icon">ⓘ</span>
             <span class="nav-text">Info Kas</span>
-
         </a>
-
     </nav>
-
 
     <!-- LOGOUT FORM -->
     <form id="logout-form"
         action="{{ route('logout') }}"
         method="POST"
         style="display:none;">
-
         @csrf
-
     </form>
 
 </body>
-
 </html>

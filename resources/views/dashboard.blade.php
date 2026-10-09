@@ -4,583 +4,663 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard admin- KASERALS</title>
+    <title>Dashboard Admin - KASERALS</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
 
     <style>
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #f8fafc;
+            font-family: 'Nunito', Arial, Helvetica, sans-serif;
+            background: #f8fafc;
             color: #0f172a;
-            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
-        .dashboard {
+        a {
+            text-decoration: none;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        .page {
             display: flex;
             min-height: 100vh;
         }
 
         /* ================= SIDEBAR ================= */
-
         .sidebar {
-            width: 280px;
-            background: linear-gradient(180deg, #0f172a 0%, #080d1a 100%);
-            color: #ffffff;
-            padding: 32px 22px;
+            width: 270px;
+            flex-shrink: 0;
+            min-height: 100vh;
+            background: #0f172a;
+            color: white;
             display: flex;
             flex-direction: column;
-            box-shadow: 4px 0 24px rgba(0, 0, 0, 0.04);
-            z-index: 10;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            z-index: 100;
         }
 
-        .brand {
+        .logo {
             display: flex;
             align-items: center;
-            gap: 14px;
-            margin-bottom: 36px;
+            gap: 16px;
+            padding: 28px 24px;
         }
 
-        .brand-logo {
-            width: 44px;
-            height: 44px;
-            border-radius: 14px;
-            background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+        .logo-box {
+            width: 50px;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
+            border-radius: 18px;
+            background: #0d9488;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(13, 148, 136, 0.4);
+            animation: pulse-gemes 2s infinite;
+        }
+
+        .logo h1 {
             font-size: 22px;
-            font-weight: 800;
-            color: #ffffff;
-            box-shadow: 0 8px 16px rgba(13, 148, 136, 0.35);
+            letter-spacing: 1px;
         }
 
-        .brand-text h2 {
-            font-size: 20px;
-            font-weight: 700;
-            letter-spacing: -0.4px;
-            margin-bottom: 2px;
-            color: #ffffff;
+        .logo p {
+            margin-top: 4px;
+            font-size: 13px;
+            color: #94a3b8;
         }
 
-        .brand-text p {
-            color: #64748b;
-            font-size: 12px;
-            font-weight: 500;
+        .navigation {
+            flex: 1;
+            padding: 0 16px 20px;
+            overflow-y: auto;
+            scrollbar-width: none;
         }
 
-        .menu {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
+        .navigation::-webkit-scrollbar {
+            display: none;
         }
 
-        .menu-title {
-            color: #475569;
-            font-size: 11px;
-            font-weight: 700;
-            margin: 22px 12px 8px;
-            letter-spacing: 1.2px;
-            text-transform: uppercase;
-        }
-
-        .menu a {
+        .nav-link {
+            position: relative;
             display: flex;
             align-items: center;
-            gap: 14px;
-            padding: 12px 16px;
-            color: #94a3b8;
-            text-decoration: none;
-            border-radius: 12px;
+            gap: 16px;
+            margin-bottom: 6px;
+            padding: 13px 20px;
+            border-radius: 18px;
+            color: #cbd5e1;
             font-size: 14px;
-            font-weight: 500;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .menu a:hover {
-            background: rgba(255, 255, 255, 0.06);
-            color: #f8fafc;
-            transform: translateX(3px);
-        }
-
-        .menu a.active {
-            background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
-            color: #ffffff;
             font-weight: 600;
-            box-shadow: 0 8px 20px rgba(13, 148, 136, 0.3);
+            transition: all 0.3s ease;
+            overflow: hidden;
         }
 
-        .menu-icon {
-            width: 20px;
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 5px;
+            height: 0;
+            border-radius: 0 8px 8px 0;
+            background: #5eead4;
+            transform: translateY(-50%);
+            transition: height 0.3s ease;
+        }
+
+        .nav-link.active::before {
+            height: 60%;
+        }
+
+        .nav-link:hover {
+            transform: translateX(5px);
+            background: rgba(255, 255, 255, .05);
+            color: white;
+        }
+
+        .nav-link.active {
+            background: #0d9488;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);
+        }
+
+        .nav-link span {
+            width: 24px;
             text-align: center;
-            font-size: 15px;
-            opacity: 0.9;
+            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-link:hover span {
+            transform: scale(1.2) rotate(-5deg);
+        }
+
+        .section-title {
+            margin: 20px 0 8px;
+            padding: 0 20px;
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .15em;
         }
 
         .sidebar-bottom {
             margin-top: auto;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-            padding-top: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, .08);
+            background: rgba(0, 0, 0, 0.1);
         }
 
         .profile-mini {
             display: flex;
             align-items: center;
             gap: 12px;
-            color: #cbd5e1;
-            font-size: 14px;
-            font-weight: 500;
+            margin-bottom: 16px;
         }
 
         .profile-avatar {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: #1e293b;
-            border: 2px solid #334155;
+            width: 44px;
+            height: 44px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 13px;
+            border-radius: 50%;
+            background: #1e293b;
+            border: 2px solid #5eead4;
+            color: #5eead4;
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .profile-info strong {
+            display: block;
+            color: #f8fafc;
+            font-size: 14px;
+        }
+
+        .profile-info span {
+            color: #5eead4;
+            font-size: 12px;
             font-weight: 700;
-            color: #38bdf8;
         }
 
         .logout-btn {
             width: 100%;
-            padding: 10px 14px;
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            border-radius: 10px;
-            color: #f87171;
-            font-size: 13px;
-            font-weight: 600;
+            padding: 12px;
+            border: none;
+            border-radius: 14px;
+            background: rgba(239, 68, 68, .1);
+            color: #ef4444;
+            font-size: 14px;
+            font-weight: bold;
             cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            transition: 0.3s ease;
         }
 
         .logout-btn:hover {
-            background: rgba(239, 68, 68, 0.2);
-            color: #ef4444;
+            background: #ef4444;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(239, 68, 68, 0.3);
         }
 
-        /* ================= MAIN ================= */
-
+        /* ================= MAIN CONTENT ================= */
         .main {
-            flex: 1;
-            min-width: 0;
-            background: #f8fafc;
+            width: calc(100% - 270px);
+            margin-left: 270px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* ================= HEADER ================= */
-
-        .header {
-            height: 88px;
-            background: #ffffff;
-            border-bottom: 1px solid #e2e8f0;
+        .topbar {
+            height: 90px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 36px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+            padding: 0 40px;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
         }
 
-        .header-left h1 {
-            font-size: 24px;
-            font-weight: 700;
-            color: #0f172a;
-            letter-spacing: -0.5px;
-            margin-bottom: 2px;
+        .topbar h2 {
+            font-size: 22px;
+            font-weight: 800;
+            color: #1e293b;
         }
 
-        .header-left p {
-            color: #64748b;
-            font-size: 13px;
-            font-weight: 500;
-        }
-
-        .header-profile {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .header-profile-text {
-            text-align: right;
-        }
-
-        .header-profile-text strong {
-            display: block;
-            font-size: 14px;
-            font-weight: 700;
-            color: #0f172a;
-        }
-
-        .header-profile-text span {
-            display: block;
-            color: #64748b;
-            font-size: 12px;
-            margin-top: 2px;
-        }
-
-        .header-avatar {
-            width: 44px;
-            height: 44px;
+        .avatar {
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             background: #ccfbf1;
             color: #0d9488;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
-            font-size: 15px;
-            box-shadow: 0 2px 8px rgba(13, 148, 136, 0.15);
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
         }
 
-        /* ================= CONTENT ================= */
+        .avatar:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 5px 15px rgba(13, 148, 136, 0.2);
+        }
 
         .content {
-            padding: 32px 36px;
+            flex: 1;
+            padding: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
         }
 
-        /* ================= WELCOME BANNER & MASKOT ================= */
-
-        .welcome-banner {
-            background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
-            border-radius: 20px;
-            padding: 32px 40px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 28px;
+        /* ================= DASHBOARD BANNER (WELCOME SVG KASI) ================= */
+        .welcome-card {
+            background: linear-gradient(135deg, #0d9488, #0f766e);
+            border-radius: 24px;
+            padding: 35px 40px;
             color: white;
-            box-shadow: 0 10px 25px -5px rgba(20, 184, 166, 0.4);
+            box-shadow: 0 15px 35px rgba(13, 148, 136, 0.25);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             position: relative;
             overflow: hidden;
         }
 
-        .welcome-banner::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -5%;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
-            border-radius: 50%;
-            z-index: 1;
+        .welcome-left {
+            display: flex;
+            align-items: center;
+            gap: 28px;
         }
 
-        .welcome-text {
-            flex: 1;
-            z-index: 2;
+        /* GAMBAR KASI SVG DI DALAM BANNER SAJA */
+        .banner-kasi {
+            width: 120px;
+            height: auto;
+            flex-shrink: 0;
+            animation: floatKasi 4s ease-in-out infinite;
+            filter: drop-shadow(0 15px 10px rgba(0, 0, 0, 0.2));
         }
 
-        .welcome-text h2 {
-            font-size: 28px;
-            font-weight: 800;
-            margin-bottom: 12px;
-            letter-spacing: -0.5px;
+        @keyframes floatKasi {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        .welcome-text h1 {
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 6px;
         }
 
         .welcome-text p {
-            font-size: 15px;
-            line-height: 1.6;
-            opacity: 0.95;
-            max-width: 500px;
-        }
-
-        .welcome-mascot {
-            width: 160px;
-            height: 160px;
-            z-index: 2;
-        }
-
-        /* Animasi Maskot KASI */
-        @keyframes floatMascot {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-12px); }
-        }
-        @keyframes shadowPulse {
-            0%, 100% { transform: scale(1); opacity: 0.25; }
-            50% { transform: scale(0.8); opacity: 0.1; }
-        }
-        @keyframes coinFlip {
-            0% { transform: rotateY(0deg); }
-            100% { transform: rotateY(360deg); }
-        }
-
-        .mascot-group {
-            animation: floatMascot 4s ease-in-out infinite;
-            transform-origin: center;
-        }
-        .mascot-shadow {
-            animation: shadowPulse 4s ease-in-out infinite;
-            transform-origin: center;
-        }
-
-        /* ================= SUMMARY ================= */
-
-        .summary-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            margin-bottom: 28px;
-        }
-
-        .summary-card {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 20px;
-            padding: 24px 28px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.03), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .summary-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.06), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
-        }
-
-        .summary-card.dark {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            border-color: #1e293b;
-            color: #ffffff;
-            box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.25);
-        }
-
-        .summary-title {
-            color: #64748b;
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 0.8px;
-            text-transform: uppercase;
-            margin-bottom: 14px;
-        }
-
-        .summary-card.dark .summary-title {
-            color: #94a3b8;
-        }
-
-        .summary-value {
-            font-size: 32px;
-            font-weight: 800;
-            color: #0f172a;
-            letter-spacing: -0.5px;
-        }
-
-        .summary-value.income {
-            color: #10b981;
-        }
-
-        .summary-card.dark .summary-value {
-            color: #ffffff;
-        }
-
-        .summary-date {
-            margin-top: 12px;
-            color: #64748b;
-            font-size: 13px;
+            color: #ccfbf1;
+            font-size: 16px;
             font-weight: 500;
         }
 
-        .summary-card.dark .summary-date {
-            color: #94a3b8;
+        .welcome-date {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 10px 20px;
+            border-radius: 16px;
+            font-weight: 700;
+            backdrop-filter: blur(5px);
         }
 
-        /* ================= MIDDLE ================= */
-
-        .middle-grid {
+        /* ================= STATS WIDGETS ================= */
+        .stats-grid {
             display: grid;
-            grid-template-columns: 1.5fr 1fr;
+            grid-template-columns: repeat(4, 1fr);
             gap: 24px;
-            margin-bottom: 28px;
+            margin-bottom: 30px;
         }
 
-        .card {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 20px;
-            padding: 28px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.03), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
-            transition: all 0.3s ease;
+        .stat-card {
+            background: white;
+            border-radius: 24px;
+            padding: 25px;
+            box-shadow: 0 10px 40px -10px rgba(15, 23, 42, .06);
+            transition: 0.3s ease;
+            display: flex;
+            flex-direction: column;
         }
 
-        .card-header {
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px -10px rgba(13, 148, 136, .15);
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+
+        .icon-teal {
+            background: #ccfbf1;
+            color: #0d9488;
+        }
+
+        .icon-blue {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .icon-orange {
+            background: #ffedd5;
+            color: #ea580c;
+        }
+
+        .icon-rose {
+            background: #ffe4e6;
+            color: #e11d48;
+        }
+
+        .stat-title {
+            color: #64748b;
+            font-weight: 800;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 26px;
+            font-weight: 900;
+            color: #0f172a;
+        }
+
+        /* ================= BOTTOM WIDGETS ================= */
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+        }
+
+        .panel {
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 10px 40px -10px rgba(15, 23, 42, .06);
+        }
+
+        .panel-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
         }
 
-        .card-header h2 {
-            font-size: 20px;
-            font-weight: 700;
-            color: #0f172a;
-            letter-spacing: -0.3px;
-        }
-
-        .payment-info {
-            color: #64748b;
-            margin-bottom: 22px;
-            line-height: 1.6;
-            font-size: 14px;
-        }
-
-        .payment-status {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-
-        .status-box {
-            padding: 22px;
+        .table-wrapper {
+            overflow-x: auto;
             border-radius: 16px;
-            transition: all 0.25s ease;
-        }
-
-        .status-box.paid {
-            background: #f0fdf4;
-            border: 1px solid #dcfce7;
-        }
-
-        .status-box.unpaid {
-            background: #fffbeb;
-            border: 1px solid #fef3c7;
-        }
-
-        .status-number {
-            font-size: 30px;
-            font-weight: 800;
-            margin-bottom: 6px;
-            letter-spacing: -0.5px;
-        }
-
-        .paid .status-number {
-            color: #15803d;
-        }
-
-        .unpaid .status-number {
-            color: #b45309;
-        }
-
-        .status-label {
-            color: #64748b;
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        /* ================= QUICK ACTION ================= */
-
-        .quick-actions h2 {
-            font-size: 20px;
-            font-weight: 700;
-            color: #0f172a;
-            margin-bottom: 20px;
-            letter-spacing: -0.3px;
-        }
-
-        .quick-btn {
-            width: 100%;
-            min-height: 50px;
-            border-radius: 14px;
             border: 1px solid #e2e8f0;
-            background: #ffffff;
-            color: #334155;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-bottom: 12px;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
         }
 
-        .quick-btn:hover {
+        .transaction-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 500px;
+        }
+
+        .transaction-table th {
             background: #f8fafc;
-            border-color: #cbd5e1;
+            color: #64748b;
+            font-size: 12px;
+            font-weight: 800;
+            padding: 14px 18px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .transaction-table td {
+            padding: 14px 18px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 14px;
+            font-weight: 700;
+            color: #334155;
+        }
+
+        .transaction-table tbody tr:hover {
+            background: #f0fdfa;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .badge-pending {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .badge-success {
+            background: #ccfbf1;
+            color: #0d9488;
+        }
+
+        .shortcut-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .shortcut-btn {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 16px;
+            border-radius: 16px;
+            background: #f8fafc;
+            border: 2px solid transparent;
             color: #0f172a;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            font-weight: 800;
+            font-size: 14px;
+            transition: 0.3s;
+            cursor: pointer;
         }
 
-        .quick-btn.primary {
-            background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
-            color: #ffffff;
-            border-color: transparent;
-            box-shadow: 0 4px 14px rgba(13, 148, 136, 0.35);
+        .shortcut-btn:hover {
+            background: white;
+            border-color: #5eead4;
+            box-shadow: 0 10px 25px rgba(13, 148, 136, 0.1);
+            transform: translateX(5px);
+            color: #0d9488;
         }
 
-        .quick-btn.primary:hover {
-            background: linear-gradient(135deg, #0f766e 0%, #115e59 100%);
-            box-shadow: 0 6px 18px rgba(13, 148, 136, 0.45);
-            transform: translateY(-2px);
+        .shortcut-icon {
+            font-size: 20px;
+        }
+
+        /* ================= MASCOT POJOK BAWAH (ORIGINAL ^ᴗ^) ================= */
+        .mascot-container {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            animation: floatMascot 4s ease-in-out infinite;
+        }
+
+        @keyframes floatMascot {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        @keyframes blink {
+
+            0%,
+            96%,
+            98% {
+                opacity: 1;
+            }
+
+            97% {
+                opacity: 0;
+                transform: scaleY(0.1);
+            }
+        }
+
+        @keyframes pulse-gemes {
+            0% {
+                box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 15px rgba(13, 148, 136, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(13, 148, 136, 0);
+            }
+        }
+
+        .mascot-bubble {
+            background: white;
+            padding: 14px 20px;
+            border-radius: 20px 20px 0 20px;
+            box-shadow: 0 10px 25px rgba(13, 148, 136, 0.2);
+            margin-bottom: 16px;
+            font-size: 14px;
+            font-weight: 800;
+            color: #0f172a;
+            max-width: 230px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px) scale(0.9);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border: 2px solid #ccfbf1;
+        }
+
+        .mascot-bubble span {
+            color: #0d9488;
+        }
+
+        .mascot-body {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #2dd4bf, #0d9488);
+            border-radius: 40%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 15px 30px rgba(13, 148, 136, 0.4);
+            cursor: pointer;
+            border: 4px solid #f8fafc;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .mascot-face {
+            font-size: 28px;
+            color: white;
+            font-weight: bold;
+            animation: blink 4s infinite;
+        }
+
+        .mascot-container:hover .mascot-bubble {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .mascot-container:hover .mascot-body {
+            transform: scale(1.1) rotate(10deg);
+            border-radius: 50%;
         }
 
         /* ================= RESPONSIVE ================= */
+        @media (max-width: 1200px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
 
-        @media (max-width: 1024px) {
-            .sidebar {
-                width: 250px;
-            }
-            .summary-grid {
-                grid-template-columns: 1fr;
-            }
-            .middle-grid {
+            .bottom-grid {
                 grid-template-columns: 1fr;
             }
         }
 
-        @media (max-width: 768px) {
-            .dashboard {
-                display: block;
-            }
+        @media (max-width: 900px) {
             .sidebar {
-                width: 100%;
-                min-height: auto;
-                padding: 20px;
-            }
-            .menu, .sidebar-bottom {
                 display: none;
             }
-            .header {
-                height: auto;
-                padding: 20px;
+
+            .main {
+                width: 100%;
+                margin-left: 0;
             }
+
+            .welcome-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+
+            .welcome-left {
+                flex-direction: column;
+                align-items: flex-start;
+                text-align: left;
+            }
+
             .content {
                 padding: 20px;
             }
-            .header-profile-text {
+
+            .mascot-container {
                 display: none;
-            }
-            .payment-status {
-                grid-template-columns: 1fr;
-            }
-            /* Penyesuaian banner di HP */
-            .welcome-banner {
-                flex-direction: column;
-                text-align: center;
-                padding: 24px;
-            }
-            .welcome-text p {
-                margin: 0 auto 20px;
-            }
-            .welcome-mascot {
-                width: 140px;
-                height: 140px;
             }
         }
     </style>
@@ -588,361 +668,287 @@
 
 <body>
 
-    <div class="dashboard">
+    <div class="page">
 
-        <!-- SIDEBAR -->
-
+        <!-- ================= SIDEBAR ADMIN ================= -->
         <aside class="sidebar">
 
-            <div class="brand">
-
-                <div class="brand-logo">
-                    K
-                </div>
-
-                <div class="brand-text">
-                    <h2>KASERALS</h2>
+            <div class="logo">
+                <div class="logo-box">K</div>
+                <div>
+                    <h1>KASERALS</h1>
                     <p>Kas Kelas Digital</p>
                 </div>
-
             </div>
 
-            <nav class="menu">
-
-                <a href="{{ route('dashboard') }}" class="active">
-                    <span class="menu-icon">▣</span>
-                    Dashboard
+            <nav class="navigation">
+                <!-- Beranda (Tidak Dihitung 11 Menu) -->
+                <a href="#" class="nav-link active">
+                    <span>◫</span> Dashboard
                 </a>
 
-                <a href="{{ route('data-siswa.index') }}">
-                    <span class="menu-icon">◉</span>
-                    Data Siswa
+                <p class="section-title">MASTER DATA</p>
+                <!-- Menu 1 -->
+                <a href="{{ route('akun.index') }}" class="nav-link">
+                    <span>⚙</span> Kelola Akun & Sistem
+                </a>
+                <!-- Menu 2 -->
+                <a href="{{ route('data-siswa.index') }}" class="nav-link">
+                    <span>◉</span>
+                    Kelola Data Siswa
+                </a>
+                <p class="section-title">TRANSAKSI ADMIN</p>
+                <!-- Menu 3 -->
+                <a href="{{ route('pembayaran-kas.index') }}" class="nav-link">
+                    <span>✓</span> Catat Pembayaran Kas
+                </a>
+                <!-- Menu 4 -->
+                <a href="{{ route('verifikasi-pembayaran.index') }}" class="nav-link">
+                    <span>●</span> Verifikasi Pembayaran
+                </a>
+                <!-- Menu 5 -->
+                <a href="{{ route('pengeluaran.web.index') }}" class="nav-link">
+                    <span>↑</span> Catat Pengeluaran
                 </a>
 
-                <div class="menu-title">
-                    TRANSAKSI
-                </div>
+                <p class="section-title">AKSES SISWA</p>
 
-                <a href="{{ route('pembayaran-kas.index') }}">
-                    <span class="menu-icon">✓</span>
-                    Pembayaran Kas
+                <!-- Menu 8 -->
+                <a href="{{ route('dashboard.siswa.status') }}" class="nav-link">
+                    <span>👤</span> Status Bayar Pribadi
                 </a>
 
-                <a href="{{ route('verifikasi-pembayaran.index') }}">
-                    <span class="menu-icon">●</span>
-                    Status Pembayaran
+                <p class="section-title">CATATAN & LAPORAN</p>
+                <!-- Menu 9 -->
+                <a href="{{ route('riwayat.index') }}" class="nav-link">
+                    <span>↻</span> Riwayat Transaksi
                 </a>
-
-                <a href="{{ route('pemasukan.web.index') }}">
-                    <span class="menu-icon">↓</span>
-                    Pemasukan
+                <!-- Menu 10 -->
+                <a href="{{ route('pengumuman.index') }}" class="nav-link">
+                    <span>▣</span> Kelola Pengumuman
                 </a>
-
-                <a href="{{ route('pengeluaran.web.index') }}">
-                    <span class="menu-icon">↑</span>
-                    Pengeluaran
+                <!-- Menu 11 -->
+                <a href="{{ route('laporan.index') }}" class="nav-link">
+                    <span>▤</span> Laporan Keuangan
                 </a>
-
-                <div class="menu-title">
-                    CATATAN
-                </div>
-
-                <a href="{{ route('riwayat.index') }}">
-                    <span class="menu-icon">▣</span>
-                    Riwayat Transaksi
-                </a>
-
-                <a href="{{ route('laporan.index') }}">
-                    <span class="menu-icon">▤</span>
-                    Laporan Keuangan
-                </a>
-
             </nav>
 
             <div class="sidebar-bottom">
-
                 <div class="profile-mini">
-
-                    <div class="profile-avatar">
-                        AD
+                    <div class="profile-avatar">AD</div>
+                    <div class="profile-info">
+                        <strong>{{ Auth::user()->name ?? 'Administrator' }}</strong>
+                        <span>Super Admin</span>
                     </div>
-
-                    <span>
-                        Admin Sistem
-                    </span>
-
                 </div>
 
                 <form method="POST" action="{{ route('logout') }}">
-
                     @csrf
-
                     <button type="submit" class="logout-btn">
-                        ↪ Keluar
+                        ↪ &nbsp; Keluar
                     </button>
-
                 </form>
 
             </div>
-
         </aside>
 
-
-        <!-- MAIN -->
-
+        <!-- ================= MAIN CONTENT ================= -->
         <main class="main">
 
-            <!-- HEADER -->
-
-            <header class="header">
-
-                <div class="header-left">
-
-                    <h1>
-                        Dashboard
-                    </h1>
-
-                    <p>
-                        {{ now()->translatedFormat('l, d F Y') }}
-                    </p>
-
-                </div>
-
-                <div class="header-profile">
-
-                    <div class="header-profile-text">
-
-                        <strong>
-                            Admin Sistem
-                        </strong>
-
-                        <span>
-                            Administrator KASERALS
-                        </span>
-
-                    </div>
-
-                    <div class="header-avatar">
-                        AD
-                    </div>
-
-                </div>
-
+            <header class="topbar">
+                <h2>Dashboard Admin</h2>
+                <div class="avatar">AD</div>
             </header>
-
-
-            <!-- CONTENT -->
 
             <section class="content">
 
-                <!-- WELCOME BANNER & MASKOT -->
-                <div class="welcome-banner">
-                    <div class="welcome-text">
-                        <h2>Selamat Datang, Admin! 👋</h2>
-                        <p>Aplikasi KASERALS siap digunakan. Kelola kas kelas dengan lebih transparan, cepat, dan mudah hari ini.</p>
+                <!-- ================= BANNER WELCOME (PAKAI KASI SVG) ================= -->
+                <div class="welcome-card">
+
+                    <div class="welcome-left">
+                        <!-- GAMBAR KASI SVG MELAYANG -->
+                        <img src="{{ asset('images/kasi.svg') }}" alt="KASI Kucing Tosca" class="banner-kasi">
+
+                        <div class="welcome-text">
+                            <h1>Halo, Administrator!</h1>
+                            <p>Selamat datang kembali di panel KASERALS. Semua kendali sistem ada di tanganmu.</p>
+                        </div>
                     </div>
 
-                    <svg class="welcome-mascot" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Shadow (bayangan) -->
-                        <ellipse class="mascot-shadow" cx="100" cy="185" rx="45" ry="10" fill="#000000"/>
-
-                        <!-- Grup Maskot -->
-                        <g class="mascot-group">
-                            <!-- Body Utama (Celengan Babi) -->
-                            <path d="M70,80 Q100,50 130,80 L140,140 Q100,160 60,140 Z" fill="#f8fafc"/>
-
-                            <!-- Telinga -->
-                            <path d="M70,80 L55,40 L90,65 Z" fill="#f8fafc"/>
-                            <path d="M130,80 L145,40 L110,65 Z" fill="#f8fafc"/>
-                            <!-- Bagian dalam telinga -->
-                            <path d="M68,75 L58,45 L85,62 Z" fill="#e2e8f0"/>
-                            <path d="M132,75 L142,45 L115,62 Z" fill="#e2e8f0"/>
-
-                            <!-- Mata -->
-                            <circle cx="85" cy="95" r="7" fill="#0f172a"/>
-                            <circle cx="115" cy="95" r="7" fill="#0f172a"/>
-                            <circle cx="83" cy="93" r="2.5" fill="#ffffff"/>
-                            <circle cx="113" cy="93" r="2.5" fill="#ffffff"/>
-
-                            <!-- Kacamata -->
-                            <path d="M95,105 Q100,110 105,105" fill="none" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round"/>
-
-                            <!-- Senyum -->
-                            <path d="M90,112 Q100,120 110,112" fill="none" stroke="#f472b6" stroke-width="2" stroke-linecap="round"/>
-
-                            <!-- Baju/Seragam -->
-                            <path d="M60,110 L140,110 L135,150 Q100,165 65,150 Z" fill="#14b8a6"/>
-                            <path d="M85,110 L115,110 L110,135 Q100,145 90,135 Z" fill="#f8fafc"/>
-                            <!-- Dasi -->
-                            <path d="M95,115 L105,115 L105,125 L95,125 Z" fill="#f59e0b"/>
-
-                            <!-- Koin (Berputar) -->
-                            <g style="animation: coinFlip 3s infinite linear; transform-origin: 155px 95px;">
-                                <circle cx="155" cy="95" r="15" fill="#fbbf24" stroke="#d97706" stroke-width="2"/>
-                                <text x="155" y="100" font-family="Arial" font-weight="bold" font-size="14" fill="#d97706" text-anchor="middle">Rp</text>
-                            </g>
-
-                            <!-- Tangan Kanan (megang koin) -->
-                            <path d="M125,125 Q145,110 155,115" fill="none" stroke="#f8fafc" stroke-width="12" stroke-linecap="round"/>
-
-                            <!-- Tangan Kiri -->
-                            <path d="M75,125 Q55,110 45,115" fill="none" stroke="#f8fafc" stroke-width="12" stroke-linecap="round"/>
-                        </g>
-                    </svg>
-                </div>
-
-                <!-- ADMIN SUMMARY -->
-
-                <div class="summary-grid">
-
-                    <div class="summary-card">
-
-                        <div class="summary-title">
-                            TOTAL SISWA
-                        </div>
-
-                        <div class="summary-value">
-                            {{ $totalSiswa }}
-                        </div>
-
-                        <div class="summary-date">
-                            Data siswa terdaftar
-                        </div>
-
-                    </div>
-
-
-                    <div class="summary-card">
-
-                        <div class="summary-title">
-                            STATUS SISTEM
-                        </div>
-
-                        <div class="summary-value income">
-                            Aktif
-                        </div>
-
-                        <div class="summary-date">
-                            Sistem KASERALS berjalan normal
-                        </div>
-
-                    </div>
-
-
-                    <div class="summary-card dark">
-
-                        <div class="summary-title">
-                            ROLE SISTEM
-                        </div>
-
-                        <div class="summary-value">
-                            5 Role
-                        </div>
-
-                        <div class="summary-date">
-                            Admin · Bendahara · Siswa · Ketua Kelas · Guru
-                        </div>
-
+                    <div class="welcome-date">
+                        {{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}
                     </div>
 
                 </div>
 
-
-                <!-- ADMIN MONITORING -->
-
-                <div class="middle-grid">
-
-                    <!-- PENGELOLAAN PENGGUNA -->
-
-                    <div class="card">
-
-                        <div class="card-header">
-
-                            <h2>
-                                Pengelolaan Pengguna
-                            </h2>
-
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon icon-teal">💰</div>
+                        <div class="stat-title">Saldo Kas Saat Ini</div>
+                        <div class="stat-value">
+                            Rp {{ number_format($saldo, 0, ',', '.') }}
                         </div>
-
-                        <p class="payment-info">
-                            Kelola dan pantau data pengguna yang terdaftar
-                            dalam sistem KASERALS.
-                        </p>
-
-                        <div class="payment-status">
-
-                            <div class="status-box paid">
-
-                                <div class="status-number">
-                                    {{ $totalSiswa }}
-                                </div>
-
-                                <div class="status-label">
-                                    Data Siswa
-                                </div>
-
-                            </div>
-
-
-                            <div class="status-box unpaid">
-
-                                <div class="status-number">
-                                    5
-                                </div>
-
-                                <div class="status-label">
-                                    Role Sistem
-                                </div>
-
-                            </div>
-
-                        </div>
-
                     </div>
 
+                    <div class="stat-card">
+                        <div class="stat-icon icon-blue">👥</div>
+                        <div class="stat-title">Total Data Siswa</div>
+                        <div class="stat-value">
+                            {{ $totalSiswa }} Siswa
+                        </div>
+                    </div>
 
-                    <!-- AKSI ADMIN -->
+                    <div class="stat-card">
+                        <div class="stat-icon icon-orange">⏳</div>
+                        <div class="stat-title">Menunggu Verifikasi</div>
+                        <div class="stat-value">
+                            {{ $jumlahMenunggu }} Transaksi
+                        </div>
+                    </div>
 
-                    <div class="card quick-actions">
+                    <div class="stat-card">
+                        <div class="stat-icon icon-rose">📢</div>
+                        <div class="stat-title">Pengumuman Aktif</div>
+                        <div class="stat-value">
+                            {{ $jumlahPengumuman }} Pengumuman
+                        </div>
+                    </div>
+                </div>
 
-                        <h2>
-                            Aksi Admin
-                        </h2>
+                <!-- Bottom Grid (Table & Shortcuts) -->
+                <div class="bottom-grid">
 
-                        <a href="{{ route('data-siswa.index') }}"
-                           class="quick-btn primary"
-                           style="display:flex; align-items:center; justify-content:center; text-decoration:none;">
+                    <!-- Table Transaksi -->
+                    <div class="panel">
+                        <div class="panel-title">
+                            Aktivitas Transaksi Terbaru
+                            <a href="#" style="font-size: 14px; color: #0d9488;">Lihat Semua &rarr;</a>
+                        </div>
 
-                            Kelola Data Siswa
+                        <div class="table-wrapper">
+                            <table class="transaction-table">
+                                <thead>
+                                    <tr>
+                                        <th>NAMA SISWA</th>
+                                        <th>NOMINAL</th>
+                                        <th>METODE</th>
+                                        <th>STATUS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
 
-                        </a>
+                                    @forelse ($transaksiTerbaru as $item)
 
+                                        <tr>
 
-                        <a href="{{ route('laporan.index') }}"
-                           class="quick-btn"
-                           style="display:flex; align-items:center; justify-content:center; text-decoration:none;">
+                                            <td>
+                                                {{ $item['nama'] }}
+                                            </td>
 
-                            Lihat Laporan
+                                            <td>
+                                                Rp {{ number_format($item['nominal'], 0, ',', '.') }}
+                                            </td>
 
-                        </a>
+                                            <td>
+                                                {{ $item['metode'] }}
+                                            </td>
 
+                                            <td>
 
-                        <a href="{{ route('riwayat.index') }}"
-                           class="quick-btn"
-                           style="display:flex; align-items:center; justify-content:center; text-decoration:none;">
+                                                @if ($item['tipe'] === 'Pembayaran Kas')
+                                                    @if ($item['status'] === 'Menunggu')
+                                                        <span class="badge badge-pending">
+                                                            Menunggu Verifikasi
+                                                        </span>
+                                                    @elseif ($item['status'] === 'Diterima')
+                                                        <span class="badge badge-success">
+                                                            Diterima
+                                                        </span>
+                                                    @else
+                                                        <span class="badge">
+                                                            {{ $item['status'] }}
+                                                        </span>
+                                                    @endif
+                                                @else
+                                                    <span class="badge" style="background:#f1f5f9; color:#475569;">
+                                                        Pengeluaran
+                                                    </span>
+                                                @endif
 
-                            Lihat Riwayat
+                                            </td>
 
-                        </a>
+                                        </tr>
 
+                                    @empty
+
+                                        <tr>
+                                            <td colspan="4" style="text-align:center; padding:30px;">
+                                                Belum ada transaksi.
+                                            </td>
+                                        </tr>
+
+                                    @endforelse
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Akses Cepat (Shortcuts) -->
+                    <div class="panel">
+                        <div class="panel-title">Akses Cepat</div>
+                        <div class="shortcut-grid">
+                            <a href="#" class="shortcut-btn">
+                                <span class="shortcut-icon">⚙️</span>
+
+                                <div class="shortcut-content">
+                                    <strong>Konfigurasi Sistem</strong>
+                                    <small>Atur konfigurasi sistem</small>
+                                </div>
+
+                                <span class="shortcut-arrow">→</span>
+                            </a>
+                            <a href="{{ route('verifikasi-pembayaran.index') }}" class="shortcut-btn">
+                                <span class="shortcut-icon">✅</span>
+
+                                <div class="shortcut-content">
+                                    <strong>Verifikasi Pembayaran</strong>
+                                    <small>Periksa pembayaran yang masuk</small>
+                                </div>
+
+                                <span class="shortcut-arrow">→</span>
+                            </a>
+                            <a href="{{ route('data-siswa.index') }}" class="shortcut-btn">
+                                <span class="shortcut-icon">👤</span>
+
+                                <div class="shortcut-content">
+                                    <strong>Tambah Data Siswa</strong>
+                                    <small>Kelola data siswa kelas</small>
+                                </div>
+
+                                <span class="shortcut-arrow">→</span>
+                            </a>
+
+                        </div>
                     </div>
 
                 </div>
 
             </section>
-
         </main>
 
+    </div>
+
+    <!-- ================= MASCOT BAWAH KANAN (KEMBALI ORIGINAL ^ᴗ^) ================= -->
+    <div class="mascot-container">
+        <div class="mascot-bubble">
+            Halo Kak Admin! 👋<br>
+            <span>Semua transaksi hari ini udah siap dipantau nih! ✨</span>
+        </div>
+        <div class="mascot-body">
+            <div class="mascot-face">^ᴗ^</div>
+        </div>
     </div>
 
 </body>

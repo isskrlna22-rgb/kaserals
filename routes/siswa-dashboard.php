@@ -31,4 +31,12 @@ Route::middleware(['auth'])->group(function () {
     '/dashboard-siswa/riwayat',
     [SiswaDashboardController::class, 'riwayat']
 )->name('dashboard.siswa.riwayat');
+
+
+Route::get(
+    '/dashboard-siswa/info-kas',
+    [SiswaDashboardController::class, 'infoKas']
+)->name('dashboard.siswa.info-kas');
+
+
 });

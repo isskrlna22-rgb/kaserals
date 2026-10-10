@@ -8,7 +8,8 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
 
     <style>
         * {
@@ -30,18 +31,44 @@
 
         /* ================= ANIMASI ================= */
         @keyframes floatMascot {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-12px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
         }
 
         @keyframes pulseLogo {
-            0% { box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.4); }
-            70% { box-shadow: 0 0 0 12px rgba(13, 148, 136, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(13, 148, 136, 0); }
+            0% {
+                box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 12px rgba(13, 148, 136, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(13, 148, 136, 0);
+            }
         }
 
-        /* Animasi Maskot Pojok */
-        @keyframes blink { 0%, 96%, 98% { opacity: 1; } 97% { opacity: 0; transform: scaleY(0.1); } }
+        @keyframes blink {
+
+            0%,
+            96%,
+            98% {
+                opacity: 1;
+            }
+
+            97% {
+                opacity: 0;
+                transform: scaleY(0.1);
+            }
+        }
 
         /* ================= SIDEBAR ================= */
         .sidebar {
@@ -57,6 +84,7 @@
             display: flex;
             flex-direction: column;
             box-shadow: 4px 0 25px rgba(0, 0, 0, 0.05);
+            overflow-y: auto;
         }
 
         .brand {
@@ -136,16 +164,6 @@
             font-weight: 700;
         }
 
-        .menu-item.logout-item {
-            color: #f87171;
-        }
-
-        .menu-item.logout-item:hover {
-            background: rgba(239, 68, 68, 0.15);
-            color: #fca5a5;
-            transform: translateY(-2px);
-        }
-
         .menu-icon {
             width: 20px;
             text-align: center;
@@ -155,6 +173,62 @@
 
         .menu-item:hover .menu-icon {
             transform: scale(1.1) rotate(-5deg);
+        }
+
+        /* ================= PROFIL DI SIDEBAR (BAWAH) ================= */
+        .sidebar-footer {
+            margin-top: auto;
+            padding-top: 24px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding: 0 12px;
+        }
+
+        .sidebar-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: rgba(45, 212, 191, 0.2);
+            color: #2dd4bf;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .sidebar-user-info {
+            overflow: hidden;
+        }
+
+        .sidebar-user-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: white;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+        .sidebar-user-role {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+
+        .menu-logout {
+            color: #f87171 !important;
+        }
+
+        .menu-logout:hover {
+            background: rgba(239, 68, 68, 0.1) !important;
+            color: #fca5a5 !important;
         }
 
         /* ================= MAIN ================= */
@@ -183,18 +257,24 @@
             font-weight: 500;
         }
 
+        /* ================= PROFIL DI TOPBAR (KANAN ATAS) ================= */
         .profile {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 6px 12px;
-            border-radius: 30px;
-            transition: transform 0.3s;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 8px 18px 8px 8px;
+            border-radius: 50px;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
             cursor: pointer;
         }
 
         .profile:hover {
-            transform: scale(1.02);
+            background: white;
+            border-color: #e2e8f0;
+            box-shadow: 0 6px 20px rgba(13, 148, 136, 0.08);
+            transform: translateY(-2px);
         }
 
         .avatar {
@@ -219,7 +299,8 @@
         .profile-role {
             font-size: 11px;
             color: #64748b;
-            margin-top: 1px;
+            margin-top: 2px;
+            font-weight: 600;
         }
 
         /* ================= HERO ================= */
@@ -284,7 +365,7 @@
             object-fit: contain;
             z-index: 3;
             filter: drop-shadow(0 15px 15px rgba(0, 0, 0, 0.2));
-            animation: floatMascot 4s ease-in-out infinite; /* ANIMASI MELAYANG */
+            animation: floatMascot 4s ease-in-out infinite;
         }
 
         /* ================= CARDS ================= */
@@ -316,6 +397,7 @@
             font-weight: 800;
             letter-spacing: 0.5px;
             margin-bottom: 10px;
+            text-transform: uppercase;
         }
 
         .card-value {
@@ -381,6 +463,7 @@
         .status-date {
             font-size: 12px;
             color: #64748b;
+            font-weight: 500;
         }
 
         /* ================= CONTENT GRID ================= */
@@ -527,13 +610,69 @@
         }
 
         /* ================= MASCOT POJOK BAWAH ================= */
-        .mascot-container { position: fixed; bottom: 40px; right: 40px; z-index: 100; display: flex; flex-direction: column; align-items: flex-end; animation: floatMascot 4s ease-in-out infinite; }
-        .mascot-bubble { background: white; padding: 14px 20px; border-radius: 20px 20px 0 20px; box-shadow: 0 10px 25px rgba(13, 148, 136, 0.2); margin-bottom: 16px; font-size: 14px; font-weight: 800; color: #0f172a; max-width: 250px; text-align: center; opacity: 0; transform: translateY(20px) scale(0.9); transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); border: 2px solid #ccfbf1; }
-        .mascot-bubble span { color: #0d9488; }
-        .mascot-body { width: 80px; height: 80px; background: linear-gradient(135deg, #2dd4bf, #0d9488); border-radius: 40%; display: flex; align-items: center; justify-content: center; box-shadow: 0 15px 30px rgba(13, 148, 136, 0.4); cursor: pointer; border: 4px solid #f8fafc; transition: all 0.3s ease; position: relative; }
-        .mascot-face { font-size: 28px; color: white; font-weight: bold; animation: blink 4s infinite; }
-        .mascot-container:hover .mascot-bubble { opacity: 1; transform: translateY(0) scale(1); }
-        .mascot-container:hover .mascot-body { transform: scale(1.1) rotate(10deg); border-radius: 50%; }
+        .mascot-container {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            animation: floatMascot 4s ease-in-out infinite;
+        }
+
+        .mascot-bubble {
+            background: white;
+            padding: 14px 20px;
+            border-radius: 20px 20px 0 20px;
+            box-shadow: 0 10px 25px rgba(13, 148, 136, 0.2);
+            margin-bottom: 16px;
+            font-size: 14px;
+            font-weight: 800;
+            color: #0f172a;
+            max-width: 250px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px) scale(0.9);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border: 2px solid #ccfbf1;
+        }
+
+        .mascot-bubble span {
+            color: #0d9488;
+        }
+
+        .mascot-body {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #2dd4bf, #0d9488);
+            border-radius: 40%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 15px 30px rgba(13, 148, 136, 0.4);
+            cursor: pointer;
+            border: 4px solid #f8fafc;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .mascot-face {
+            font-size: 28px;
+            color: white;
+            font-weight: bold;
+            animation: blink 4s infinite;
+        }
+
+        .mascot-container:hover .mascot-bubble {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .mascot-container:hover .mascot-body {
+            transform: scale(1.1) rotate(10deg);
+            border-radius: 50%;
+        }
 
 
         /* ================= BOTTOM NAV ================= */
@@ -583,6 +722,7 @@
             .cards {
                 grid-template-columns: repeat(2, 1fr);
             }
+
             .content-grid {
                 grid-template-columns: 1fr;
             }
@@ -592,42 +732,58 @@
             .sidebar {
                 display: none;
             }
+
             .main {
                 margin-left: 0;
                 padding: 20px 16px 90px;
             }
+
             .page-title {
                 font-size: 22px;
             }
+
+            .profile {
+                display: none;
+                /* Sembunyikan profil topbar di mode HP biar nggak kepenuhan */
+            }
+
             .welcome {
                 min-height: 160px;
                 padding: 24px 20px;
             }
+
             .welcome h1 {
                 font-size: 22px;
             }
+
             .mascot {
                 width: 110px;
                 right: 10px;
             }
+
             .cards {
                 grid-template-columns: 1fr 1fr;
                 gap: 12px;
             }
+
             .card {
                 padding: 16px;
             }
+
             .card-value {
                 font-size: 18px;
             }
+
             .status-amount {
                 font-size: 22px;
             }
+
             .bottom-nav {
                 display: grid;
             }
+
             .mascot-container {
-                display: none; /* Sembunyikan maskot pojok saat buka di HP biar ga nutupin layar */
+                display: none;
             }
         }
     </style>
@@ -635,7 +791,7 @@
 
 <body>
 
-    <!-- SIDEBAR -->
+    <!-- SIDEBAR LENGKAP -->
     <aside class="sidebar">
 
         <div class="brand">
@@ -648,85 +804,57 @@
         </div>
 
         <div class="menu-section">
-
-            <div class="menu-title">
-                MENU
-            </div>
-
-            <a href="{{ route('dashboard.siswa') }}"
-                class="menu-item active">
-
-                <span class="menu-icon">⌂</span>
-                Dashboard
-
+            <div class="menu-title">MENU</div>
+            <a href="{{ route('dashboard.siswa') }}" class="menu-item active">
+                <span class="menu-icon">⌂</span> Dashboard
             </a>
-
         </div>
 
         <div class="menu-section">
-
-            <div class="menu-title">
-                TRANSAKSI
-            </div>
-
-            <a href="{{ route('dashboard.siswa.pembayaran') }}"
-                class="menu-item">
-
-                <span class="menu-icon">💳</span>
-                Pembayaran Kas
-
+            <div class="menu-title">TRANSAKSI</div>
+            <a href="{{ route('dashboard.siswa.pembayaran') }}" class="menu-item">
+                <span class="menu-icon">💳</span> Pembayaran Kas
             </a>
-
-            <a href="{{ route('dashboard.siswa.status') }}"
-                class="menu-item">
-
-                <span class="menu-icon">✓</span>
-                Status Pembayaran
-
+            <a href="{{ route('dashboard.siswa.status') }}" class="menu-item">
+                <span class="menu-icon">✓</span> Status Pembayaran
             </a>
-
         </div>
 
         <div class="menu-section">
-
-            <div class="menu-title">
-                CATATAN
-            </div>
-
-            <a href="{{ route('dashboard.siswa.riwayat') }}"
-                class="menu-item">
-
-                <span class="menu-icon">◷</span>
-                Riwayat Transaksi
-
+            <div class="menu-title">CATATAN</div>
+            <a href="{{ route('dashboard.siswa.riwayat') }}" class="menu-item">
+                <span class="menu-icon">⏱</span> Riwayat Transaksi
             </a>
 
-            <a href="{{ route('dashboard.siswa') }}"
-                class="menu-item">
-
+            <a href="{{ route('dashboard.siswa.info-kas') }}" class="menu-item">
                 <span class="menu-icon">ⓘ</span>
                 Info Kas
-
             </a>
 
         </div>
 
-        <!-- LOGOUT -->
-        <div class="menu-section" style="margin-top:auto;">
+        <!-- ================= PROFIL & LOGOUT DI SIDEBAR BAWAH ================= -->
+        <div class="sidebar-footer">
+            <div class="menu-title">AKUN</div>
 
-            <div class="menu-title">
-                AKUN
+            <div class="sidebar-profile">
+                <div class="sidebar-avatar">
+                    {{ strtoupper(substr($siswa->nama_lengkap ?? 'SI', 0, 2)) }}
+                </div>
+                <div class="sidebar-user-info">
+                    <div class="sidebar-user-name">
+                        {{ $siswa->nama_lengkap ?? 'Siswa' }}
+                    </div>
+                    <div class="sidebar-user-role">
+                        Siswa · {{ $siswa->kelas ?? '-' }}
+                    </div>
+                </div>
             </div>
 
-            <a href="{{ route('logout') }}"
-                class="menu-item logout-item"
+            <a href="{{ route('logout') }}" class="menu-item menu-logout"
                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-
-                <span class="menu-icon">⏻</span>
-                Keluar
-
+                <span class="menu-icon">⎋</span> Keluar
             </a>
-
         </div>
 
     </aside>
@@ -736,20 +864,17 @@
 
         <!-- TOPBAR -->
         <div class="topbar">
-
             <div>
                 <div class="page-title">
                     Halo, {{ $siswa->nama_lengkap ?? 'Siswa' }}
                 </div>
-
                 <div class="page-subtitle">
-                    {{ $siswa->kelas ?? '-' }}
-                    · NISN {{ $siswa->nisn ?? '-' }}
+                    {{ $siswa->kelas ?? '-' }} · NISN {{ $siswa->nisn ?? '-' }}
                 </div>
             </div>
 
+            <!-- ================= PROFIL DI TOPBAR (KANAN ATAS) ================= -->
             <div class="profile">
-
                 <div class="avatar">
                     {{ strtoupper(substr($siswa->nama_lengkap ?? 'SI', 0, 2)) }}
                 </div>
@@ -758,14 +883,11 @@
                     <div class="profile-name">
                         {{ $siswa->nama_lengkap ?? 'Siswa' }}
                     </div>
-
                     <div class="profile-role">
                         Siswa · {{ $siswa->kelas ?? '-' }}
                     </div>
                 </div>
-
             </div>
-
         </div>
 
         <!-- HERO -->
@@ -788,10 +910,7 @@
 
             </div>
 
-            <!-- MASKOT KASI_2.SVG DENGAN ANIMASI MELAYANG -->
-            <img src="{{ asset('images/kasi.svg') }}"
-                alt="Mascot KASERALS"
-                class="mascot">
+            <img src="{{ asset('images/kasi.svg') }}" alt="Mascot KASERALS" class="mascot">
 
         </section>
 
@@ -842,7 +961,7 @@
             <div class="status-detail">
 
                 <div class="status-amount">
-                    @if(isset($pembayaranTerakhir))
+                    @if (isset($pembayaranTerakhir))
                         Rp {{ number_format($pembayaranTerakhir->nominal, 0, ',', '.') }}
                     @else
                         Rp 0
@@ -850,7 +969,7 @@
                 </div>
 
                 <div class="status-date">
-                    @if(isset($pembayaranTerakhir))
+                    @if (isset($pembayaranTerakhir))
                         Dicatat bendahara ·
                         {{ \Carbon\Carbon::parse($pembayaranTerakhir->tanggal)->format('d M Y') }}
                     @else
@@ -883,8 +1002,8 @@
                     <span>NOMINAL</span>
                 </div>
 
-                @if(isset($pembayaran) && count($pembayaran) > 0)
-                    @foreach($pembayaran->take(5) as $item)
+                @if (isset($pembayaran) && count($pembayaran) > 0)
+                    @foreach ($pembayaran->take(5) as $item)
                         <div class="table-row">
                             <span>Minggu ke-{{ $item->minggu_ke }}</span>
                             <span>{{ \Carbon\Carbon::parse($item->tanggal)->format('d/m/Y') }}</span>
@@ -925,7 +1044,8 @@
 
                     <div class="info-item">
                         <span class="info-label">Total Pengeluaran</span>
-                        <span class="info-value expense">Rp {{ number_format($totalPengeluaran ?? 0, 0, ',', '.') }}</span>
+                        <span class="info-value expense">Rp
+                            {{ number_format($totalPengeluaran ?? 0, 0, ',', '.') }}</span>
                     </div>
 
                     <div class="saldo-card-dark">
@@ -954,17 +1074,17 @@
     <!-- BOTTOM NAV MOBILE -->
     <nav class="bottom-nav">
         <a href="{{ route('dashboard.siswa') }}" class="nav-item active">
-            <span class="nav-icon">▢</span>
-            <span class="nav-text">Beranda</span>
+            <span class="nav-icon">⌂</span>
+            <span class="nav-text">Dashboard</span>
         </a>
 
-        <a href="{{ route('dashboard.siswa.status') }}" class="nav-item">
-            <span class="nav-icon">✓</span>
-            <span class="nav-text">Status</span>
+        <a href="{{ route('dashboard.siswa.pembayaran') }}" class="nav-item">
+            <span class="nav-icon">💳</span>
+            <span class="nav-text">Bayar</span>
         </a>
 
         <a href="{{ route('dashboard.siswa.riwayat') }}" class="nav-item">
-            <span class="nav-icon">↺</span>
+            <span class="nav-icon">⏱</span>
             <span class="nav-text">Riwayat</span>
         </a>
 
@@ -974,13 +1094,11 @@
         </a>
     </nav>
 
-    <!-- LOGOUT FORM -->
-    <form id="logout-form"
-        action="{{ route('logout') }}"
-        method="POST"
-        style="display:none;">
+    <!-- LOGOUT FORM HIDDEN -->
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
         @csrf
     </form>
 
 </body>
+
 </html>

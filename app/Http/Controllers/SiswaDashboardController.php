@@ -256,4 +256,26 @@ class SiswaDashboardController extends Controller
 
         return view('admin.status-bayar-pribadi', compact('dataStatus'));
     }
+
+public function infoKas()
+{
+    $user = \Illuminate\Support\Facades\Auth::user();
+
+    if (!$user) {
+        return redirect()->route('login');
+    }
+
+    $siswa = \App\Models\Siswa::where('id_user', $user->id_users)
+        ->firstOrFail();
+
+    $pembayaran = \App\Models\PembayaranKas::where(
+        'id_siswa',
+        $siswa->id_siswa
+    )
+        ->orderByDesc('tanggal')
+        ->orderByDesc('id_pembayaran')
+        ->get();
+
+    return view('siswa.info-kas', compact('siswa', 'pembayaran'));
+}
 }

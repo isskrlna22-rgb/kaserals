@@ -29,10 +29,13 @@ class AuthenticatedSessionController extends Controller
     $request->session()->regenerate();
 
     $user = Auth::user();
-    
 
     if ($user->role === 'SISWA') {
         return redirect()->route('dashboard.siswa');
+    }
+
+    if ($user->role === 'WALI_KELAS') {
+        return redirect()->route('wali-kelas.dashboard');
     }
 
     return redirect()->route('dashboard');

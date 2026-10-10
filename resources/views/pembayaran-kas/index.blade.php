@@ -8,7 +8,8 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
 
     <style>
         * {
@@ -288,14 +289,14 @@
         ================================ */
         .columns {
             display: grid;
-            grid-template-columns: 1.2fr 1fr; /* Form sedikit lebih lebar dari list transaksi */
+            grid-template-columns: 1.2fr 1fr;
             gap: 30px;
-            align-items: start; /* Supaya kotak kanan ga ikutan manjang ke bawah otomatis */
+            align-items: start;
         }
 
         @media (max-width: 1024px) {
             .columns {
-                grid-template-columns: 1fr; /* Jika layar kecil, otomatis numpuk ke bawah */
+                grid-template-columns: 1fr;
             }
         }
 
@@ -410,7 +411,7 @@
         }
 
         .payment-header h2 {
-            margin-bottom: 0; /* Override margin dari card */
+            margin-bottom: 0;
         }
 
         .total {
@@ -545,19 +546,34 @@
         }
 
         @keyframes floatMascot {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
         }
 
         @keyframes blink {
-            0%, 96%, 98% { opacity: 1; }
-            97% { opacity: 0; transform: scaleY(0.1); }
+            0%, 96%, 98% {
+                opacity: 1;
+            }
+            97% {
+                opacity: 0;
+                transform: scaleY(0.1);
+            }
         }
 
         @keyframes pulse-gemes {
-            0% { box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.4); }
-            70% { box-shadow: 0 0 0 15px rgba(13, 148, 136, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(13, 148, 136, 0); }
+            0% {
+                box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(13, 148, 136, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(13, 148, 136, 0);
+            }
         }
 
         /* MODAL EFEK GEMES */
@@ -769,11 +785,12 @@
                                     placeholder="Contoh: 20000" min="1" step="1" required>
                             </div>
 
-                            <!-- METODE & BUKTI (Di Sebelah / Satuin Di Form Kiri) -->
+                            <!-- METODE & BUKTI -->
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="metode_pembayaran">Metode Pembayaran *</label>
-                                    <select id="metode_pembayaran" name="metode_pembayaran" class="form-control" required>
+                                    <select id="metode_pembayaran" name="metode_pembayaran" class="form-control"
+                                        required>
                                         <option value="">Pilih metode...</option>
                                         <option value="Tunai">Tunai</option>
                                         <option value="Transfer">Transfer</option>
@@ -787,9 +804,27 @@
                                 </div>
                             </div>
 
+                            <!-- UANG DIBAYARKAN: KHUSUS TUNAI -->
+                            <div class="form-group" id="uang-tunai-group" style="display: none;">
+                                <label for="uang_dibayarkan">Uang Dibayarkan (Rp) *</label>
+                                <input type="number" id="uang_dibayarkan" name="uang_dibayarkan" class="form-control"
+                                    min="1" step="1" placeholder="Contoh: 50000">
+                            </div>
+
+                            <!-- KEMBALIAN OTOMATIS -->
+                            <div class="form-group" id="kembalian-group" style="display: none;">
+                                <label for="uang_kembalian">Uang Kembalian (Rp)</label>
+                                <input type="text" id="uang_kembalian" class="form-control" value="Rp 0"
+                                    readonly style="font-weight: bold; background: #f1f5f9;">
+                                <small id="pesan-kembalian" style="display:block; margin-top:8px; color:#64748b; font-weight: 600;">
+                                    Kembalian dihitung otomatis.
+                                </small>
+                            </div>
+
                             <div class="buttons">
                                 <button type="reset" class="btn btn-reset">Bersihkan</button>
-                                <button type="button" class="btn btn-save" onclick="showConfirmModal()">Simpan Data</button>
+                                <button type="button" class="btn btn-save" onclick="showConfirmModal()">Simpan
+                                    Data</button>
                             </div>
                         </form>
                     </div>
@@ -799,11 +834,11 @@
                         <div class="payment-header">
                             <h2>Transaksi Hari Ini</h2>
                             <span class="total">
-                                Rp {{ number_format($transaksiHariIni->sum('nominal'), 0, ',', '.') }}
+                                Rp {{ number_format($transaksiHariIni->sum('nominal') ?? 0, 0, ',', '.') }}
                             </span>
                         </div>
 
-                        @if ($transaksiHariIni->count() > 0)
+                        @if (isset($transaksiHariIni) && $transaksiHariIni->count() > 0)
                             @foreach ($transaksiHariIni as $transaksi)
                                 <div class="payment-row">
                                     <div class="payment-row-top">
@@ -813,7 +848,8 @@
                                                 {{ strtoupper(substr($transaksi->siswa->nama_lengkap ?? 'S', 0, 2)) }}
                                             </div>
                                             <div style="min-width:0;">
-                                                <div style="font-weight:bold; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                                <div
+                                                    style="font-weight:bold; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
                                                     {{ $transaksi->siswa->nama_lengkap ?? 'Siswa tidak ditemukan' }}
                                                 </div>
                                                 <div style="font-size:12px; color:#64748b;">
@@ -823,7 +859,8 @@
                                         </div>
                                         {{-- TOMBOL HAPUS --}}
                                         <form action="{{ route('pembayaran-kas.destroy', $transaksi->id_pembayaran) }}"
-                                            method="POST" onsubmit="return confirm('Yakin ingin menghapus pembayaran ini?')">
+                                            method="POST"
+                                            onsubmit="return confirm('Yakin ingin menghapus pembayaran ini?')">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="delete-btn">Hapus</button>
@@ -837,7 +874,8 @@
                                                 {{ $transaksi->metode_pembayaran }}
                                             </div>
                                             @if ($transaksi->bukti_transfer)
-                                                <a href="{{ asset('storage/' . $transaksi->bukti_transfer) }}" target="_blank"
+                                                <a href="{{ asset('storage/' . $transaksi->bukti_transfer) }}"
+                                                    target="_blank"
                                                     style="display:inline-block; padding:5px 10px; background:#ccfbf1; color:#0d9488; border-radius:8px; font-size:11px; font-weight:bold;">
                                                     📎 Bukti
                                                 </a>
@@ -881,7 +919,8 @@
         <div class="modal-box">
             <div class="modal-icon">✨</div>
             <h3 class="modal-title">Simpan Transaksi?</h3>
-            <p style="color: #64748b; font-size: 15px; margin-bottom: 10px;">Pastikan nominal dan nama siswa sudah benar ya!</p>
+            <p style="color: #64748b; font-size: 15px; margin-bottom: 10px;">Pastikan nominal dan nama siswa sudah
+                benar ya!</p>
 
             <div class="modal-buttons">
                 <button class="btn btn-reset" style="flex:1;" onclick="closeConfirmModal()">Cek Lagi</button>
@@ -892,23 +931,106 @@
 
     <!-- ================= SCRIPT ================= -->
     <script>
-        // Script Bukti Transfer Wajib
+        const form = document.getElementById('paymentForm');
+        const modal = document.getElementById('confirmModal');
+
+        // Element untuk logika Tunai & Transfer
+        const totalBayar = document.getElementById('Total_bayar');
         const metodePembayaran = document.getElementById('metode_pembayaran');
         const buktiTransfer = document.getElementById('bukti_transfer');
 
+        const uangTunaiGroup = document.getElementById('uang-tunai-group');
+        const uangDibayarkan = document.getElementById('uang_dibayarkan');
+
+        const kembalianGroup = document.getElementById('kembalian-group');
+        const uangKembalian = document.getElementById('uang_kembalian');
+        const pesanKembalian = document.getElementById('pesan-kembalian');
+
+        // Fungsi Kalkulasi Kembalian
+        function hitungKembalian() {
+            const total = parseFloat(totalBayar.value) || 0;
+            const dibayar = parseFloat(uangDibayarkan.value) || 0;
+
+            if (metodePembayaran.value === 'Tunai') {
+                const sisa = dibayar - total;
+
+                if (uangDibayarkan.value === '' || dibayar === 0) {
+                    uangKembalian.value = 'Rp 0';
+                    uangKembalian.style.color = '#0f172a';
+                    pesanKembalian.innerHTML = 'Kembalian dihitung otomatis.';
+                    pesanKembalian.style.color = '#64748b';
+                } else if (sisa < 0) {
+                    uangKembalian.value = 'Uang Kurang!';
+                    uangKembalian.style.color = '#ef4444';
+                    pesanKembalian.innerHTML = 'Nominal yang dibayarkan kurang dari total.';
+                    pesanKembalian.style.color = '#ef4444';
+                } else {
+                    uangKembalian.value = 'Rp ' + sisa.toLocaleString('id-ID');
+                    uangKembalian.style.color = '#0d9488';
+                    pesanKembalian.innerHTML = 'Uang pas / Kembalian sesuai.';
+                    pesanKembalian.style.color = '#0d9488';
+                }
+            }
+        }
+
+        // Listener saat Metode Pembayaran Diganti
         metodePembayaran.addEventListener('change', function() {
             if (this.value === 'Transfer') {
                 buktiTransfer.required = true;
+
+                // Sembunyikan field Tunai
+                uangTunaiGroup.style.display = 'none';
+                kembalianGroup.style.display = 'none';
+                uangDibayarkan.required = false;
+                uangDibayarkan.value = '';
+                uangKembalian.value = 'Rp 0';
+            } else if (this.value === 'Tunai') {
+                buktiTransfer.required = false;
+
+                // Tampilkan field Tunai
+                uangTunaiGroup.style.display = 'block';
+                kembalianGroup.style.display = 'block';
+                uangDibayarkan.required = true;
+
+                // Hitung kembalian jika total tagihan sudah terisi
+                hitungKembalian();
             } else {
                 buktiTransfer.required = false;
+                uangTunaiGroup.style.display = 'none';
+                kembalianGroup.style.display = 'none';
+                uangDibayarkan.required = false;
             }
         });
 
-        // Script Modal
-        const modal = document.getElementById('confirmModal');
-        const form = document.getElementById('paymentForm');
+        // Trigger perhitungan otomatis saat angka diketik
+        totalBayar.addEventListener('input', hitungKembalian);
+        uangDibayarkan.addEventListener('input', hitungKembalian);
 
+        // Reset UI form saat tombol Bersihkan ditekan
+        form.addEventListener('reset', function() {
+            setTimeout(() => {
+                uangTunaiGroup.style.display = 'none';
+                kembalianGroup.style.display = 'none';
+                uangKembalian.value = 'Rp 0';
+                uangKembalian.style.color = '#0f172a';
+                pesanKembalian.innerHTML = 'Kembalian dihitung otomatis.';
+                pesanKembalian.style.color = '#64748b';
+            }, 10);
+        });
+
+        // Script Modal Confirm
         function showConfirmModal() {
+            // Validasi manual khusus kembalian jika pilih Tunai
+            if (metodePembayaran.value === 'Tunai') {
+                const total = parseFloat(totalBayar.value) || 0;
+                const dibayar = parseFloat(uangDibayarkan.value) || 0;
+                if (dibayar < total) {
+                    alert('Uang yang dibayarkan tidak boleh kurang dari total bayar!');
+                    uangDibayarkan.focus();
+                    return; // Batalkan kemunculan modal jika uang kurang
+                }
+            }
+
             if (form.checkValidity()) {
                 modal.classList.add('active');
             } else {
@@ -926,5 +1048,4 @@
     </script>
 
 </body>
-
 </html>

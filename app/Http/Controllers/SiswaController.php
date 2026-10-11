@@ -8,11 +8,11 @@ use Illuminate\Http\Request;
 class SiswaController extends Controller
 {
     public function index()
-    {
-        $siswa = Siswa::latest()->get();
+{
+    $siswa = Siswa::all();
 
-        return response()->json($siswa);
-    }
+    return view('siswa.index', compact('siswa'));
+}
 
     public function page()
     {
@@ -56,21 +56,23 @@ class SiswaController extends Controller
             ->with('success', 'Data siswa berhasil dihapus.');
     }
 
-    public function storePage(Request $request)
-    {
-        $validated = $request->validate([
-            'nisn' => 'required|string|max:50|unique:siswa,nisn',
-            'nama_lengkap' => 'required|string|max:255',
-            'kelas' => 'required|string|max:50',
-            'no_hp' => 'nullable|string|max:20',
-        ]);
+public function storePage(Request $request)
+{
+    $validated = $request->validate([
+        'nisn' => 'required|string|max:255|unique:siswa,nisn',
+        'nama_lengkap' => 'required|string|max:255',
+        'kelas' => 'required|string|max:50',
+        'jurusan' => 'required|string|max:100',
+        'no_hp' => 'nullable|string|max:20',
+    ]);
 
-        Siswa::create($validated);
+    Siswa::create($validated);
 
-        return redirect()
-            ->route('data-siswa.index')
-            ->with('success', 'Data siswa berhasil ditambahkan.');
-    }
+    return redirect()
+        ->route('data-siswa.index')
+        ->with('success', 'Data siswa berhasil ditambahkan.');
+}
+
 
     public function store(Request $request)
     {

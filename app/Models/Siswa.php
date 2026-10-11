@@ -20,6 +20,7 @@ class Siswa extends Model
         'nisn',
         'nama_lengkap',
         'kelas',
+        'jurusan',
         'no_hp',
     ];
 

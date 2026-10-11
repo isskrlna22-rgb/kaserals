@@ -838,8 +838,10 @@
                             </div>
                         </div>
 
-                        <form action="#" method="POST">
+
+                        <form action="{{ route('akun.store') }}" method="POST">
                             @csrf
+
 
                             <div class="form-group">
                                 <label for="nama_kelas">Nama Kelas</label>

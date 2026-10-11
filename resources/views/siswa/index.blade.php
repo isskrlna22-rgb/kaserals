@@ -219,7 +219,8 @@
 
         /* ================= SIDEBAR BOTTOM (PROFIL & LOGOUT) ================= */
         .sidebar-bottom {
-            margin-top: 32px;
+            margin-top: auto;
+            /* Memastikan ke bawah */
             border-top: 1px solid rgba(255, 255, 255, .08);
             padding-top: 24px;
         }
@@ -854,7 +855,7 @@
 
                 <div class="profile-mini">
                     <div class="profile-avatar">
-                        BE
+                        {{ strtoupper(substr(Auth::user()->name ?? 'BE', 0, 2)) }}
                     </div>
                     <span>
                         {{ Auth::user()->name ?? 'Bendahara' }}
@@ -884,7 +885,7 @@
                 </h2>
 
                 <div class="profile">
-                    NS
+                    {{ strtoupper(substr(Auth::user()->name ?? 'BE', 0, 2)) }}
                 </div>
 
             </header>
@@ -896,17 +897,12 @@
                 <!-- SUCCESS MESSAGE -->
                 @if (session('success'))
                     <div class="success-message">
-
                         <div class="success-content">
-
                             <span>✓</span>
-
                             <p>
                                 {{ session('success') }}
                             </p>
-
                         </div>
-
                     </div>
                 @endif
 
@@ -915,15 +911,13 @@
                 <div class="page-header">
 
                     <div>
-
                         <h1 class="page-title">
                             Data Siswa
                         </h1>
 
                         <p class="page-description">
-                            {{ $siswa->count() }} siswa terdaftar
+                            {{ $siswa->count() ?? 0 }} siswa terdaftar
                         </p>
-
                     </div>
 
                     <a href="{{ route('data-siswa.create') }}" class="btn-add">
@@ -937,28 +931,19 @@
                 <div class="toolbar">
 
                     <div class="search-box">
-
-                        <span class="search-icon">
-                            🔍
-                        </span>
-
+                        <span class="search-icon">🔍</span>
                         <input type="text" id="searchSiswa" class="search-input" placeholder="Cari nama atau NIS...">
-
                     </div>
 
-
                     <select id="filterKelas" class="filter-select">
-
                         <option value="">
                             Kelas: Semua
                         </option>
-
                         @foreach ($siswa->pluck('kelas')->unique()->sort() as $kelas)
                             <option value="{{ $kelas }}">
                                 {{ $kelas }}
                             </option>
                         @endforeach
-
                     </select>
 
                 </div>
@@ -966,39 +951,18 @@
 
                 <!-- TABLE -->
                 <div class="table-card">
-
                     <div class="table-wrapper">
-
                         <table class="student-table">
-
                             <thead>
-
                                 <tr>
-
-                                    <th>
-                                        Nama Siswa
-                                    </th>
-
-                                    <th>
-                                        NIS
-                                    </th>
-
-                                    <th>
-                                        Kelas
-                                    </th>
-
-                                    <th>
-                                        No. HP
-                                    </th>
-
-                                    <th>
-                                        Aksi
-                                    </th>
-
+                                    <th>Nama Siswa</th>
+                                    <th>NIS</th>
+                                    <th>Kelas</th>
+                                    <th>Jurusan</th> <!-- KOLOM JURUSAN DITAMBAHKAN -->
+                                    <th>No. HP</th>
+                                    <th>Aksi</th>
                                 </tr>
-
                             </thead>
-
 
                             <tbody id="tabelSiswa">
 
@@ -1007,72 +971,60 @@
 
                                         <!-- NAMA -->
                                         <td>
-
                                             <div class="student-name">
-
                                                 <div class="student-avatar">
                                                     {{ strtoupper(substr($item->nama_lengkap ?? 'S', 0, 2)) }}
                                                 </div>
-
                                                 <span class="student-name-text">
                                                     {{ $item->nama_lengkap ?? '-' }}
                                                 </span>
-
-                                                <span class="student-name-text">
-                                                    {{ $item->nama }}
-                                                </span>
-
                                             </div>
-
                                         </td>
 
-
                                         <!-- NIS -->
-                                        {{-- NIS --}}
                                         <td>
                                             {{ $item->nisn ?? '-' }}
                                         </td>
 
-
                                         <!-- KELAS -->
                                         <td>
-
                                             <span class="class-badge">
                                                 {{ $item->kelas }}
                                             </span>
-
                                         </td>
 
+                                        <!-- JURUSAN (DATA DITAMBAHKAN) -->
+                                        <td>
+                                            <span style="font-weight: 600; color: #475569;">
+                                                {{ $item->Jurusan ?? '-' }}
+                                            </span>
+                                        </td>
 
                                         <!-- NO HP -->
                                         <td>
                                             {{ $item->no_hp ?? '-' }}
                                         </td>
 
-
                                         <!-- AKSI -->
                                         <td>
-
                                             <div class="actions">
-
                                                 <!-- UBAH -->
                                                 <a href="{{ route('data-siswa.edit', $item->id_siswa) }}"
                                                     class="btn-edit">
                                                     Ubah
                                                 </a>
 
-                                                <!-- HAPUS -->
+                                                <!-- HAPUS (DIPERBAIKI) -->
                                                 <form action="{{ route('data-siswa.destroy', $item->id_siswa) }}"
                                                     method="POST"
                                                     onsubmit="return confirm('Yakin ingin menghapus data siswa ini?')">
                                                     @csrf
                                                     @method('DELETE')
+                                                    <button type="submit" class="btn-delete">
+                                                        Hapus
                                                     </button>
-
                                                 </form>
-
                                             </div>
-
                                         </td>
 
                                     </tr>
@@ -1080,22 +1032,17 @@
                                 @empty
 
                                     <tr>
-
-                                        <td colspan="5" class="empty-state">
+                                        <!-- COLSPAN DIUBAH JADI 6 -->
+                                        <td colspan="6" class="empty-state">
                                             Belum ada data siswa.
                                         </td>
-
                                     </tr>
                                 @endforelse
 
                             </tbody>
-
                         </table>
-
                     </div>
-
                 </div>
-
 
                 <!-- PAGINATION -->
                 <div id="pagination">
@@ -1120,231 +1067,132 @@
 
     <!-- JAVASCRIPT -->
     <script>
-        const searchInput =
-            document.getElementById('searchSiswa');
-
-        const filterKelas =
-            document.getElementById('filterKelas');
-
-        const rows =
-            document.querySelectorAll('.siswa-row');
-
-        const pagination =
-            document.getElementById('pagination');
+        const searchInput = document.getElementById('searchSiswa');
+        const filterKelas = document.getElementById('filterKelas');
+        const rows = document.querySelectorAll('.siswa-row');
+        const pagination = document.getElementById('pagination');
 
         const perPage = 10;
-
         let currentPage = 1;
 
 
         // FILTER DATA
         function getFilteredRows() {
-
-            const keyword =
-                searchInput.value.toLowerCase().trim();
-
-            const kelas =
-                filterKelas.value.toLowerCase();
+            const keyword = searchInput.value.toLowerCase().trim();
+            const kelas = filterKelas.value.toLowerCase();
 
             return Array.from(rows).filter(row => {
-
-                const text =
-                    row.textContent.toLowerCase();
-
-                const cocokSearch =
-                    text.includes(keyword);
-
-                const cocokKelas =
-                    kelas === '' ||
-                    text.includes(kelas);
+                const text = row.textContent.toLowerCase();
+                const cocokSearch = text.includes(keyword);
+                const cocokKelas = kelas === '' || text.includes(kelas);
 
                 return cocokSearch && cocokKelas;
-
             });
-
         }
 
 
         // TAMPILKAN SISWA
         function tampilkanSiswa() {
-
-            const filteredRows =
-                getFilteredRows();
-
-            const totalPages =
-                Math.ceil(filteredRows.length / perPage);
-
+            const filteredRows = getFilteredRows();
+            const totalPages = Math.ceil(filteredRows.length / perPage);
 
             if (totalPages > 0 && currentPage > totalPages) {
-
                 currentPage = totalPages;
-
             }
-
 
             if (totalPages === 0) {
-
                 currentPage = 1;
-
             }
 
-
             rows.forEach(row => {
-
                 row.style.display = 'none';
-
             });
 
-
-            const start =
-                (currentPage - 1) * perPage;
-
-            const end =
-                start + perPage;
-
+            // PERBAIKAN TYPO PADA PERHITUNGAN START
+            const start = (currentPage - 1) * perPage;
+            const end = start + perPage;
 
             filteredRows
                 .slice(start, end)
                 .forEach(row => {
-
                     row.style.display = '';
-
                 });
 
-
             buatPagination(totalPages);
-
         }
 
 
         // BUAT PAGINATION
         function buatPagination(totalPages) {
-
             pagination.innerHTML = '';
 
-
             if (totalPages <= 1) {
-
                 return;
-
             }
 
-
             // SEBELUMNYA
-            const prev =
-                document.createElement('button');
-
+            const prev = document.createElement('button');
             prev.type = 'button';
-
             prev.textContent = '‹';
-
-            prev.className =
-                'pagination-prev';
-
-            prev.disabled =
-                currentPage === 1;
-
+            prev.className = 'pagination-prev';
+            prev.disabled = currentPage === 1;
             prev.addEventListener('click', () => {
-
                 if (currentPage > 1) {
-
                     currentPage--;
-
                     tampilkanSiswa();
-
                 }
-
             });
-
             pagination.appendChild(prev);
 
 
             // NOMOR HALAMAN
             for (let i = 1; i <= totalPages; i++) {
-
-                const button =
-                    document.createElement('button');
-
+                const button = document.createElement('button');
                 button.type = 'button';
-
                 button.textContent = i;
 
-
                 if (i === currentPage) {
-
-                    button.className =
-                        'pagination-active';
-
+                    button.className = 'pagination-active';
                 } else {
-
-                    button.className =
-                        'pagination-number';
-
+                    button.className = 'pagination-number';
                 }
 
-
                 button.addEventListener('click', () => {
-
                     currentPage = i;
-
                     tampilkanSiswa();
-
                 });
 
-
                 pagination.appendChild(button);
-
             }
 
 
             // BERIKUTNYA
-            const next =
-                document.createElement('button');
-
+            const next = document.createElement('button');
             next.type = 'button';
-
             next.textContent = '›';
-
-            next.className =
-                'pagination-next';
-
-            next.disabled =
-                currentPage === totalPages;
-
+            next.className = 'pagination-next';
+            next.disabled = currentPage === totalPages;
             next.addEventListener('click', () => {
-
                 if (currentPage < totalPages) {
-
                     currentPage++;
-
                     tampilkanSiswa();
-
                 }
-
             });
-
             pagination.appendChild(next);
-
         }
 
 
         // SEARCH
         searchInput.addEventListener('input', () => {
-
             currentPage = 1;
-
             tampilkanSiswa();
-
         });
 
 
         // FILTER KELAS
         filterKelas.addEventListener('change', () => {
-
             currentPage = 1;
-
             tampilkanSiswa();
-
         });
 
 

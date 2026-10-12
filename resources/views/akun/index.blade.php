@@ -756,10 +756,11 @@
                 </a>
 
                 <p class="section-title">MASTER DATA</p>
-                <a href="{{ route('data-siswa.index') }}" class="nav-link">
-                    <span>◉</span> Kelola Data Siswa
+                <!-- KELAS 'active' DITAMBAHKAN DI SINI -->
+                <a href="#" class="nav-link active">
+                    <span>⚙</span> Kelola akun dan sistem
                 </a>
-                <a href="#" class="nav-link">
+                <a href="{{ route('data-siswa.index') }}" class="nav-link">
                     <span>◉</span> Kelola Data Siswa
                 </a>
 
@@ -775,12 +776,6 @@
                 </a>
 
                 <p class="section-title">AKSES SISWA</p>
-                <a href="#" class="nav-link">
-                    <span>💸</span> Lakukan Pembayaran
-                </a>
-                <a href="#" class="nav-link">
-                    <span>📎</span> Unggah Bukti Bayar
-                </a>
                 <a href="#" class="nav-link">
                     <span>👤</span> Status Bayar Pribadi
                 </a>
@@ -936,7 +931,9 @@
                                                         Edit
                                                     </a>
 
-                                                    <form action="{{ route('akun.store') }}" method="POST"
+
+                                                    <form action="{{ route('akun.destroy', $item->id_users) }}"
+                                                        method="POST"
                                                         onsubmit="return confirm('Yakin ingin menghapus akun ini?')">
                                                         @csrf
                                                         @method('DELETE')

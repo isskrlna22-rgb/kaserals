@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Siswa;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class SiswaController extends Controller
 {
@@ -22,9 +23,11 @@ class SiswaController extends Controller
     }
 
     public function createPage()
-    {
-        return view('siswa.create');
-    }
+{
+    $users = User::where('role', 'SISWA')->get();
+
+    return view('siswa.create', compact('users'));
+}
 
     public function editPage(Siswa $siswa)
     {
@@ -56,9 +59,11 @@ class SiswaController extends Controller
             ->with('success', 'Data siswa berhasil dihapus.');
     }
 
+
 public function storePage(Request $request)
 {
     $validated = $request->validate([
+        'id_user' => 'nullable|exists:users,id_users',
         'nisn' => 'required|string|max:255|unique:siswa,nisn',
         'nama_lengkap' => 'required|string|max:255',
         'kelas' => 'required|string|max:50',
@@ -72,6 +77,7 @@ public function storePage(Request $request)
         ->route('data-siswa.index')
         ->with('success', 'Data siswa berhasil ditambahkan.');
 }
+
 
 
     public function store(Request $request)

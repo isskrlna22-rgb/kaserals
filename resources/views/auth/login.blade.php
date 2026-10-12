@@ -107,17 +107,33 @@
             BAGIAN UTAMA (Glass Box Dua Warna)
         ====================== */
 
-        .login-box {
-            background: rgba(15, 23, 42, 0.55);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            border-radius: 28px;
-            padding: 35px 25px;
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            position: relative;
-        }
+
+.login-box {
+    width: 100%;
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 28px;
+    padding: 35px 25px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.welcome-title {
+    font-size: 26px;
+}
+
+.welcome-text {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.form-input,
+.login-button {
+    min-height: 50px;
+}
 
         /* =====================
             ANIMASI MASKOT KASI
@@ -331,14 +347,101 @@
             RESPONSIVE MOBILE
         ====================== */
 
-        @media (max-width: 430px) {
-            .page {
-                padding: 15px;
-            }
-            .login-box {
-                padding: 30px 20px;
-            }
-        }
+
+/* RESPONSIVE MOBILE */
+@media (max-width: 430px) {
+    html,
+    body {
+        width: 100%;
+        min-height: 100%;
+    }
+
+    body {
+        min-height: 100vh;
+        min-height: 100dvh;
+        padding: 16px 0;
+        overflow-x: hidden;
+    }
+
+    .page {
+        width: 100%;
+        max-width: 420px;
+        padding: 15px;
+        margin: auto;
+    }
+
+    .brand {
+        margin-bottom: 16px;
+    }
+
+    .brand-name {
+        font-size: 17px;
+    }
+
+    .login-box {
+        width: 100%;
+        padding: 26px 18px;
+        border-radius: 24px;
+    }
+
+    .mascot-container {
+        width: 85px;
+        height: 85px;
+    }
+
+    .welcome-title {
+        font-size: 22px;
+    }
+
+    .welcome-text {
+        font-size: 13px;
+        margin-bottom: 22px;
+    }
+
+    .form-group {
+        margin-bottom: 14px;
+    }
+
+    .form-input {
+        height: 48px;
+        font-size: 14px;
+    }
+
+    .login-button {
+        height: 48px;
+        font-size: 14px;
+    }
+
+    .forgot-password {
+        font-size: 12px;
+    }
+
+    .footer {
+        font-size: 12px;
+        margin-top: 20px;
+    }
+}
+
+/* HP dengan layar sangat kecil */
+@media (max-width: 350px) {
+    .page {
+        padding: 10px;
+    }
+
+    .login-box {
+        padding: 22px 14px;
+    }
+
+    .welcome-title {
+        font-size: 20px;
+    }
+
+    .form-input {
+        padding-left: 38px;
+        padding-right: 38px;
+    }
+}
+
     </style>
 </head>
 

@@ -257,25 +257,50 @@ class SiswaDashboardController extends Controller
         return view('admin.status-bayar-pribadi', compact('dataStatus'));
     }
 
-public function infoKas()
-{
-    $user = \Illuminate\Support\Facades\Auth::user();
+    public function infoKas()
+    {
+        $user = \Illuminate\Support\Facades\Auth::user();
 
-    if (!$user) {
-        return redirect()->route('login');
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
+        $siswa = \App\Models\Siswa::where('id_user', $user->id_users)
+            ->firstOrFail();
+
+        $pembayaran = \App\Models\PembayaranKas::where(
+            'id_siswa',
+            $siswa->id_siswa
+        )
+            ->orderByDesc('tanggal')
+            ->orderByDesc('id_pembayaran')
+            ->get();
+
+        // Ambil pengumuman terbaru dari database
+        $pengumuman = \App\Models\Pengumuman::latest('created_at')
+            ->first();
+
+        // Total pembayaran kas yang sudah diterima
+        $totalPembayaran = \App\Models\PembayaranKas::where('status', 'Diterima')
+            ->sum('nominal');
+
+        // Total pengeluaran kas
+        $totalPengeluaran = \App\Models\Pengeluaran::sum('nominal');
+
+        // Saldo kas kelas
+        $saldoKas = $totalPembayaran - $totalPengeluaran;
+
+        // Total pengeluaran bulan ini
+        $pengeluaranBulanIni = \App\Models\Pengeluaran::whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->sum('nominal');
+
+        return view('siswa.info-kas', compact(
+            'siswa',
+            'pembayaran',
+            'pengumuman',
+            'saldoKas',
+            'pengeluaranBulanIni'
+        ));
     }
-
-    $siswa = \App\Models\Siswa::where('id_user', $user->id_users)
-        ->firstOrFail();
-
-    $pembayaran = \App\Models\PembayaranKas::where(
-        'id_siswa',
-        $siswa->id_siswa
-    )
-        ->orderByDesc('tanggal')
-        ->orderByDesc('id_pembayaran')
-        ->get();
-
-    return view('siswa.info-kas', compact('siswa', 'pembayaran'));
-}
 }

@@ -101,6 +101,8 @@ require __DIR__ . '/laporan.php';
 require __DIR__ . '/siswa-dashboard.php';
 require __DIR__ . '/akun.php';
 require __DIR__ . '/wali-kelas.php';
+require __DIR__.'/profil.php';
+
 
 
 // ================= VERIFIKASI PEMBAYARAN =================

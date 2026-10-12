@@ -905,7 +905,7 @@
 
                 <p>
                     Pantau pembayaran kas kelasmu kapan saja —
-                    transparan, rapi, dan mudah.
+                    jangan sampe nunggak ya🤗.
                 </p>
 
             </div>
@@ -1062,10 +1062,6 @@
 
     <!-- ================= MASCOT POJOK BAWAH (^ᴗ^) ================= -->
     <div class="mascot-container">
-        <div class="mascot-bubble">
-            Halo, semangat belajarnya hari ini! 📚<br>
-            <span>Jangan lupa cek tagihan kas kamu ya! ✨</span>
-        </div>
         <div class="mascot-body">
             <div class="mascot-face">^ᴗ^</div>
         </div>

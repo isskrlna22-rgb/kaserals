@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\PembayaranKas;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PembayaranKasController extends Controller
 {
@@ -192,5 +193,56 @@ class PembayaranKasController extends Controller
         return redirect()
             ->route('pembayaran-kas.index')
             ->with('success', 'Pembayaran kas berhasil dihapus.');
+    }
+
+    public function simpanPembayaranSiswa(Request $request)
+    {
+        $request->validate([
+            'nominal' => 'required|numeric|min:1',
+            'metode_pembayaran' => 'required|in:Tunai,Transfer',
+            'keterangan' => 'nullable|string',
+            'bukti_transfer' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+        ]);
+
+        $user = Auth::user();
+
+        $siswa = Siswa::where('id_user', $user->id_users)->first();
+
+        if (!$siswa) {
+            abort(404, 'Data siswa belum terhubung dengan akun ini.');
+        }
+
+        if (
+            $request->metode_pembayaran === 'Transfer'
+            && !$request->hasFile('bukti_transfer')
+        ) {
+            return back()
+                ->withErrors([
+                    'bukti_transfer' => 'Bukti transfer wajib diupload.'
+                ])
+                ->withInput();
+        }
+
+        $data = [
+            'id_siswa' => $siswa->id_siswa,
+            'nominal' => $request->nominal,
+            'metode_pembayaran' => $request->metode_pembayaran,
+            'keterangan' => $request->keterangan,
+            'tanggal' => now()->toDateString(),
+            'minggu_ke' => 1,
+            'status' => 'Menunggu',
+        ];
+
+        if ($request->hasFile('bukti_transfer')) {
+            $data['bukti_transfer'] = $request
+                ->file('bukti_transfer')
+                ->store('bukti-transfer', 'public');
+        }
+
+        PembayaranKas::create($data);
+
+        return redirect()
+            ->route('dashboard.siswa.pembayaran')
+            ->with('success', 'Pembayaran berhasil dikirim dan menunggu verifikasi bendahara.');
     }
 }

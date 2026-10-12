@@ -19,7 +19,14 @@
             background: #f8fafc;
             color: #0f172a;
         }
-
+select {
+    width: 100%;
+    padding: 13px 15px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    font-size: 14px;
+    background: white;
+}
         .container {
             max-width: 800px;
             margin: 50px auto;
@@ -118,6 +125,28 @@
 
             <form action="{{ route('data-siswa.store') }}" method="POST">
                 @csrf
+
+
+                {{-- AKUN SISWA --}}
+                <div class="form-group">
+                    <label for="id_user">Akun Siswa</label>
+
+                    <select name="id_user" id="id_user" required>
+                        <option value="">-- Pilih Akun Siswa --</option>
+
+                        @foreach ($users as $user)
+                            <option value="{{ $user->id_users }}"
+                                {{ old('id_user') == $user->id_users ? 'selected' : '' }}>
+                                {{ $user->name }} (ID: {{ $user->id_users }})
+                            </option>
+                        @endforeach
+                    </select>
+
+                    @error('id_user')
+                        <div class="error">{{ $message }}</div>
+                    @enderror
+                </div>
+
 
                 {{-- NISN --}}
                 <div class="form-group">

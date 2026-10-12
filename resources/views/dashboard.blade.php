@@ -39,6 +39,21 @@
         }
 
         /* ================= SIDEBAR ================= */
+
+        .avatar {
+            text-decoration: none;
+            overflow: hidden;
+            border: 2px solid #ccfbf1;
+        }
+
+        .avatar-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            display: block;
+        }
+
         .sidebar {
             width: 270px;
             flex-shrink: 0;
@@ -711,13 +726,6 @@
                     <span>↑</span> Catat Pengeluaran
                 </a>
 
-                <p class="section-title">AKSES SISWA</p>
-
-                <!-- Menu 8 -->
-                <a href="{{ route('dashboard.siswa.status') }}" class="nav-link">
-                    <span>👤</span> Status Bayar Pribadi
-                </a>
-
                 <p class="section-title">CATATAN & LAPORAN</p>
                 <!-- Menu 9 -->
                 <a href="{{ route('riwayat.index') }}" class="nav-link">
@@ -735,7 +743,17 @@
 
             <div class="sidebar-bottom">
                 <div class="profile-mini">
-                    <div class="profile-avatar">AD</div>
+                    <a href="{{ route('profile.edit') }}" class="avatar" title="Pengaturan Profil"
+                        aria-label="Pengaturan Profil">
+
+                        @if (Auth::user()->foto_profil)
+                            <img src="{{ asset('storage/' . Auth::user()->foto_profil) }}" alt="Foto profil Admin"
+                                class="avatar-image">
+                        @else
+                            {{ strtoupper(substr(Auth::user()->name ?? 'A', 0, 1)) }}
+                        @endif
+
+                    </a>
                     <div class="profile-info">
                         <strong>{{ Auth::user()->name ?? 'Administrator' }}</strong>
                         <span>Super Admin</span>
@@ -944,7 +962,7 @@
     <div class="mascot-container">
         <div class="mascot-bubble">
             Halo Kak Admin! 👋<br>
-            <span>Semua transaksi hari ini udah siap dipantau nih! ✨</span>
+            <span>Semua transaksi hari ini udah siap dipantau nih!</span>
         </div>
         <div class="mascot-body">
             <div class="mascot-face">^ᴗ^</div>

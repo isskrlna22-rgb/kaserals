@@ -1,435 +1,607 @@
-blade
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Info Kas | KASERALS</title>
+    <title>Info Kas Kelas | KASERALS</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
 
     <style>
-        :root {
-            --navy: #101b35;
-            --navy-light: #1c2a49;
-            --teal: #16b8a6;
-            --teal-light: #e4faf6;
-            --bg: #f4f7fb;
-            --white: #fff;
-            --text: #1c2940;
-            --muted: #8490a5;
-            --border: #e8edf4;
-        }
-
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: var(--bg);
-            color: var(--text);
+            background:
+                radial-gradient(circle at 10% 10%, rgba(45, 212, 191, 0.12), transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(20, 184, 166, 0.10), transparent 40%),
+                #edf7f5;
+            color: #17233d;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        a {
-            text-decoration: none;
-            color: inherit;
+        /* ================= ANIMASI ================= */
+        @keyframes floatMascot {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
         }
 
-        /* SIDEBAR */
+        @keyframes pulseLogo {
+            0% {
+                box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 12px rgba(13, 148, 136, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(13, 148, 136, 0);
+            }
+        }
+
+        @keyframes blink {
+
+            0%,
+            96%,
+            98% {
+                opacity: 1;
+            }
+
+            97% {
+                opacity: 0;
+                transform: scaleY(0.1);
+            }
+        }
+
+        /* ================= SIDEBAR ================= */
         .sidebar {
-            width: 255px;
-            height: 100vh;
             position: fixed;
-            top: 0;
             left: 0;
-            background: var(--navy);
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: #091320;
             color: white;
-            padding: 28px 18px;
+            padding: 32px 20px;
+            z-index: 20;
             display: flex;
             flex-direction: column;
-            z-index: 10;
+            box-shadow: 4px 0 25px rgba(0, 0, 0, 0.05);
             overflow-y: auto;
         }
 
-        .brand {
+        .brand-sidebar {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 0 10px 30px;
-            border-bottom: 1px solid rgba(255,255,255,.1);
+            gap: 14px;
+            padding: 0 6px;
+            margin-bottom: 36px;
         }
 
-        .brand-icon {
-            width: 43px;
-            height: 43px;
-            flex-shrink: 0;
-            background: var(--teal);
-            border-radius: 13px;
-            display: grid;
-            place-items: center;
-            font-size: 23px;
+        .logo {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #14b8a6, #0d9488);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
             font-weight: 800;
+            color: white;
+            box-shadow: 0 8px 20px rgba(13, 148, 136, 0.35);
+            animation: pulseLogo 2.5s infinite;
         }
 
         .brand-name {
-            font-size: 19px;
+            font-size: 18px;
             font-weight: 800;
-            letter-spacing: .5px;
+            letter-spacing: 0.5px;
         }
 
         .brand-subtitle {
-            font-size: 10px;
-            color: #aab8d0;
-            margin-top: 4px;
+            font-size: 11px;
+            color: #64748b;
+            margin-top: 2px;
+        }
+
+        .menu-section {
+            margin-bottom: 24px;
         }
 
         .menu-title {
-            color: #8796b2;
             font-size: 10px;
             font-weight: 800;
-            letter-spacing: 1.2px;
-            margin: 28px 10px 12px;
+            letter-spacing: 1.5px;
+            color: #475569;
+            padding: 0 12px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
         }
 
         .menu-item {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 13px 14px;
-            margin: 4px 0;
-            border-radius: 11px;
-            font-size: 12px;
+            text-decoration: none;
+            color: #94a3b8;
+            padding: 12px 16px;
+            border-radius: 14px;
+            margin-bottom: 4px;
+            font-size: 13px;
             font-weight: 600;
-            color: #bdc8da;
-            transition: .2s;
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .menu-item:hover {
-            background: var(--navy-light);
             color: white;
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateX(5px);
         }
 
         .menu-item.active {
-            background: var(--teal);
+            background: linear-gradient(135deg, #0d9488, #0f766e);
             color: white;
-            box-shadow: 0 7px 18px rgba(22,184,166,.18);
-        }
-
-        .menu-icon {
-            width: 21px;
-            text-align: center;
-            font-size: 16px;
-            flex-shrink: 0;
-        }
-
-        .sidebar-bottom {
-            margin-top: auto;
-            padding: 20px 10px 0;
-            border-top: 1px solid rgba(255,255,255,.1);
-            color: #aab8d0;
-            font-size: 10px;
-            line-height: 1.8;
-        }
-
-        /* KONTEN */
-        .main {
-            margin-left: 255px;
-            padding: 34px 38px 50px;
-            max-width: 1700px;
-        }
-
-        .topbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .eyebrow {
-            font-size: 11px;
-            color: var(--teal);
-            font-weight: 800;
-            letter-spacing: 1.3px;
-            margin-bottom: 9px;
-        }
-
-        h1 {
-            font-size: clamp(23px, 3vw, 30px);
-            font-weight: 800;
-            letter-spacing: -.8px;
-        }
-
-        .subtitle {
-            color: var(--muted);
-            font-size: 12px;
-            margin-top: 9px;
-            line-height: 1.8;
-        }
-
-        .student-chip {
-            display: flex;
-            align-items: center;
-            gap: 11px;
-            padding: 10px 15px;
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            flex-shrink: 0;
-        }
-
-        .avatar {
-            width: 39px;
-            height: 39px;
-            border-radius: 12px;
-            background: var(--teal-light);
-            color: #078b7d;
-            display: grid;
-            place-items: center;
-            font-size: 17px;
-            font-weight: 800;
-        }
-
-        .student-name {
-            font-size: 12px;
-            font-weight: 800;
-        }
-
-        .student-class {
-            color: var(--muted);
-            font-size: 10px;
-            margin-top: 4px;
-        }
-
-        /* RINGKASAN */
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 17px;
-            margin-bottom: 26px;
-        }
-
-        .stat-card {
-            padding: 22px;
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 17px;
-            box-shadow: 0 4px 18px rgba(30,50,80,.025);
-            min-width: 0;
-        }
-
-        .stat-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            margin-bottom: 17px;
-        }
-
-        .stat-label {
-            color: var(--muted);
-            font-size: 11px;
+            box-shadow: 0 8px 20px rgba(13, 148, 136, 0.35);
             font-weight: 700;
         }
 
-        .stat-icon {
-            width: 37px;
-            height: 37px;
-            display: grid;
-            place-items: center;
-            border-radius: 11px;
-            background: var(--teal-light);
-            color: #078b7d;
-            font-size: 17px;
-        }
-
-        .stat-number {
-            font-size: clamp(19px, 2.2vw, 27px);
-            font-weight: 800;
-            letter-spacing: -.8px;
-            overflow-wrap: anywhere;
-        }
-
-        .stat-note {
-            color: var(--muted);
-            font-size: 10px;
-            margin-top: 8px;
-            line-height: 1.7;
-        }
-
-        /* PANEL TRANSAKSI */
-        .panel {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 18px;
-            overflow: hidden;
-            box-shadow: 0 4px 18px rgba(30,50,80,.025);
-        }
-
-        .panel-header {
-            padding: 23px 25px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .panel-title {
-            font-size: 15px;
-            font-weight: 800;
-        }
-
-        .panel-description {
-            font-size: 11px;
-            color: var(--muted);
-            margin-top: 6px;
-            line-height: 1.7;
-        }
-
-        .table-wrap {
-            width: 100%;
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            min-width: 650px;
-            border-collapse: collapse;
-        }
-
-        thead {
-            background: #f9fbfd;
-        }
-
-        th {
-            padding: 15px 20px;
-            color: var(--muted);
-            text-align: left;
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: .5px;
-            white-space: nowrap;
-        }
-
-        td {
-            padding: 17px 20px;
-            border-top: 1px solid #f0f3f8;
-            font-size: 11px;
-            vertical-align: middle;
-        }
-
-        tbody tr:hover {
-            background: #fbfdfd;
-        }
-
-        .amount {
-            font-weight: 800;
-            white-space: nowrap;
-        }
-
-        .status {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 7px 10px;
-            border-radius: 8px;
-            font-size: 10px;
-            font-weight: 800;
-            white-space: nowrap;
-        }
-
-        .status::before {
-            content: '';
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: currentColor;
-        }
-
-        .status-diterima {
-            color: #09866e;
-            background: #e5f8f1;
-        }
-
-        .status-menunggu {
-            color: #b77912;
-            background: #fff5dd;
-        }
-
-        .status-ditolak {
-            color: #c23c4c;
-            background: #ffeaed;
-        }
-
-        .status-lain {
-            color: #59677c;
-            background: #edf1f6;
-        }
-
-        .empty-state {
+        .menu-icon {
+            width: 20px;
             text-align: center;
-            padding: 48px 20px;
+            font-size: 16px;
+            transition: transform 0.3s ease;
         }
 
-        .empty-icon {
-            font-size: 38px;
-            margin-bottom: 14px;
+        .menu-item:hover .menu-icon {
+            transform: scale(1.1) rotate(-5deg);
         }
 
-        .empty-title {
+        /* ================= PROFIL DI SIDEBAR (BAWAH) & LOGOUT ================= */
+        .sidebar-footer {
+            margin-top: auto;
+            padding-top: 24px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding: 0 12px;
+        }
+
+        .sidebar-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: rgba(45, 212, 191, 0.2);
+            color: #2dd4bf;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 14px;
             font-weight: 800;
         }
 
-        .empty-description {
-            color: var(--muted);
-            font-size: 11px;
-            line-height: 1.8;
-            margin-top: 8px;
+        .sidebar-user-info {
+            overflow: hidden;
         }
 
-        .button {
-            display: inline-block;
-            margin-top: 18px;
-            padding: 11px 15px;
-            background: var(--teal);
+        .sidebar-user-name {
+            font-size: 13px;
+            font-weight: 700;
             color: white;
-            border-radius: 10px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+        .sidebar-user-role {
             font-size: 11px;
-            font-weight: 800;
+            color: #94a3b8;
+            margin-top: 2px;
         }
 
-        .panel-footer {
-            padding: 17px 25px;
-            border-top: 1px solid var(--border);
-            color: var(--muted);
-            font-size: 10px;
-            line-height: 1.7;
+        .menu-logout {
+            color: #f87171 !important;
         }
 
-        /* NAVIGASI HP */
-        .bottom-nav {
+        .menu-logout:hover {
+            background: rgba(239, 68, 68, 0.1) !important;
+            color: #fca5a5 !important;
+        }
+
+        /* ================= MAIN CONTENT ================= */
+        .main {
+            margin-left: 250px;
+            padding: 32px 40px 50px;
+        }
+
+        .topbar-mobile {
             display: none;
         }
 
-        @media (max-width: 1050px) {
-            .sidebar {
-                width: 220px;
-            }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
 
-            .main {
-                margin-left: 220px;
-                padding: 28px 22px;
-            }
+        /* ================= TOPBAR (PROFIL KANAN ATAS) ================= */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 25px;
+            gap: 20px;
+        }
 
-            .stats {
-                gap: 12px;
-            }
+        .page-heading h1 {
+            font-size: 27px;
+            margin-bottom: 8px;
+            font-weight: 800;
+            color: #0f172a;
+        }
 
-            .stat-card {
-                padding: 17px;
+        .page-heading p {
+            color: #64748b;
+            font-size: 13px;
+            line-height: 1.7;
+            font-weight: 500;
+            max-width: 600px;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 8px 18px 8px 8px;
+            border-radius: 50px;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .profile:hover {
+            background: white;
+            border-color: #e2e8f0;
+            box-shadow: 0 6px 20px rgba(13, 148, 136, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #ccfbf1;
+            color: #0d9488;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .profile-name {
+            font-size: 13px;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .profile-role {
+            font-size: 11px;
+            color: #64748b;
+            margin-top: 2px;
+            font-weight: 600;
+        }
+
+        /* ================= PENGUMUMAN (ANNOUNCEMENT) ================= */
+        .announcement-card {
+            background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+            border-radius: 24px;
+            padding: 30px;
+            color: white;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px -5px rgba(13, 148, 136, 0.3);
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+        }
+
+        /* Dekorasi Lingkaran */
+        .announcement-card::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .announcement-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            flex-shrink: 0;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .announcement-content h2 {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .announcement-content p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.6;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .announcement-meta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.15);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        /* ================= INFO KEUANGAN KELAS ================= */
+        .finance-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .finance-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 22px;
+            padding: 24px;
+            box-shadow: 0 10px 30px -5px rgba(13, 148, 136, 0.05);
+            transition: 0.3s;
+        }
+
+        .finance-card:hover {
+            box-shadow: 0 15px 35px -5px rgba(13, 148, 136, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .finance-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .finance-amount {
+            font-size: 24px;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .finance-amount.green {
+            color: #0d9488;
+        }
+
+        .finance-amount.red {
+            color: #e11d48;
+        }
+
+        /* ================= ATURAN KAS KELAS ================= */
+        .rules-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 22px;
+            padding: 30px;
+            box-shadow: 0 10px 30px -5px rgba(13, 148, 136, 0.05);
+            margin-bottom: 40px;
+        }
+
+        .rules-panel h3 {
+            font-size: 18px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .rules-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .rules-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            background: #f8fafc;
+            padding: 16px 20px;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            transition: 0.2s;
+        }
+
+        .rules-list li:hover {
+            border-color: #0d9488;
+            background: white;
+            box-shadow: 0 4px 15px rgba(13, 148, 136, 0.05);
+        }
+
+        .rule-icon {
+            font-size: 18px;
+            margin-top: 2px;
+        }
+
+        .rule-text h4 {
+            font-size: 14px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+
+        .rule-text p {
+            font-size: 12px;
+            color: #64748b;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 11px;
+            padding-top: 10px;
+            font-weight: 600;
+        }
+
+        /* ================= MASCOT POJOK BAWAH (^ᴗ^) ================= */
+        .mascot-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            animation: floatMascot 4s ease-in-out infinite;
+        }
+
+        .mascot-bubble {
+            background: white;
+            padding: 12px 18px;
+            border-radius: 20px 20px 0 20px;
+            box-shadow: 0 10px 25px rgba(13, 148, 136, 0.2);
+            margin-bottom: 12px;
+            font-size: 13px;
+            font-weight: 800;
+            color: #0f172a;
+            max-width: 240px;
+            text-align: center;
+            border: 2px solid #ccfbf1;
+        }
+
+        .mascot-bubble span {
+            color: #0d9488;
+        }
+
+        .mascot-body {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #2dd4bf, #0d9488);
+            border-radius: 40%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 12px 25px rgba(13, 148, 136, 0.35);
+            cursor: pointer;
+            border: 3px solid #f8fafc;
+            transition: all 0.3s ease;
+        }
+
+        .mascot-face {
+            font-size: 24px;
+            color: white;
+            font-weight: bold;
+            animation: blink 4s infinite;
+        }
+
+        .mascot-container:hover .mascot-body {
+            transform: scale(1.1) rotate(8deg);
+            border-radius: 50%;
+        }
+
+        /* ================= BOTTOM NAV MOBILE ================= */
+        .bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            border-top: 1px solid #e2e8f0;
+            grid-template-columns: repeat(4, 1fr);
+            padding: 10px 12px 14px;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #94a3b8;
+            gap: 2px;
+            transition: 0.3s;
+        }
+
+        .nav-item.active {
+            color: #0d9488;
+            font-weight: 700;
+        }
+
+        .nav-icon {
+            font-size: 18px;
+        }
+
+        .nav-text {
+            font-size: 10px;
+        }
+
+        @media (max-width: 900px) {
+            .finance-grid {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -440,75 +612,44 @@ blade
 
             .main {
                 margin-left: 0;
-                padding: 23px 15px 100px;
-            }
-
-            .topbar {
-                align-items: flex-start;
-                flex-direction: column;
-                margin-bottom: 23px;
-            }
-
-            .student-chip {
-                width: 100%;
-            }
-
-            .stats {
-                grid-template-columns: 1fr;
-                gap: 11px;
-            }
-
-            .stat-card {
-                padding: 18px;
-            }
-
-            .stat-top {
-                margin-bottom: 10px;
-            }
-
-            .stat-number {
-                font-size: 23px;
-            }
-
-            .panel-header {
-                padding: 19px;
-            }
-
-            .panel-footer {
-                padding: 15px;
+                padding: 20px 16px 90px;
             }
 
             .bottom-nav {
-                position: fixed;
-                z-index: 20;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                display: flex;
-                justify-content: space-around;
-                padding: 10px 3px calc(10px + env(safe-area-inset-bottom));
-                background: white;
-                border-top: 1px solid var(--border);
+                display: grid;
             }
 
-            .bottom-nav a {
+            .mascot-container {
+                display: none;
+            }
+
+            .profile {
+                display: none;
+            }
+
+            .topbar-mobile {
+                background: #091320;
+                color: white;
+                padding: 16px 20px;
                 display: flex;
-                flex-direction: column;
+                justify-content: space-between;
                 align-items: center;
-                gap: 5px;
-                color: var(--muted);
-                font-size: 9px;
-                font-weight: 700;
-                padding: 4px;
-                text-align: center;
+                margin: -20px -16px 24px -16px;
             }
 
-            .bottom-nav a span {
-                font-size: 18px;
+            .brand-mobile {
+                font-size: 20px;
+                font-weight: 800;
             }
 
-            .bottom-nav a.active {
-                color: #079b8c;
+            .brand-mobile span {
+                color: #2dd4bf;
+            }
+
+            .announcement-card {
+                flex-direction: column;
+                gap: 16px;
+                padding: 24px;
             }
         }
     </style>
@@ -516,239 +657,238 @@ blade
 
 <body>
     @php
-        $totalTransaksi = $pembayaran->count();
-
-        $totalDiterima = $pembayaran
-            ->where('status', 'Diterima')
-            ->sum('nominal');
-
-        $totalMenunggu = $pembayaran
-            ->where('status', 'Menunggu')
-            ->sum('nominal');
-
         $namaSiswa = $siswa->nama_lengkap ?? 'Siswa';
         $kelasSiswa = $siswa->kelas ?? '-';
-        $inisial = strtoupper(substr($namaSiswa, 0, 1));
+        $inisial = strtoupper(substr($namaSiswa, 0, 2));
     @endphp
 
-    <!-- SIDEBAR -->
+    <!-- SIDEBAR (MENU UTAMA) -->
     <aside class="sidebar">
-        <div class="brand">
-            <div class="brand-icon">K</div>
+        <div class="brand-sidebar">
+            <div class="logo">K</div>
             <div>
                 <div class="brand-name">KASERALS</div>
-                <div class="brand-subtitle">Sistem Kas Kelas Digital</div>
+                <div class="brand-subtitle">Kas Kelas Digital</div>
             </div>
         </div>
 
-        <div class="menu-title">MENU UTAMA</div>
+        <div class="menu-section">
+            <div class="menu-title">MENU</div>
+            <a href="{{ route('dashboard.siswa') }}" class="menu-item">
+                <span class="menu-icon">⌂</span> Dashboard
+            </a>
+        </div>
 
-        <a href="{{ route('dashboard.siswa') }}" class="menu-item">
-            <span class="menu-icon">⌂</span>
-            Dashboard
-        </a>
+        <div class="menu-section">
+            <div class="menu-title">TRANSAKSI</div>
+            <a href="{{ route('dashboard.siswa.pembayaran') }}" class="menu-item">
+                <span class="menu-icon">💳</span> Pembayaran Kas
+            </a>
+            <a href="{{ route('dashboard.siswa.status') }}" class="menu-item">
+                <span class="menu-icon">✓</span> Status Pembayaran
+            </a>
+        </div>
 
-        <a href="{{ route('dashboard.siswa.info-kas') }}" class="menu-item active">
-            <span class="menu-icon">ⓘ</span>
-            Info Kas
-        </a>
+        <div class="menu-section">
+            <div class="menu-title">CATATAN</div>
+            <a href="{{ route('dashboard.siswa.riwayat') }}" class="menu-item">
+                <span class="menu-icon">⏱</span> Riwayat Transaksi
+            </a>
+            <a href="#" class="menu-item active">
+                <span class="menu-icon">ⓘ</span> Info Kas
+            </a>
+        </div>
 
-        <div class="menu-title">TRANSAKSI & RIWAYAT</div>
+        <!-- PROFIL & LOGOUT DI SIDEBAR BAWAH -->
+        <div class="sidebar-footer">
+            <div class="menu-title">AKUN</div>
+            <div class="sidebar-profile">
+                <div class="sidebar-avatar">
+                    {{ $inisial }}
+                </div>
+                <div class="sidebar-user-info">
+                    <div class="sidebar-user-name">
+                        {{ $namaSiswa }}
+                    </div>
+                    <div class="sidebar-user-role">
+                        Siswa · {{ $kelasSiswa }}
+                    </div>
+                </div>
+            </div>
 
-        <a href="{{ route('dashboard.siswa.pembayaran') }}" class="menu-item">
-            <span class="menu-icon">▣</span>
-            Pembayaran Kas
-        </a>
-
-        <a href="{{ route('dashboard.siswa.status') }}" class="menu-item">
-            <span class="menu-icon">✓</span>
-            Status Pembayaran
-        </a>
-
-        <a href="{{ route('dashboard.siswa.riwayat') }}" class="menu-item">
-            <span class="menu-icon">↻</span>
-            Riwayat Transaksi
-        </a>
-
-        <div class="sidebar-bottom">
-            <strong>KASERALS</strong><br>
-            Transparan, tertib, dan digital.<br>
-            © {{ date('Y') }} FINORA
+            <a href="{{ route('logout') }}" class="menu-item menu-logout"
+                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <span class="menu-icon">⎋</span> Keluar
+            </a>
         </div>
     </aside>
 
-    <!-- KONTEN UTAMA -->
     <main class="main">
-        <header class="topbar">
-            <div>
-                <div class="eyebrow">INFORMASI SISWA</div>
-                <h1>Info Kas Kelas</h1>
-                <p class="subtitle">
-                    Pantau ringkasan dan catatan pembayaran kas yang tercatat pada akunmu.
-                </p>
-            </div>
+        <!-- TOPBAR MOBILE -->
+        <div class="topbar-mobile">
+            <div class="brand-mobile">KASE<span>RALS</span></div>
+            <small style="color: #94a3b8; font-weight: 600;">Portal Siswa</small>
+        </div>
 
-            <div class="student-chip">
-                <div class="avatar">{{ $inisial }}</div>
-                <div>
-                    <div class="student-name">{{ $namaSiswa }}</div>
-                    <div class="student-class">Kelas {{ $kelasSiswa }}</div>
-                </div>
-            </div>
-        </header>
-
-        <!-- RINGKASAN DATABASE -->
-        <section class="stats">
-            <div class="stat-card">
-                <div class="stat-top">
-                    <div class="stat-label">Total Transaksi</div>
-                    <div class="stat-icon">↻</div>
-                </div>
-                <div class="stat-number">
-                    {{ number_format($totalTransaksi, 0, ',', '.') }}
-                </div>
-                <div class="stat-note">
-                    Jumlah catatan pembayaran kas milikmu.
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-top">
-                    <div class="stat-label">Pembayaran Diterima</div>
-                    <div class="stat-icon">✓</div>
-                </div>
-                <div class="stat-number">
-                    Rp {{ number_format((float) $totalDiterima, 0, ',', '.') }}
-                </div>
-                <div class="stat-note">
-                    Total nominal transaksi berstatus Diterima.
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-top">
-                    <div class="stat-label">Menunggu Verifikasi</div>
-                    <div class="stat-icon">◷</div>
-                </div>
-                <div class="stat-number">
-                    Rp {{ number_format((float) $totalMenunggu, 0, ',', '.') }}
-                </div>
-                <div class="stat-note">
-                    Total nominal transaksi berstatus Menunggu.
-                </div>
-            </div>
-        </section>
-
-        <!-- TABEL PEMBAYARAN -->
-        <section class="panel">
-            <div class="panel-header">
-                <div class="panel-title">Detail Pembayaran Kas</div>
-                <p class="panel-description">
-                    Data berikut berasal dari tabel pembayaran kas di database.
-                </p>
-            </div>
-
-            @if ($pembayaran->isNotEmpty())
-                <div class="table-wrap">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>TANGGAL</th>
-                                <th>MINGGU KE</th>
-                                <th>NOMINAL</th>
-                                <th>METODE PEMBAYARAN</th>
-                                <th>STATUS</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            @foreach ($pembayaran as $item)
-                                @php
-                                    $statusAsli = $item->status ?? 'Belum ada status';
-
-                                    $statusClass = match (strtolower(trim($statusAsli))) {
-                                        'diterima' => 'status-diterima',
-                                        'menunggu' => 'status-menunggu',
-                                        'ditolak' => 'status-ditolak',
-                                        default => 'status-lain',
-                                    };
-                                @endphp
-
-                                <tr>
-                                    <td>
-                                        {{ $item->tanggal
-                                            ? \Carbon\Carbon::parse($item->tanggal)->format('d/m/Y')
-                                            : '-' }}
-                                    </td>
-
-                                    <td>{{ $item->minggu_ke ?? '-' }}</td>
-
-                                    <td class="amount">
-                                        Rp {{ number_format((float) $item->nominal, 0, ',', '.') }}
-                                    </td>
-
-                                    <td>{{ $item->metode_pembayaran ?? '-' }}</td>
-
-                                    <td>
-                                        <span class="status {{ $statusClass }}">
-                                            {{ $statusAsli }}
-                                        </span>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            @else
-                <div class="empty-state">
-                    <div class="empty-icon">🧾</div>
-                    <div class="empty-title">Belum Ada Transaksi</div>
-                    <p class="empty-description">
-                        Belum ada catatan pembayaran kas untuk akunmu.
-                        Setelah transaksi tercatat, informasinya akan muncul di sini.
+        <div class="container">
+            <!-- TOPBAR DESKTOP -->
+            <div class="topbar">
+                <div class="page-heading">
+                    <h1>Info Kas Kelas 📢</h1>
+                    <p>
+                        Pusat informasi transparansi keuangan, aturan, dan pengumuman kas kelasmu.
                     </p>
-
-                    <a href="{{ route('dashboard.siswa.pembayaran') }}" class="button">
-                        Buka Pembayaran Kas
-                    </a>
                 </div>
-            @endif
 
-            <div class="panel-footer">
-                Data menampilkan transaksi milik akun siswa yang sedang login.
-                <br>
-                KASERALS · FINORA · {{ date('Y') }}
+                <!-- PROFIL DI TOPBAR (KANAN ATAS) -->
+                <div class="profile">
+                    <div class="avatar">
+                        {{ $inisial }}
+                    </div>
+                    <div>
+                        <div class="profile-name">
+                            {{ $namaSiswa }}
+                        </div>
+                        <div class="profile-role">
+                            Siswa · {{ $kelasSiswa }}
+                        </div>
+                    </div>
+                </div>
             </div>
-        </section>
+
+            <!-- ================= PENGUMUMAN UTAMA ================= -->
+            <section class="announcement-card">
+                <div class="announcement-icon">📣</div>
+
+                <div class="announcement-content">
+                    <h2>Pengumuman Bendahara</h2>
+
+                    @if ($pengumuman)
+                        <h3>{{ $pengumuman->judul ?? 'Pengumuman Kas' }}</h3>
+
+                        <p style="white-space: pre-line;">
+                            {{ $pengumuman->isi ?? '' }}
+                        </p>
+
+                        <div class="announcement-meta">
+                            🗓 Diperbarui:
+                            {{ $pengumuman->created_at ? $pengumuman->created_at->format('d M Y') : '-' }}
+                        </div>
+                    @else
+                        <p>Belum ada pengumuman dari bendahara.</p>
+                    @endif
+                </div>
+            </section>
+
+            <!-- ================= INFO KEUANGAN (TRANSPARANSI) ================= -->
+            <section class="finance-grid">
+                <div class="finance-card">
+                    <div class="finance-label">
+                        <span>💰</span> Total Saldo Kas Kelas
+                    </div>
+                    <div class="finance-amount green">
+                        Rp {{ number_format($saldoKas, 0, ',', '.') }}
+                    </div>
+                </div>
+
+                <div class="finance-card">
+                    <div class="finance-label">
+                        <span>📉</span> Pengeluaran Bulan Ini
+                    </div>
+                    <div class="finance-amount red">
+                        Rp {{ number_format($pengeluaranBulanIni, 0, ',', '.') }}
+                    </div>
+                </div>
+
+                <div class="finance-card"
+                    style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+                    <div style="font-size: 30px; margin-bottom: 8px;">🤝</div>
+                    <div style="font-size: 13px; font-weight: 800; color: #0f172a;">Kas Transparan</div>
+                    <div style="font-size: 11px; color: #64748b; margin-top: 4px;">Kelola bersama, untuk bersama.</div>
+                </div>
+            </section>
+
+            <!-- ================= ATURAN KAS KELAS ================= -->
+            <section class="rules-panel">
+                <h3>📌 Peraturan & Ketentuan Kas Kelas</h3>
+                <ul class="rules-list">
+                    <li>
+                        <div class="rule-icon">🗓</div>
+                        <div class="rule-text">
+                            <h4>Wajib Bayar Mingguan</h4>
+                            <p>Pembayaran kas wajib dilakukan setiap minggu sesuai dengan nominal yang telah disepakati
+                                bersama oleh anggota kelas.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="rule-icon">🧾</div>
+                        <div class="rule-text">
+                            <h4>Bukti Pembayaran (Transfer)</h4>
+                            <p>Bagi yang membayar melalui transfer bank atau E-Wallet, wajib mengunggah bukti transfer
+                                yang sah melalui halaman pembayaran.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="rule-icon">⏳</div>
+                        <div class="rule-text">
+                            <h4>Keterlambatan Pembayaran</h4>
+                            <p>Tunggakan kas akan terus dicatat. Segera lunasi tunggakanmu agar tidak menumpuk di akhir
+                                semester.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="rule-icon">💡</div>
+                        <div class="rule-text">
+                            <h4>Penggunaan Dana</h4>
+                            <p>Dana kas murni digunakan untuk keperluan kelas seperti fotokopi tugas, alat kebersihan,
+                                perlengkapan lomba, atau menjenguk teman yang sakit.</p>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+
+            <div class="footer-bottom">
+                © {{ date('Y') }} KASERALS · Sistem Pengelolaan Kas Kelas Digital
+            </div>
+
+        </div>
     </main>
 
-    <!-- NAVIGASI MOBILE -->
+    <!-- MASCOT POJOK BAWAH (^ᴗ^) -->
+    <div class="mascot-container">
+        <div class="mascot-bubble">
+            Jangan lupa baca aturan kas kelasnya ya! 📢<br>
+            <span>Biar kelas kita makin kompak! ✨</span>
+        </div>
+        <div class="mascot-body">
+            <div class="mascot-face">^ᴗ^</div>
+        </div>
+    </div>
+
+    <!-- BOTTOM NAV MOBILE -->
     <nav class="bottom-nav">
-        <a href="{{ route('dashboard.siswa') }}">
-            <span>⌂</span>
-            Dashboard
+        <a href="{{ route('dashboard.siswa') }}" class="nav-item">
+            <span class="nav-icon">⌂</span>
+            <span class="nav-text">Dashboard</span>
         </a>
-
-        <a href="{{ route('dashboard.siswa.info-kas') }}" class="active">
-            <span>ⓘ</span>
-            Info Kas
+        <a href="{{ route('dashboard.siswa.pembayaran') }}" class="nav-item">
+            <span class="nav-icon">💳</span>
+            <span class="nav-text">Bayar Kas</span>
         </a>
-
-        <a href="{{ route('dashboard.siswa.pembayaran') }}">
-            <span>▣</span>
-            Pembayaran
+        <a href="{{ route('dashboard.siswa.status') }}" class="nav-item">
+            <span class="nav-icon">✓</span>
+            <span class="nav-text">Status</span>
         </a>
-
-        <a href="{{ route('dashboard.siswa.status') }}">
-            <span>✓</span>
-            Status
-        </a>
-
-        <a href="{{ route('dashboard.siswa.riwayat') }}">
-            <span>↻</span>
-            Riwayat
+        <a href="#" class="nav-item active">
+            <span class="nav-icon">ⓘ</span>
+            <span class="nav-text">Info Kas</span>
         </a>
     </nav>
-</body>
-</html>
 
+    <!-- LOGOUT FORM HIDDEN -->
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
+        @csrf
+    </form>
+</body>
+
+</html>

@@ -9,11 +9,11 @@ use App\Models\User;
 class SiswaController extends Controller
 {
     public function index()
-{
-    $siswa = Siswa::all();
+    {
+        $siswa = Siswa::all();
 
-    return view('siswa.index', compact('siswa'));
-}
+        return view('siswa.index', compact('siswa'));
+    }
 
     public function page()
     {
@@ -23,16 +23,17 @@ class SiswaController extends Controller
     }
 
     public function createPage()
-{
-    $users = User::where('role', 'SISWA')->get();
+    {
+        $users = User::where('role', 'SISWA')->get();
 
-    return view('siswa.create', compact('users'));
-}
+        return view('siswa.create', compact('users'));
+    }
 
     public function editPage(Siswa $siswa)
     {
         return view('siswa.edit', compact('siswa'));
     }
+
 
     public function updatePage(Request $request, Siswa $siswa)
     {
@@ -40,6 +41,7 @@ class SiswaController extends Controller
             'nisn' => 'required|string|max:50|unique:siswa,nisn,' . $siswa->id_siswa . ',id_siswa',
             'nama_lengkap' => 'required|string|max:255',
             'kelas' => 'required|string|max:50',
+            'jurusan' => 'required|string|max:100',
             'no_hp' => 'nullable|string|max:20',
         ]);
 
@@ -49,6 +51,7 @@ class SiswaController extends Controller
             ->route('data-siswa.index')
             ->with('success', 'Data siswa berhasil diperbarui.');
     }
+
 
     public function destroyPage(Siswa $siswa)
     {
@@ -60,23 +63,23 @@ class SiswaController extends Controller
     }
 
 
-public function storePage(Request $request)
-{
-    $validated = $request->validate([
-        'id_user' => 'nullable|exists:users,id_users',
-        'nisn' => 'required|string|max:255|unique:siswa,nisn',
-        'nama_lengkap' => 'required|string|max:255',
-        'kelas' => 'required|string|max:50',
-        'jurusan' => 'required|string|max:100',
-        'no_hp' => 'nullable|string|max:20',
-    ]);
+    public function storePage(Request $request)
+    {
+        $validated = $request->validate([
+            'id_user' => 'nullable|exists:users,id_users',
+            'nisn' => 'required|string|max:255|unique:siswa,nisn',
+            'nama_lengkap' => 'required|string|max:255',
+            'kelas' => 'required|string|max:50',
+            'jurusan' => 'required|string|max:100',
+            'no_hp' => 'nullable|string|max:20',
+        ]);
 
-    Siswa::create($validated);
+        Siswa::create($validated);
 
-    return redirect()
-        ->route('data-siswa.index')
-        ->with('success', 'Data siswa berhasil ditambahkan.');
-}
+        return redirect()
+            ->route('data-siswa.index')
+            ->with('success', 'Data siswa berhasil ditambahkan.');
+    }
 
 
 

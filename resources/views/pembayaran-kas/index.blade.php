@@ -546,18 +546,25 @@
         }
 
         @keyframes floatMascot {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: translateY(0);
             }
+
             50% {
                 transform: translateY(-15px);
             }
         }
 
         @keyframes blink {
-            0%, 96%, 98% {
+
+            0%,
+            96%,
+            98% {
                 opacity: 1;
             }
+
             97% {
                 opacity: 0;
                 transform: scaleY(0.1);
@@ -568,9 +575,11 @@
             0% {
                 box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.4);
             }
+
             70% {
                 box-shadow: 0 0 0 15px rgba(13, 148, 136, 0);
             }
+
             100% {
                 box-shadow: 0 0 0 0 rgba(13, 148, 136, 0);
             }
@@ -659,6 +668,214 @@
             background: #0f766e;
             transform: translateY(-2px);
         }
+
+        /* RESPONSIVE MOBILE PEMBAYARAN KAS */
+        @media (max-width: 768px) {
+            .page {
+                display: block;
+                width: 100%;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                width: 100%;
+                min-width: 0;
+            }
+
+            .topbar {
+                height: 68px;
+                padding: 0 16px;
+            }
+
+            .topbar h2 {
+                font-size: 18px;
+            }
+
+            .content {
+                padding: 18px 12px 30px;
+            }
+
+            .title h1 {
+                font-size: 25px;
+            }
+
+            .title p {
+                font-size: 14px;
+                margin-bottom: 22px;
+            }
+
+            .columns {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 18px;
+            }
+
+            .card {
+                min-width: 0;
+                padding: 18px 14px;
+                border-radius: 18px;
+            }
+
+            .card h2 {
+                font-size: 19px;
+                margin-bottom: 18px;
+            }
+
+            .form-row {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 0;
+            }
+
+            .form-control {
+                min-width: 0;
+                font-size: 16px;
+            }
+
+            .buttons {
+                flex-direction: column-reverse;
+            }
+
+            .buttons .btn {
+                width: 100%;
+                padding: 13px 16px;
+            }
+
+            .payment-header {
+                gap: 10px;
+                align-items: flex-start;
+                flex-wrap: wrap;
+            }
+
+            .payment-header h2 {
+                font-size: 18px;
+            }
+
+            .payment-row {
+                padding: 12px;
+            }
+
+            .payment-row-top {
+                gap: 10px;
+            }
+
+            .delete-btn {
+                padding: 8px 10px;
+            }
+
+            .mascot-container {
+                display: none;
+            }
+
+            .modal-box {
+                width: calc(100% - 28px);
+                padding: 24px 18px;
+                border-radius: 20px;
+            }
+
+            .modal-buttons {
+                gap: 8px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .content {
+                padding-right: 9px;
+                padding-left: 9px;
+            }
+
+            .card {
+                padding: 15px 11px;
+            }
+
+            .payment-header {
+                flex-direction: column;
+            }
+        }
+           /* NAVIGASI BAWAH KHUSUS HP */
+.mobile-bottom-nav {
+display: none;
+}
+
+@media (max-width: 768px) {
+.mobile-bottom-nav {
+position: fixed;
+left: 0;
+right: 0;
+bottom: 0;
+z-index: 900;
+
+    display: flex;
+    align-items: stretch;
+    gap: 6px;
+
+    padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+
+    background: #ffffff;
+    border-top: 1px solid #e2e8f0;
+    box-shadow: 0 -4px 18px rgba(15, 23, 42, 0.08);
+
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+.mobile-bottom-nav::-webkit-scrollbar {
+    display: none;
+}
+
+.mobile-bottom-nav a,
+.mobile-bottom-nav .mobile-logout {
+    flex: 0 0 76px;
+    min-width: 76px;
+    min-height: 54px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    padding: 7px 4px;
+    border: none;
+    border-radius: 12px;
+    background: transparent;
+
+    color: #64748b;
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    white-space: normal;
+    cursor: pointer;
+}
+
+.mobile-bottom-nav a span,
+.mobile-bottom-nav .mobile-logout span {
+    display: block;
+    font-size: 20px;
+    line-height: 1;
+}
+
+.mobile-bottom-nav a.active {
+    color: #0d9488;
+    background: #ccfbf1;
+}
+
+.mobile-bottom-nav .mobile-logout {
+    color: #dc2626;
+}
+
+.content {
+    padding-bottom: 100px;
+}
+
+}
     </style>
 </head>
 
@@ -816,7 +1033,8 @@
                                 <label for="uang_kembalian">Uang Kembalian (Rp)</label>
                                 <input type="text" id="uang_kembalian" class="form-control" value="Rp 0"
                                     readonly style="font-weight: bold; background: #f1f5f9;">
-                                <small id="pesan-kembalian" style="display:block; margin-top:8px; color:#64748b; font-weight: 600;">
+                                <small id="pesan-kembalian"
+                                    style="display:block; margin-top:8px; color:#64748b; font-weight: 600;">
                                     Kembalian dihitung otomatis.
                                 </small>
                             </div>
@@ -858,7 +1076,8 @@
                                             </div>
                                         </div>
                                         {{-- TOMBOL HAPUS --}}
-                                        <form action="{{ route('pembayaran-kas.destroy', $transaksi->id_pembayaran) }}"
+                                        <form
+                                            action="{{ route('pembayaran-kas.destroy', $transaksi->id_pembayaran) }}"
                                             method="POST"
                                             onsubmit="return confirm('Yakin ingin menghapus pembayaran ini?')">
                                             @csrf
@@ -867,10 +1086,12 @@
                                         </form>
                                     </div>
 
-                                    <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:4px;">
+                                    <div
+                                        style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:4px;">
                                         <div>
                                             {{-- METODE & BUKTI --}}
-                                            <div style="font-size:13px; font-weight:bold; color:#64748b; margin-bottom: 4px;">
+                                            <div
+                                                style="font-size:13px; font-weight:bold; color:#64748b; margin-bottom: 4px;">
                                                 {{ $transaksi->metode_pembayaran }}
                                             </div>
                                             @if ($transaksi->bukti_transfer)
@@ -892,7 +1113,8 @@
                             <div style="text-align:center; padding:40px 20px; color:#94a3b8;">
                                 <div style="font-size:40px; margin-bottom:10px;">📝</div>
                                 <div style="font-weight:800; color:#64748b;">Belum ada transaksi hari ini.</div>
-                                <div style="font-size:13px; margin-top:5px;">Pembayaran yang berhasil dicatat akan muncul di sini.</div>
+                                <div style="font-size:13px; margin-top:5px;">Pembayaran yang berhasil dicatat akan
+                                    muncul di sini.</div>
                             </div>
                         @endif
                     </div>
@@ -1047,5 +1269,61 @@
         }
     </script>
 
+    <!-- NAVIGASI BAWAH KHUSUS HP -->
+    <nav class="mobile-bottom-nav" aria-label="Navigasi utama">
+
+        <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
+            <span>◫</span>
+            Dashboard
+        </a>
+
+        <a href="{{ route('data-siswa.index') }}" class="{{ request()->routeIs('data-siswa.*') ? 'active' : '' }}">
+            <span>◉</span>
+            Data Siswa
+        </a>
+
+        <a href="{{ route('pembayaran-kas.index') }}"
+            class="{{ request()->routeIs('pembayaran-kas.*') ? 'active' : '' }}">
+            <span>✓</span>
+            Pembayaran
+        </a>
+
+        <a href="{{ route('verifikasi-pembayaran.index') }}"
+            class="{{ request()->routeIs('verifikasi-pembayaran.*') ? 'active' : '' }}">
+            <span>●</span>
+            Verifikasi
+        </a>
+
+        <a href="{{ route('pengeluaran.web.index') }}"
+            class="{{ request()->routeIs('pengeluaran.*') ? 'active' : '' }}">
+            <span>↑</span>
+            Pengeluaran
+        </a>
+
+        <a href="{{ route('riwayat.index') }}" class="{{ request()->routeIs('riwayat.*') ? 'active' : '' }}">
+            <span>↻</span>
+            Riwayat
+        </a>
+
+        <a href="{{ route('pengumuman.index') }}" class="{{ request()->routeIs('pengumuman.*') ? 'active' : '' }}">
+            <span>▣</span>
+            Pengumuman
+        </a>
+
+         <a href="{{ route('laporan.index') }}"
+           class="{{ request()->routeIs('laporan.*') ? 'active' : '' }}">
+            <span>▤</span>
+            Laporan
+        </a>
+
+        <form action="{{ route('logout') }}" method="POST"
+              onsubmit="return confirm('Yakin ingin keluar?')">
+            @csrf
+            <button type="submit" class="mobile-logout">
+                <span>↪</span>
+                Keluar
+            </button>
+        </form>
+    </nav>
 </body>
 </html>

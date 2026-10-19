@@ -712,6 +712,141 @@
             color: #0f172a;
             transform: scale(1.1);
         }
+
+
+/* RESPONSIVE MOBILE KASERALS */
+.mobile-bottom-nav {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .page {
+        display: block;
+        width: 100%;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .main {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .topbar {
+        height: 68px;
+        padding: 0 16px;
+    }
+
+    .topbar h2 {
+        font-size: 18px;
+    }
+
+    .content {
+        padding: 18px 12px 100px;
+    }
+
+    .title h1 {
+        font-size: 25px;
+    }
+
+    .title p {
+        font-size: 14px;
+        line-height: 1.6;
+        margin-bottom: 22px;
+    }
+
+    .card {
+        min-width: 0;
+        padding: 16px 12px;
+        border-radius: 18px;
+    }
+
+    .mascot-container {
+        display: none;
+    }
+
+    .mobile-bottom-nav {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 900;
+
+        display: flex;
+        align-items: stretch;
+        gap: 6px;
+        padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+
+        overflow-x: auto;
+        overflow-y: hidden;
+        background: #fff;
+        border-top: 1px solid #e2e8f0;
+        box-shadow: 0 -4px 18px rgba(15, 23, 42, .08);
+
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .mobile-bottom-nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    .mobile-bottom-nav a,
+    .mobile-bottom-nav .mobile-logout {
+        flex: 0 0 76px;
+        min-width: 76px;
+        min-height: 54px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+
+        padding: 7px 4px;
+        border: none;
+        border-radius: 12px;
+        background: transparent;
+
+        color: #64748b;
+        font-family: inherit;
+        font-size: 10px;
+        font-weight: 800;
+        line-height: 1.2;
+        text-align: center;
+        text-decoration: none;
+        white-space: normal;
+        cursor: pointer;
+    }
+
+    .mobile-bottom-nav a span,
+    .mobile-bottom-nav .mobile-logout span {
+        display: block;
+        font-size: 20px;
+        line-height: 1;
+    }
+
+    .mobile-bottom-nav a.active {
+        color: #0d9488;
+        background: #ccfbf1;
+    }
+
+    .mobile-bottom-nav .mobile-logout {
+        color: #dc2626;
+    }
+
+    .action-buttons {
+        flex-wrap: wrap;
+    }
+
+    .modal-box {
+        width: calc(100% - 28px);
+        padding: 28px 18px;
+    }
+}
+
     </style>
 </head>
 
@@ -1105,6 +1240,75 @@
         }
     </script>
 
-</body>
 
+</script>
+
+<!-- NAVIGASI BAWAH KHUSUS HP -->
+<nav class="mobile-bottom-nav" aria-label="Navigasi utama">
+    <a href="{{ route('dashboard') }}"
+       class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
+        <span>◫</span>
+        Dashboard
+    </a>
+
+    <a href="{{ route('data-siswa.index') }}"
+       class="{{ request()->routeIs('data-siswa.*') ? 'active' : '' }}">
+        <span>◉</span>
+        Data Siswa
+    </a>
+
+    <a href="{{ route('pembayaran-kas.index') }}"
+       class="{{ request()->routeIs('pembayaran-kas.*') ? 'active' : '' }}">
+        <span>✓</span>
+        Pembayaran
+    </a>
+
+    <a href="{{ route('verifikasi-pembayaran.index') }}"
+       class="{{ request()->routeIs('verifikasi-pembayaran.*') ? 'active' : '' }}">
+        <span>●</span>
+        Verifikasi
+    </a>
+
+    <a href="{{ route('detail-pembayaran.index') }}"
+       class="{{ request()->routeIs('detail-pembayaran.*') ? 'active' : '' }}">
+        <span>▤</span>
+        Detail
+    </a>
+
+    <a href="{{ route('pengeluaran.web.index') }}"
+       class="{{ request()->routeIs('pengeluaran.*') ? 'active' : '' }}">
+        <span>↑</span>
+        Pengeluaran
+    </a>
+
+    <a href="{{ route('riwayat.index') }}"
+       class="{{ request()->routeIs('riwayat.*') ? 'active' : '' }}">
+        <span>↻</span>
+        Riwayat
+    </a>
+
+    <a href="{{ route('pengumuman.index') }}"
+       class="{{ request()->routeIs('pengumuman.*') ? 'active' : '' }}">
+        <span>▣</span>
+        Pengumuman
+    </a>
+
+    <a href="{{ route('laporan.index') }}"
+       class="{{ request()->routeIs('laporan.*') ? 'active' : '' }}">
+        <span>▤</span>
+        Laporan
+    </a>
+
+    <form action="{{ route('logout') }}" method="POST"
+          onsubmit="return confirm('Yakin ingin keluar?')">
+        @csrf
+        <button type="submit" class="mobile-logout">
+            <span>↪</span>
+            Keluar
+        </button>
+    </form>
+</nav>
+
+</body>
 </html>
+

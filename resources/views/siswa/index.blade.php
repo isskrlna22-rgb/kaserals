@@ -706,63 +706,258 @@
         /* =========================
        RESPONSIVE
     ========================= */
-        @media (max-width: 1024px) {
-            .sidebar {
-                width: 240px;
-            }
 
-            .content {
-                padding: 28px;
-            }
-
-            .topbar {
-                padding: 0 28px;
-            }
-        }
-
+        /* RESPONSIVE DATA SISWA */
         @media (max-width: 768px) {
             .app {
                 display: block;
-            }
-
-            .sidebar {
                 width: 100%;
-                min-height: auto;
-                padding: 20px;
+                min-width: 0;
             }
 
-            .navigation {
+            /* Sidebar diganti navigasi bawah */
+            .sidebar {
                 display: none;
             }
 
+            .main {
+                width: 100%;
+                min-width: 0;
+            }
+
             .topbar {
-                height: 72px;
-                padding: 0 20px;
+                height: 66px;
+                padding: 0 16px;
+                gap: 10px;
+            }
+
+            .topbar-title {
+                font-size: 19px;
+            }
+
+            .profile {
+                width: 38px;
+                height: 38px;
+                flex-shrink: 0;
             }
 
             .content {
-                padding: 20px;
+                padding: 18px 12px 100px;
+                min-width: 0;
+            }
+
+            .success-message {
+                padding: 12px;
+                margin-bottom: 18px;
+                overflow-wrap: anywhere;
             }
 
             .page-header {
+                display: flex;
                 flex-direction: column;
-                align-items: flex-start;
+                align-items: stretch;
+                gap: 14px;
+                margin-bottom: 20px;
+            }
+
+            .page-title {
+                font-size: 25px;
+                line-height: 1.25;
+                overflow-wrap: anywhere;
+            }
+
+            .page-description {
+                font-size: 13px;
             }
 
             .btn-add {
                 width: 100%;
+                min-height: 46px;
+                padding: 12px;
+                text-align: center;
             }
 
+            /* Pencarian dan filter ditumpuk */
             .toolbar {
-                grid-template-columns: 1fr;
+                grid-template-columns: minmax(0, 1fr);
+                gap: 10px;
+                margin-bottom: 16px;
+            }
+
+            .search-box,
+            .search-input,
+            .filter-select {
+                width: 100%;
+                min-width: 0;
+            }
+
+            .search-input,
+            .filter-select {
+                height: 46px;
+                font-size: 14px;
+            }
+
+            /* Tabel digeser di dalam kartu, bukan seluruh halaman */
+            .table-card {
+                width: 100%;
+                min-width: 0;
+                border-radius: 14px;
+            }
+
+            .table-wrapper {
+                width: 100%;
+                max-width: 100%;
+                overflow-x: auto;
+                overflow-y: hidden;
+                -webkit-overflow-scrolling: touch;
+                overscroll-behavior-x: contain;
+            }
+
+            .student-table {
+                width: 850px;
+                min-width: 850px;
+                table-layout: auto;
+            }
+
+            .student-table th,
+            .student-table td {
+                padding: 12px;
+                font-size: 12px;
+                white-space: nowrap;
+            }
+
+            .student-name {
+                gap: 8px;
+            }
+
+            .student-avatar {
+                width: 34px;
+                height: 34px;
+            }
+
+            .actions {
+                gap: 6px;
+            }
+
+            .btn-edit,
+            .btn-delete {
+                min-height: 34px;
+                min-width: 55px;
+                padding: 8px;
+            }
+
+            #pagination {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 5px;
+                padding-bottom: 8px;
+            }
+
+            #pagination button {
+                width: 34px;
+                height: 34px;
             }
 
             .mascot-container {
                 display: none;
             }
 
-            #pagination {
+            /* Navigasi bawah HP */
+            .mobile-bottom-nav {
+                display: flex;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .content {
+                padding-right: 9px;
+                padding-left: 9px;
+            }
+
+            .topbar-title {
+                font-size: 17px;
+            }
+
+            .page-title {
+                font-size: 23px;
+            }
+        }
+
+        /* Navigasi bawah */
+        .mobile-bottom-nav {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-bottom-nav {
+                position: fixed;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 900;
+                display: flex;
+                gap: 4px;
+                padding: 9px 8px calc(9px + env(safe-area-inset-bottom));
+                overflow-x: auto;
+                background: #fff;
+                border-top: 1px solid #e2e8f0;
+                box-shadow: 0 -4px 18px rgba(15, 23, 42, .08);
+                scrollbar-width: none;
+            }
+
+            .mobile-bottom-nav::-webkit-scrollbar {
+                display: none;
+            }
+
+            .mobile-bottom-nav a {
+                flex: 0 0 76px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
                 justify-content: center;
+                gap: 5px;
+                padding: 7px 3px;
+                border-radius: 12px;
+                color: #64748b;
+                font-size: 10px;
+                font-weight: 700;
+                text-align: center;
+            }
+
+            .mobile-bottom-nav a span {
+                font-size: 19px;
+            }
+
+            .mobile-bottom-nav a.active {
+                color: #0d9488;
+                background: #ccfbf1;
+            }
+
+            .mobile-logout {
+                display: none;
+            }
+
+            @media (max-width: 768px) {
+                .mobile-logout {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 5px;
+                    flex: 0 0 65px;
+                    padding: 7px 3px;
+                    border: none;
+                    border-radius: 12px;
+                    background: transparent;
+                    color: #dc2626;
+                    font-size: 10px;
+                    font-weight: 700;
+                    cursor: pointer;
+                }
+
+                .mobile-logout span {
+                    font-size: 19px;
+                }
             }
         }
     </style>
@@ -835,6 +1030,7 @@
                 </a>
 
                 {{-- Pengumuman --}}
+
                 @if (Route::has('pengumuman.index'))
                     <a href="{{ route('pengumuman.index') }}" class="nav-link">
                         <span class="nav-icon">▣</span>
@@ -842,11 +1038,14 @@
                     </a>
                 @endif
 
-                {{-- Laporan --}}
+
+
                 <a href="{{ route('laporan.index') }}" class="nav-link">
                     <span class="nav-icon">▤</span>
-                    Laporan Keuangan
+                    Laporan
                 </a>
+
+
 
             </nav>
 
@@ -996,7 +1195,7 @@
                                         <!-- JURUSAN (DATA DITAMBAHKAN) -->
                                         <td>
                                             <span style="font-weight: 600; color: #475569;">
-                                                {{ $item->Jurusan ?? '-' }}
+                                                {{ $item->jurusan ?? '-' }}
                                             </span>
                                         </td>
 
@@ -1016,10 +1215,11 @@
 
                                                 <!-- HAPUS (DIPERBAIKI) -->
                                                 <form action="{{ route('data-siswa.destroy', $item->id_siswa) }}"
-                                                    method="POST"
-                                                    onsubmit="return confirm('Yakin ingin menghapus data siswa ini?')">
+                                                    method="POST" class="delete-siswa-form"
+                                                    data-name="{{ $item->nama_lengkap }}">
                                                     @csrf
                                                     @method('DELETE')
+
                                                     <button type="submit" class="btn-delete">
                                                         Hapus
                                                     </button>
@@ -1198,7 +1398,114 @@
 
         // JALANKAN SAAT HALAMAN DIBUKA
         tampilkanSiswa();
+
+        // KONFIRMASI HAPUS DATA SISWA
+        document.querySelectorAll('.delete-siswa-form').forEach(form => {
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const modal = document.getElementById('modalHapus');
+                const formKonfirmasi = document.getElementById('formHapusSiswa');
+                const namaSiswa = document.getElementById('namaSiswaHapus');
+
+                if (!modal || !formKonfirmasi || !namaSiswa) {
+                    alert('Modal hapus belum tersedia.');
+                    return;
+                }
+
+                formKonfirmasi.action = this.action;
+                namaSiswa.textContent = this.dataset.name || 'siswa ini';
+                modal.style.display = 'flex';
+            });
+        });
+
+        function tutupModalHapus() {
+            document.getElementById('modalHapus').style.display = 'none';
+        }
     </script>
+
+    
+    <!-- MODAL KONFIRMASI HAPUS -->
+    <div id="modalHapus" class="modal-hapus"
+        style="display: none; position: fixed; inset: 0; z-index: 2000;
+            background: rgba(15, 23, 42, 0.55);
+            align-items: center; justify-content: center; padding: 20px;">
+
+        <div
+            style="background: white; padding: 28px; border-radius: 18px;
+                width: 100%; max-width: 400px; text-align: center;">
+
+            <div style="font-size: 36px;">🗑️</div>
+            <h2 style="margin: 12px 0;">Hapus Data Siswa?</h2>
+
+            <p style="color: #64748b; margin-bottom: 22px;">
+                Yakin ingin menghapus data siswa
+                <strong id="namaSiswaHapus"></strong>?
+            </p>
+
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button type="button" onclick="tutupModalHapus()" style="padding: 10px 16px; cursor: pointer;">
+                    Batal
+                </button>
+
+                <form id="formHapusSiswa" method="POST">
+                    @csrf
+                    @method('DELETE')
+
+                    <button type="submit" class="btn-delete" style="padding: 10px 16px;">
+                        Ya, Hapus
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <nav class="mobile-bottom-nav" aria-label="Navigasi utama">
+        <a href="{{ route('dashboard') }}">
+            <span>▣</span>Dashboard
+        </a>
+
+        <a href="{{ route('data-siswa.index') }}" class="active">
+            <span>◉</span>Data Siswa
+        </a>
+
+        <a href="{{ route('pembayaran-kas.index') }}">
+            <span>✓</span>Pembayaran
+        </a>
+
+        <a href="{{ route('detail-pembayaran.index') }}">
+            <span>▤</span>Detail Kas
+        </a>
+
+        <a href="{{ route('verifikasi-pembayaran.index') }}">
+            <span>●</span>Verifikasi
+        </a>
+
+        <a href="{{ route('pengeluaran.web.index') }}">
+            <span>↑</span>Pengeluaran
+        </a>
+
+        <a href="{{ route('riwayat.index') }}">
+            <span>↻</span>Riwayat
+        </a>
+
+        @if (Route::has('pengumuman.index'))
+            <a href="{{ route('pengumuman.index') }}">
+                <span>▣</span>Pengumuman
+            </a>
+            <a href="{{ route('laporan.index') }}">
+                <span>▤</span>Laporan
+            </a>
+            <form action="{{ route('logout') }}" method="POST" onsubmit="return confirm('Yakin ingin keluar?')">
+                @csrf
+                <button type="submit" class="mobile-logout">
+                    <span>↪</span>
+                    Keluar
+                </button>
+    </nav>
+    </form>
+    @endif
+
+
 
 </body>
 

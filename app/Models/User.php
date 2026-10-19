@@ -97,4 +97,13 @@ class User extends Authenticatable
             'password_hash' => 'hashed',
         ];
     }
+
+public function pengaturanKelas()
+{
+    return $this->hasMany(
+        PengaturanSistem::class,
+        'id_wali_kelas',
+        'id_users'
+    );
+}
 }

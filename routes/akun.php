@@ -23,4 +23,9 @@ Route::middleware(['auth', 'role:ADMIN'])->group(function () {
     Route::delete('/kelola-akun/{user}', [AkunController::class, 'destroy'])
         ->name('akun.destroy');
 
+        Route::put('/pengaturan-kelas', [
+    AkunController::class,
+    'updatePengaturanKelas'
+])->name('pengaturan-kelas.update');
+
 });

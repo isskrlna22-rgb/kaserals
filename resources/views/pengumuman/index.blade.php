@@ -288,11 +288,41 @@
             align-items: start;
         }
 
-        @media (max-width: 1024px) {
-            .columns {
-                grid-template-columns: 1fr;
-            }
-        }
+@media (max-width: 800px) {
+    .page {
+        display: block;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .sidebar {
+        display: none !important;
+    }
+
+    .main {
+        display: flex;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .content {
+        width: 100%;
+        min-width: 0;
+        padding: 20px 12px 100px;
+    }
+
+    .columns {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 18px;
+        min-width: 0;
+    }
+
+    .card {
+        width: 100%;
+        min-width: 0;
+    }
+}
+
 
         /* KARTU */
         .card {
@@ -578,6 +608,92 @@
                 box-shadow: 0 0 0 0 rgba(13, 148, 136, 0);
             }
         }
+
+
+
+/* NAVBAR BAWAH: DESKTOP DISEMBUNYIKAN */
+.mobile-bottom-nav {
+    display: none;
+}
+
+@media (max-width: 800px) {
+    .mobile-bottom-nav {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 900;
+
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        gap: 6px;
+
+        padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+        overflow-x: auto;
+        overflow-y: hidden;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+
+        background: #fff;
+        border-top: 1px solid #e2e8f0;
+        box-shadow: 0 -4px 18px rgba(15, 23, 42, .08);
+    }
+
+    .mobile-bottom-nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    .mobile-bottom-nav a,
+    .mobile-bottom-nav .mobile-logout {
+        flex: 0 0 76px;
+        min-width: 76px;
+        min-height: 54px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+
+        padding: 7px 4px;
+        border: none;
+        border-radius: 12px;
+        background: transparent;
+
+        color: #64748b;
+        font-family: inherit;
+        font-size: 10px;
+        font-weight: 800;
+        line-height: 1.2;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .mobile-bottom-nav a span,
+    .mobile-bottom-nav .mobile-logout span {
+        display: block;
+        font-size: 20px;
+        line-height: 1;
+    }
+
+    .mobile-bottom-nav a.active {
+        color: #0d9488;
+        background: #ccfbf1;
+    }
+
+    .mobile-bottom-nav .mobile-logout {
+        color: #dc2626;
+    }
+
+    /* Sisakan ruang agar konten tidak tertutup navbar */
+    .content {
+        padding-bottom: 100px;
+    }
+}
+
+
     </style>
 </head>
 
@@ -934,6 +1050,67 @@
 
             });
     </script>
-</body>
 
+<!-- NAVBAR BAWAH KHUSUS MOBILE -->
+<nav class="mobile-bottom-nav">
+
+    <a href="{{ route('dashboard') }}">
+        <span>▣</span>
+        Dashboard
+    </a>
+
+    <a href="{{ route('data-siswa.index') }}">
+        <span>◉</span>
+        Data Siswa
+    </a>
+
+    <a href="{{ route('pembayaran-kas.index') }}">
+        <span>✓</span>
+        Pembayaran
+    </a>
+
+    <a href="{{ route('verifikasi-pembayaran.index') }}">
+        <span>●</span>
+        Verifikasi
+    </a>
+
+    <a href="{{ route('detail-pembayaran.index') }}">
+        <span>▤</span>
+        Detail Kas
+    </a>
+
+    <a href="{{ route('pengeluaran.web.index') }}">
+        <span>↑</span>
+        Pengeluaran
+    </a>
+
+    <a href="{{ route('riwayat.index') }}">
+        <span>↻</span>
+        Riwayat
+    </a>
+
+    <a href="{{ route('pengumuman.index') }}" class="active">
+        <span>▣</span>
+        Pengumuman
+    </a>
+
+    <a href="{{ route('laporan.index') }}">
+        <span>▤</span>
+        Laporan
+    </a>
+
+    <form method="POST"
+          action="{{ route('logout') }}"
+          style="display:flex; flex:0 0 76px;">
+        @csrf
+
+        <button type="submit" class="mobile-logout">
+            <span>↪</span>
+            Keluar
+        </button>
+    </form>
+
+</nav>
+
+</body>
 </html>

@@ -660,6 +660,184 @@
             .filter-bottom { grid-template-columns: 1fr; }
             .mascot-container { display: none; }
         }
+
+/* ================= NAVBAR BAWAH MOBILE ================= */
+.mobile-bottom-nav {
+    display: none;
+}
+
+@media (max-width: 800px) {
+    .layout {
+        display: block;
+        width: 100%;
+        min-height: 100vh;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .main {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .topbar {
+        height: 68px;
+        padding: 0 16px;
+    }
+
+    .topbar-title {
+        font-size: 18px;
+    }
+
+    .content {
+        padding: 18px 12px 100px;
+    }
+
+    .page-title {
+        font-size: 25px;
+        line-height: 1.3;
+    }
+
+    .page-description {
+        font-size: 13px;
+        line-height: 1.6;
+    }
+
+    .page-header {
+        align-items: flex-start;
+    }
+
+    .summary-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .summary-card {
+        padding: 18px;
+        min-width: 0;
+    }
+
+    .summary-value {
+        font-size: 20px;
+        overflow-wrap: anywhere;
+    }
+
+    .filter-card {
+        padding: 15px;
+    }
+
+    .filter-top,
+    .filter-bottom {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .filter-button,
+    .reset-button {
+        min-height: 46px;
+        width: 100%;
+    }
+
+    .table-card {
+        border-radius: 16px;
+    }
+
+    .table-header {
+        gap: 10px;
+        padding: 16px 14px;
+        flex-wrap: wrap;
+    }
+
+    .table-scroll {
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+        min-width: 850px;
+    }
+
+    .mascot-container {
+        display: none;
+    }
+
+    /* Navbar bawah */
+    .mobile-bottom-nav {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 900;
+
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        gap: 6px;
+
+        padding: 8px 10px
+            calc(8px + env(safe-area-inset-bottom));
+
+        overflow-x: auto;
+        overflow-y: hidden;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+
+        background: #fff;
+        border-top: 1px solid #e2e8f0;
+        box-shadow: 0 -4px 18px rgba(15, 23, 42, .08);
+    }
+
+    .mobile-bottom-nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    .mobile-bottom-nav a,
+    .mobile-bottom-nav .mobile-logout {
+        flex: 0 0 76px;
+        min-width: 76px;
+        min-height: 54px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+
+        padding: 7px 4px;
+        border: none;
+        border-radius: 12px;
+        background: transparent;
+
+        color: #64748b;
+        font-family: inherit;
+        font-size: 10px;
+        font-weight: 800;
+        line-height: 1.2;
+        text-align: center;
+        text-decoration: none;
+        white-space: normal;
+        cursor: pointer;
+    }
+
+    .mobile-bottom-nav a span,
+    .mobile-bottom-nav .mobile-logout span {
+        display: block;
+        font-size: 20px;
+        line-height: 1;
+    }
+
+    .mobile-bottom-nav a.active {
+        color: #0d9488;
+        background: #ccfbf1;
+    }
+
+    .mobile-bottom-nav .mobile-logout {
+        color: #dc2626;
+    }
+}
+
     </style>
 </head>
 
@@ -964,5 +1142,69 @@
     </div>
 </div>
 
+
+<!-- NAVBAR BAWAH KHUSUS MOBILE -->
+<nav class="mobile-bottom-nav">
+
+    <a href="{{ route('dashboard') }}">
+        <span>▣</span>
+        Dashboard
+    </a>
+
+    <a href="{{ route('data-siswa.index') }}">
+        <span>◉</span>
+        Data Siswa
+    </a>
+
+    <a href="{{ route('pembayaran-kas.index') }}">
+        <span>✓</span>
+        Pembayaran
+    </a>
+
+    <a href="{{ route('verifikasi-pembayaran.index') }}">
+        <span>●</span>
+        Verifikasi
+    </a>
+
+    <a href="{{ route('detail-pembayaran.index') }}">
+        <span>▤</span>
+        Detail Kas
+    </a>
+
+    <a href="{{ route('pengeluaran.web.index') }}">
+        <span>↑</span>
+        Pengeluaran
+    </a>
+
+    <a href="{{ route('riwayat.index') }}" class="active">
+        <span>↻</span>
+        Riwayat
+    </a>
+
+    @if (Route::has('pengumuman.index'))
+        <a href="{{ route('pengumuman.index') }}">
+            <span>▣</span>
+            Pengumuman
+        </a>
+    @endif
+
+    <a href="{{ route('laporan.index') }}">
+        <span>▤</span>
+        Laporan
+    </a>
+
+    <form method="POST"
+          action="{{ route('logout') }}"
+          style="display:flex; flex:0 0 76px;">
+        @csrf
+
+        <button type="submit" class="mobile-logout">
+            <span>↪</span>
+            Keluar
+        </button>
+    </form>
+
+</nav>
 </body>
 </html>
+

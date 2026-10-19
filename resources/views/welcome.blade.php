@@ -97,7 +97,7 @@
                             <i class="fa-solid fa-right-to-bracket"></i>
                             <span>Portal Login</span>
                         </a>
-                
+
 
                     @endauth
                 </div>

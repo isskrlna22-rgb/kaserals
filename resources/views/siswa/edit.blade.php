@@ -116,6 +116,31 @@
                         @enderror
                     </div>
 
+
+
+<!-- JURUSAN -->
+<div class="mb-6">
+    <label for="jurusan" class="mb-2 block text-lg font-bold">
+        Jurusan
+    </label>
+
+    <input
+        type="text"
+        id="jurusan"
+        name="jurusan"
+        value="{{ old('jurusan', $siswa->jurusan) }}"
+        class="w-full rounded-2xl border-2 border-slate-300 px-5 py-4 text-lg outline-none focus:border-kaserals"
+        placeholder="Masukkan jurusan"
+        required>
+
+    @error('jurusan')
+        <p class="mt-2 text-sm font-medium text-red-600">
+            {{ $message }}
+        </p>
+    @enderror
+</div>
+
+
                     <!-- NO HP -->
                     <div class="mb-8">
                         <label for="no_hp" class="mb-2 block text-lg font-bold">

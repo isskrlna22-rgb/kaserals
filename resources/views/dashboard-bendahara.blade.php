@@ -10,7 +10,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Tambahan font Nunito untuk Maskot -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Nunito:wght@700;800;900&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Nunito:wght@700;800;900&display=swap"
         rel="stylesheet">
 
     <style>
@@ -33,19 +34,43 @@
 
         /* ================= ANIMASI GEMES GLOBAL ================= */
         @keyframes floatMascot {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-12px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
         }
 
         @keyframes pulse-gemes {
-            0% { box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.4); }
-            70% { box-shadow: 0 0 0 15px rgba(13, 148, 136, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(13, 148, 136, 0); }
+            0% {
+                box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 15px rgba(13, 148, 136, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(13, 148, 136, 0);
+            }
         }
 
         @keyframes blink {
-            0%, 96%, 98% { opacity: 1; }
-            97% { opacity: 0; transform: scaleY(0.1); }
+
+            0%,
+            96%,
+            98% {
+                opacity: 1;
+            }
+
+            97% {
+                opacity: 0;
+                transform: scaleY(0.1);
+            }
         }
 
         /* ================= SIDEBAR ================= */
@@ -123,7 +148,8 @@
             gap: 14px;
             padding: 14px 18px;
             color: #94a3b8;
-            border-radius: 16px; /* Ujung lebih membulat */
+            border-radius: 16px;
+            /* Ujung lebih membulat */
             font-size: 14px;
             font-weight: 600;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -179,7 +205,8 @@
 
         /* ================= SIDEBAR BOTTOM (JANGAN JAUH) ================= */
         .sidebar-bottom {
-            margin-top: 32px; /* Diubah dari auto agar tidak lompat ke bawah banget */
+            margin-top: 32px;
+            /* Diubah dari auto agar tidak lompat ke bawah banget */
             border-top: 1px solid rgba(255, 255, 255, .08);
             padding-top: 24px;
         }
@@ -359,7 +386,7 @@
             object-fit: contain;
             z-index: 2;
             animation: floatMascot 4s ease-in-out infinite;
-            filter: drop-shadow(0 10px 10px rgba(0,0,0,0.15));
+            filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.15));
         }
 
         /* ================= SUMMARY ================= */
@@ -557,7 +584,7 @@
         .quick-btn:hover {
             background: #f8fafc;
             transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
 
         .quick-btn.primary {
@@ -593,7 +620,7 @@
             background: white;
             border-color: #0d9488;
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(13,148,136,0.1);
+            box-shadow: 0 5px 15px rgba(13, 148, 136, 0.1);
         }
 
         .verification-box h3 {
@@ -612,55 +639,246 @@
         tbody tr {
             transition: 0.2s ease;
         }
+
         tbody tr:hover {
             background-color: #f8fafc;
         }
 
         /* ================= MASCOT SENYUM KANAN BAWAH ================= */
         .mascot-container {
-            position: fixed; bottom: 40px; right: 40px; z-index: 100;
-            display: flex; flex-direction: column; align-items: flex-end;
-            animation: floatMascot 4s ease-in-out infinite; font-family: 'Nunito', sans-serif;
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            animation: floatMascot 4s ease-in-out infinite;
+            font-family: 'Nunito', sans-serif;
         }
+
         .mascot-bubble {
-            background: white; padding: 14px 20px; border-radius: 20px 20px 0 20px;
-            box-shadow: 0 10px 25px rgba(13, 148, 136, 0.2); margin-bottom: 16px;
-            font-size: 14px; font-weight: 800; color: #0f172a; max-width: 240px;
-            text-align: center; opacity: 0; transform: translateY(20px) scale(0.9);
+            background: white;
+            padding: 14px 20px;
+            border-radius: 20px 20px 0 20px;
+            box-shadow: 0 10px 25px rgba(13, 148, 136, 0.2);
+            margin-bottom: 16px;
+            font-size: 14px;
+            font-weight: 800;
+            color: #0f172a;
+            max-width: 240px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px) scale(0.9);
             transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             border: 2px solid #ccfbf1;
         }
-        .mascot-bubble span { color: #0d9488; }
+
+        .mascot-bubble span {
+            color: #0d9488;
+        }
 
         .mascot-body {
-            width: 80px; height: 80px; background: linear-gradient(135deg, #2dd4bf, #0d9488);
-            border-radius: 40%; display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 15px 30px rgba(13, 148, 136, 0.4); cursor: pointer;
-            border: 4px solid #f8fafc; transition: all 0.3s ease; position: relative;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #2dd4bf, #0d9488);
+            border-radius: 40%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 15px 30px rgba(13, 148, 136, 0.4);
+            cursor: pointer;
+            border: 4px solid #f8fafc;
+            transition: all 0.3s ease;
+            position: relative;
         }
-        .mascot-face { font-size: 28px; color: white; font-weight: bold; animation: blink 4s infinite; }
 
-        .mascot-container:hover .mascot-bubble { opacity: 1; transform: translateY(0) scale(1); }
-        .mascot-container:hover .mascot-body { transform: scale(1.1) rotate(10deg); border-radius: 50%; }
+        .mascot-face {
+            font-size: 28px;
+            color: white;
+            font-weight: bold;
+            animation: blink 4s infinite;
+        }
+
+        .mascot-container:hover .mascot-bubble {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .mascot-container:hover .mascot-body {
+            transform: scale(1.1) rotate(10deg);
+            border-radius: 50%;
+        }
 
         /* ================= RESPONSIVE ================= */
 
-        @media (max-width: 1024px) {
-            .sidebar { width: 250px; }
-            .summary-grid { grid-template-columns: 1fr; }
-            .middle-grid { grid-template-columns: 1fr; }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                display: block;
+                width: 100%;
+            }
+
+            /* Sidebar diganti navigasi bawah */
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                width: 100%;
+                min-width: 0;
+            }
+
+            .header {
+                height: auto;
+                min-height: 70px;
+                padding: 16px;
+            }
+
+            .header-left h1 {
+                font-size: 19px;
+            }
+
+            .header-left p {
+                font-size: 11px;
+            }
+
+            .content {
+                padding: 16px 12px 100px;
+            }
+
+            .welcome-banner {
+                flex-direction: column;
+                text-align: center;
+                padding: 24px 18px;
+                gap: 18px;
+            }
+
+            .welcome-text h2 {
+                font-size: 22px;
+            }
+
+            .welcome-text p {
+                font-size: 13px;
+            }
+
+            .welcome-mascot {
+                width: 110px;
+                height: 110px;
+            }
+
+            .summary-grid,
+            .middle-grid {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 16px;
+            }
+
+            .summary-card,
+            .card {
+                min-width: 0;
+                padding: 20px 16px;
+            }
+
+            .summary-value {
+                font-size: 25px;
+                overflow-wrap: anywhere;
+            }
+
+            .payment-status {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 10px;
+            }
+
+            .status-box {
+                padding: 14px 10px;
+            }
+
+            .status-number {
+                font-size: 24px;
+            }
+
+            .verification-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .header-profile-text {
+                display: none;
+            }
+
+            .mascot-container {
+                display: none;
+            }
+
+            .mobile-bottom-nav {
+                display: flex;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .content {
+                padding-right: 9px;
+                padding-left: 9px;
+            }
+
+            .payment-status {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .summary-card,
+            .card {
+                padding: 16px 12px;
+            }
+        }
+
+        /* Navigasi bawah HP */
+        .mobile-bottom-nav {
+            display: none;
         }
 
         @media (max-width: 768px) {
-            .dashboard { display: block; }
-            .sidebar { width: 100%; min-height: auto; }
-            .menu, .sidebar-bottom { display: none; }
-            .header { height: auto; padding: 20px; }
-            .content { padding: 20px; }
-            .header-profile-text { display: none; }
-            .payment-status, .verification-grid { grid-template-columns: 1fr; }
-            .welcome-banner { flex-direction: column; text-align: center; }
-            .mascot-container { display: none; }
+            .mobile-bottom-nav {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                z-index: 900;
+                display: flex;
+                gap: 4px;
+                padding: 9px 8px calc(9px + env(safe-area-inset-bottom));
+                overflow-x: auto;
+                background: #fff;
+                border-top: 1px solid #e2e8f0;
+                box-shadow: 0 -5px 20px rgba(15, 23, 42, .08);
+                scrollbar-width: none;
+            }
+
+            .mobile-bottom-nav::-webkit-scrollbar {
+                display: none;
+            }
+
+            .mobile-bottom-nav a {
+                flex: 0 0 76px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 5px;
+                padding: 8px 3px;
+                border-radius: 12px;
+                color: #64748b;
+                font-size: 10px;
+                font-weight: 800;
+                text-align: center;
+            }
+
+            .mobile-bottom-nav a span {
+                font-size: 19px;
+            }
+
+            .mobile-bottom-nav a.active {
+                color: #0d9488;
+                background: #ccfbf1;
+            }
         }
     </style>
 </head>
@@ -763,6 +981,10 @@
                     Laporan Keuangan
                 </a>
 
+                <form method="POST" action="{{ route('logout') }}" class="mobile-logout-form">
+                    @csrf
+                </form>
+
             </nav>
 
 
@@ -790,7 +1012,6 @@
                     <button type="submit" class="logout-btn">
 
                         ↪ &nbsp; Keluar
-
                     </button>
 
                 </form>
@@ -952,7 +1173,7 @@
 
 
 
-              F
+                F
 
 
 
@@ -1184,13 +1405,72 @@
     <!-- ================= EFEK MASCOT KASI MELAYANG (POJOK KANAN BAWAH) ================= -->
     <div class="mascot-container">
         <div class="mascot-bubble">
-           Semangat bertugas Kak Bendahara! 💪<br>
+            Semangat bertugas Kak Bendahara! 💪<br>
             <span>Jangan lupa senyum hari ini! ✨</span>
         </div>
         <div class="mascot-body">
             <div class="mascot-face">^ᴗ^</div>
         </div>
     </div>
+
+    <nav class="mobile-bottom-nav" aria-label="Navigasi Bendahara">
+
+        <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
+            <span>▣</span>
+            Dashboard
+        </a>
+
+        <a href="{{ route('data-siswa.index') }}" class="{{ request()->routeIs('data-siswa.*') ? 'active' : '' }}">
+            <span>◉</span>
+            Data Siswa
+        </a>
+
+        <a href="{{ route('pembayaran-kas.index') }}"
+            class="{{ request()->routeIs('pembayaran-kas.*') ? 'active' : '' }}">
+            <span>✓</span>
+            Pembayaran
+        </a>
+
+        <a href="{{ route('detail-pembayaran.index') }}"
+            class="{{ request()->routeIs('detail-pembayaran.*') ? 'active' : '' }}">
+            <span>▤</span>
+            Detail Kas
+        </a>
+
+        <a href="{{ route('verifikasi-pembayaran.index') }}"
+            class="{{ request()->routeIs('verifikasi-pembayaran.*') ? 'active' : '' }}">
+            <span>●</span>
+            Verifikasi
+        </a>
+
+        <a href="{{ route('pengeluaran.web.index') }}"
+            class="{{ request()->routeIs('pengeluaran.*') ? 'active' : '' }}">
+            <span>↑</span>
+            Pengeluaran
+        </a>
+
+        <a href="{{ route('riwayat.index') }}" class="{{ request()->routeIs('riwayat.*') ? 'active' : '' }}">
+            <span>↻</span>
+            Riwayat
+        </a>
+
+        @if (Route::has('pengumuman.index'))
+            <a href="{{ route('pengumuman.index') }}"
+                class="{{ request()->routeIs('pengumuman.*') ? 'active' : '' }}">
+                <span>▣</span>
+                Pengumuman
+            </a>
+        @endif
+
+        <a href="{{ route('laporan.index') }}" class="{{ request()->routeIs('laporan.*') ? 'active' : '' }}">
+            <span>▤</span>
+            Laporan
+        </a>
+
+    </nav>
+</body>
+
+</html>
 
 </body>
 

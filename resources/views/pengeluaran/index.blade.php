@@ -755,7 +755,139 @@
             .total-area {
                 gap: 15px;
             }
-        }
+
+/* NAVBAR BAWAH KHUSUS HP */
+.mobile-bottom-nav {
+    display: none;
+}
+
+@media (max-width: 800px) {
+    .app {
+        display: block;
+        width: 100%;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .main {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .topbar {
+        height: 68px;
+        padding: 0 16px;
+    }
+
+    .topbar-title {
+        font-size: 18px;
+    }
+
+    .content {
+        padding: 18px 12px 100px;
+    }
+
+    .page-title h1 {
+        font-size: 25px;
+    }
+
+    .page-title p {
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .content-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 16px;
+    }
+
+    .card {
+        min-width: 0;
+        padding: 18px 14px;
+    }
+
+    .mascot-container {
+        display: none;
+    }
+
+    .mobile-bottom-nav {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 900;
+
+        display: flex;
+        align-items: stretch;
+        gap: 6px;
+        padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+
+        overflow-x: auto;
+        overflow-y: hidden;
+        background: #fff;
+        border-top: 1px solid #e2e8f0;
+        box-shadow: 0 -4px 18px rgba(15, 23, 42, .08);
+
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .mobile-bottom-nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    .mobile-bottom-nav a,
+    .mobile-bottom-nav .mobile-logout {
+        flex: 0 0 76px;
+        min-width: 76px;
+        min-height: 54px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+
+        padding: 7px 4px;
+        border: none;
+        border-radius: 12px;
+        background: transparent;
+
+        color: #64748b;
+        font-family: inherit;
+        font-size: 10px;
+        font-weight: 800;
+        line-height: 1.2;
+        text-align: center;
+        text-decoration: none;
+        white-space: normal;
+        cursor: pointer;
+    }
+
+    .mobile-bottom-nav a span,
+    .mobile-bottom-nav .mobile-logout span {
+        display: block;
+        font-size: 20px;
+        line-height: 1;
+    }
+
+    .mobile-bottom-nav a.active {
+        color: #0d9488;
+        background: #ccfbf1;
+    }
+
+    .mobile-bottom-nav .mobile-logout {
+        color: #dc2626;
+    }
+
+    .total-area {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
     </style>
 </head>
 
@@ -1224,6 +1356,17 @@
     font-weight: 600;
 }
 
+/* Navigasi bawah hanya tampil di HP */
+.mobile-bottom-nav {
+    display: none !important;
+}
+
+@media (max-width: 800px) {
+    .mobile-bottom-nav {
+        display: flex !important;
+    }
+}
+
 </style>
 
 
@@ -1267,6 +1410,68 @@ document.getElementById('editModal').addEventListener('click', function(event) {
 });
 
 </script>
-</body>
 
+
+<!-- NAVIGASI BAWAH KHUSUS HP -->
+<nav class="mobile-bottom-nav" aria-label="Navigasi utama">
+    <a href="{{ route('dashboard') }}">
+        <span>◫</span>
+        Dashboard
+    </a>
+
+    <a href="{{ route('data-siswa.index') }}">
+        <span>◉</span>
+        Data Siswa
+    </a>
+
+    <a href="{{ route('pembayaran-kas.index') }}">
+        <span>✓</span>
+        Pembayaran
+    </a>
+
+    <a href="{{ route('verifikasi-pembayaran.index') }}">
+        <span>●</span>
+        Verifikasi
+    </a>
+
+    <a href="{{ route('detail-pembayaran.index') }}">
+        <span>▤</span>
+        Detail
+    </a>
+
+    <a href="{{ route('pengeluaran.web.index') }}"
+       class="active">
+        <span>↑</span>
+        Pengeluaran
+    </a>
+
+    <a href="{{ route('riwayat.index') }}">
+        <span>↻</span>
+        Riwayat
+    </a>
+
+    @if (Route::has('pengumuman.index'))
+        <a href="{{ route('pengumuman.index') }}">
+            <span>▣</span>
+            Pengumuman
+        </a>
+    @endif
+
+    <a href="{{ route('laporan.index') }}">
+        <span>▤</span>
+        Laporan
+    </a>
+
+    <form action="{{ route('logout') }}" method="POST"
+          onsubmit="return confirm('Yakin ingin keluar?')">
+        @csrf
+        <button type="submit" class="mobile-logout">
+            <span>↪</span>
+            Keluar
+        </button>
+    </form>
+</nav>
+
+</body>
 </html>
+

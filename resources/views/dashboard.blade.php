@@ -677,6 +677,126 @@
             .mascot-container {
                 display: none;
             }
+
+            /* Navigasi khusus mobile */
+            .mobile-nav {
+                display: none;
+            }
+
+            @media (max-width: 900px) {
+                .mobile-nav {
+                    display: flex;
+                    position: fixed;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    z-index: 200;
+                    justify-content: space-around;
+                    align-items: center;
+                    gap: 4px;
+                    padding: 10px 6px calc(10px + env(safe-area-inset-bottom));
+                    background: #ffffff;
+                    border-top: 1px solid #e2e8f0;
+                    box-shadow: 0 -4px 20px rgba(15, 23, 42, 0.08);
+                }
+
+                .mobile-nav a {
+                    display: flex;
+                    flex: 1;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 4px;
+                    color: #64748b;
+                    font-size: 10px;
+                    font-weight: 800;
+                    text-align: center;
+                    padding: 6px 2px;
+                    border-radius: 10px;
+                }
+
+                .mobile-nav a span {
+                    font-size: 19px;
+                }
+
+                .mobile-nav a.active {
+                    color: #0d9488;
+                    background: #ccfbf1;
+                }
+
+                .content {
+                    padding: 16px 12px 100px;
+                }
+
+                .topbar {
+                    height: 68px;
+                    padding: 0 16px;
+                }
+
+                .topbar h2 {
+                    font-size: 18px;
+                }
+
+                .welcome-card {
+                    padding: 22px 18px;
+                    border-radius: 18px;
+                }
+
+                .welcome-text h1 {
+                    font-size: 24px;
+                    overflow-wrap: anywhere;
+                }
+
+                .welcome-text p {
+                    font-size: 14px;
+                }
+
+                .banner-kasi {
+                    width: 90px;
+                }
+
+                .stats-grid {
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                    gap: 12px;
+                }
+
+                .stat-card {
+                    min-width: 0;
+                    padding: 16px 12px;
+                    border-radius: 16px;
+                }
+
+                .stat-value {
+                    font-size: 20px;
+                    overflow-wrap: anywhere;
+                }
+
+                .panel {
+                    min-width: 0;
+                    padding: 16px 12px;
+                    border-radius: 16px;
+                }
+
+                .panel-title {
+                    font-size: 16px;
+                    gap: 8px;
+                }
+
+                .mascot-container {
+                    display: none;
+                }
+            }
+
+            @media (max-width: 380px) {
+                .stats-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .welcome-date {
+                    font-size: 12px;
+                    padding: 8px 12px;
+                }
+            }
+
         }
     </style>
 </head>
@@ -968,6 +1088,35 @@
             <div class="mascot-face">^ᴗ^</div>
         </div>
     </div>
+
+
+<nav class="mobile-nav">
+    <a href="#" class="active">
+        <span>◫</span>
+        Dashboard
+    </a>
+
+    <a href="{{ route('data-siswa.index') }}">
+        <span>👥</span>
+        Data Siswa
+    </a>
+
+    <a href="{{ route('verifikasi-pembayaran.index') }}">
+        <span>✓</span>
+        Verifikasi
+    </a>
+
+    <a href="{{ route('pengumuman.index') }}">
+        <span>📢</span>
+        Pengumuman
+    </a>
+
+    <a href="{{ route('laporan.index') }}">
+        <span>▤</span>
+        Laporan
+    </a>
+</nav>
+
 
 </body>
 

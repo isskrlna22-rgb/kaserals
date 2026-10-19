@@ -764,32 +764,41 @@
                     <span>◉</span> Kelola Data Siswa
                 </a>
 
+
                 <p class="section-title">TRANSAKSI ADMIN</p>
-                <a href="#" class="nav-link">
+
+                <a href="{{ route('pembayaran-kas.index') }}" class="nav-link">
                     <span>✓</span> Catat Pembayaran Kas
                 </a>
-                <a href="#" class="nav-link">
+
+                <a href="{{ route('verifikasi-pembayaran.index') }}" class="nav-link">
                     <span>●</span> Verifikasi Pembayaran
                 </a>
-                <a href="#" class="nav-link">
+
+                <a href="{{ route('pengeluaran.web.index') }}" class="nav-link">
                     <span>↑</span> Catat Pengeluaran
                 </a>
 
                 <p class="section-title">AKSES SISWA</p>
-                <a href="#" class="nav-link">
+
+                <a href="{{ route('dashboard.siswa.status') }}" class="nav-link">
                     <span>👤</span> Status Bayar Pribadi
                 </a>
 
                 <p class="section-title">CATATAN & LAPORAN</p>
-                <a href="#" class="nav-link">
+
+                <a href="{{ route('riwayat.index') }}" class="nav-link">
                     <span>↻</span> Riwayat Transaksi
                 </a>
-                <a href="#" class="nav-link">
+
+                <a href="{{ route('pengumuman.index') }}" class="nav-link">
                     <span>▣</span> Kelola Pengumuman
                 </a>
-                <a href="#" class="nav-link">
+
+                <a href="{{ route('laporan.index') }}" class="nav-link">
                     <span>▤</span> Laporan Keuangan
                 </a>
+
             </nav>
 
             <div class="sidebar-bottom">
@@ -823,7 +832,6 @@
 
                 <!-- GRID KIRI & KANAN -->
                 <div class="settings-grid">
-
                     <!-- KIRI: FORM KONFIGURASI SISTEM -->
                     <div class="panel">
                         <div class="panel-header">
@@ -834,33 +842,62 @@
                         </div>
 
 
-                        <form action="{{ route('akun.store') }}" method="POST">
+                        <form action="{{ route('pengaturan-kelas.update') }}" method="POST">
                             @csrf
-
+                            @method('PUT')
 
                             <div class="form-group">
                                 <label for="nama_kelas">Nama Kelas</label>
-                                <input type="text" id="nama_kelas" name="nama_kelas" class="form-control"
-                                    value="XII Rekayasa Perangkat Lunak 1" required>
+
+                                <select id="nama_kelas" name="nama_kelas" class="form-control" required>
+                                    <option value="">-- Pilih Kelas --</option>
+
+                                    @foreach ($daftarKelas as $kelas)
+                                        <option value="{{ $kelas }}" @selected(old('nama_kelas', $pengaturan->nama_kelas ?? '') === $kelas)>
+                                            {{ $kelas }}
+                                        </option>
+                                    @endforeach
+                                </select>
+
+                                @error('nama_kelas')
+                                    <small style="color:red">{{ $message }}</small>
+                                @enderror
                             </div>
 
                             <div class="form-group">
-                                <label for="wali_kelas">Nama Wali Kelas</label>
-                                <input type="text" id="wali_kelas" name="wali_kelas" class="form-control"
-                                    value="Bpk. Budi Santoso, S.Kom." required>
+                                <label for="id_wali_kelas">Nama Wali Kelas</label>
+                                <select id="id_wali_kelas" name="id_wali_kelas" class="form-control" required>
+                                    <option value="">-- Pilih Wali Kelas --</option>
+
+                                    @foreach ($waliKelas as $wali)
+                                        <option value="{{ $wali->id_users }}" @selected(old('id_wali_kelas', $pengaturan->id_wali_kelas ?? '') == $wali->id_users)>
+                                            {{ $wali->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('id_wali_kelas')
+                                    <small style="color:red">{{ $message }}</small>
+                                @enderror
                             </div>
 
                             <div class="form-group">
                                 <label for="nominal_kas">Nominal Kas Rutin (Rp)</label>
                                 <input type="number" id="nominal_kas" name="nominal_kas" class="form-control"
-                                    value="10000" required>
-                                <small
-                                    style="color: #64748b; font-size: 12px; margin-top: 6px; display: block;">*Nominal
-                                    standar per pertemuan/minggu</small>
+                                    value="{{ old('nominal_kas', $pengaturan->nominal_kas ?? 10000) }}" min="1"
+                                    required>
+                                <small style="color:#64748b">
+                                    *Nominal standar per pertemuan/minggu
+                                </small>
+                                @error('nominal_kas')
+                                    <small style="color:red">{{ $message }}</small>
+                                @enderror
                             </div>
 
-                            <button type="submit" class="btn-save">Simpan Perubahan</button>
+                            <button type="submit" class="btn-save">
+                                Simpan Perubahan
+                            </button>
                         </form>
+
                     </div>
 
                     <!-- KANAN: TABEL AKUN PENGGUNA -->
@@ -931,10 +968,9 @@
                                                         Edit
                                                     </a>
 
-
                                                     <form action="{{ route('akun.destroy', $item->id_users) }}"
-                                                        method="POST"
-                                                        onsubmit="return confirm('Yakin ingin menghapus akun ini?')">
+                                                        method="POST" class="delete-form"
+                                                        data-name="{{ $item->name }}">
                                                         @csrf
                                                         @method('DELETE')
 
@@ -942,7 +978,6 @@
                                                             Hapus
                                                         </button>
                                                     </form>
-
                                                 </div>
 
                                             </td>

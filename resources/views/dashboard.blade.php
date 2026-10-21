@@ -837,6 +837,12 @@
                 <a href="{{ route('pembayaran-kas.index') }}" class="nav-link">
                     <span>✓</span> Catat Pembayaran Kas
                 </a>
+
+                <a href="{{ route('detail-pembayaran.index') }}"
+                    class="nav-link {{ request()->routeIs('detail-pembayaran.*') ? 'active' : '' }}">
+                    <span>●</span> Detail pembayaran
+                </a>
+                
                 <!-- Menu 4 -->
                 <a href="{{ route('verifikasi-pembayaran.index') }}" class="nav-link">
                     <span>●</span> Verifikasi Pembayaran
@@ -845,6 +851,14 @@
                 <a href="{{ route('pengeluaran.web.index') }}" class="nav-link">
                     <span>↑</span> Catat Pengeluaran
                 </a>
+
+                <p class="section-title">AKSES SISWA</p>
+
+
+                <a href="{{ route('admin.status-pembayaran') }}" class="nav-link">
+                    <span>👤</span> Status Bayar Pribadi
+                </a>
+
 
                 <p class="section-title">CATATAN & LAPORAN</p>
                 <!-- Menu 9 -->
@@ -1090,32 +1104,32 @@
     </div>
 
 
-<nav class="mobile-nav">
-    <a href="#" class="active">
-        <span>◫</span>
-        Dashboard
-    </a>
+    <nav class="mobile-nav">
+        <a href="#" class="active">
+            <span>◫</span>
+            Dashboard
+        </a>
 
-    <a href="{{ route('data-siswa.index') }}">
-        <span>👥</span>
-        Data Siswa
-    </a>
+        <a href="{{ route('data-siswa.index') }}">
+            <span>👥</span>
+            Data Siswa
+        </a>
 
-    <a href="{{ route('verifikasi-pembayaran.index') }}">
-        <span>✓</span>
-        Verifikasi
-    </a>
+        <a href="{{ route('verifikasi-pembayaran.index') }}">
+            <span>✓</span>
+            Verifikasi
+        </a>
 
-    <a href="{{ route('pengumuman.index') }}">
-        <span>📢</span>
-        Pengumuman
-    </a>
+        <a href="{{ route('pengumuman.index') }}">
+            <span>📢</span>
+            Pengumuman
+        </a>
 
-    <a href="{{ route('laporan.index') }}">
-        <span>▤</span>
-        Laporan
-    </a>
-</nav>
+        <a href="{{ route('laporan.index') }}">
+            <span>▤</span>
+            Laporan
+        </a>
+    </nav>
 
 
 </body>

@@ -15,6 +15,7 @@ class Pengumuman extends Model
         'id_user',
         'judul',
         'isi',
+        'nama_kelas',
     ];
 
     public function user()

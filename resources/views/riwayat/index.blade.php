@@ -1134,8 +1134,8 @@
 <!-- ================= EFEK MASCOT KASI MELAYANG (POJOK KANAN BAWAH) ================= -->
 <div class="mascot-container">
     <div class="mascot-bubble">
-        Wih, laporannya rapi banget, De! 📝<br>
-        <span>Semoga saldo kelas kita aman terus ya! ✨</span>
+        setiap catatan menyimpan cerita! 📝<br>
+        <span>saldo kelas kita aman terus ya! ✨</span>
     </div>
     <div class="mascot-body">
         <div class="mascot-face">^ᴗ^</div>

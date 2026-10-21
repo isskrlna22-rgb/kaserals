@@ -14,31 +14,33 @@ class AkunController extends Controller
     /**
      * Menampilkan semua akun.
      */
-  public function index()
-{
-    $akun = User::with('siswa')
-        ->latest('created_at')
-        ->get();
+    public function index()
+    {
+        $akun = User::with('siswa')
+            ->latest('created_at')
+            ->get();
 
-    $waliKelas = User::where('role', 'WALI_KELAS')->get();
+        $waliKelas = User::where('role', 'WALI_KELAS')->get();
+        $bendahara = User::where('role', 'BENDAHARA')->get();
 
-    $pengaturan = PengaturanSistem::first();
+        $pengaturan = PengaturanSistem::first();
 
-    $daftarKelas = Siswa::query()
-        ->whereNotNull('kelas')
-        ->where('kelas', '!=', '')
-        ->select('kelas')
-        ->distinct()
-        ->orderBy('kelas')
-        ->pluck('kelas');
+        $daftarKelas = Siswa::query()
+            ->whereNotNull('kelas')
+            ->where('kelas', '!=', '')
+            ->select('kelas')
+            ->distinct()
+            ->orderBy('kelas')
+            ->pluck('kelas');
 
-    return view('akun.index', compact(
-        'akun',
-        'waliKelas',
-        'pengaturan',
-        'daftarKelas'
-    ));
-}
+        return view('akun.index', compact(
+            'akun',
+            'waliKelas',
+            'bendahara',
+            'pengaturan',
+            'daftarKelas'
+        ));
+    }
     /**
      * Form tambah akun.
      */
@@ -120,64 +122,73 @@ class AkunController extends Controller
 
 
 
-public function updatePengaturanKelas(Request $request)
-{
-    $validated = $request->validate([
-        'nama_kelas' => [
-            'required',
-            'string',
-            'max:255',
-            Rule::exists('siswa', 'kelas'),
-        ],
-        'id_wali_kelas' => [
-            'required',
-            Rule::exists('users', 'id_users')
-                ->where('role', 'WALI_KELAS'),
-        ],
-        'nominal_kas' => 'required|integer|min:1',
-    ]);
+    public function updatePengaturanKelas(Request $request)
+    {
+        $validated = $request->validate([
+            'nama_kelas' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::exists('siswa', 'kelas'),
+            ],
 
-    // Cari pengaturan berdasarkan kelas yang dipilih.
-    $pengaturan = PengaturanSistem::where(
-        'nama_kelas',
-        $validated['nama_kelas']
-    )->first();
+            'id_wali_kelas' => [
+                'required',
+                Rule::exists('users', 'id_users')
+                    ->where('role', 'WALI_KELAS'),
+            ],
+            'id_bendahara' => [
+                'required',
+                Rule::exists('users', 'id_users')
+                    ->where('role', 'BENDAHARA'),
+            ],
+            'nominal_kas' => 'required|integer|min:1',
 
-    // Cegah satu Wali Kelas ditugaskan ke dua kelas berbeda.
-    $waliSudahDitugaskan = PengaturanSistem::where(
-        'id_wali_kelas',
-        $validated['id_wali_kelas']
-    )
-        ->when(
-            $pengaturan,
-            fn ($query) => $query->where(
-                'id_pengaturan',
-                '!=',
-                $pengaturan->id_pengaturan
-            )
+        ]);
+
+        // Cari pengaturan berdasarkan kelas yang dipilih.
+        $pengaturan = PengaturanSistem::where(
+            'nama_kelas',
+            $validated['nama_kelas']
+        )->first();
+
+        // Cegah satu Wali Kelas ditugaskan ke dua kelas berbeda.
+        $waliSudahDitugaskan = PengaturanSistem::where(
+            'id_wali_kelas',
+            $validated['id_wali_kelas']
         )
-        ->exists();
+            ->when(
+                $pengaturan,
+                fn($query) => $query->where(
+                    'id_pengaturan',
+                    '!=',
+                    $pengaturan->id_pengaturan
+                )
+            )
+            ->exists();
 
-    if ($waliSudahDitugaskan) {
-        return back()
-            ->withInput()
-            ->withErrors([
-                'id_wali_kelas' =>
+        if ($waliSudahDitugaskan) {
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'id_wali_kelas' =>
                     'Wali Kelas tersebut sudah ditugaskan ke kelas lain.',
-            ]);
+                ]);
+        }
+
+        if (!$pengaturan) {
+            $pengaturan = new PengaturanSistem();
+        }
+
+        $pengaturan->nama_kelas = $validated['nama_kelas'];
+        $pengaturan->id_wali_kelas = $validated['id_wali_kelas'];
+        $pengaturan->id_bendahara = $validated['id_bendahara'];
+        $pengaturan->nominal_kas = $validated['nominal_kas'];
+
+        $pengaturan->save();
+
+        return redirect()
+            ->route('akun.index')
+            ->with('success', 'Pengaturan kelas berhasil disimpan.');
     }
-
-    if (!$pengaturan) {
-        $pengaturan = new PengaturanSistem();
-    }
-
-    $pengaturan->nama_kelas = $validated['nama_kelas'];
-    $pengaturan->id_wali_kelas = $validated['id_wali_kelas'];
-    $pengaturan->nominal_kas = $validated['nominal_kas'];
-    $pengaturan->save();
-
-    return redirect()
-        ->route('akun.index')
-        ->with('success', 'Pengaturan kelas berhasil disimpan.');
-}
 }

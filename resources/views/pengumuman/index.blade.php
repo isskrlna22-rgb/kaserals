@@ -724,6 +724,12 @@
                 <a href="{{ route('pembayaran-kas.index') }}" class="nav-link">
                     <span>✓</span> Pembayaran Kas
                 </a>
+
+                <a href="{{ route('detail-pembayaran.index') }}"
+                    class="nav-link {{ request()->routeIs('detail-pembayaran.*') ? 'active' : '' }}">
+                    <span>●</span> Detail pembayaran
+                </a>
+                
                 <a href="{{ route('verifikasi-pembayaran.index') }}" class="nav-link">
                     <span>●</span> Verifikasi Pembayaran
                 </a>
@@ -849,16 +855,20 @@
 
                                             <!-- TOMBOL HAPUS -->
                                             @if (Route::has('pengumuman.destroy'))
-                                                <form action="{{ route('pengumuman.destroy', $item->id_pengumuman) }}"
-                                                    method="POST" onsubmit="return confirm('Hapus pengumuman ini?')"
-                                                    style="margin: 0;">
-                                                    @csrf
-                                                    @method('DELETE')
 
-                                                    <button type="submit" class="delete-btn">
-                                                        Hapus
-                                                    </button>
-                                                </form>
+<form action="{{ route('pengumuman.destroy', $item->id_pengumuman) }}"
+      method="POST"
+      style="margin: 0;">
+    @csrf
+    @method('DELETE')
+
+    <button type="button"
+            class="delete-btn"
+            onclick="openDeleteModal(this.form)">
+        Hapus
+    </button>
+</form>
+
                                             @endif
 
                                         </div>
@@ -1111,6 +1121,163 @@
     </form>
 
 </nav>
+
+<!-- MODAL KONFIRMASI HAPUS PENGUMUMAN -->
+<div id="deletePengumumanModal" class="delete-modal">
+    <div class="delete-modal-box">
+        <div class="delete-icon">🗑️</div>
+
+        <h3>Hapus Pengumuman?</h3>
+        <p>
+            Apakah kamu yakin ingin menghapus pengumuman ini?
+            Tindakan ini tidak dapat dibatalkan.
+        </p>
+
+        <div class="delete-actions">
+            <button type="button"
+                    class="cancel-delete"
+                    onclick="closeDeleteModal()">
+                Batal
+            </button>
+
+            <button type="button"
+                    class="confirm-delete"
+                    onclick="confirmDelete()">
+                Ya, Hapus
+            </button>
+        </div>
+    </div>
+</div>
+
+<style>
+.delete-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(15, 23, 42, .6);
+    backdrop-filter: blur(5px);
+}
+
+.delete-modal.show {
+    display: flex;
+}
+
+.delete-modal-box {
+    width: 100%;
+    max-width: 410px;
+    padding: 30px;
+    text-align: center;
+    background: #fff;
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .2);
+    animation: deleteAppear .2s ease;
+}
+
+.delete-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 76px;
+    height: 76px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    background: #fee2e2;
+    font-size: 34px;
+}
+
+.delete-modal-box h3 {
+    margin: 0 0 12px;
+    color: #0f172a;
+    font-size: 22px;
+    font-weight: 900;
+}
+
+.delete-modal-box p {
+    margin: 0;
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.delete-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 26px;
+}
+
+.delete-actions button {
+    flex: 1;
+    padding: 13px 10px;
+    border: none;
+    border-radius: 12px;
+    font: inherit;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.cancel-delete {
+    color: #475569;
+    background: #f1f5f9;
+}
+
+.confirm-delete {
+    color: white;
+    background: #ef4444;
+}
+
+.confirm-delete:hover {
+    background: #dc2626;
+}
+
+@keyframes deleteAppear {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+</style>
+
+<script>
+let deletePengumumanForm = null;
+
+function openDeleteModal(form) {
+    deletePengumumanForm = form;
+
+    document
+        .getElementById('deletePengumumanModal')
+        .classList.add('show');
+}
+
+function closeDeleteModal() {
+    document
+        .getElementById('deletePengumumanModal')
+        .classList.remove('show');
+
+    deletePengumumanForm = null;
+}
+
+function confirmDelete() {
+    if (deletePengumumanForm) {
+        deletePengumumanForm.submit();
+    }
+}
+
+document
+    .getElementById('deletePengumumanModal')
+    .addEventListener('click', function (event) {
+        if (event.target === this) {
+            closeDeleteModal();
+        }
+    });
+</script>
 
 </body>
 </html>

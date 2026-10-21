@@ -21,6 +21,20 @@ Route::middleware(['auth', 'role:ADMIN,BENDAHARA'])->group(function () {
 
 });
 
+Route::get('/admin/status-pembayaran', [
+    \App\Http\Controllers\SiswaDashboardController::class,
+    'adminStatusPembayaran'
+])->middleware(['auth', 'role:ADMIN'])
+  ->name('admin.status-pembayaran');
+
+
+Route::get('/bendahara/status-pembayaran', [
+    \App\Http\Controllers\SiswaDashboardController::class,
+    'bendaharaStatusPembayaran'
+])->middleware(['auth', 'role:BENDAHARA'])
+  ->name('bendahara.status-pembayaran');
+
+
 // ========================================
 // PEMBAYARAN SISWA
 // ========================================

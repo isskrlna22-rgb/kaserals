@@ -756,138 +756,137 @@
                 gap: 15px;
             }
 
-/* NAVBAR BAWAH KHUSUS HP */
-.mobile-bottom-nav {
-    display: none;
-}
+            /* NAVBAR BAWAH KHUSUS HP */
+            .mobile-bottom-nav {
+                display: none;
+            }
 
-@media (max-width: 800px) {
-    .app {
-        display: block;
-        width: 100%;
-    }
+            @media (max-width: 800px) {
+                .app {
+                    display: block;
+                    width: 100%;
+                }
 
-    .sidebar {
-        display: none;
-    }
+                .sidebar {
+                    display: none;
+                }
 
-    .main {
-        width: 100%;
-        min-width: 0;
-    }
+                .main {
+                    width: 100%;
+                    min-width: 0;
+                }
 
-    .topbar {
-        height: 68px;
-        padding: 0 16px;
-    }
+                .topbar {
+                    height: 68px;
+                    padding: 0 16px;
+                }
 
-    .topbar-title {
-        font-size: 18px;
-    }
+                .topbar-title {
+                    font-size: 18px;
+                }
 
-    .content {
-        padding: 18px 12px 100px;
-    }
+                .content {
+                    padding: 18px 12px 100px;
+                }
 
-    .page-title h1 {
-        font-size: 25px;
-    }
+                .page-title h1 {
+                    font-size: 25px;
+                }
 
-    .page-title p {
-        font-size: 14px;
-        line-height: 1.6;
-    }
+                .page-title p {
+                    font-size: 14px;
+                    line-height: 1.6;
+                }
 
-    .content-grid {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 16px;
-    }
+                .content-grid {
+                    grid-template-columns: minmax(0, 1fr);
+                    gap: 16px;
+                }
 
-    .card {
-        min-width: 0;
-        padding: 18px 14px;
-    }
+                .card {
+                    min-width: 0;
+                    padding: 18px 14px;
+                }
 
-    .mascot-container {
-        display: none;
-    }
+                .mascot-container {
+                    display: none;
+                }
 
-    .mobile-bottom-nav {
-        position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 900;
+                .mobile-bottom-nav {
+                    position: fixed;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    z-index: 900;
 
-        display: flex;
-        align-items: stretch;
-        gap: 6px;
-        padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+                    display: flex;
+                    align-items: stretch;
+                    gap: 6px;
+                    padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
 
-        overflow-x: auto;
-        overflow-y: hidden;
-        background: #fff;
-        border-top: 1px solid #e2e8f0;
-        box-shadow: 0 -4px 18px rgba(15, 23, 42, .08);
+                    overflow-x: auto;
+                    overflow-y: hidden;
+                    background: #fff;
+                    border-top: 1px solid #e2e8f0;
+                    box-shadow: 0 -4px 18px rgba(15, 23, 42, .08);
 
-        scrollbar-width: none;
-        -webkit-overflow-scrolling: touch;
-    }
+                    scrollbar-width: none;
+                    -webkit-overflow-scrolling: touch;
+                }
 
-    .mobile-bottom-nav::-webkit-scrollbar {
-        display: none;
-    }
+                .mobile-bottom-nav::-webkit-scrollbar {
+                    display: none;
+                }
 
-    .mobile-bottom-nav a,
-    .mobile-bottom-nav .mobile-logout {
-        flex: 0 0 76px;
-        min-width: 76px;
-        min-height: 54px;
+                .mobile-bottom-nav a,
+                .mobile-bottom-nav .mobile-logout {
+                    flex: 0 0 76px;
+                    min-width: 76px;
+                    min-height: 54px;
 
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 5px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 5px;
 
-        padding: 7px 4px;
-        border: none;
-        border-radius: 12px;
-        background: transparent;
+                    padding: 7px 4px;
+                    border: none;
+                    border-radius: 12px;
+                    background: transparent;
 
-        color: #64748b;
-        font-family: inherit;
-        font-size: 10px;
-        font-weight: 800;
-        line-height: 1.2;
-        text-align: center;
-        text-decoration: none;
-        white-space: normal;
-        cursor: pointer;
-    }
+                    color: #64748b;
+                    font-family: inherit;
+                    font-size: 10px;
+                    font-weight: 800;
+                    line-height: 1.2;
+                    text-align: center;
+                    text-decoration: none;
+                    white-space: normal;
+                    cursor: pointer;
+                }
 
-    .mobile-bottom-nav a span,
-    .mobile-bottom-nav .mobile-logout span {
-        display: block;
-        font-size: 20px;
-        line-height: 1;
-    }
+                .mobile-bottom-nav a span,
+                .mobile-bottom-nav .mobile-logout span {
+                    display: block;
+                    font-size: 20px;
+                    line-height: 1;
+                }
 
-    .mobile-bottom-nav a.active {
-        color: #0d9488;
-        background: #ccfbf1;
-    }
+                .mobile-bottom-nav a.active {
+                    color: #0d9488;
+                    background: #ccfbf1;
+                }
 
-    .mobile-bottom-nav .mobile-logout {
-        color: #dc2626;
-    }
+                .mobile-bottom-nav .mobile-logout {
+                    color: #dc2626;
+                }
 
-    .total-area {
-        flex-wrap: wrap;
-        justify-content: space-between;
-        gap: 10px;
-    }
-
+                .total-area {
+                    flex-wrap: wrap;
+                    justify-content: space-between;
+                    gap: 10px;
+                }
     </style>
 </head>
 
@@ -1037,7 +1036,27 @@
                         <h2 class="card-title">Tambah Pengeluaran</h2>
                         <form action="{{ route('pengeluaran.web.store') }}" method="POST">
                             @csrf
+                            @if (Auth::user()->role === 'ADMIN')
+                                <div class="form-group">
+                                    <label class="form-label">Kelas *</label>
+                                    <select name="nama_kelas" required class="form-select">
+                                        <option value="">Pilih kelas</option>
 
+                                        @foreach (\App\Models\PengaturanSistem::orderBy('nama_kelas')->get() as $kelas)
+                                            <option value="{{ $kelas->nama_kelas }}" @selected(old('nama_kelas') === $kelas->nama_kelas)>
+                                                {{ $kelas->nama_kelas }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            @elseif (Auth::user()->role === 'BENDAHARA')
+                                <div class="form-group">
+                                    <label class="form-label">Kelas</label>
+                                    <input type="text" class="form-input"
+                                        value="{{ \App\Models\PengaturanSistem::where('id_bendahara', Auth::id())->value('nama_kelas') ?? 'Kelas belum ditentukan' }}"
+                                        readonly>
+                                </div>
+                            @endif
                             <!-- TANGGAL -->
                             <div class="form-group">
                                 <label class="form-label">Tanggal *</label>
@@ -1177,301 +1196,290 @@
             <div class="mascot-face">^ᴗ^</div>
         </div>
     </div>
-<!-- ================= MODAL EDIT PENGELUARAN ================= -->
+    <!-- ================= MODAL EDIT PENGELUARAN ================= -->
 
-<div id="editModal" class="edit-modal">
+    <div id="editModal" class="edit-modal">
 
-    <div class="edit-modal-content">
+        <div class="edit-modal-content">
 
-        <div class="edit-modal-header">
-            <h2>Ubah Pengeluaran</h2>
+            <div class="edit-modal-header">
+                <h2>Ubah Pengeluaran</h2>
 
-            <button type="button" class="edit-modal-close" onclick="closeEditModal()">
-                &times;
-            </button>
+                <button type="button" class="edit-modal-close" onclick="closeEditModal()">
+                    &times;
+                </button>
+            </div>
+
+            <form id="editPengeluaranForm" method="POST">
+
+                @csrf
+
+                @if (Auth::user()->role === 'ADMIN')
+                    <div class="form-group">
+                        <label class="form-label">Kelas *</label>
+
+                        <select name="nama_kelas" required class="form-select">
+                            <option value="">Pilih kelas</option>
+
+                            @foreach (\App\Models\PengaturanSistem::orderBy('nama_kelas')->get() as $kelas)
+                                <option value="{{ $kelas->nama_kelas }}" @selected(old('nama_kelas') === $kelas->nama_kelas)>
+                                    {{ $kelas->nama_kelas }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                @elseif (Auth::user()->role === 'BENDAHARA')
+                    <div class="form-group">
+                        <label class="form-label">Kelas</label>
+
+                        <input type="text" class="form-input"
+                            value="{{ \App\Models\PengaturanSistem::where('id_bendahara', Auth::id())->value('nama_kelas') ?? 'Kelas belum ditentukan' }}"
+                            readonly>
+                    </div>
+                @endif
+                @method('PUT')
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Tanggal *
+                    </label>
+
+                    <input type="date" name="tanggal" id="editTanggal" required class="form-input">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Kategori *
+                    </label>
+
+                    <select name="kategori" id="editKategori" required class="form-select">
+                        <option value="">Pilih kategori</option>
+                        <option value="Kegiatan">Kegiatan</option>
+                        <option value="Perlengkapan">Perlengkapan</option>
+                        <option value="Konsumsi">Konsumsi</option>
+                        <option value="Dokumentasi">Dokumentasi</option>
+                        <option value="Lainnya">Lainnya</option>
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Nominal *
+                    </label>
+
+                    <input type="number" name="nominal" id="editNominal" min="1" required
+                        class="form-input">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Keterangan
+                    </label>
+
+                    <input type="text" name="keterangan" id="editKeterangan" class="form-input"
+                        placeholder="Penjelasan singkat">
+
+                </div>
+
+                <div class="edit-modal-actions">
+
+                    <button type="button" class="btn-cancel" onclick="closeEditModal()">
+                        Batal
+                    </button>
+
+                    <button type="submit" class="btn-submit">
+                        Simpan Perubahan
+                    </button>
+
+                </div>
+
+            </form>
+
         </div>
-
-        <form id="editPengeluaranForm" method="POST">
-
-            @csrf
-            @method('PUT')
-
-            <div class="form-group">
-
-                <label class="form-label">
-                    Tanggal *
-                </label>
-
-                <input
-                    type="date"
-                    name="tanggal"
-                    id="editTanggal"
-                    required
-                    class="form-input"
-                >
-
-            </div>
-
-            <div class="form-group">
-
-                <label class="form-label">
-                    Kategori *
-                </label>
-
-                <select
-                    name="kategori"
-                    id="editKategori"
-                    required
-                    class="form-select"
-                >
-                    <option value="">Pilih kategori</option>
-                    <option value="Kegiatan">Kegiatan</option>
-                    <option value="Perlengkapan">Perlengkapan</option>
-                    <option value="Konsumsi">Konsumsi</option>
-                    <option value="Dokumentasi">Dokumentasi</option>
-                    <option value="Lainnya">Lainnya</option>
-                </select>
-
-            </div>
-
-            <div class="form-group">
-
-                <label class="form-label">
-                    Nominal *
-                </label>
-
-                <input
-                    type="number"
-                    name="nominal"
-                    id="editNominal"
-                    min="1"
-                    required
-                    class="form-input"
-                >
-
-            </div>
-
-            <div class="form-group">
-
-                <label class="form-label">
-                    Keterangan
-                </label>
-
-                <input
-                    type="text"
-                    name="keterangan"
-                    id="editKeterangan"
-                    class="form-input"
-                    placeholder="Penjelasan singkat"
-                >
-
-            </div>
-
-            <div class="edit-modal-actions">
-
-                <button
-                    type="button"
-                    class="btn-cancel"
-                    onclick="closeEditModal()"
-                >
-                    Batal
-                </button>
-
-                <button
-                    type="submit"
-                    class="btn-submit"
-                >
-                    Simpan Perubahan
-                </button>
-
-            </div>
-
-        </form>
 
     </div>
 
-</div>
+
+    <style>
+        .edit-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.45);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .edit-modal.show {
+            display: flex;
+        }
+
+        .edit-modal-content {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .edit-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .edit-modal-header h2 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+        .edit-modal-close {
+            border: none;
+            background: transparent;
+            font-size: 28px;
+            cursor: pointer;
+            color: #64748b;
+        }
+
+        .edit-modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-cancel {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 8px;
+            background: #e5e7eb;
+            color: #374151;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* Navigasi bawah hanya tampil di HP */
+        .mobile-bottom-nav {
+            display: none !important;
+        }
+
+        @media (max-width: 800px) {
+            .mobile-bottom-nav {
+                display: flex !important;
+            }
+        }
+    </style>
 
 
-<style>
+    <script>
+        function openEditModal(id, tanggal, kategori, nominal, keterangan) {
 
-.edit-modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    background: rgba(0, 0, 0, 0.45);
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
+            const modal = document.getElementById('editModal');
 
-.edit-modal.show {
-    display: flex;
-}
+            const form = document.getElementById('editPengeluaranForm');
 
-.edit-modal-content {
-    width: 100%;
-    max-width: 500px;
-    background: white;
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
-}
+            document.getElementById('editTanggal').value = tanggal;
 
-.edit-modal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
+            document.getElementById('editKategori').value = kategori;
 
-.edit-modal-header h2 {
-    margin: 0;
-    font-size: 22px;
-}
+            document.getElementById('editNominal').value = nominal;
 
-.edit-modal-close {
-    border: none;
-    background: transparent;
-    font-size: 28px;
-    cursor: pointer;
-    color: #64748b;
-}
+            document.getElementById('editKeterangan').value = keterangan ?? '';
 
-.edit-modal-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 20px;
-}
+            form.action = "{{ url('/data-pengeluaran') }}/" + id;
 
-.btn-cancel {
-    padding: 12px 18px;
-    border: none;
-    border-radius: 8px;
-    background: #e5e7eb;
-    color: #374151;
-    cursor: pointer;
-    font-weight: 600;
-}
-
-/* Navigasi bawah hanya tampil di HP */
-.mobile-bottom-nav {
-    display: none !important;
-}
-
-@media (max-width: 800px) {
-    .mobile-bottom-nav {
-        display: flex !important;
-    }
-}
-
-</style>
+            modal.classList.add('show');
+        }
 
 
-<script>
+        function closeEditModal() {
 
-function openEditModal(id, tanggal, kategori, nominal, keterangan) {
+            const modal = document.getElementById('editModal');
 
-    const modal = document.getElementById('editModal');
+            modal.classList.remove('show');
 
-    const form = document.getElementById('editPengeluaranForm');
-
-    document.getElementById('editTanggal').value = tanggal;
-
-    document.getElementById('editKategori').value = kategori;
-
-    document.getElementById('editNominal').value = nominal;
-
-    document.getElementById('editKeterangan').value = keterangan ?? '';
-
-    form.action = "{{ url('/data-pengeluaran') }}/" + id;
-
-    modal.classList.add('show');
-}
+        }
 
 
-function closeEditModal() {
+        document.getElementById('editModal').addEventListener('click', function(event) {
 
-    const modal = document.getElementById('editModal');
+            if (event.target === this) {
+                closeEditModal();
+            }
 
-    modal.classList.remove('show');
-
-}
-
-
-document.getElementById('editModal').addEventListener('click', function(event) {
-
-    if (event.target === this) {
-        closeEditModal();
-    }
-
-});
-
-</script>
+        });
+    </script>
 
 
-<!-- NAVIGASI BAWAH KHUSUS HP -->
-<nav class="mobile-bottom-nav" aria-label="Navigasi utama">
-    <a href="{{ route('dashboard') }}">
-        <span>◫</span>
-        Dashboard
-    </a>
-
-    <a href="{{ route('data-siswa.index') }}">
-        <span>◉</span>
-        Data Siswa
-    </a>
-
-    <a href="{{ route('pembayaran-kas.index') }}">
-        <span>✓</span>
-        Pembayaran
-    </a>
-
-    <a href="{{ route('verifikasi-pembayaran.index') }}">
-        <span>●</span>
-        Verifikasi
-    </a>
-
-    <a href="{{ route('detail-pembayaran.index') }}">
-        <span>▤</span>
-        Detail
-    </a>
-
-    <a href="{{ route('pengeluaran.web.index') }}"
-       class="active">
-        <span>↑</span>
-        Pengeluaran
-    </a>
-
-    <a href="{{ route('riwayat.index') }}">
-        <span>↻</span>
-        Riwayat
-    </a>
-
-    @if (Route::has('pengumuman.index'))
-        <a href="{{ route('pengumuman.index') }}">
-            <span>▣</span>
-            Pengumuman
+    <!-- NAVIGASI BAWAH KHUSUS HP -->
+    <nav class="mobile-bottom-nav" aria-label="Navigasi utama">
+        <a href="{{ route('dashboard') }}">
+            <span>◫</span>
+            Dashboard
         </a>
-    @endif
 
-    <a href="{{ route('laporan.index') }}">
-        <span>▤</span>
-        Laporan
-    </a>
+        <a href="{{ route('data-siswa.index') }}">
+            <span>◉</span>
+            Data Siswa
+        </a>
 
-    <form action="{{ route('logout') }}" method="POST"
-          onsubmit="return confirm('Yakin ingin keluar?')">
-        @csrf
-        <button type="submit" class="mobile-logout">
-            <span>↪</span>
-            Keluar
-        </button>
-    </form>
-</nav>
+        <a href="{{ route('pembayaran-kas.index') }}">
+            <span>✓</span>
+            Pembayaran
+        </a>
+
+        <a href="{{ route('verifikasi-pembayaran.index') }}">
+            <span>●</span>
+            Verifikasi
+        </a>
+
+        <a href="{{ route('detail-pembayaran.index') }}">
+            <span>▤</span>
+            Detail
+        </a>
+
+        <a href="{{ route('pengeluaran.web.index') }}" class="active">
+            <span>↑</span>
+            Pengeluaran
+        </a>
+
+        <a href="{{ route('riwayat.index') }}">
+            <span>↻</span>
+            Riwayat
+        </a>
+
+        @if (Route::has('pengumuman.index'))
+            <a href="{{ route('pengumuman.index') }}">
+                <span>▣</span>
+                Pengumuman
+            </a>
+        @endif
+
+        <a href="{{ route('laporan.index') }}">
+            <span>▤</span>
+            Laporan
+        </a>
+
+        <form action="{{ route('logout') }}" method="POST" onsubmit="return confirm('Yakin ingin keluar?')">
+            @csrf
+            <button type="submit" class="mobile-logout">
+                <span>↪</span>
+                Keluar
+            </button>
+        </form>
+    </nav>
 
 </body>
-</html>
 
+</html>

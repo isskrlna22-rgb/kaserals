@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pengeluaran;
+use App\Models\PengaturanSistem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -78,32 +79,72 @@ class PengeluaranController extends Controller
     // WEB
     // =========================
 
-    public function page()
-    {
-        $pengeluaran = Pengeluaran::with('user')
-            ->latest('tanggal')
-            ->get();
 
-        return view('pengeluaran.index', compact('pengeluaran'));
+public function page()
+{
+    $query = Pengeluaran::with('user');
+
+    if (Auth::user()->role === 'BENDAHARA') {
+        $kelasSaya = PengaturanSistem::where(
+            'id_bendahara',
+            Auth::id()
+        )->pluck('nama_kelas');
+
+        $query->whereIn('nama_kelas', $kelasSaya);
+    } elseif (Auth::user()->role !== 'ADMIN') {
+        abort(403, 'Anda tidak memiliki akses ke halaman ini.');
     }
 
-    public function storePage(Request $request)
-    {
-        $validated = $request->validate([
-            'nominal' => 'required|numeric|min:1',
-            'tanggal' => 'required|date',
-            'kategori' => 'required|string|max:255',
-            'keterangan' => 'nullable|string',
+    $pengeluaran = $query
+        ->latest('tanggal')
+        ->get();
+
+    return view('pengeluaran.index', compact('pengeluaran'));
+}
+
+
+public function storePage(Request $request)
+{
+    $validated = $request->validate([
+        'nominal' => 'required|numeric|min:1',
+        'tanggal' => 'required|date',
+        'kategori' => 'required|string|max:255',
+        'keterangan' => 'nullable|string',
+    ]);
+
+    $user = Auth::user();
+
+    if ($user->role === 'BENDAHARA') {
+        $kelasSaya = PengaturanSistem::where(
+            'id_bendahara',
+            $user->id_users
+        )->pluck('nama_kelas');
+
+        if ($kelasSaya->count() !== 1) {
+            abort(403, 'Pastikan akun Bendahara memiliki tepat satu kelas tugas.');
+        }
+
+        $validated['nama_kelas'] = $kelasSaya->first();
+
+    } elseif ($user->role === 'ADMIN') {
+        $request->validate([
+            'nama_kelas' => 'required|string|exists:pengaturan_sistems,nama_kelas',
         ]);
 
-        $validated['id_user'] = Auth::id();
+        $validated['nama_kelas'] = $request->nama_kelas;
 
-        Pengeluaran::create($validated);
-
-        return redirect()
-            ->route('pengeluaran.web.index')
-            ->with('success', 'Pengeluaran berhasil dicatat.');
+    } else {
+        abort(403, 'Anda tidak memiliki akses untuk mencatat pengeluaran.');
     }
+
+    $validated['id_user'] = $user->id_users;
+
+    Pengeluaran::create($validated);
+
+    return redirect()
+        ->route('pengeluaran.web.index')
+        ->with('success', 'Pengeluaran berhasil dicatat.');
+}
 
     // =========================
     // WEB - UPDATE

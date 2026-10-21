@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\DetailPembayaran;
 use App\Models\Siswa;
+use App\Models\PengaturanSistem;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class DetailPembayaranController extends Controller
@@ -11,19 +13,37 @@ class DetailPembayaranController extends Controller
     /**
      * Menampilkan halaman Detail Pembayaran.
      */
-    public function index()
-    {
-        $detailPembayaran = DetailPembayaran::with('siswa')
-            ->latest()
-            ->get();
 
-        $siswa = Siswa::orderBy('nama_lengkap')->get();
+public function index()
+{
+    $user = Auth::user();
 
-        return view('detail-pembayaran.index', compact(
-            'detailPembayaran',
-            'siswa'
-        ));
+    $queryDetail = DetailPembayaran::with('siswa');
+    $querySiswa = Siswa::query();
+
+    if ($user->role === 'BENDAHARA') {
+        $kelasSaya = PengaturanSistem::where(
+            'id_bendahara',
+            $user->id_users
+        )->pluck('nama_kelas');
+
+        $queryDetail->whereHas('siswa', function ($query) use ($kelasSaya) {
+            $query->whereIn('kelas', $kelasSaya);
+        });
+
+        $querySiswa->whereIn('kelas', $kelasSaya);
+    } elseif ($user->role !== 'ADMIN') {
+        abort(403, 'Anda tidak memiliki akses ke detail pembayaran.');
     }
+
+    $detailPembayaran = $queryDetail->latest()->get();
+    $siswa = $querySiswa->orderBy('nama_lengkap')->get();
+
+    return view('detail-pembayaran.index', compact(
+        'detailPembayaran',
+        'siswa'
+    ));
+}
 
     /**
      * Menyimpan detail pembayaran.
@@ -82,14 +102,14 @@ class DetailPembayaranController extends Controller
     /**
      * Menghapus detail pembayaran.
      */
-    public function destroy(string $id)
-    {
-        $detailPembayaran = DetailPembayaran::findOrFail($id);
+  public function destroy(string $id)
+{
+    $detailPembayaran = DetailPembayaran::findOrFail($id);
 
-        $detailPembayaran->delete();
+    $detailPembayaran->delete();
 
-        return redirect()
-            ->route('detail-pembayaran.index')
-            ->with('success', 'Detail pembayaran berhasil dihapus.');
-    }
+    return redirect()
+        ->route('detail-pembayaran.index')
+        ->with('success', 'Detail pembayaran berhasil dihapus.');
+}
 }

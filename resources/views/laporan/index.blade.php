@@ -959,6 +959,11 @@
                 <a href="{{ route('pembayaran-kas.index') }}" class="nav-link">
                     <span>✓</span> Pembayaran Kas
                 </a>
+
+                <a href="{{ route('detail-pembayaran.index') }}"
+                    class="nav-link {{ request()->routeIs('detail-pembayaran.*') ? 'active' : '' }}">
+                    <span>●</span> Detail pembayaran
+                </a>
                 <a href="{{ route('verifikasi-pembayaran.index') }}" class="nav-link">
                     <span>●</span> Verifikasi Pembayaran
                 </a>
@@ -1296,6 +1301,12 @@
         <a href="{{ route('pembayaran-kas.index') }}">
             <span>✓</span>
             Pembayaran
+        </a>
+
+
+        <a href="{{ route('detail-pembayaran.index') }}"
+            class="nav-link {{ request()->routeIs('detail-pembayaran.*') ? 'active' : '' }}">
+            <span>●</span> Detail pembayaran
         </a>
 
         <a href="{{ route('verifikasi-pembayaran.index') }}">

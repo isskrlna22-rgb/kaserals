@@ -6,6 +6,9 @@ use App\Models\PembayaranKas;
 use App\Models\Pengeluaran;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Models\Siswa;
+use App\Models\PengaturanSistem;
+use Illuminate\Support\Facades\Auth;
 
 class RiwayatController extends Controller
 {
@@ -17,9 +20,23 @@ class RiwayatController extends Controller
         |--------------------------------------------------------------------------
         */
 
-        $pembayaran = PembayaranKas::with('siswa')
-            ->where('status', 'Diterima')
-            ->get()
+        $queryPembayaran = PembayaranKas::with('siswa')
+            ->where('status', 'Diterima');
+
+        if (Auth::user()->role === 'BENDAHARA') {
+            $kelasSaya = PengaturanSistem::where(
+                'id_bendahara',
+                Auth::id()
+            )->pluck('nama_kelas');
+
+            $queryPembayaran->whereHas('siswa', function ($query) use ($kelasSaya) {
+                $query->whereIn('kelas', $kelasSaya);
+            });
+        } elseif (Auth::user()->role !== 'ADMIN') {
+            abort(403, 'Anda tidak memiliki akses ke riwayat transaksi.');
+        }
+
+        $pembayaran = $queryPembayaran->get()
             ->map(function ($item) {
                 return [
                     'tanggal' => $item->tanggal,
@@ -30,14 +47,27 @@ class RiwayatController extends Controller
                     'tipe' => 'masuk',
                 ];
             });
-
         /*
         |--------------------------------------------------------------------------
         | 2. PENGELUARAN
         |--------------------------------------------------------------------------
         */
 
-        $pengeluaran = Pengeluaran::get()
+
+        $queryPengeluaran = Pengeluaran::query();
+
+        if (Auth::user()->role === 'BENDAHARA') {
+            $kelasSaya = PengaturanSistem::where(
+                'id_bendahara',
+                Auth::id()
+            )->pluck('nama_kelas');
+
+            $queryPengeluaran->whereIn('nama_kelas', $kelasSaya);
+        } elseif (Auth::user()->role !== 'ADMIN') {
+            abort(403, 'Anda tidak memiliki akses ke riwayat transaksi.');
+        }
+
+        $pengeluaran = $queryPengeluaran->get()
             ->map(function ($item) {
                 return [
                     'tanggal' => $item->tanggal,
@@ -50,6 +80,7 @@ class RiwayatController extends Controller
                     'tipe' => 'keluar',
                 ];
             });
+
 
         /*
         |--------------------------------------------------------------------------
@@ -144,21 +175,21 @@ class RiwayatController extends Controller
                     strtolower($item['keterangan'] ?? ''),
                     $search
                 )
-                ||
-                str_contains(
-                    strtolower($item['nama_siswa'] ?? ''),
-                    $search
-                )
-                ||
-                str_contains(
-                    strtolower($item['jenis'] ?? ''),
-                    $search
-                )
-                ||
-                str_contains(
-                    (string) $item['nominal'],
-                    $search
-                );
+                    ||
+                    str_contains(
+                        strtolower($item['nama_siswa'] ?? ''),
+                        $search
+                    )
+                    ||
+                    str_contains(
+                        strtolower($item['jenis'] ?? ''),
+                        $search
+                    )
+                    ||
+                    str_contains(
+                        (string) $item['nominal'],
+                        $search
+                    );
             });
         }
 

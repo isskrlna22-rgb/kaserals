@@ -771,6 +771,12 @@
                     <span>✓</span> Catat Pembayaran Kas
                 </a>
 
+
+                <a href="{{ route('detail-pembayaran.index') }}"
+                    class="nav-link {{ request()->routeIs('detail-pembayaran.*') ? 'active' : '' }}">
+                    <span>●</span> Detail pembayaran
+                </a>
+
                 <a href="{{ route('verifikasi-pembayaran.index') }}" class="nav-link">
                     <span>●</span> Verifikasi Pembayaran
                 </a>
@@ -876,6 +882,24 @@
                                     @endforeach
                                 </select>
                                 @error('id_wali_kelas')
+                                    <small style="color:red">{{ $message }}</small>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="id_bendahara">Nama Bendahara</label>
+
+                                <select id="id_bendahara" name="id_bendahara" class="form-control" required>
+                                    <option value="">-- Pilih Bendahara --</option>
+
+                                    @foreach ($bendahara as $petugas)
+                                        <option value="{{ $petugas->id_users }}" @selected(old('id_bendahara', $pengaturan->id_bendahara ?? '') == $petugas->id_users)>
+                                            {{ $petugas->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+
+                                @error('id_bendahara')
                                     <small style="color:red">{{ $message }}</small>
                                 @enderror
                             </div>

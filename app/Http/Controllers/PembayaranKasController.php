@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PembayaranKas;
 use App\Models\Siswa;
+use App\Models\PengaturanSistem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,29 +15,54 @@ class PembayaranKasController extends Controller
     | HALAMAN PEMBAYARAN KAS
     |--------------------------------------------------------------------------
     */
-    public function page()
-    {
-        $siswa = Siswa::orderBy('nama_lengkap')->get();
 
-        $pembayaran = PembayaranKas::with('siswa')
-            ->latest('tanggal')
-            ->latest('id_pembayaran')
-            ->get();
+public function page()
+{
+    $querySiswa = Siswa::query();
+    $queryPembayaran = PembayaranKas::with('siswa');
+    $queryHariIni = PembayaranKas::with('siswa')
+        ->whereDate('tanggal', now()->toDateString());
 
-        $transaksiHariIni = PembayaranKas::with('siswa')
-            ->whereDate('tanggal', now()->toDateString())
-            ->latest('id_pembayaran')
-            ->get();
+    if (Auth::user()->role === 'BENDAHARA') {
+        $kelasSaya = PengaturanSistem::where(
+            'id_bendahara',
+            Auth::id()
+        )->pluck('nama_kelas');
 
-        $totalHariIni = $transaksiHariIni->sum('nominal');
+        $querySiswa->whereIn('kelas', $kelasSaya);
 
-        return view('pembayaran-kas.index', compact(
-            'siswa',
-            'pembayaran',
-            'transaksiHariIni',
-            'totalHariIni'
-        ));
+        $filterKelas = function ($query) use ($kelasSaya) {
+            $query->whereIn('kelas', $kelasSaya);
+        };
+
+        $queryPembayaran->whereHas('siswa', $filterKelas);
+        $queryHariIni->whereHas('siswa', $filterKelas);
+    } elseif (Auth::user()->role !== 'ADMIN') {
+        abort(403, 'Anda tidak memiliki akses ke halaman ini.');
     }
+
+    $siswa = $querySiswa
+        ->orderBy('nama_lengkap')
+        ->get();
+
+    $pembayaran = $queryPembayaran
+        ->latest('tanggal')
+        ->latest('id_pembayaran')
+        ->get();
+
+    $transaksiHariIni = $queryHariIni
+        ->latest('id_pembayaran')
+        ->get();
+
+    $totalHariIni = $transaksiHariIni->sum('nominal');
+
+    return view('pembayaran-kas.index', compact(
+        'siswa',
+        'pembayaran',
+        'transaksiHariIni',
+        'totalHariIni'
+    ));
+}
 
 
     /*

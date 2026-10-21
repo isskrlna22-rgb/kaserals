@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Siswa;
 use App\Models\PembayaranKas;
 use App\Models\Pengeluaran;
+use App\Models\PengaturanSistem;
 
 class SiswaDashboardController extends Controller
 {
@@ -224,38 +225,96 @@ class SiswaDashboardController extends Controller
     // STATUS PEMBAYARAN UNTUK ADMIN
     // =========================
 
-    public function adminStatusPembayaran()
-    {
-        $siswa = Siswa::orderBy('nama_lengkap')->get();
 
-        $semuaPembayaran = PembayaranKas::latest('tanggal')
-            ->get()
-            ->groupBy('id_siswa');
+public function adminStatusPembayaran()
+{
+    // Ambil seluruh siswa dari semua kelas
+    $siswa = Siswa::orderBy('kelas')
+        ->orderBy('nama_lengkap')
+        ->get();
 
-        $dataStatus = $siswa->map(function ($item) use ($semuaPembayaran) {
-            $pembayaran = $semuaPembayaran->get(
-                $item->id_siswa,
-                collect()
-            );
+    // Ambil semua pembayaran dan kelompokkan berdasarkan siswa
+    $semuaPembayaran = PembayaranKas::orderByDesc('tanggal')
+        ->orderByDesc('id_pembayaran')
+        ->get()
+        ->groupBy('id_siswa');
 
-            $diterima = $pembayaran->where('status', 'Diterima');
+    // Siapkan status pembayaran setiap siswa
+    $dataStatus = $siswa->map(function ($item) use ($semuaPembayaran) {
+        $pembayaran = $semuaPembayaran->get(
+            $item->id_siswa,
+            collect()
+        );
 
-            return [
-                'id_siswa' => $item->id_siswa,
-                'nama_lengkap' => $item->nama_lengkap,
-                'nisn' => $item->nisn,
-                'kelas' => $item->kelas,
-                'total_dibayar' => $diterima->sum('nominal'),
-                'jumlah_transaksi' => $diterima->count(),
-                'pembayaran_terakhir' => $pembayaran->first(),
-                'status_pembayaran' => $diterima->isNotEmpty()
-                    ? 'SUDAH BAYAR'
-                    : 'BELUM BAYAR',
-            ];
-        });
+        $diterima = $pembayaran->where('status', 'Diterima');
 
-        return view('admin.status-bayar-pribadi', compact('dataStatus'));
-    }
+        return [
+            'id_siswa' => $item->id_siswa,
+            'nama_lengkap' => $item->nama_lengkap,
+            'nisn' => $item->nisn,
+            'kelas' => $item->kelas,
+            'total_dibayar' => $diterima->sum('nominal'),
+            'jumlah_transaksi' => $diterima->count(),
+            'pembayaran_terakhir' => $pembayaran->first(),
+            'status_pembayaran' => $diterima->isNotEmpty()
+                ? 'SUDAH BAYAR'
+                : 'BELUM BAYAR',
+        ];
+    });
+
+    return view('admin.status-bayar', compact('dataStatus'));
+}
+
+
+public function bendaharaStatusPembayaran()
+{
+    // Ambil kelas yang ditugaskan kepada Bendahara yang login
+    $kelasSaya = PengaturanSistem::where(
+        'id_bendahara',
+        Auth::id()
+    )->pluck('nama_kelas');
+
+    // Ambil hanya siswa dari kelas yang ditugaskan
+    $siswa = Siswa::whereIn('kelas', $kelasSaya)
+        ->orderBy('kelas')
+        ->orderBy('nama_lengkap')
+        ->get();
+
+    // Ambil pembayaran milik siswa di kelas tersebut
+    $idSiswa = $siswa->pluck('id_siswa');
+
+    $semuaPembayaran = PembayaranKas::whereIn('id_siswa', $idSiswa)
+        ->orderByDesc('tanggal')
+        ->orderByDesc('id_pembayaran')
+        ->get()
+        ->groupBy('id_siswa');
+
+    // Siapkan status pembayaran setiap siswa
+    $dataStatus = $siswa->map(function ($item) use ($semuaPembayaran) {
+        $pembayaran = $semuaPembayaran->get(
+            $item->id_siswa,
+            collect()
+        );
+
+        $diterima = $pembayaran->where('status', 'Diterima');
+
+        return [
+            'id_siswa' => $item->id_siswa,
+            'nama_lengkap' => $item->nama_lengkap,
+            'nisn' => $item->nisn,
+            'kelas' => $item->kelas,
+            'total_dibayar' => $diterima->sum('nominal'),
+            'jumlah_transaksi' => $diterima->count(),
+            'pembayaran_terakhir' => $pembayaran->first(),
+            'status_pembayaran' => $diterima->isNotEmpty()
+                ? 'SUDAH BAYAR'
+                : 'BELUM BAYAR',
+        ];
+    });
+
+    return view('bendahara.status-bayar', compact('dataStatus'));
+}
+
 
     public function infoKas()
     {

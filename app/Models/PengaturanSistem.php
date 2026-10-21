@@ -10,11 +10,14 @@ class PengaturanSistem extends Model
 
     protected $primaryKey = 'id_pengaturan';
 
-    protected $fillable = [
-        'nama_kelas',
-        'id_wali_kelas',
-        'nominal_kas',
-    ];
+
+protected $fillable = [
+    'nama_kelas',
+    'id_wali_kelas',
+    'id_bendahara',
+    'nominal_kas',
+];
+
 
     public function waliKelas()
     {
@@ -24,4 +27,14 @@ class PengaturanSistem extends Model
             'id_users'
         );
     }
+
+public function bendahara()
+{
+    return $this->belongsTo(
+        User::class,
+        'id_bendahara',
+        'id_users'
+    );
+}
+
 }

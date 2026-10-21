@@ -15,12 +15,13 @@ class Pengeluaran extends Model
     const UPDATED_AT = 'updated_at';
 
     protected $fillable = [
-        'id_user',
-        'nominal',
-        'tanggal',
-        'kategori',
-        'keterangan',
-    ];
+    'id_user',
+    'nama_kelas',
+    'nominal',
+    'tanggal',
+    'kategori',
+    'keterangan',
+];
 
     public function user()
     {

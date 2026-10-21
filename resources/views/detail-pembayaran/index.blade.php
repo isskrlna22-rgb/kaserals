@@ -733,7 +733,7 @@
                             <div class="form-group">
                                 <label for="id_siswa">Nama Siswa *</label>
                                 <select id="id_siswa" name="id_siswa" class="form-control" required>
-                                    <option value="">Pilih siswa yang sudah bayar...</option>
+                                    <option value="">Pilih siswa yang belum bayar...</option>
                                     @foreach ($siswa ?? [] as $item)
                                         <option value="{{ $item->id_siswa }}">
                                             {{ $item->nama_lengkap }} — NISN {{ $item->nisn }}
@@ -806,15 +806,21 @@
                                         Rp {{ number_format($detail->nominal, 0, ',', '.') }}
                                     </div>
 
-                                    <form action="{{ route('detail-pembayaran.destroy', $detail->id_detail) }}"
-                                        method="POST" onsubmit="return confirm('Hapus detail pembayaran ini?')">
-                                        @csrf
-                                        @method('DELETE')
 
-                                        <button type="submit" class="delete-btn">
-                                            Hapus
-                                        </button>
-                                    </form>
+<form action="{{ route('detail-pembayaran.destroy', $detail->id_detail) }}"
+      method="POST"
+      class="delete-form"
+      data-nama="{{ $detail->siswa->nama_lengkap ?? 'siswa ini' }}">
+    @csrf
+    @method('DELETE')
+
+    <button type="button"
+            class="delete-btn"
+            onclick="showDeleteModal(this.form)">
+        Hapus
+    </button>
+</form>
+
 
                                 </div>
                             @endforeach
@@ -892,6 +898,160 @@
             form.submit();
         }
     </script>
+
+<!-- MODAL KONFIRMASI HAPUS -->
+<div id="deleteModal" class="delete-modal">
+    <div class="delete-modal-box">
+        <div class="delete-modal-icon">🗑️</div>
+
+        <h3>Hapus Detail Pembayaran?</h3>
+
+        <p id="deleteMessage">
+            Yakin ingin menghapus detail pembayaran ini?
+        </p>
+
+        <div class="delete-modal-buttons">
+            <button type="button"
+                    class="delete-cancel"
+                    onclick="closeDeleteModal()">
+                Batal
+            </button>
+
+            <button type="button"
+                    class="delete-confirm"
+                    onclick="confirmDelete()">
+                Ya, Hapus
+            </button>
+        </div>
+    </div>
+</div>
+
+<style>
+.delete-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(15, 23, 42, .55);
+    backdrop-filter: blur(5px);
+}
+
+.delete-modal.show {
+    display: flex;
+}
+
+.delete-modal-box {
+    width: 100%;
+    max-width: 400px;
+    padding: 30px;
+    text-align: center;
+    background: #fff;
+    border-radius: 24px;
+    box-shadow: 0 25px 70px rgba(0, 0, 0, .2);
+    animation: deletePop .25s ease;
+}
+
+.delete-modal-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    background: #fee2e2;
+    font-size: 32px;
+}
+
+.delete-modal-box h3 {
+    margin-bottom: 10px;
+    color: #0f172a;
+    font-size: 21px;
+    font-weight: 900;
+}
+
+.delete-modal-box p {
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.delete-modal-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.delete-modal-buttons button {
+    flex: 1;
+    padding: 13px;
+    border: none;
+    border-radius: 12px;
+    font-family: inherit;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.delete-cancel {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.delete-confirm {
+    background: #ef4444;
+    color: white;
+}
+
+.delete-confirm:hover {
+    background: #dc2626;
+}
+
+@keyframes deletePop {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+</style>
+
+<script>
+let deleteFormTarget = null;
+
+function showDeleteModal(form) {
+    deleteFormTarget = form;
+
+    const nama = form.dataset.nama || 'siswa ini';
+
+    document.getElementById('deleteMessage').textContent =
+        `Yakin ingin menghapus detail pembayaran milik ${nama}?`;
+
+    document.getElementById('deleteModal').classList.add('show');
+}
+
+function closeDeleteModal() {
+    document.getElementById('deleteModal').classList.remove('show');
+    deleteFormTarget = null;
+}
+
+function confirmDelete() {
+    if (deleteFormTarget) {
+        deleteFormTarget.submit();
+    }
+}
+
+document.getElementById('deleteModal').addEventListener('click', function (event) {
+    if (event.target === this) {
+        closeDeleteModal();
+    }
+});
+</script>
 
 </body>
 

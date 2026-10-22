@@ -879,7 +879,44 @@
                 color: #0d9488;
                 background: #ccfbf1;
             }
-        }
+
+
+            /* Tombol keluar pada navigasi mobile */
+            @media (max-width: 768px) {
+                .mobile-logout-form {
+                    flex: 0 0 76px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: stretch;
+                    margin: 0;
+                }
+
+                .mobile-logout-btn {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 5px;
+                    padding: 8px 3px;
+                    border: none;
+                    border-radius: 12px;
+                    background: transparent;
+                    color: #dc2626;
+                    font-family: inherit;
+                    font-size: 10px;
+                    font-weight: 800;
+                    cursor: pointer;
+                }
+
+                .mobile-logout-btn span {
+                    font-size: 19px;
+                }
+
+                .mobile-logout-btn:active {
+                    background: #fee2e2;
+                }
+            }
     </style>
 </head>
 
@@ -1296,98 +1333,57 @@
                             </thead>
 
 
+
+
+
                             <tbody>
-
-                                @forelse($transaksi ?? [] as $item)
+                                @forelse($transaksiTerbaru ?? [] as $item)
                                     <tr style="border-top:1px solid #e2e8f0;">
-
                                         <td style="padding:14px 12px;">
-
-                                            {{ $item['tanggal']->format('d M Y') }}
-
+                                            {{ \Carbon\Carbon::parse($item['tanggal'])->format('d M Y') }}
                                         </td>
 
-
                                         <td style="padding:14px 12px;">
-
-                                            @if ($item['arah'] === 'in')
+                                            @if ($item['tipe'] === 'Pembayaran Kas')
                                                 <span
-                                                    style="
-                                                background:#dcfce7;
-                                                color:#15803d;
-                                                padding:5px 10px;
-                                                border-radius:20px;
-                                                font-size:11px;
-                                                font-weight:700;
-                                            ">
+                                                    style="background:#dcfce7;color:#15803d;padding:5px 10px;border-radius:20px;font-size:11px;font-weight:700;">
                                                     Pembayaran
                                                 </span>
                                             @else
                                                 <span
-                                                    style="
-                                                background:#fee2e2;
-                                                color:#b91c1c;
-                                                padding:5px 10px;
-                                                border-radius:20px;
-                                                font-size:11px;
-                                                font-weight:700;
-                                            ">
+                                                    style="background:#fee2e2;color:#b91c1c;padding:5px 10px;border-radius:20px;font-size:11px;font-weight:700;">
                                                     Pengeluaran
                                                 </span>
                                             @endif
-
                                         </td>
-
 
                                         <td style="padding:14px 12px;">
-
-                                            {{ $item['keterangan'] ?? '-' }}
-
+                                            {{ $item['nama'] ?? '-' }}
                                         </td>
 
-
-                                        <td
-                                            style="
-                                        padding:14px 12px;
-                                        text-align:right;
-                                        font-weight:700;
-                                    ">
-
-                                            @if ($item['arah'] === 'in')
+                                        <td style="padding:14px 12px;text-align:right;font-weight:700;">
+                                            @if ($item['tipe'] === 'Pembayaran Kas')
                                                 <span style="color:#15803d;">
-                                                    +Rp
-                                                    {{ number_format($item['nominal'] ?? 0, 0, ',', '.') }}
+                                                    +Rp {{ number_format($item['nominal'] ?? 0, 0, ',', '.') }}
                                                 </span>
                                             @else
                                                 <span style="color:#b91c1c;">
-                                                    -Rp
-                                                    {{ number_format($item['nominal'] ?? 0, 0, ',', '.') }}
+                                                    -Rp {{ number_format($item['nominal'] ?? 0, 0, ',', '.') }}
                                                 </span>
                                             @endif
-
                                         </td>
-
                                     </tr>
-
                                 @empty
-
                                     <tr>
-
-                                        <td colspan="4"
-                                            style="
-                                            padding:30px;
-                                            text-align:center;
-                                            color:#94a3b8;
-                                        ">
-
+                                        <td colspan="4" style="padding:30px;text-align:center;color:#94a3b8;">
                                             Belum ada transaksi.
-
                                         </td>
-
                                     </tr>
                                 @endforelse
-
                             </tbody>
+
+
+
 
                         </table>
 
@@ -1466,6 +1462,15 @@
             <span>▤</span>
             Laporan
         </a>
+
+        <form method="POST" action="{{ route('logout') }}" class="mobile-logout-form">
+            @csrf
+            <button type="submit" class="mobile-logout-btn">
+                <span>↪</span>
+                Keluar
+            </button>
+        </form>
+
 
     </nav>
 </body>

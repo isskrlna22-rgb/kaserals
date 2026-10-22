@@ -6,6 +6,8 @@ use App\Models\PembayaranKas;
 use App\Models\Pengeluaran;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Models\Transaksi;
+use App\Models\DetailPembayaran;
 use App\Models\Siswa;
 use App\Models\PengaturanSistem;
 use Illuminate\Support\Facades\Auth;
@@ -20,33 +22,44 @@ class RiwayatController extends Controller
         |--------------------------------------------------------------------------
         */
 
-        $queryPembayaran = PembayaranKas::with('siswa')
-            ->where('status', 'Diterima');
 
-        if (Auth::user()->role === 'BENDAHARA') {
-            $kelasSaya = PengaturanSistem::where(
-                'id_bendahara',
-                Auth::id()
-            )->pluck('nama_kelas');
+$queryPembayaran = Transaksi::with([
+    'siswa',
+    'pembayaran',
+]);
 
-            $queryPembayaran->whereHas('siswa', function ($query) use ($kelasSaya) {
-                $query->whereIn('kelas', $kelasSaya);
-            });
-        } elseif (Auth::user()->role !== 'ADMIN') {
-            abort(403, 'Anda tidak memiliki akses ke riwayat transaksi.');
-        }
+$queryPembayaran->where('status', 'Diterima');
 
-        $pembayaran = $queryPembayaran->get()
-            ->map(function ($item) {
-                return [
-                    'tanggal' => $item->tanggal,
-                    'jenis' => 'Pembayaran Kas',
-                    'keterangan' => $item->keterangan ?? 'Pembayaran kas',
-                    'nama_siswa' => $item->siswa?->nama_lengkap ?? '',
-                    'nominal' => (float) $item->nominal,
-                    'tipe' => 'masuk',
-                ];
-            });
+if (Auth::user()->role === 'BENDAHARA') {
+    $kelasSaya = PengaturanSistem::where(
+        'id_bendahara',
+        Auth::id()
+    )->pluck('nama_kelas');
+
+    $queryPembayaran->whereHas('siswa', function ($query) use ($kelasSaya) {
+        $query->whereIn('kelas', $kelasSaya);
+    });
+} elseif (Auth::user()->role !== 'ADMIN') {
+    abort(403, 'Anda tidak memiliki akses ke riwayat transaksi.');
+}
+
+$pembayaran = $queryPembayaran->get()
+    ->map(function ($item) {
+        $detail = DetailPembayaran::where(
+            'id_pembayaran',
+            $item->id_pembayaran
+        )->get();
+
+        return [
+            'tanggal' => $item->pembayaran?->tanggal ?? $item->created_at,
+            'jenis' => 'Pembayaran Kas',
+            'keterangan' => $item->pembayaran?->keterangan ?? 'Pembayaran kas',
+            'nama_siswa' => $item->siswa?->nama_lengkap ?? '',
+            'nominal' => (float) $detail->sum('nominal'),
+            'tipe' => 'masuk',
+        ];
+    });
+
         /*
         |--------------------------------------------------------------------------
         | 2. PENGELUARAN

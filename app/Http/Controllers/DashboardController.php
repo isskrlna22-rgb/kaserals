@@ -7,56 +7,117 @@ use App\Models\Pengeluaran;
 use App\Models\Siswa;
 use App\Models\Pengumuman;
 use App\Models\User;
+use App\Models\Transaksi;
+use App\Models\DetailPembayaran;
+use App\Models\PengaturanSistem;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        // =========================
-        // DATA DASHBOARD
-        // =========================
+        $user = Auth::user();
 
-        $totalSiswa = Siswa::count();
+        // Tentukan kelas berdasarkan akun bendahara yang login.
+        $kelasSaya = collect();
 
+        if ($user->role === 'BENDAHARA') {
+            $kelasSaya = PengaturanSistem::where(
+                'id_bendahara',
+                $user->id_users
+            )->pluck('nama_kelas');
+
+            if ($kelasSaya->isEmpty()) {
+                abort(403, 'Akun bendahara belum memiliki kelas tugas.');
+            }
+        }
+
+        // Filter siswa sesuai kelas bendahara.
+        $querySiswa = Siswa::query();
+
+        if ($user->role === 'BENDAHARA') {
+            $querySiswa->whereIn('kelas', $kelasSaya);
+        }
+
+        $totalSiswa = $querySiswa->count();
+
+        // Jumlah pengguna: admin melihat seluruh pengguna.
         $totalPengguna = User::count();
 
-        $totalPembayaran = PembayaranKas::where('status', 'Diterima')
-            ->sum('nominal');
+        // Filter transaksi berdasarkan kelas yang dikelola.
+        $queryTransaksi = Transaksi::query();
 
-        $totalPengeluaran = Pengeluaran::sum('nominal');
+        if ($user->role === 'BENDAHARA') {
+            $queryTransaksi->whereHas('siswa', function ($query) use ($kelasSaya) {
+                $query->whereIn('kelas', $kelasSaya);
+            });
+        }
 
+        $totalPembayaran = DetailPembayaran::whereHas(
+            'pembayaranKas.transaksi',
+            function ($query) {
+                $query->where('status', 'Diterima');
+            }
+        )->when($user->role === 'BENDAHARA', function ($query) use ($kelasSaya) {
+            $query->whereHas('siswa', function ($q) use ($kelasSaya) {
+                $q->whereIn('kelas', $kelasSaya);
+            });
+        })->sum('nominal');
+
+        // Pengeluaran bendahara hanya untuk kelas tugasnya.
+        $queryPengeluaran = Pengeluaran::query();
+
+        if ($user->role === 'BENDAHARA') {
+            $queryPengeluaran->whereIn('nama_kelas', $kelasSaya);
+        }
+
+        $totalPengeluaran = $queryPengeluaran->sum('nominal');
         $saldo = $totalPembayaran - $totalPengeluaran;
 
-        $jumlahMenunggu = PembayaranKas::where('status', 'Menunggu')
+        $jumlahMenunggu = (clone $queryTransaksi)
+            ->where('status', 'Menunggu')
             ->count();
 
         $jumlahPengumuman = Pengumuman::count();
 
+        // Transaksi pembayaran terbaru.
+        $pembayaranTerbaruQuery = Transaksi::with([
+            'siswa',
+            'pembayaran.detailPembayaran',
+        ]);
 
-        // =========================
-        // TRANSAKSI TERBARU
-        // =========================
+        if ($user->role === 'BENDAHARA') {
+            $pembayaranTerbaruQuery->whereHas('siswa', function ($query) use ($kelasSaya) {
+                $query->whereIn('kelas', $kelasSaya);
+            });
+        }
 
-        $pembayaranTerbaru = PembayaranKas::with('siswa')
-            ->latest('tanggal')
-            ->latest('id_pembayaran')
-            ->take(5)
+        $pembayaranTerbaru = $pembayaranTerbaruQuery
+            ->latest('id_transaksi')
+            ->take(10)
             ->get()
             ->map(function ($item) {
                 return [
                     'nama' => $item->siswa?->nama_lengkap ?? '-',
-                    'nominal' => $item->nominal,
-                    'metode' => $item->metode_pembayaran ?? '-',
+                    'nominal' => $item->pembayaran?->detailPembayaran?->nominal ?? 0,
+                    'metode' => $item->pembayaran?->metode_pembayaran ?? '-',
                     'status' => $item->status,
                     'tipe' => 'Pembayaran Kas',
-                    'tanggal' => $item->tanggal,
+                    'tanggal' => $item->pembayaran?->tanggal ?? $item->created_at,
                 ];
             });
 
-        $pengeluaranTerbaru = Pengeluaran::latest('tanggal')
+        // Pengeluaran terbaru.
+        $pengeluaranTerbaruQuery = Pengeluaran::query();
+
+        if ($user->role === 'BENDAHARA') {
+            $pengeluaranTerbaruQuery->whereIn('nama_kelas', $kelasSaya);
+        }
+
+        $pengeluaranTerbaru = $pengeluaranTerbaruQuery
+            ->latest('tanggal')
             ->latest('id_pengeluaran')
-            ->take(5)
+            ->take(10)
             ->get()
             ->map(function ($item) {
                 return [
@@ -71,56 +132,56 @@ class DashboardController extends Controller
 
         $transaksiTerbaru = $pembayaranTerbaru
             ->concat($pengeluaranTerbaru)
-            ->sortByDesc(function ($item) {
-                return $item['tanggal'];
-            })
+            ->sortByDesc('tanggal')
             ->take(5)
             ->values();
 
+        // Jumlah siswa yang sudah membayar.
+        $querySudahBayar = Siswa::whereHas(
+            'pembayaranKas.transaksi',
+            function ($query) {
+                $query->where('status', 'Diterima');
+            }
+        );
 
-        // =========================
-        // ADMIN
-        // =========================
-
-        if (Auth::user()->role === 'ADMIN') {
-            return view('dashboard', compact(
-                'totalSiswa',
-                'totalPengguna',
-                'totalPembayaran',
-                'totalPengeluaran',
-                'saldo',
-                'jumlahMenunggu',
-                'jumlahPengumuman',
-                'transaksiTerbaru'
-            ));
+        if ($user->role === 'BENDAHARA') {
+            $querySudahBayar->whereIn('kelas', $kelasSaya);
         }
 
-
-        // =========================
-        // BENDAHARA
-        // =========================
-
-        $sudahBayar = Siswa::whereHas('pembayaranKas', function ($query) {
-            $query->where('status', 'Diterima');
-        })->count();
-
-        $belumBayar = $totalSiswa - $sudahBayar;
+        $sudahBayar = $querySudahBayar->count();
+        $belumBayar = max(0, $totalSiswa - $sudahBayar);
 
         $persentasePembayaran = $totalSiswa > 0
             ? round(($sudahBayar / $totalSiswa) * 100)
             : 0;
 
-        $pembayaranMenunggu = PembayaranKas::with('siswa')
-            ->where('status', 'Menunggu')
-            ->latest('tanggal')
-            ->latest('id_pembayaran')
+        // Pembayaran yang masih menunggu verifikasi.
+        $pembayaranMenungguQuery = Transaksi::with([
+            'siswa',
+            'pembayaran',
+        ])->where('status', 'Menunggu');
+
+        if ($user->role === 'BENDAHARA') {
+            $pembayaranMenungguQuery->whereHas('siswa', function ($query) use ($kelasSaya) {
+                $query->whereIn('kelas', $kelasSaya);
+            });
+        }
+
+        $pembayaranMenunggu = $pembayaranMenungguQuery
+            ->latest('id_transaksi')
             ->take(3)
             ->get();
 
-        $mingguAktif = PembayaranKas::max('minggu_ke');
+        // Periode pembayaran kelas.
+        $mingguAktif = DetailPembayaran::whereHas('siswa', function ($query) use ($user, $kelasSaya) {
+            if ($user->role === 'BENDAHARA') {
+                $query->whereIn('kelas', $kelasSaya);
+            }
+        })->max('minggu_ke') ?? 0;
 
         return view('dashboard-bendahara', compact(
             'totalSiswa',
+            'totalPengguna',
             'totalPembayaran',
             'totalPengeluaran',
             'saldo',
@@ -129,8 +190,9 @@ class DashboardController extends Controller
             'persentasePembayaran',
             'pembayaranMenunggu',
             'jumlahMenunggu',
-            'mingguAktif'
+            'jumlahPengumuman',
+            'mingguAktif',
+            'transaksiTerbaru'
         ));
     }
-    
 }

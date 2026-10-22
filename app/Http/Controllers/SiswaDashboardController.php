@@ -7,6 +7,8 @@ use App\Models\Siswa;
 use App\Models\PembayaranKas;
 use App\Models\Pengeluaran;
 use App\Models\PengaturanSistem;
+use App\Models\DetailPembayaran;
+use App\Models\Transaksi;
 
 class SiswaDashboardController extends Controller
 {
@@ -15,80 +17,98 @@ class SiswaDashboardController extends Controller
     // =========================
 
 
-    public function page()
-    {
-        $user = Auth::user();
 
-        // Ambil data siswa yang terhubung dengan akun login
-        $siswa = Siswa::where('id_user', $user->id_users)->first();
+public function page()
+{
+    $user = Auth::user();
 
-        if (!$siswa) {
-            abort(404, 'Data siswa belum terhubung dengan akun ini.');
-        }
+    $siswa = Siswa::where('id_user', $user->id_users)->first();
 
-        // Ambil transaksi pembayaran milik siswa
-        $pembayaran = PembayaranKas::where('id_siswa', $siswa->id_siswa)
-            ->orderByDesc('tanggal')
-            ->get();
-
-        // Hitung pembayaran yang sudah diterima
-        $pembayaranDiterima = $pembayaran->where('status', 'Diterima');
-
-        $totalPembayaranSiswa = $pembayaranDiterima->sum('nominal');
-        $jumlahPembayaran = $pembayaranDiterima->count();
-
-        $pembayaranTerakhir = $pembayaran->first();
-
-        $statusPembayaran = $pembayaranDiterima->isNotEmpty()
-            ? 'SUDAH BAYAR'
-            : 'BELUM BAYAR';
-
-        // Hitung total pembayaran seluruh kelas
-        $totalPembayaranKas = PembayaranKas::where('status', 'Diterima')
-            ->sum('nominal');
-
-        // Hitung pengeluaran dan saldo kelas
-        $totalPengeluaran = \App\Models\Pengeluaran::sum('nominal');
-        $saldoKas = $totalPembayaranKas - $totalPengeluaran;
-
-        // Ambil pengumuman terbaru dari database
-        $pengumumanTerbaru = \App\Models\Pengumuman::latest()->first();
-
-        $pengumuman = $pengumumanTerbaru
-            ? ($pengumumanTerbaru->judul
-                ?? $pengumumanTerbaru->isi
-                ?? 'Ada pengumuman terbaru.')
-            : 'Belum ada pengumuman terbaru.';
-
-        // Hitung periode yang belum dibayar
-        $mingguTerakhir = (int) (
-            PembayaranKas::max('minggu_ke') ?? 0
-        );
-
-        $mingguDibayar = $pembayaranDiterima
-            ->pluck('minggu_ke')
-            ->unique()
-            ->count();
-
-        $tertunggakPeriode = max(
-            0,
-            $mingguTerakhir - $mingguDibayar
-        );
-
-        return view('dashboard-siswa', compact(
-            'siswa',
-            'pembayaran',
-            'totalPembayaranSiswa',
-            'jumlahPembayaran',
-            'pembayaranTerakhir',
-            'statusPembayaran',
-            'totalPembayaranKas',
-            'totalPengeluaran',
-            'saldoKas',
-            'pengumuman',
-            'tertunggakPeriode'
-        ));
+    if (!$siswa) {
+        abort(404, 'Data siswa belum terhubung dengan akun ini.');
     }
+
+    // Ambil pembayaran siswa beserta status transaksi dan detailnya
+    $pembayaran = PembayaranKas::with([
+        'siswa',
+        'transaksi',
+        'detailPembayaran',
+    ])
+        ->where('id_siswa', $siswa->id_siswa)
+        ->orderByDesc('tanggal')
+        ->orderByDesc('id_pembayaran')
+        ->get();
+
+    // Hitung nominal dan status berdasarkan tabel yang sesuai
+    $pembayaranDiterima = $pembayaran->filter(function ($item) {
+        return $item->transaksi?->status === 'Diterima';
+    });
+
+    $totalPembayaranSiswa = $pembayaranDiterima->sum(function ($item) {
+        return $item->detailPembayaran?->nominal ?? 0;
+    });
+
+    $jumlahPembayaran = $pembayaranDiterima->count();
+
+    $pembayaranTerakhir = $pembayaran->first();
+
+    $statusPembayaran = $pembayaranDiterima->isNotEmpty()
+        ? 'SUDAH BAYAR'
+        : 'BELUM BAYAR';
+
+    // Total pembayaran kas yang sudah diterima seluruh kelas
+    $totalPembayaranKas = DetailPembayaran::whereHas(
+        'pembayaranKas.transaksi',
+        function ($query) {
+            $query->where('status', 'Diterima');
+        }
+    )->sum('nominal');
+
+    // Total pengeluaran dan saldo kas
+    $totalPengeluaran = Pengeluaran::sum('nominal');
+    $saldoKas = $totalPembayaranKas - $totalPengeluaran;
+
+    // Pengumuman terbaru
+    $pengumumanTerbaru = \App\Models\Pengumuman::latest()->first();
+
+    $pengumuman = $pengumumanTerbaru
+        ? ($pengumumanTerbaru->judul
+            ?? $pengumumanTerbaru->isi
+            ?? 'Ada pengumuman terbaru.')
+        : 'Belum ada pengumuman terbaru.';
+
+    // Periode pembayaran berdasarkan detail yang tersedia
+    $mingguTerakhir = (int) (
+        DetailPembayaran::max('minggu_ke') ?? 0
+    );
+
+    $mingguDibayar = $pembayaranDiterima
+        ->map(function ($item) {
+            return $item->detailPembayaran?->minggu_ke;
+        })
+        ->filter()
+        ->unique()
+        ->count();
+
+    $tertunggakPeriode = max(
+        0,
+        $mingguTerakhir - $mingguDibayar
+    );
+
+    return view('dashboard-siswa', compact(
+        'siswa',
+        'pembayaran',
+        'totalPembayaranSiswa',
+        'jumlahPembayaran',
+        'pembayaranTerakhir',
+        'statusPembayaran',
+        'totalPembayaranKas',
+        'totalPengeluaran',
+        'saldoKas',
+        'pengumuman',
+        'tertunggakPeriode'
+    ));
+}
 
 
     // =========================

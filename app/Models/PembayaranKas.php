@@ -12,9 +12,6 @@ class PembayaranKas extends Model
 
     protected $fillable = [
         'id_siswa',
-        'minggu_ke',
-        'nominal',
-        'status',
         'metode_pembayaran',
         'bukti_transfer',
         'tanggal',
@@ -27,6 +24,24 @@ class PembayaranKas extends Model
             Siswa::class,
             'id_siswa',
             'id_siswa'
+        );
+    }
+
+    public function transaksi()
+    {
+        return $this->hasOne(
+            Transaksi::class,
+            'id_pembayaran',
+            'id_pembayaran'
+        );
+    }
+
+    public function detailPembayaran()
+    {
+        return $this->hasOne(
+            DetailPembayaran::class,
+            'id_pembayaran',
+            'id_pembayaran'
         );
     }
 }

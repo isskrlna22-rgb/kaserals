@@ -14,20 +14,32 @@ class LaporanExportController extends Controller
 
     public function exportPdf()
     {
-        $pembayaran = PembayaranKas::with('siswa')
+        // Ambil pembayaran yang sudah diterima
+        $pembayaran = PembayaranKas::with([
+            'siswa',
+            'transaksi',
+            'detailPembayaran',
+        ])
+            ->whereHas('transaksi', function ($query) {
+                $query->where('status', 'Diterima');
+            })
             ->latest('tanggal')
             ->get();
 
+        // Ambil data pengeluaran
         $pengeluaran = Pengeluaran::with('user')
             ->latest('tanggal')
             ->get();
 
-        // Hanya pembayaran yang sudah diterima
-        $totalPembayaran = PembayaranKas::where('status', 'Diterima')
-            ->sum('nominal');
+        // Hitung total nominal dari detail pembayaran
+        $totalPembayaran = $pembayaran->sum(function ($item) {
+            return $item->detailPembayaran?->nominal ?? 0;
+        });
 
-        $totalPengeluaran = Pengeluaran::sum('nominal');
+        // Hitung total pengeluaran
+        $totalPengeluaran = $pengeluaran->sum('nominal');
 
+        // Hitung saldo akhir
         $saldo = $totalPembayaran - $totalPengeluaran;
 
         $pdf = Pdf::loadView(
@@ -45,7 +57,6 @@ class LaporanExportController extends Controller
             'laporan-keuangan-kaserals.pdf'
         );
     }
-
 
     // ================= EXPORT EXCEL =================
 

@@ -627,6 +627,74 @@
             background: #0f766e;
             transform: translateY(-2px);
         }
+
+/* ================= MENU BAWAH MOBILE KASERALS ================= */
+.mobile-bottom-nav {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    /* Di HP gunakan menu bawah, bukan sidebar */
+    .sidebar {
+        display: none !important;
+    }
+
+    .mobile-bottom-nav {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 900;
+        display: flex;
+        gap: 4px;
+        padding: 9px 8px calc(9px + env(safe-area-inset-bottom));
+        overflow-x: auto;
+        background: #fff;
+        border-top: 1px solid #e2e8f0;
+        box-shadow: 0 -5px 20px rgba(15, 23, 42, .08);
+        scrollbar-width: none;
+    }
+
+    .mobile-bottom-nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    .mobile-bottom-nav a {
+        flex: 0 0 76px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        padding: 8px 3px;
+        border-radius: 12px;
+        color: #64748b;
+        font-size: 10px;
+        font-weight: 800;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .mobile-bottom-nav a span {
+        font-size: 19px;
+    }
+
+    .mobile-bottom-nav a.active {
+        color: #0d9488;
+        background: #ccfbf1;
+    }
+
+    /* Beri ruang supaya konten terakhir tidak tertutup menu */
+    .content {
+        padding-bottom: 100px;
+    }
+
+    .mascot-container {
+        bottom: 78px;
+        right: 14px;
+    }
+}
+
     </style>
 </head>
 
@@ -728,12 +796,34 @@
 
                         <form id="detailForm" action="{{ route('detail-pembayaran.store') }}" method="POST">
                             @csrf
+<div class="form-group">
+    <label for="id_pembayaran">Pembayaran yang Diverifikasi *</label>
 
+    <select
+        id="id_pembayaran"
+        name="id_pembayaran"
+        class="form-control"
+        required
+    >
+        <option value="">Pilih pembayaran yang sudah diterima...</option>
+
+        @foreach ($pembayaran ?? [] as $item)
+            <option
+                value="{{ $item->id_pembayaran }}"
+                data-siswa="{{ $item->id_siswa }}"
+            >
+                #{{ $item->id_pembayaran }}
+                — {{ $item->siswa->nama_lengkap ?? 'Siswa' }}
+                — {{ $item->tanggal }}
+            </option>
+        @endforeach
+    </select>
+</div>
                             <!-- ID SISWA (Relasi FK) -->
                             <div class="form-group">
                                 <label for="id_siswa">Nama Siswa *</label>
                                 <select id="id_siswa" name="id_siswa" class="form-control" required>
-                                    <option value="">Pilih siswa yang belum bayar...</option>
+                                    <option value="">Pilih siswa yang sudah bayar...</option>
                                     @foreach ($siswa ?? [] as $item)
                                         <option value="{{ $item->id_siswa }}">
                                             {{ $item->nama_lengkap }} — NISN {{ $item->nisn }}
@@ -1053,6 +1143,65 @@ document.getElementById('deleteModal').addEventListener('click', function (event
 });
 </script>
 
-</body>
+<nav class="mobile-bottom-nav" aria-label="Navigasi Bendahara">
 
+    <a href="{{ route('dashboard') }}"
+       class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
+        <span>▣</span>
+        Dashboard
+    </a>
+
+    <a href="{{ route('data-siswa.index') }}"
+       class="{{ request()->routeIs('data-siswa.*') ? 'active' : '' }}">
+        <span>◉</span>
+        Data Siswa
+    </a>
+
+    <a href="{{ route('pembayaran-kas.index') }}"
+       class="{{ request()->routeIs('pembayaran-kas.*') ? 'active' : '' }}">
+        <span>✓</span>
+        Pembayaran
+    </a>
+
+    <a href="{{ route('detail-pembayaran.index') }}"
+       class="{{ request()->routeIs('detail-pembayaran.*') ? 'active' : '' }}">
+        <span>▤</span>
+        Detail Kas
+    </a>
+
+    <a href="{{ route('verifikasi-pembayaran.index') }}"
+       class="{{ request()->routeIs('verifikasi-pembayaran.*') ? 'active' : '' }}">
+        <span>●</span>
+        Verifikasi
+    </a>
+
+    <a href="{{ route('pengeluaran.web.index') }}"
+       class="{{ request()->routeIs('pengeluaran.*') ? 'active' : '' }}">
+        <span>↑</span>
+        Pengeluaran
+    </a>
+
+    <a href="{{ route('riwayat.index') }}"
+       class="{{ request()->routeIs('riwayat.*') ? 'active' : '' }}">
+        <span>↻</span>
+        Riwayat
+    </a>
+
+    @if (Route::has('pengumuman.index'))
+        <a href="{{ route('pengumuman.index') }}"
+           class="{{ request()->routeIs('pengumuman.*') ? 'active' : '' }}">
+            <span>▣</span>
+            Pengumuman
+        </a>
+    @endif
+
+    <a href="{{ route('laporan.index') }}"
+       class="{{ request()->routeIs('laporan.*') ? 'active' : '' }}">
+        <span>▤</span>
+        Laporan
+    </a>
+
+</nav>
+</body>
 </html>
+

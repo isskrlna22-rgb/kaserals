@@ -5,30 +5,41 @@ namespace App\Http\Controllers;
 use App\Models\Siswa;
 use App\Models\PembayaranKas;
 use App\Models\PengaturanSistem;
+use App\Models\Transaksi;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\abort;
 
 class VerifikasiPembayaranController extends Controller
 {
     public function index()
     {
-        $siswa = Siswa::with('pembayaranKas')
+        $siswa = Siswa::with([
+            'pembayaranKas.transaksi',
+            'pembayaranKas.detailPembayaran',
+        ])
             ->orderBy('nama_lengkap')
             ->get();
 
         $data = $siswa->map(function ($item) {
-            $pembayaranDiterima = $item->pembayaranKas
-                ->where('status', 'Diterima');
+            $pembayaranDiterima = $item->pembayaranKas->filter(
+                function ($pembayaran) {
+                    return $pembayaran->transaksi?->status === 'Diterima';
+                }
+            );
 
             return [
                 'id_siswa' => $item->id_siswa,
                 'nisn' => $item->nisn,
                 'nama_lengkap' => $item->nama_lengkap,
                 'kelas' => $item->kelas,
-                'total_pembayaran' => $pembayaranDiterima->sum('nominal'),
+                'total_pembayaran' => $pembayaranDiterima->sum(
+                    function ($pembayaran) {
+                        return $pembayaran->detailPembayaran?->nominal ?? 0;
+                    }
+                ),
                 'jumlah_transaksi' => $pembayaranDiterima->count(),
-                'status' => $pembayaranDiterima->count() > 0
+                'status' => $pembayaranDiterima->isNotEmpty()
                     ? 'SUDAH BAYAR'
                     : 'BELUM BAYAR',
             ];
@@ -37,70 +48,83 @@ class VerifikasiPembayaranController extends Controller
         return response()->json($data);
     }
 
-   public function page()
-{
-    $query = Siswa::with('pembayaranKas');
+    public function page()
+    {
+        $query = Siswa::with([
+            'pembayaranKas.transaksi',
+            'pembayaranKas.detailPembayaran',
+        ]);
 
-    // Admin boleh melihat semua siswa.
-    if (Auth::user()->role === 'BENDAHARA') {
-        $kelasSaya = PengaturanSistem::where(
-            'id_bendahara',
-            Auth::id()
-        )->pluck('nama_kelas');
+        if (Auth::user()->role === 'BENDAHARA') {
+            $kelasSaya = PengaturanSistem::where(
+                'id_bendahara',
+                Auth::id()
+            )->pluck('nama_kelas');
 
-        $query->whereIn('kelas', $kelasSaya);
-    } elseif (Auth::user()->role !== 'ADMIN') {
-        abort(403, 'Anda tidak memiliki akses ke halaman ini.');
+            $query->whereIn('kelas', $kelasSaya);
+        } elseif (Auth::user()->role !== 'ADMIN') {
+            abort(403, 'Anda tidak memiliki akses ke halaman ini.');
+        }
+
+        $siswa = $query
+            ->orderBy('kelas')
+            ->orderBy('nama_lengkap')
+            ->get();
+
+        return view('verifikasi-pembayaran.index', compact('siswa'));
     }
 
-    $siswa = $query
-        ->orderBy('kelas')
-        ->orderBy('nama_lengkap')
-        ->get();
+    public function update(
+        Request $request,
+        PembayaranKas $pembayaranKas
+    ) {
+        $validated = $request->validate([
+            'status' => 'required|in:Diterima,Ditolak',
+        ]);
 
-    return view('verifikasi-pembayaran.index', compact('siswa'));
-}
+        $siswa = Siswa::where(
+            'id_siswa',
+            $pembayaranKas->id_siswa
+        )->firstOrFail();
 
-public function update(Request $request, PembayaranKas $pembayaranKas)
-{
-    $validated = $request->validate([
-        'status' => 'required|in:Diterima,Ditolak',
-    ]);
+        if (Auth::user()->role === 'BENDAHARA') {
+            $punyaAkses = PengaturanSistem::where(
+                'id_bendahara',
+                Auth::id()
+            )
+                ->where('nama_kelas', $siswa->kelas)
+                ->exists();
 
-    // Ambil siswa pemilik pembayaran.
-    $siswa = Siswa::where(
-        'id_siswa',
-        $pembayaranKas->id_siswa
-    )->firstOrFail();
+            abort_unless(
+                $punyaAkses,
+                403,
+                'Anda tidak memiliki akses untuk memverifikasi pembayaran kelas ini.'
+            );
+        } elseif (Auth::user()->role !== 'ADMIN') {
+            abort(
+                403,
+                'Anda tidak memiliki akses untuk memverifikasi pembayaran.'
+            );
+        }
 
-    // Bendahara hanya boleh memverifikasi kelas yang ditugaskan.
-    if (Auth::user()->role === 'BENDAHARA') {
-        $punyaAkses = PengaturanSistem::where(
-            'id_bendahara',
-            Auth::id()
-        )
-        ->where('nama_kelas', $siswa->kelas)
-        ->exists();
+        DB::transaction(function () use ($validated, $pembayaranKas, $siswa) {
+            Transaksi::updateOrCreate(
+                [
+                    'id_pembayaran' => $pembayaranKas->id_pembayaran,
+                ],
+                [
+                    'id_siswa' => $siswa->id_siswa,
+                    'status' => $validated['status'],
+                ]
+            );
+        });
 
-        abort_unless(
-            $punyaAkses,
-            403,
-            'Anda tidak memiliki akses untuk memverifikasi pembayaran kelas ini.'
-        );
-    } elseif (Auth::user()->role !== 'ADMIN') {
-        abort(403, 'Anda tidak memiliki akses untuk memverifikasi pembayaran.');
+        $pesan = $validated['status'] === 'Diterima'
+            ? 'Pembayaran berhasil diterima dan transaksi berhasil dicatat.'
+            : 'Pembayaran berhasil ditolak dan status transaksi diperbarui.';
+
+        return redirect()
+            ->route('verifikasi-pembayaran.index')
+            ->with('success', $pesan);
     }
-
-    $pembayaranKas->update([
-        'status' => $validated['status'],
-    ]);
-
-    $pesan = $validated['status'] === 'Diterima'
-        ? 'Pembayaran berhasil diterima.'
-        : 'Pembayaran berhasil ditolak.';
-
-    return redirect()
-        ->route('verifikasi-pembayaran.index')
-        ->with('success', $pesan);
-}
 }

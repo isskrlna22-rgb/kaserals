@@ -25,8 +25,13 @@ class LaporanController extends Controller
      */
     private function queryPembayaran()
     {
-        $query = PembayaranKas::with('siswa')
-            ->where('status', 'Diterima');
+        $query = PembayaranKas::with([
+            'siswa',
+            'transaksi',
+            'detailPembayaran',
+        ])->whereHas('transaksi', function ($q) {
+            $q->where('status', 'Diterima');
+        });
 
         if (Auth::user()->role === 'BENDAHARA') {
             $kelasSaya = $this->kelasBendahara();
@@ -60,6 +65,19 @@ class LaporanController extends Controller
     }
 
     /**
+     * Menghitung total nominal pembayaran.
+     *
+     * @param \Illuminate\Support\Collection $pembayaran
+     * @return float|int
+     */
+    private function hitungTotalPembayaran(
+        \Illuminate\Support\Collection $pembayaran
+    ) {
+        return $pembayaran->sum(function ($item) {
+            return $item->detailPembayaran?->nominal ?? 0;
+        });
+    }
+    /**
      * API LAPORAN
      */
     public function index()
@@ -67,7 +85,7 @@ class LaporanController extends Controller
         $pembayaran = $this->queryPembayaran()->get();
         $pengeluaran = $this->queryPengeluaran()->get();
 
-        $totalPembayaran = $pembayaran->sum('nominal');
+        $totalPembayaran = $this->hitungTotalPembayaran($pembayaran);
         $totalPengeluaran = $pengeluaran->sum('nominal');
         $saldo = $totalPembayaran - $totalPengeluaran;
 
@@ -90,7 +108,7 @@ class LaporanController extends Controller
         $pembayaran = $this->queryPembayaran()->get();
         $pengeluaran = $this->queryPengeluaran()->get();
 
-        $totalPembayaran = $pembayaran->sum('nominal');
+        $totalPembayaran = $this->hitungTotalPembayaran($pembayaran);
         $totalPengeluaran = $pengeluaran->sum('nominal');
         $saldo = $totalPembayaran - $totalPengeluaran;
 

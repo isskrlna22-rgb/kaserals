@@ -14,102 +14,110 @@ class DetailPembayaranController extends Controller
      * Menampilkan halaman Detail Pembayaran.
      */
 
-public function index()
-{
-    $user = Auth::user();
+    public function index()
+    {
+        $user = Auth::user();
 
-    $queryDetail = DetailPembayaran::with('siswa');
-    $querySiswa = Siswa::query();
+        $queryDetail = DetailPembayaran::with('siswa');
+        $querySiswa = Siswa::query();
 
-    if ($user->role === 'BENDAHARA') {
-        $kelasSaya = PengaturanSistem::where(
-            'id_bendahara',
-            $user->id_users
-        )->pluck('nama_kelas');
+        if ($user->role === 'BENDAHARA') {
+            $kelasSaya = PengaturanSistem::where(
+                'id_bendahara',
+                $user->id_users
+            )->pluck('nama_kelas');
 
-        $queryDetail->whereHas('siswa', function ($query) use ($kelasSaya) {
-            $query->whereIn('kelas', $kelasSaya);
-        });
+            $queryDetail->whereHas('siswa', function ($query) use ($kelasSaya) {
+                $query->whereIn('kelas', $kelasSaya);
+            });
 
-        $querySiswa->whereIn('kelas', $kelasSaya);
-    } elseif ($user->role !== 'ADMIN') {
-        abort(403, 'Anda tidak memiliki akses ke detail pembayaran.');
-    }
+            $querySiswa->whereIn('kelas', $kelasSaya);
+        } elseif ($user->role !== 'ADMIN') {
+            abort(403, 'Anda tidak memiliki akses ke detail pembayaran.');
+        }
 
-    $detailPembayaran = $queryDetail->latest()->get();
-    $siswa = $querySiswa->orderBy('nama_lengkap')->get();
+       $pembayaranQuery = \App\Models\PembayaranKas::with(['siswa', 'transaksi'])
+    ->whereHas('transaksi', function ($query) {
+        $query->where('status', 'Diterima');
+    });
 
-    return view('detail-pembayaran.index', compact(
-        'detailPembayaran',
-        'siswa'
-    ));
+if ($user->role === 'BENDAHARA') {
+    $pembayaranQuery->whereHas('siswa', function ($query) use ($kelasSaya) {
+        $query->whereIn('kelas', $kelasSaya);
+    });
 }
+
+$pembayaran = $pembayaranQuery
+    ->orderByDesc('tanggal')
+    ->get();
+
+$detailPembayaran = $queryDetail->latest()->get();
+$siswa = $querySiswa->orderBy('nama_lengkap')->get();
+
+       return view('detail-pembayaran.index', compact(
+    'detailPembayaran',
+    'siswa',
+    'pembayaran'
+));
+    }
 
     /**
      * Menyimpan detail pembayaran.
      */
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'id_siswa' => 'required|exists:siswa,id_siswa',
-            'minggu_ke' => 'required|string|max:50',
-            'nominal' => 'required|numeric|min:0',
-        ]);
 
-        DetailPembayaran::create($validated);
 
-        return redirect()
-            ->route('detail-pembayaran.index')
-            ->with('success', 'Detail pembayaran berhasil ditambahkan.');
-    }
+public function store(Request $request)
+{
+    $validated = $request->validate([
+        'id_siswa' => 'required|exists:siswa,id_siswa',
+        'minggu_ke' => 'required|string|max:50',
+        'nominal' => 'required|numeric|min:1',
+    ]);
 
-    /**
-     * Menampilkan satu detail pembayaran.
-     */
-    public function show(string $id)
-    {
-        $detailPembayaran = DetailPembayaran::with('siswa')
-            ->findOrFail($id);
+    DetailPembayaran::create([
+        'id_pembayaran' => null,
+        'id_siswa' => $validated['id_siswa'],
+        'minggu_ke' => $validated['minggu_ke'],
+        'nominal' => $validated['nominal'],
+    ]);
 
-        return response()->json([
-            'success' => true,
-            'data' => $detailPembayaran
-        ]);
-    }
+    return redirect()
+        ->route('detail-pembayaran.index')
+        ->with('success', 'Detail pembayaran berhasil ditambahkan.');
+}
 
-    /**
-     * Mengubah detail pembayaran.
-     */
-    public function update(Request $request, string $id)
-    {
-        $detailPembayaran = DetailPembayaran::findOrFail($id);
+public function update(Request $request, string $id)
+{
+    $detailPembayaran = DetailPembayaran::findOrFail($id);
 
-        $validated = $request->validate([
-            'id_siswa' => 'required|exists:siswa,id_siswa',
-            'minggu_ke' => 'required|string|max:50',
-            'nominal' => 'required|numeric|min:0',
-        ]);
+    $validated = $request->validate([
+        'id_siswa' => 'required|exists:siswa,id_siswa',
+        'minggu_ke' => 'required|string|max:50',
+        'nominal' => 'required|numeric|min:1',
+    ]);
 
-        $detailPembayaran->update($validated);
+    $detailPembayaran->update($validated);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Detail pembayaran berhasil diperbarui.',
-            'data' => $detailPembayaran
-        ]);
-    }
+    return response()->json([
+        'success' => true,
+        'message' => 'Detail pembayaran berhasil diperbarui.',
+        'data' => $detailPembayaran->fresh(),
+    ]);
+}
+
+
 
     /**
      * Menghapus detail pembayaran.
      */
-  public function destroy(string $id)
-{
-    $detailPembayaran = DetailPembayaran::findOrFail($id);
+    public function destroy(string $id)
+    {
+        $detailPembayaran = DetailPembayaran::findOrFail($id);
 
-    $detailPembayaran->delete();
+        $detailPembayaran->delete();
 
-    return redirect()
-        ->route('detail-pembayaran.index')
-        ->with('success', 'Detail pembayaran berhasil dihapus.');
-}
+        return redirect()
+            ->route('detail-pembayaran.index')
+            ->with('success', 'Detail pembayaran berhasil dihapus.');
+    }
 }

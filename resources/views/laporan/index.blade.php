@@ -1162,7 +1162,7 @@
                                 'jenis' => 'Pembayaran Kas',
                                 'keterangan' => $item->keterangan ?? 'Pembayaran kas siswa',
                                 'nama' => $item->siswa?->nama_lengkap ?? '-',
-                                'nominal' => $item->nominal,
+                                'nominal' => $item->detailPembayaran?->nominal ?? 0,
                                 'tipe' => 'masuk',
                             ]);
                         }

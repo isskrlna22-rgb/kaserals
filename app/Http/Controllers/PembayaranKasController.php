@@ -23,7 +23,11 @@ class PembayaranKasController extends Controller
     {
         $querySiswa = Siswa::query();
         $queryPembayaran = PembayaranKas::with('siswa');
-        $queryHariIni = PembayaranKas::with('siswa')
+        $queryHariIni = PembayaranKas::with([
+            'siswa',
+            'detailPembayaran',
+            'transaksi',
+        ])
             ->whereDate('tanggal', now()->toDateString());
 
         if (Auth::user()->role === 'BENDAHARA') {
@@ -57,17 +61,17 @@ class PembayaranKasController extends Controller
             ->latest('id_pembayaran')
             ->get();
 
-       $totalHariIni = DetailPembayaran::whereDate(
-    'created_at',
-    now()->toDateString()
-)
-    ->whereHas('pembayaranKas', function ($query) {
-        $query->whereDate('tanggal', now()->toDateString());
-    })
-    ->whereHas('pembayaranKas.transaksi', function ($query) {
-        $query->where('status', 'Diterima');
-    })
-    ->sum('nominal');
+        $totalHariIni = DetailPembayaran::whereDate(
+            'created_at',
+            now()->toDateString()
+        )
+            ->whereHas('pembayaranKas', function ($query) {
+                $query->whereDate('tanggal', now()->toDateString());
+            })
+            ->whereHas('pembayaranKas.transaksi', function ($query) {
+                $query->where('status', 'Diterima');
+            })
+            ->sum('nominal');
 
         return view('pembayaran-kas.index', compact(
             'siswa',
@@ -85,65 +89,73 @@ class PembayaranKasController extends Controller
     */
 
 
-public function storePage(Request $request)
-{
-   $validated = $request->validate([
-    'id_siswa' => 'required|exists:siswa,id_siswa',
-    'nominal' => 'required|numeric|min:1',
-    'metode_pembayaran' => 'required|in:Tunai,Transfer',
-    'bukti_transfer' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
-    'keterangan' => 'nullable|string',
-]);
 
-    if (
-        $validated['metode_pembayaran'] === 'Transfer'
-        && !$request->hasFile('bukti_transfer')
-    ) {
-        return back()
-            ->withErrors([
-                'bukti_transfer' => 'Bukti transfer wajib diupload jika memilih metode Transfer.',
-            ])
-            ->withInput();
+    public function storePage(Request $request)
+    {
+        $validated = $request->validate([
+            'id_siswa' => 'required|exists:siswa,id_siswa',
+            'nominal' => 'required|numeric|min:1',
+            'metode_pembayaran' => 'required|in:Tunai,Transfer',
+            'bukti_transfer' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'keterangan' => 'nullable|string',
+        ]);
+
+        if (
+            $validated['metode_pembayaran'] === 'Transfer'
+            && !$request->hasFile('bukti_transfer')
+        ) {
+            return back()
+                ->withErrors([
+                    'bukti_transfer' => 'Bukti transfer wajib diunggah.',
+                ])
+                ->withInput();
+        }
+
+        $buktiTransfer = null;
+
+        if ($request->hasFile('bukti_transfer')) {
+            $buktiTransfer = $request
+                ->file('bukti_transfer')
+                ->store('bukti-transfer', 'public');
+        }
+
+        DB::transaction(function () use (
+            $validated,
+            $buktiTransfer
+        ) {
+            // 1. Simpan data pembayaran
+            $pembayaran = PembayaranKas::create([
+                'id_siswa' => $validated['id_siswa'],
+                'metode_pembayaran' => $validated['metode_pembayaran'],
+                'bukti_transfer' => $buktiTransfer,
+                'tanggal' => now()->toDateString(),
+                'keterangan' => $validated['keterangan'] ?? null,
+            ]);
+
+            // 2. Simpan nominal terlebih dahulu.
+            // Minggu dapat diisi kemudian melalui Detail Pembayaran.
+            DetailPembayaran::create([
+                'id_pembayaran' => $pembayaran->id_pembayaran,
+                'id_siswa' => $pembayaran->id_siswa,
+                'minggu_ke' => null,
+                'nominal' => $validated['nominal'],
+            ]);
+
+            // 3. Tentukan status sesuai metode pembayaran
+            Transaksi::create([
+                'id_pembayaran' => $pembayaran->id_pembayaran,
+                'id_siswa' => $pembayaran->id_siswa,
+                'status' => $validated['metode_pembayaran'] === 'Transfer'
+                    ? 'Menunggu'
+                    : 'Diterima',
+            ]);
+        });
+
+        return redirect()
+            ->route('pembayaran-kas.index')
+            ->with('success', 'Pembayaran berhasil dicatat.');
     }
 
-    if ($request->hasFile('bukti_transfer')) {
-        $validated['bukti_transfer'] = $request
-            ->file('bukti_transfer')
-            ->store('bukti-transfer', 'public');
-    }
-
-    $validated['tanggal'] = now()->toDateString();
-
- DB::transaction(function () use ($validated) {
-    $pembayaran = PembayaranKas::create([
-        'id_siswa' => $validated['id_siswa'],
-        'metode_pembayaran' => $validated['metode_pembayaran'],
-        'bukti_transfer' => $validated['bukti_transfer'] ?? null,
-        'tanggal' => $validated['tanggal'],
-        'keterangan' => $validated['keterangan'] ?? null,
-    ]);
-
- 
-
-    DetailPembayaran::create([
-    'id_pembayaran' => $pembayaran->id_pembayaran,
-    'id_siswa' => $pembayaran->id_siswa,
-    'minggu_ke' => null,
-    'nominal' => $validated['nominal'],
-]);
-
-    Transaksi::create([
-        'id_pembayaran' => $pembayaran->id_pembayaran,
-        'id_siswa' => $pembayaran->id_siswa,
-        'status' => $validated['metode_pembayaran'] === 'Transfer'
-            ? 'Menunggu'
-            : 'Diterima',
-    ]);
-});
-    return redirect()
-        ->route('pembayaran-kas.index')
-        ->with('success', 'Pembayaran kas berhasil dicatat.');
-}
 
 
     /*
@@ -180,52 +192,52 @@ public function storePage(Request $request)
     |--------------------------------------------------------------------------
     */
 
-public function update(
-    Request $request,
-    PembayaranKas $pembayaranKas
-) {
-    $validated = $request->validate([
-        'id_siswa' => 'required|exists:siswa,id_siswa',
-        'metode_pembayaran' => 'required|in:Tunai,Transfer',
-        'bukti_transfer' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
-        'tanggal' => 'required|date',
-        'keterangan' => 'nullable|string',
-    ]);
-
-    if (
-        $validated['metode_pembayaran'] === 'Transfer'
-        && !$request->hasFile('bukti_transfer')
+    public function update(
+        Request $request,
+        PembayaranKas $pembayaranKas
     ) {
-        $validated['bukti_transfer'] = $pembayaranKas->bukti_transfer;
-    }
+        $validated = $request->validate([
+            'id_siswa' => 'required|exists:siswa,id_siswa',
+            'metode_pembayaran' => 'required|in:Tunai,Transfer',
+            'bukti_transfer' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'tanggal' => 'required|date',
+            'keterangan' => 'nullable|string',
+        ]);
 
-    if ($request->hasFile('bukti_transfer')) {
-        $validated['bukti_transfer'] = $request
-            ->file('bukti_transfer')
-            ->store('bukti-transfer', 'public');
-    }
-
-    DB::transaction(function () use ($pembayaranKas, $validated) {
-        $pembayaranKas->update($validated);
-
-        // Status tetap dikelola di tabel transaksi.
-        $transaksi = Transaksi::where(
-            'id_pembayaran',
-            $pembayaranKas->id_pembayaran
-        )->first();
-
-        if ($transaksi) {
-            $transaksi->update([
-                'id_siswa' => $validated['id_siswa'],
-            ]);
+        if (
+            $validated['metode_pembayaran'] === 'Transfer'
+            && !$request->hasFile('bukti_transfer')
+        ) {
+            $validated['bukti_transfer'] = $pembayaranKas->bukti_transfer;
         }
-    });
 
-    return response()->json([
-        'message' => 'Data pembayaran berhasil diperbarui.',
-        'data' => $pembayaranKas->fresh()->load('siswa', 'transaksi'),
-    ]);
-}
+        if ($request->hasFile('bukti_transfer')) {
+            $validated['bukti_transfer'] = $request
+                ->file('bukti_transfer')
+                ->store('bukti-transfer', 'public');
+        }
+
+        DB::transaction(function () use ($pembayaranKas, $validated) {
+            $pembayaranKas->update($validated);
+
+            // Status tetap dikelola di tabel transaksi.
+            $transaksi = Transaksi::where(
+                'id_pembayaran',
+                $pembayaranKas->id_pembayaran
+            )->first();
+
+            if ($transaksi) {
+                $transaksi->update([
+                    'id_siswa' => $validated['id_siswa'],
+                ]);
+            }
+        });
+
+        return response()->json([
+            'message' => 'Data pembayaran berhasil diperbarui.',
+            'data' => $pembayaranKas->fresh()->load('siswa', 'transaksi'),
+        ]);
+    }
 
 
 
@@ -244,72 +256,73 @@ public function update(
     }
 
 
-public function simpanPembayaranSiswa(Request $request)
-{
-    $validated = $request->validate([
-        'nominal' => 'required|numeric|min:1',
-        'metode_pembayaran' => 'required|in:Tunai,Transfer',
-        'keterangan' => 'nullable|string',
-        'bukti_transfer' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
-    ]);
+    public function simpanPembayaranSiswa(Request $request)
+    {
+        $validated = $request->validate([
 
-    if (
-        $validated['metode_pembayaran'] === 'Transfer'
-        && !$request->hasFile('bukti_transfer')
-    ) {
-        return back()
-            ->withErrors([
-                'bukti_transfer' => 'Bukti transfer wajib diupload.',
-            ])
-            ->withInput();
-    }
-
-    $user = Auth::user();
-
-    $siswa = Siswa::where('id_user', $user->id_users)
-        ->firstOrFail();
-
-    $buktiTransfer = null;
-
-    if ($request->hasFile('bukti_transfer')) {
-        $buktiTransfer = $request
-            ->file('bukti_transfer')
-            ->store('bukti-transfer', 'public');
-    }
-
-    DB::transaction(function () use (
-        $validated,
-        $siswa,
-        $buktiTransfer
-    ) {
-        $pembayaran = PembayaranKas::create([
-            'id_siswa' => $siswa->id_siswa,
-            'metode_pembayaran' => $validated['metode_pembayaran'],
-            'bukti_transfer' => $buktiTransfer,
-            'tanggal' => now()->toDateString(),
-            'keterangan' => $validated['keterangan'] ?? null,
+            'minggu_ke' => 'required|integer|min:1',
+            'nominal' => 'required|numeric|min:1',
+            'metode_pembayaran' => 'required|in:Tunai,Transfer',
+            'keterangan' => 'nullable|string',
+            'bukti_transfer' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ]);
 
-DetailPembayaran::create([
-    'id_pembayaran' => $pembayaran->id_pembayaran,
-    'id_siswa' => $siswa->id_siswa,
-    'minggu_ke' => null,
-    'nominal' => $validated['nominal'],
-]);
+        if (
+            $validated['metode_pembayaran'] === 'Transfer'
+            && !$request->hasFile('bukti_transfer')
+        ) {
+            return back()
+                ->withErrors([
+                    'bukti_transfer' => 'Bukti transfer wajib diupload.',
+                ])
+                ->withInput();
+        }
 
-        Transaksi::create([
-            'id_pembayaran' => $pembayaran->id_pembayaran,
-            'id_siswa' => $siswa->id_siswa,
-            'status' => 'Menunggu',
-        ]);
-    });
+        $user = Auth::user();
 
-    return redirect()
-        ->route('dashboard.siswa.pembayaran')
-        ->with(
-            'success',
-            'Pembayaran berhasil dikirim dan menunggu verifikasi bendahara.'
-        );
-}
+        $siswa = Siswa::where('id_user', $user->id_users)
+            ->firstOrFail();
 
+        $buktiTransfer = null;
+
+        if ($request->hasFile('bukti_transfer')) {
+            $buktiTransfer = $request
+                ->file('bukti_transfer')
+                ->store('bukti-transfer', 'public');
+        }
+
+        DB::transaction(function () use (
+            $validated,
+            $siswa,
+            $buktiTransfer
+        ) {
+            $pembayaran = PembayaranKas::create([
+                'id_siswa' => $siswa->id_siswa,
+                'metode_pembayaran' => $validated['metode_pembayaran'],
+                'bukti_transfer' => $buktiTransfer,
+                'tanggal' => now()->toDateString(),
+                'keterangan' => $validated['keterangan'] ?? null,
+            ]);
+
+            DetailPembayaran::create([
+                'id_pembayaran' => $pembayaran->id_pembayaran,
+                'id_siswa' => $pembayaran->id_siswa,
+                'minggu_ke' => $validated['minggu_ke'],
+                'nominal' => $validated['nominal'],
+            ]);
+
+            Transaksi::create([
+                'id_pembayaran' => $pembayaran->id_pembayaran,
+                'id_siswa' => $siswa->id_siswa,
+                'status' => 'Menunggu',
+            ]);
+        });
+
+        return redirect()
+            ->route('dashboard.siswa.pembayaran')
+            ->with(
+                'success',
+                'Pembayaran berhasil dikirim dan menunggu verifikasi bendahara.'
+            );
+    }
 }

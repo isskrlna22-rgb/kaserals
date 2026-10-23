@@ -68,8 +68,11 @@ class WaliKelasController extends Controller
                 });
             }
         )->sum('nominal');
+        $totalPengeluaran = Pengeluaran::where(
+            'nama_kelas',
+            $kelas
+        )->sum('nominal');
 
-        $totalPengeluaran = Pengeluaran::sum('nominal');
         $saldoKas = $totalKasDiterima - $totalPengeluaran;
 
         $jumlahPembayaranDiterima = (clone $pembayaranQuery)
@@ -90,16 +93,41 @@ class WaliKelasController extends Controller
             })
             ->count();
 
-        $jumlahMenunggak = Siswa::where('kelas', $kelas)
-            ->whereHas('pembayaranKas', function ($query) {
-                $query->whereHas('transaksi', function ($transaksiQuery) {
-                    $transaksiQuery->whereIn(
-                        'status',
-                        ['Menunggu', 'Ditolak']
-                    );
-                });
-            })
-            ->count();
+        // Ambil seluruh siswa pada kelas wali kelas.
+        $siswaKelas = $kelas
+            ? Siswa::where('kelas', $kelas)
+            ->with('pembayaranKas.transaksi')
+            ->get()
+            : collect();
+
+        // Ambil minggu terakhir yang tercatat di detail pembayaran.
+        $mingguTerakhir = $kelas
+            ? (int) DetailPembayaran::whereHas('siswa', function ($query) use ($kelas) {
+                $query->where('kelas', $kelas);
+            })->max('minggu_ke')
+            : 0;
+
+        // Hitung siswa yang memiliki minggu belum dibayar.
+        $jumlahMenunggak = $siswaKelas->filter(function ($siswa) use ($mingguTerakhir) {
+            if ($mingguTerakhir < 1) {
+                return false;
+            }
+
+            for ($minggu = 1; $minggu <= $mingguTerakhir; $minggu++) {
+                $sudahLunas = DetailPembayaran::where('id_siswa', $siswa->id_siswa)
+                    ->where('minggu_ke', $minggu)
+                    ->whereHas('pembayaranKas.transaksi', function ($query) {
+                        $query->where('status', 'Diterima');
+                    })
+                    ->exists();
+
+                if (! $sudahLunas) {
+                    return true;
+                }
+            }
+
+            return false;
+        })->count();
 
         $pembayaranTerbaru = (clone $pembayaranQuery)
             ->with(['siswa', 'transaksi', 'detailPembayaran'])
@@ -128,20 +156,28 @@ class WaliKelasController extends Controller
     /**
      * Riwayat Transaksi.
      */
+
     public function riwayatTransaksi()
     {
         $waliKelas = Auth::user();
         $kelas = $this->ambilKelasWali();
 
         $pembayaran = $this->queryPembayaranKelas($kelas)
-            ->with(['siswa', 'transaksi', 'detailPembayaran'])
+            ->with([
+                'siswa',
+                'transaksi',
+                'detailPembayaran',
+            ])
             ->orderByDesc('tanggal')
             ->orderByDesc('id_pembayaran')
             ->get();
 
-        $pengeluaran = Pengeluaran::with('user')
+        $pengeluaran = $kelas
+            ? Pengeluaran::with('user')
+            ->where('nama_kelas', $kelas)
             ->orderByDesc('tanggal')
-            ->get();
+            ->get()
+            : collect();
 
         return view('wali-kelas.riwayat-transaksi', compact(
             'waliKelas',
@@ -150,6 +186,7 @@ class WaliKelasController extends Controller
             'pengeluaran'
         ));
     }
+
 
     /**
      * Laporan Keuangan.
@@ -178,7 +215,11 @@ class WaliKelasController extends Controller
             }
         )->sum('nominal');
 
-        $totalPengeluaran = Pengeluaran::sum('nominal');
+
+        $totalPengeluaran = $kelas
+            ? Pengeluaran::where('nama_kelas', $kelas)->sum('nominal')
+            : 0;
+
         $saldoKas = $totalKasDiterima - $totalPengeluaran;
 
         $jumlahPembayaranDiterima = (clone $pembayaranQuery)
@@ -186,6 +227,7 @@ class WaliKelasController extends Controller
                 $query->where('status', 'Diterima');
             })
             ->count();
+
 
         $jumlahMenunggu = (clone $pembayaranQuery)
             ->whereHas('transaksi', function ($query) {
@@ -199,9 +241,12 @@ class WaliKelasController extends Controller
             ->orderByDesc('id_pembayaran')
             ->get();
 
-        $pengeluaran = Pengeluaran::with('user')
+        $pengeluaran = $kelas
+            ? Pengeluaran::with('user')
+            ->where('nama_kelas', $kelas)
             ->orderByDesc('tanggal')
-            ->get();
+            ->get()
+            : collect();
 
         return view('wali-kelas.laporan-keuangan', compact(
             'waliKelas',

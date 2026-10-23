@@ -388,18 +388,30 @@
                                             : '-' }}
                                     </td>
                                     <td>{{ $item->siswa->nama_lengkap ?? 'Siswa tidak ditemukan' }}</td>
-                                    <td>Minggu {{ $item->minggu_ke ?? '-' }}</td>
-                                    <td class="nominal-in">
-                                        Rp {{ number_format((float) $item->nominal, 0, ',', '.') }}
-                                    </td>
-                                    <td>
-                                        @php
-                                            $status = strtolower($item->status ?? '');
-                                        @endphp
-                                        <span class="status {{ $status }}">
-                                            {{ $item->status ?? '-' }}
-                                        </span>
-                                    </td>
+
+<td>
+    {{ $item->detailPembayaran?->minggu_ke
+        ? 'Minggu '.$item->detailPembayaran->minggu_ke
+        : 'Belum diisi' }}
+</td>
+
+<td class="nominal-in">
+    Rp {{ number_format(
+        (float) ($item->detailPembayaran?->nominal ?? 0),
+        0, ',', '.'
+    ) }}
+</td>
+
+<td>
+    @php
+        $status = $item->transaksi->status ?? 'Menunggu';
+    @endphp
+
+    <span class="status {{ strtolower($status) }}">
+        {{ $status }}
+    </span>
+</td>
+
                                 </tr>
                             @empty
                                 <tr>

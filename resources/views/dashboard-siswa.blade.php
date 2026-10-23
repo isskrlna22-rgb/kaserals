@@ -962,7 +962,8 @@
 
                 <div class="status-amount">
                     @if (isset($pembayaranTerakhir))
-                        Rp {{ number_format($pembayaranTerakhir->nominal, 0, ',', '.') }}
+                        Rp
+                        {{ number_format((float) ($pembayaranTerakhir->detailPembayaran?->nominal ?? 0), 0, ',', '.') }}
                     @else
                         Rp 0
                     @endif
@@ -1005,9 +1006,18 @@
                 @if (isset($pembayaran) && count($pembayaran) > 0)
                     @foreach ($pembayaran->take(5) as $item)
                         <div class="table-row">
-                            <span>Minggu ke-{{ $item->minggu_ke }}</span>
-                            <span>{{ \Carbon\Carbon::parse($item->tanggal)->format('d/m/Y') }}</span>
-                            <span class="nominal">Rp {{ number_format($item->nominal, 0, ',', '.') }}</span>
+                            <span>
+                                {{ $item->detailPembayaran?->minggu_ke ? 'Minggu ke-' . $item->detailPembayaran->minggu_ke : 'Belum diisi' }}
+                            </span>
+
+                            <span>
+                                {{ \Carbon\Carbon::parse($item->tanggal)->format('d/m/Y') }}
+                            </span>
+
+                            <span class="nominal">
+                                Rp
+                                {{ number_format((float) ($item->detailPembayaran?->nominal ?? 0), 0, ',', '.') }}
+                            </span>
                         </div>
                     @endforeach
                 @else

@@ -1635,6 +1635,18 @@
                             <input type="number" id="nominal" name="nominal" min="1" step="1"
 
                                 value="{{ old('nominal') }}" placeholder="Masukkan nominal pembayaran" required>
+                                <div class="form-group">
+    <label for="minggu_ke">Minggu Ke-</label>
+    <input
+        type="number"
+        id="minggu_ke"
+        name="minggu_ke"
+        min="1"
+        value="{{ old('minggu_ke') }}"
+        placeholder="Masukkan minggu pembayaran"
+        required
+    >
+</div>
 
                         </div>
 

@@ -23,4 +23,9 @@ Route::middleware(['auth', 'role:ADMIN,BENDAHARA'])->group(function () {
         'destroy'
     ])->name('detail-pembayaran.destroy');
 
+    // Update Detail Pembayaran
+    Route::put('/detail-pembayaran/{id}', [
+        DetailPembayaranController::class,
+        'update'
+    ])->name('detail-pembayaran.update');
 });

@@ -5,10 +5,9 @@ use App\Http\Controllers\RiwayatController;
 
 Route::middleware([
     'auth',
-    'role:ADMIN,BENDAHARA,KETUA_KELAS,GURU_PEMBIMBING'
+    'role:ADMIN,BENDAHARA,WALI_KELAS'
 ])->group(function () {
 
     Route::get('/riwayat-transaksi', [RiwayatController::class, 'index'])
         ->name('riwayat.index');
-
 });

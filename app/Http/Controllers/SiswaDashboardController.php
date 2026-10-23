@@ -18,102 +18,104 @@ class SiswaDashboardController extends Controller
 
 
 
-public function page()
-{
-    $user = Auth::user();
+    public function page()
+    {
+        $user = Auth::user();
 
-    $siswa = Siswa::where('id_user', $user->id_users)->first();
+        $siswa = Siswa::where('id_user', $user->id_users)->first();
 
-    if (!$siswa) {
-        abort(404, 'Data siswa belum terhubung dengan akun ini.');
-    }
-
-    // Ambil pembayaran siswa beserta status transaksi dan detailnya
-    $pembayaran = PembayaranKas::with([
-        'siswa',
-        'transaksi',
-        'detailPembayaran',
-    ])
-        ->where('id_siswa', $siswa->id_siswa)
-        ->orderByDesc('tanggal')
-        ->orderByDesc('id_pembayaran')
-        ->get();
-
-    // Hitung nominal dan status berdasarkan tabel yang sesuai
-    $pembayaranDiterima = $pembayaran->filter(function ($item) {
-        return $item->transaksi?->status === 'Diterima';
-    });
-
-    $totalPembayaranSiswa = $pembayaranDiterima->sum(function ($item) {
-        return $item->detailPembayaran?->nominal ?? 0;
-    });
-
-    $jumlahPembayaran = $pembayaranDiterima->count();
-
-    $pembayaranTerakhir = $pembayaran->first();
-
-    $statusPembayaran = $pembayaranDiterima->isNotEmpty()
-        ? 'SUDAH BAYAR'
-        : 'BELUM BAYAR';
-
-    // Total pembayaran kas yang sudah diterima seluruh kelas
-    $totalPembayaranKas = DetailPembayaran::whereHas(
-        'pembayaranKas.transaksi',
-        function ($query) {
-            $query->where('status', 'Diterima');
+        if (!$siswa) {
+            abort(404, 'Data siswa belum terhubung dengan akun ini.');
         }
-    )->sum('nominal');
 
-    // Total pengeluaran dan saldo kas
-    $totalPengeluaran = Pengeluaran::sum('nominal');
-    $saldoKas = $totalPembayaranKas - $totalPengeluaran;
+        // Ambil pembayaran siswa beserta status transaksi dan detailnya
+        $pembayaran = PembayaranKas::with([
+            'siswa',
+            'transaksi',
+            'detailPembayaran',
+        ])
+            ->where('id_siswa', $siswa->id_siswa)
+            ->orderByDesc('tanggal')
+            ->orderByDesc('id_pembayaran')
+            ->get();
 
-    // Pengumuman terbaru
-    $pengumumanTerbaru = \App\Models\Pengumuman::latest()->first();
+        // Hitung nominal dan status berdasarkan tabel yang sesuai
+        $pembayaranDiterima = $pembayaran->filter(function ($item) {
+            return $item->transaksi?->status === 'Diterima';
+        });
 
-    $pengumuman = $pengumumanTerbaru
-        ? ($pengumumanTerbaru->judul
-            ?? $pengumumanTerbaru->isi
-            ?? 'Ada pengumuman terbaru.')
-        : 'Belum ada pengumuman terbaru.';
+        $totalPembayaranSiswa = $pembayaranDiterima->sum(function ($item) {
+            return $item->detailPembayaran?->nominal ?? 0;
+        });
 
-    // Periode pembayaran berdasarkan detail yang tersedia
-    $mingguTerakhir = (int) (
-        DetailPembayaran::max('minggu_ke') ?? 0
-    );
+        $jumlahPembayaran = $pembayaranDiterima->count();
 
-    $mingguDibayar = $pembayaranDiterima
-        ->map(function ($item) {
-            return $item->detailPembayaran?->minggu_ke;
-        })
-        ->filter()
-        ->unique()
-        ->count();
+        $pembayaranTerakhir = $pembayaranDiterima->first()
+            ?? $pembayaran->first();
 
-    $tertunggakPeriode = max(
-        0,
-        $mingguTerakhir - $mingguDibayar
-    );
+        $statusPembayaran = $pembayaranDiterima->isNotEmpty()
+            ? 'SUDAH BAYAR'
+            : 'BELUM BAYAR';
 
-    return view('dashboard-siswa', compact(
-        'siswa',
-        'pembayaran',
-        'totalPembayaranSiswa',
-        'jumlahPembayaran',
-        'pembayaranTerakhir',
-        'statusPembayaran',
-        'totalPembayaranKas',
-        'totalPengeluaran',
-        'saldoKas',
-        'pengumuman',
-        'tertunggakPeriode'
-    ));
-}
+        // Total pembayaran kas yang sudah diterima seluruh kelas
+        $totalPembayaranKas = DetailPembayaran::whereHas(
+            'pembayaranKas.transaksi',
+            function ($query) {
+                $query->where('status', 'Diterima');
+            }
+        )->sum('nominal');
+
+        // Total pengeluaran dan saldo kas
+        $totalPengeluaran = Pengeluaran::sum('nominal');
+        $saldoKas = $totalPembayaranKas - $totalPengeluaran;
+
+        // Pengumuman terbaru
+        $pengumumanTerbaru = \App\Models\Pengumuman::latest()->first();
+
+        $pengumuman = $pengumumanTerbaru
+            ? ($pengumumanTerbaru->judul
+                ?? $pengumumanTerbaru->isi
+                ?? 'Ada pengumuman terbaru.')
+            : 'Belum ada pengumuman terbaru.';
+
+        // Periode pembayaran berdasarkan detail yang tersedia
+        $mingguTerakhir = (int) (
+            DetailPembayaran::max('minggu_ke') ?? 0
+        );
+
+        $mingguDibayar = $pembayaranDiterima
+            ->map(function ($item) {
+                return $item->detailPembayaran?->minggu_ke;
+            })
+            ->filter()
+            ->unique()
+            ->count();
+
+        $tertunggakPeriode = max(
+            0,
+            $mingguTerakhir - $mingguDibayar
+        );
+
+        return view('dashboard-siswa', compact(
+            'siswa',
+            'pembayaran',
+            'totalPembayaranSiswa',
+            'jumlahPembayaran',
+            'pembayaranTerakhir',
+            'statusPembayaran',
+            'totalPembayaranKas',
+            'totalPengeluaran',
+            'saldoKas',
+            'pengumuman',
+            'tertunggakPeriode'
+        ));
+    }
 
 
     // =========================
     // STATUS PEMBAYARAN
     // =========================
+
 
     public function statusPembayaran()
     {
@@ -125,13 +127,24 @@ public function page()
             abort(404, 'Data siswa belum terhubung dengan akun ini.');
         }
 
-        $pembayaran = PembayaranKas::where('id_siswa', $siswa->id_siswa)
-            ->latest('tanggal')
+        $pembayaran = PembayaranKas::with([
+            'transaksi',
+            'detailPembayaran',
+        ])
+            ->where('id_siswa', $siswa->id_siswa)
+            ->orderByDesc('tanggal')
+            ->orderByDesc('id_pembayaran')
             ->get();
 
-        $pembayaranDiterima = $pembayaran->where('status', 'Diterima');
+        // Hanya transaksi yang sudah diterima yang dihitung sebagai pembayaran lunas.
+        $pembayaranDiterima = $pembayaran->filter(function ($item) {
+            return $item->transaksi?->status === 'Diterima';
+        });
 
-        $totalPembayaranSiswa = $pembayaranDiterima->sum('nominal');
+        $totalPembayaranSiswa = $pembayaranDiterima->sum(function ($item) {
+            return (float) ($item->detailPembayaran?->nominal ?? 0);
+        });
+
         $jumlahPembayaran = $pembayaranDiterima->count();
 
         $statusPembayaran = $pembayaranDiterima->isNotEmpty()
@@ -235,142 +248,160 @@ public function page()
             abort(404, 'Data siswa belum terhubung dengan akun ini.');
         }
 
-        $pembayaran = PembayaranKas::where('id_siswa', $siswa->id_siswa)
-            ->latest('tanggal')
+        $pembayaran = PembayaranKas::with([
+            'transaksi',
+            'detailPembayaran',
+        ])
+            ->where('id_siswa', $siswa->id_siswa)
+            ->orderByDesc('tanggal')
+            ->orderByDesc('id_pembayaran')
             ->get();
 
-        return view('siswa.riwayat', compact('siswa', 'pembayaran'));
+        return view('siswa.riwayat', compact(
+            'siswa',
+            'pembayaran'
+        ));
     }
+
     // =========================
     // STATUS PEMBAYARAN UNTUK ADMIN
     // =========================
 
 
-public function adminStatusPembayaran()
-{
-    // Ambil seluruh siswa dari semua kelas
-    $siswa = Siswa::orderBy('kelas')
-        ->orderBy('nama_lengkap')
-        ->get();
+    public function adminStatusPembayaran()
+    {
+        // Ambil seluruh siswa dari semua kelas
+        $siswa = Siswa::orderBy('kelas')
+            ->orderBy('nama_lengkap')
+            ->get();
 
-    // Ambil semua pembayaran dan kelompokkan berdasarkan siswa
-    $semuaPembayaran = PembayaranKas::orderByDesc('tanggal')
-        ->orderByDesc('id_pembayaran')
-        ->get()
-        ->groupBy('id_siswa');
+        // Ambil semua pembayaran dan kelompokkan berdasarkan siswa
+        $semuaPembayaran = PembayaranKas::orderByDesc('tanggal')
+            ->orderByDesc('id_pembayaran')
+            ->get()
+            ->groupBy('id_siswa');
 
-    // Siapkan status pembayaran setiap siswa
-    $dataStatus = $siswa->map(function ($item) use ($semuaPembayaran) {
-        $pembayaran = $semuaPembayaran->get(
-            $item->id_siswa,
-            collect()
-        );
+        // Siapkan status pembayaran setiap siswa
+        $dataStatus = $siswa->map(function ($item) use ($semuaPembayaran) {
+            $pembayaran = $semuaPembayaran->get(
+                $item->id_siswa,
+                collect()
+            );
 
-        $diterima = $pembayaran->where('status', 'Diterima');
+            $diterima = $pembayaran->where('status', 'Diterima');
 
-        return [
-            'id_siswa' => $item->id_siswa,
-            'nama_lengkap' => $item->nama_lengkap,
-            'nisn' => $item->nisn,
-            'kelas' => $item->kelas,
-            'total_dibayar' => $diterima->sum('nominal'),
-            'jumlah_transaksi' => $diterima->count(),
-            'pembayaran_terakhir' => $pembayaran->first(),
-            'status_pembayaran' => $diterima->isNotEmpty()
-                ? 'SUDAH BAYAR'
-                : 'BELUM BAYAR',
-        ];
-    });
+            return [
+                'id_siswa' => $item->id_siswa,
+                'nama_lengkap' => $item->nama_lengkap,
+                'nisn' => $item->nisn,
+                'kelas' => $item->kelas,
+                'total_dibayar' => $diterima->sum('nominal'),
+                'jumlah_transaksi' => $diterima->count(),
+                'pembayaran_terakhir' => $pembayaran->first(),
+                'status_pembayaran' => $diterima->isNotEmpty()
+                    ? 'SUDAH BAYAR'
+                    : 'BELUM BAYAR',
+            ];
+        });
 
-    return view('admin.status-bayar', compact('dataStatus'));
-}
+        return view('admin.status-bayar', compact('dataStatus'));
+    }
 
 
-public function bendaharaStatusPembayaran()
-{
-    // Ambil kelas yang ditugaskan kepada Bendahara yang login
-    $kelasSaya = PengaturanSistem::where(
-        'id_bendahara',
-        Auth::id()
-    )->pluck('nama_kelas');
+    public function bendaharaStatusPembayaran()
+    {
+        // Ambil kelas yang ditugaskan kepada Bendahara yang login
+        $kelasSaya = PengaturanSistem::where(
+            'id_bendahara',
+            Auth::id()
+        )->pluck('nama_kelas');
 
-    // Ambil hanya siswa dari kelas yang ditugaskan
-    $siswa = Siswa::whereIn('kelas', $kelasSaya)
-        ->orderBy('kelas')
-        ->orderBy('nama_lengkap')
-        ->get();
+        // Ambil hanya siswa dari kelas yang ditugaskan
+        $siswa = Siswa::whereIn('kelas', $kelasSaya)
+            ->orderBy('kelas')
+            ->orderBy('nama_lengkap')
+            ->get();
 
-    // Ambil pembayaran milik siswa di kelas tersebut
-    $idSiswa = $siswa->pluck('id_siswa');
+        // Ambil pembayaran milik siswa di kelas tersebut
+        $idSiswa = $siswa->pluck('id_siswa');
 
-    $semuaPembayaran = PembayaranKas::whereIn('id_siswa', $idSiswa)
-        ->orderByDesc('tanggal')
-        ->orderByDesc('id_pembayaran')
-        ->get()
-        ->groupBy('id_siswa');
+        $semuaPembayaran = PembayaranKas::whereIn('id_siswa', $idSiswa)
+            ->orderByDesc('tanggal')
+            ->orderByDesc('id_pembayaran')
+            ->get()
+            ->groupBy('id_siswa');
 
-    // Siapkan status pembayaran setiap siswa
-    $dataStatus = $siswa->map(function ($item) use ($semuaPembayaran) {
-        $pembayaran = $semuaPembayaran->get(
-            $item->id_siswa,
-            collect()
-        );
+        // Siapkan status pembayaran setiap siswa
+        $dataStatus = $siswa->map(function ($item) use ($semuaPembayaran) {
+            $pembayaran = $semuaPembayaran->get(
+                $item->id_siswa,
+                collect()
+            );
 
-        $diterima = $pembayaran->where('status', 'Diterima');
+            $diterima = $pembayaran->where('status', 'Diterima');
 
-        return [
-            'id_siswa' => $item->id_siswa,
-            'nama_lengkap' => $item->nama_lengkap,
-            'nisn' => $item->nisn,
-            'kelas' => $item->kelas,
-            'total_dibayar' => $diterima->sum('nominal'),
-            'jumlah_transaksi' => $diterima->count(),
-            'pembayaran_terakhir' => $pembayaran->first(),
-            'status_pembayaran' => $diterima->isNotEmpty()
-                ? 'SUDAH BAYAR'
-                : 'BELUM BAYAR',
-        ];
-    });
+            return [
+                'id_siswa' => $item->id_siswa,
+                'nama_lengkap' => $item->nama_lengkap,
+                'nisn' => $item->nisn,
+                'kelas' => $item->kelas,
+                'total_dibayar' => $diterima->sum('nominal'),
+                'jumlah_transaksi' => $diterima->count(),
+                'pembayaran_terakhir' => $pembayaran->first(),
+                'status_pembayaran' => $diterima->isNotEmpty()
+                    ? 'SUDAH BAYAR'
+                    : 'BELUM BAYAR',
+            ];
+        });
 
-    return view('bendahara.status-bayar', compact('dataStatus'));
-}
+        return view('bendahara.status-bayar', compact('dataStatus'));
+    }
 
 
     public function infoKas()
     {
-        $user = \Illuminate\Support\Facades\Auth::user();
+        $user = Auth::user();
 
         if (!$user) {
             return redirect()->route('login');
         }
 
-        $siswa = \App\Models\Siswa::where('id_user', $user->id_users)
+        $siswa = Siswa::where('id_user', $user->id_users)
             ->firstOrFail();
 
-        $pembayaran = \App\Models\PembayaranKas::where(
-            'id_siswa',
-            $siswa->id_siswa
-        )
+        // Ambil pembayaran siswa beserta detail dan status transaksinya
+        $pembayaran = PembayaranKas::with([
+            'transaksi',
+            'detailPembayaran',
+        ])
+            ->where('id_siswa', $siswa->id_siswa)
             ->orderByDesc('tanggal')
             ->orderByDesc('id_pembayaran')
             ->get();
 
-        // Ambil pengumuman terbaru dari database
+        // Ambil pengumuman terbaru
         $pengumuman = \App\Models\Pengumuman::latest('created_at')
             ->first();
 
-        // Total pembayaran kas yang sudah diterima
-        $totalPembayaran = \App\Models\PembayaranKas::where('status', 'Diterima')
-            ->sum('nominal');
+        // Total kas dari semua pembayaran yang sudah diterima
+        $totalPembayaran = DetailPembayaran::whereHas(
+            'pembayaranKas.transaksi',
+            function ($query) {
+                $query->where('status', 'Diterima');
+            }
+        )->sum('nominal');
 
         // Total pengeluaran kas
-        $totalPengeluaran = \App\Models\Pengeluaran::sum('nominal');
+        $totalPengeluaran = Pengeluaran::sum('nominal');
 
-        // Saldo kas kelas
+        // Saldo kas
         $saldoKas = $totalPembayaran - $totalPengeluaran;
 
         // Total pengeluaran bulan ini
-        $pengeluaranBulanIni = \App\Models\Pengeluaran::whereMonth('created_at', now()->month)
+        $pengeluaranBulanIni = Pengeluaran::whereMonth(
+            'created_at',
+            now()->month
+        )
             ->whereYear('created_at', now()->year)
             ->sum('nominal');
 

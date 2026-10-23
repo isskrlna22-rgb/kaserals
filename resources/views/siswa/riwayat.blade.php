@@ -8,7 +8,8 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
 
     <style>
         * {
@@ -30,19 +31,43 @@
 
         /* ================= ANIMASI ================= */
         @keyframes floatMascot {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
         }
 
         @keyframes pulseLogo {
-            0% { box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.4); }
-            70% { box-shadow: 0 0 0 12px rgba(13, 148, 136, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(13, 148, 136, 0); }
+            0% {
+                box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 12px rgba(13, 148, 136, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(13, 148, 136, 0);
+            }
         }
 
         @keyframes blink {
-            0%, 96%, 98% { opacity: 1; }
-            97% { opacity: 0; transform: scaleY(0.1); }
+
+            0%,
+            96%,
+            98% {
+                opacity: 1;
+            }
+
+            97% {
+                opacity: 0;
+                transform: scaleY(0.1);
+            }
         }
 
         /* ================= SIDEBAR ================= */
@@ -781,21 +806,23 @@
 </head>
 
 <body>
+
     @php
         $totalTransaksi = $pembayaran->count();
 
         $totalDiterima = $pembayaran
-            ->where('status', 'Diterima')
-            ->sum('nominal');
+            ->filter(fn($item) => $item->transaksi?->status === 'Diterima')
+            ->sum(fn($item) => (float) ($item->detailPembayaran?->nominal ?? 0));
 
         $totalMenunggu = $pembayaran
-            ->where('status', 'Menunggu')
-            ->sum('nominal');
+            ->filter(fn($item) => $item->transaksi?->status === 'Menunggu')
+            ->sum(fn($item) => (float) ($item->detailPembayaran?->nominal ?? 0));
 
         $namaSiswa = $siswa->nama_lengkap ?? 'Siswa';
         $kelasSiswa = $siswa->kelas ?? '-';
         $inisial = strtoupper(substr($namaSiswa, 0, 2));
     @endphp
+
 
     <!-- SIDEBAR (MENU UTAMA) -->
     <aside class="sidebar">
@@ -945,12 +972,8 @@
                 <div class="filters">
                     <div class="search-box">
                         <span>⌕</span>
-                        <input
-                            type="search"
-                            id="searchTransaction"
-                            placeholder="Cari tanggal, metode, nominal, atau status..."
-                            aria-label="Cari transaksi"
-                        >
+                        <input type="search" id="searchTransaction"
+                            placeholder="Cari tanggal, metode, nominal, atau status..." aria-label="Cari transaksi">
                     </div>
 
                     <select id="filterStatus" aria-label="Filter status transaksi">
@@ -977,7 +1000,7 @@
                             <tbody>
                                 @foreach ($pembayaran as $item)
                                     @php
-                                        $statusAsli = $item->status ?? 'Belum ada status';
+                                        $statusAsli = $item->transaksi?->status ?? 'Menunggu';
                                         $statusSlug = strtolower(trim($statusAsli));
 
                                         $statusClass = match ($statusSlug) {
@@ -992,11 +1015,14 @@
                                             : '-';
 
                                         $metode = $item->metode_pembayaran ?: '-';
+                                        $nominal = (float) ($item->detailPembayaran?->nominal ?? 0);
+                                        $mingguKe = $item->detailPembayaran?->minggu_ke;
                                     @endphp
 
-                                    <tr class="transaction-row"
-                                        data-status="{{ $statusSlug }}"
-                                        data-search="{{ strtolower($tanggal . ' ' . $metode . ' ' . $statusAsli . ' ' . $item->nominal . ' ' . ($item->keterangan ?? '')) }}">
+
+
+                                    <tr class="transaction-row" data-status="{{ $statusSlug }}"
+                                        data-search="{{ strtolower($tanggal . ' ' . $metode . ' ' . $statusAsli . ' ' . $nominal . ' ' . ($item->keterangan ?? '') . ' ' . ($mingguKe ?? '')) }}">
 
                                         <td>
                                             <div class="transaction-id">
@@ -1004,9 +1030,13 @@
                                             </div>
                                             <div class="transaction-name">Pembayaran Kas</div>
 
-                                            @if (!empty($item->minggu_ke))
+                                            @if (!empty($mingguKe))
                                                 <div class="transaction-date">
-                                                    Minggu ke-{{ $item->minggu_ke }}
+                                                    Minggu ke-{{ $mingguKe }}
+                                                </div>
+                                            @else
+                                                <div class="transaction-date">
+                                                    Minggu belum diisi
                                                 </div>
                                             @endif
                                         </td>
@@ -1021,7 +1051,7 @@
 
                                         <td>
                                             <div class="amount">
-                                                Rp {{ number_format((float) $item->nominal, 0, ',', '.') }}
+                                                Rp {{ number_format($nominal, 0, ',', '.') }}
                                             </div>
                                         </td>
 
@@ -1114,7 +1144,7 @@
             const selectedStatus = statusFilter ? statusFilter.value.toLowerCase() : '';
             let visibleCount = 0;
 
-            transactionRows.forEach(function (row) {
+            transactionRows.forEach(function(row) {
                 const searchableText = row.dataset.search || '';
                 const rowStatus = row.dataset.status || '';
 
@@ -1131,9 +1161,9 @@
 
             if (noResults) {
                 noResults.style.display =
-                    transactionRows.length > 0 && visibleCount === 0
-                        ? 'block'
-                        : 'none';
+                    transactionRows.length > 0 && visibleCount === 0 ?
+                    'block' :
+                    'none';
             }
         }
 

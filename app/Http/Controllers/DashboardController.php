@@ -178,6 +178,23 @@ class DashboardController extends Controller
                 $query->whereIn('kelas', $kelasSaya);
             }
         })->max('minggu_ke') ?? 0;
+        if ($user->role === 'ADMIN') {
+            return view('dashboard', compact(
+                'totalSiswa',
+                'totalPengguna',
+                'totalPembayaran',
+                'totalPengeluaran',
+                'saldo',
+                'sudahBayar',
+                'belumBayar',
+                'persentasePembayaran',
+                'pembayaranMenunggu',
+                'jumlahMenunggu',
+                'jumlahPengumuman',
+                'mingguAktif',
+                'transaksiTerbaru'
+            ));
+        }
 
         return view('dashboard-bendahara', compact(
             'totalSiswa',

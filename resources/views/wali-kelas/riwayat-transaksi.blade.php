@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,8 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
 
     <style>
         * {
@@ -29,19 +31,43 @@
 
         /* ================= ANIMASI ================= */
         @keyframes floatMascot {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-12px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
         }
 
         @keyframes pulseLogo {
-            0% { box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.4); }
-            70% { box-shadow: 0 0 0 12px rgba(13, 148, 136, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(13, 148, 136, 0); }
+            0% {
+                box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 12px rgba(13, 148, 136, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(13, 148, 136, 0);
+            }
         }
 
         @keyframes blink {
-            0%, 96%, 98% { opacity: 1; }
-            97% { opacity: 0; transform: scaleY(0.1); }
+
+            0%,
+            96%,
+            98% {
+                opacity: 1;
+            }
+
+            97% {
+                opacity: 0;
+                transform: scaleY(0.1);
+            }
         }
 
         /* ================= SIDEBAR ================= */
@@ -84,10 +110,22 @@
             animation: pulseLogo 2.5s infinite;
         }
 
-        .brand-name { font-size: 18px; font-weight: 800; letter-spacing: 0.5px; }
-        .brand-subtitle { font-size: 11px; color: #64748b; margin-top: 2px; }
+        .brand-name {
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
 
-        .menu-section { margin-bottom: 24px; }
+        .brand-subtitle {
+            font-size: 11px;
+            color: #64748b;
+            margin-top: 2px;
+        }
+
+        .menu-section {
+            margin-bottom: 24px;
+        }
+
         .menu-title {
             font-size: 10px;
             font-weight: 800;
@@ -126,30 +164,110 @@
             font-weight: 700;
         }
 
-        .menu-icon { width: 20px; text-align: center; font-size: 16px; transition: transform 0.3s ease; }
-        .menu-item:hover .menu-icon { transform: scale(1.1) rotate(-5deg); }
+        .menu-icon {
+            width: 20px;
+            text-align: center;
+            font-size: 16px;
+            transition: transform 0.3s ease;
+        }
 
-        .sidebar-footer { margin-top: auto; padding-top: 24px; border-top: 1px dashed rgba(255, 255, 255, 0.1); }
-        .sidebar-profile { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; padding: 0 12px; }
-        .sidebar-avatar { width: 40px; height: 40px; border-radius: 12px; background: rgba(45, 212, 191, 0.2); color: #2dd4bf; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; }
-        .sidebar-user-info { overflow: hidden; }
-        .sidebar-user-name { font-size: 13px; font-weight: 700; color: white; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; }
-        .sidebar-user-role { font-size: 11px; color: #94a3b8; margin-top: 2px; }
+        .menu-item:hover .menu-icon {
+            transform: scale(1.1) rotate(-5deg);
+        }
 
-        .menu-logout { color: #f87171 !important; }
-        .menu-logout:hover { background: rgba(239, 68, 68, 0.1) !important; color: #fca5a5 !important; }
+        .sidebar-footer {
+            margin-top: auto;
+            padding-top: 24px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding: 0 12px;
+        }
+
+        .sidebar-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: rgba(45, 212, 191, 0.2);
+            color: #2dd4bf;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .sidebar-user-info {
+            overflow: hidden;
+        }
+
+        .sidebar-user-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: white;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+        .sidebar-user-role {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+
+        .menu-logout {
+            color: #f87171 !important;
+        }
+
+        .menu-logout:hover {
+            background: rgba(239, 68, 68, 0.1) !important;
+            color: #fca5a5 !important;
+        }
 
         /* ================= MAIN ================= */
-        .main { margin-left: 250px; padding: 32px 40px 50px; }
+        .main {
+            margin-left: 250px;
+            padding: 32px 40px 50px;
+        }
 
-        .topbar-mobile { display: none; }
-        .container { max-width: 1100px; margin: 0 auto; }
+        .topbar-mobile {
+            display: none;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
 
         /* ================= TOPBAR (PROFIL KANAN ATAS) ================= */
-        .topbar { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 25px; gap: 20px; }
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 25px;
+            gap: 20px;
+        }
 
-        .page-heading h1 { font-size: 27px; margin-bottom: 8px; font-weight: 800; color: #0f172a; }
-        .page-heading p { color: #64748b; font-size: 13px; line-height: 1.7; font-weight: 500; max-width: 600px; }
+        .page-heading h1 {
+            font-size: 27px;
+            margin-bottom: 8px;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .page-heading p {
+            color: #64748b;
+            font-size: 13px;
+            line-height: 1.7;
+            font-weight: 500;
+            max-width: 600px;
+        }
 
         .profile {
             display: flex;
@@ -164,10 +282,38 @@
             flex-shrink: 0;
         }
 
-        .profile:hover { background: white; border-color: #e2e8f0; box-shadow: 0 6px 20px rgba(13, 148, 136, 0.08); transform: translateY(-2px); }
-        .avatar { width: 42px; height: 42px; border-radius: 50%; background: #ccfbf1; color: #0d9488; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; }
-        .profile-name { font-size: 13px; font-weight: 800; color: #0f172a; }
-        .profile-role { font-size: 11px; color: #64748b; margin-top: 2px; font-weight: 600; }
+        .profile:hover {
+            background: white;
+            border-color: #e2e8f0;
+            box-shadow: 0 6px 20px rgba(13, 148, 136, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #ccfbf1;
+            color: #0d9488;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .profile-name {
+            font-size: 13px;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .profile-role {
+            font-size: 11px;
+            color: #64748b;
+            margin-top: 2px;
+            font-weight: 600;
+        }
 
         /* ================= CARD & TABLE ================= */
         .card {
@@ -180,8 +326,20 @@
             margin-bottom: 25px;
         }
 
-        .card h3 { font-size: 18px; margin-bottom: 6px; font-weight: 800; color: #0f172a; }
-        .card p { color: #64748b; font-size: 13px; line-height: 1.6; margin-bottom: 22px; font-weight: 500; }
+        .card h3 {
+            font-size: 18px;
+            margin-bottom: 6px;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .card p {
+            color: #64748b;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 22px;
+            font-weight: 500;
+        }
 
         .table-wrapper {
             width: 100%;
@@ -197,7 +355,8 @@
             background: white;
         }
 
-        th, td {
+        th,
+        td {
             text-align: left;
             padding: 16px 20px;
             font-size: 13px;
@@ -218,8 +377,13 @@
             font-weight: 600;
         }
 
-        tr:last-child td { border-bottom: none; }
-        tr:hover td { background: #f0fdfa; }
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: #f0fdfa;
+        }
 
         .nominal-cell {
             font-weight: 800;
@@ -236,9 +400,20 @@
             text-align: center;
         }
 
-        .status.diterima { background: #dcfce7; color: #166534; }
-        .status.menunggu { background: #fef3c7; color: #b45309; }
-        .status.ditolak { background: #fee2e2; color: #991b1b; }
+        .status.diterima {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status.menunggu {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        .status.ditolak {
+            background: #fee2e2;
+            color: #991b1b;
+        }
 
         .kosong {
             text-align: center;
@@ -259,6 +434,7 @@
             align-items: flex-end;
             animation: floatMascot 4s ease-in-out infinite;
         }
+
         .mascot-bubble {
             background: white;
             padding: 14px 20px;
@@ -275,7 +451,11 @@
             transform: translateY(20px) scale(0.9);
             transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
-        .mascot-bubble span { color: #0d9488; }
+
+        .mascot-bubble span {
+            color: #0d9488;
+        }
+
         .mascot-body {
             width: 80px;
             height: 80px;
@@ -290,10 +470,23 @@
             transition: all 0.3s ease;
             position: relative;
         }
-        .mascot-face { font-size: 28px; color: white; font-weight: bold; animation: blink 4s infinite; }
 
-        .mascot-container:hover .mascot-bubble { opacity: 1; transform: translateY(0) scale(1); }
-        .mascot-container:hover .mascot-body { transform: scale(1.1) rotate(10deg); border-radius: 50%; }
+        .mascot-face {
+            font-size: 28px;
+            color: white;
+            font-weight: bold;
+            animation: blink 4s infinite;
+        }
+
+        .mascot-container:hover .mascot-bubble {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .mascot-container:hover .mascot-body {
+            transform: scale(1.1) rotate(10deg);
+            border-radius: 50%;
+        }
 
         /* ================= BOTTOM NAV MOBILE ================= */
         .bottom-nav {
@@ -310,15 +503,43 @@
             backdrop-filter: blur(10px);
         }
 
-        .nav-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #94a3b8; gap: 2px; transition: 0.3s; }
-        .nav-item.active { color: #0d9488; font-weight: 700; }
-        .nav-icon { font-size: 18px; }
-        .nav-text { font-size: 10px; }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #94a3b8;
+            gap: 2px;
+            transition: 0.3s;
+        }
+
+        .nav-item.active {
+            color: #0d9488;
+            font-weight: 700;
+        }
+
+        .nav-icon {
+            font-size: 18px;
+        }
+
+        .nav-text {
+            font-size: 10px;
+        }
 
         @media (max-width: 768px) {
-            .sidebar { display: none; }
-            .main { margin-left: 0; padding: 20px 16px 90px; }
-            .topbar { display: none; }
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 20px 16px 90px;
+            }
+
+            .topbar {
+                display: none;
+            }
+
             .topbar-mobile {
                 background: #091320;
                 color: white;
@@ -328,15 +549,31 @@
                 align-items: center;
                 margin: -20px -16px 24px -16px;
             }
-            .brand-mobile { font-size: 20px; font-weight: 800; }
-            .brand-mobile span { color: #2dd4bf; }
 
-            .card { padding: 20px 16px; }
-            .bottom-nav { display: grid; }
-            .mascot-container { display: none; }
+            .brand-mobile {
+                font-size: 20px;
+                font-weight: 800;
+            }
+
+            .brand-mobile span {
+                color: #2dd4bf;
+            }
+
+            .card {
+                padding: 20px 16px;
+            }
+
+            .bottom-nav {
+                display: grid;
+            }
+
+            .mascot-container {
+                display: none;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <!-- SIDEBAR LENGKAP -->
@@ -447,23 +684,28 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>
-                                        {{ $item->tanggal
-                                            ? \Carbon\Carbon::parse($item->tanggal)->format('d/m/Y')
-                                            : '-' }}
+                                        {{ $item->tanggal ? \Carbon\Carbon::parse($item->tanggal)->format('d/m/Y') : '-' }}
                                     </td>
                                     <td>
                                         {{ $item->siswa->nama_lengkap ?? 'Siswa tidak ditemukan' }}
                                     </td>
-                                    <td>Minggu {{ $item->minggu_ke ?? '-' }}</td>
-                                    <td class="nominal-cell">
-                                        Rp {{ number_format((float) $item->nominal, 0, ',', '.') }}
+
+                                    <td>
+                                        {{ $item->detailPembayaran?->minggu_ke ? 'Minggu ' . $item->detailPembayaran->minggu_ke : 'Belum diisi' }}
                                     </td>
+
+                                    <td class="nominal-cell">
+                                        Rp
+                                        {{ number_format((float) ($item->detailPembayaran?->nominal ?? 0), 0, ',', '.') }}
+                                    </td>
+
                                     <td>
                                         @php
-                                            $status = strtolower($item->status ?? '');
+                                            $status = $item->transaksi->status ?? 'Menunggu';
                                         @endphp
-                                        <span class="status {{ $status }}">
-                                            {{ $item->status ?? 'Menunggu' }}
+
+                                        <span class="status {{ strtolower($status) }}">
+                                            {{ $status }}
                                         </span>
                                     </td>
                                 </tr>
@@ -515,4 +757,5 @@
     </form>
 
 </body>
+
 </html>

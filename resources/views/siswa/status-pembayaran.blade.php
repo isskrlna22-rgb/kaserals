@@ -877,41 +877,48 @@
                             </thead>
                             <tbody>
                                 @foreach($pembayaran as $item)
-                                    <tr>
-                                        <td>
-                                            {{ \Carbon\Carbon::parse($item->tanggal)->format('d/m/Y') }}
-                                        </td>
-                                        <td>
-                                            Minggu {{ $item->minggu_ke ?? '-' }}
-                                        </td>
-                                        <td>
-                                            <strong>
-                                                Rp {{ number_format($item->nominal, 0, ',', '.') }}
-                                            </strong>
-                                        </td>
-                                        <td>
-                                            {{ $item->metode_pembayaran ?? '-' }}
-                                        </td>
-                                        <td>
-                                            @if($item->status === 'Diterima')
-                                                <span class="badge badge-diterima">
-                                                    Diterima
-                                                </span>
-                                            @elseif($item->status === 'Menunggu')
-                                                <span class="badge badge-menunggu">
-                                                    Menunggu
-                                                </span>
-                                            @elseif($item->status === 'Ditolak')
-                                                <span class="badge badge-ditolak">
-                                                    Ditolak
-                                                </span>
-                                            @else
-                                                <span class="badge badge-menunggu">
-                                                    {{ $item->status ?? '-' }}
-                                                </span>
-                                            @endif
-                                        </td>
-                                    </tr>
+
+<tr>
+    <td>
+        {{ \Carbon\Carbon::parse($item->tanggal)->format('d/m/Y') }}
+    </td>
+
+    <td>
+        {{ $item->detailPembayaran?->minggu_ke
+            ? 'Minggu '.$item->detailPembayaran->minggu_ke
+            : 'Belum diisi' }}
+    </td>
+
+    <td>
+        <strong>
+            Rp {{ number_format(
+                (float) ($item->detailPembayaran?->nominal ?? 0),
+                0, ',', '.'
+            ) }}
+        </strong>
+    </td>
+
+    <td>
+        {{ $item->metode_pembayaran ?? '-' }}
+    </td>
+
+    <td>
+        @php
+            $status = $item->transaksi->status ?? 'Menunggu';
+        @endphp
+
+        @if($status === 'Diterima')
+            <span class="badge badge-diterima">Diterima</span>
+        @elseif($status === 'Menunggu')
+            <span class="badge badge-menunggu">Menunggu</span>
+        @elseif($status === 'Ditolak')
+            <span class="badge badge-ditolak">Ditolak</span>
+        @else
+            <span class="badge badge-menunggu">{{ $status }}</span>
+        @endif
+    </td>
+</tr>
+
                                 @endforeach
                             </tbody>
                         </table>

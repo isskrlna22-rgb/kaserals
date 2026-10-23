@@ -295,101 +295,101 @@
         }
 
 
-.modal-hapus-pembayaran {
-    position: fixed;
-    inset: 0;
-    z-index: 99999;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    background: rgba(15, 23, 42, 0.55);
-    backdrop-filter: blur(6px);
-}
+        .modal-hapus-pembayaran {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(15, 23, 42, 0.55);
+            backdrop-filter: blur(6px);
+        }
 
-.modal-hapus-pembayaran.aktif {
-    display: flex;
-}
+        .modal-hapus-pembayaran.aktif {
+            display: flex;
+        }
 
-.modal-hapus-pembayaran-box {
-    width: 100%;
-    max-width: 400px;
-    padding: 30px 24px;
-    border-radius: 24px;
-    background: #fff;
-    text-align: center;
-    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.2);
-    animation: munculModalHapus 0.25s ease;
-}
+        .modal-hapus-pembayaran-box {
+            width: 100%;
+            max-width: 400px;
+            padding: 30px 24px;
+            border-radius: 24px;
+            background: #fff;
+            text-align: center;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.2);
+            animation: munculModalHapus 0.25s ease;
+        }
 
-.modal-hapus-pembayaran-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 72px;
-    height: 72px;
-    margin: 0 auto 18px;
-    border-radius: 50%;
-    background: #fee2e2;
-    font-size: 32px;
-}
+        .modal-hapus-pembayaran-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 18px;
+            border-radius: 50%;
+            background: #fee2e2;
+            font-size: 32px;
+        }
 
-.modal-hapus-pembayaran-box h3 {
-    margin: 0 0 10px;
-    color: #0f172a;
-    font-size: 22px;
-    font-weight: 900;
-}
+        .modal-hapus-pembayaran-box h3 {
+            margin: 0 0 10px;
+            color: #0f172a;
+            font-size: 22px;
+            font-weight: 900;
+        }
 
-.modal-hapus-pembayaran-box p {
-    margin: 0;
-    color: #64748b;
-    font-size: 14px;
-    line-height: 1.7;
-}
+        .modal-hapus-pembayaran-box p {
+            margin: 0;
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.7;
+        }
 
-.modal-hapus-pembayaran-actions {
-    display: flex;
-    gap: 12px;
-    margin-top: 25px;
-}
+        .modal-hapus-pembayaran-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
 
-.modal-hapus-pembayaran-actions button {
-    flex: 1;
-    padding: 13px 10px;
-    border: none;
-    border-radius: 12px;
-    font-family: inherit;
-    font-size: 14px;
-    font-weight: 800;
-    cursor: pointer;
-}
+        .modal-hapus-pembayaran-actions button {
+            flex: 1;
+            padding: 13px 10px;
+            border: none;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 800;
+            cursor: pointer;
+        }
 
-.btn-batal-hapus {
-    background: #f1f5f9;
-    color: #475569;
-}
+        .btn-batal-hapus {
+            background: #f1f5f9;
+            color: #475569;
+        }
 
-.btn-konfirmasi-hapus {
-    background: #ef4444;
-    color: #fff;
-}
+        .btn-konfirmasi-hapus {
+            background: #ef4444;
+            color: #fff;
+        }
 
-.btn-konfirmasi-hapus:hover {
-    background: #dc2626;
-}
+        .btn-konfirmasi-hapus:hover {
+            background: #dc2626;
+        }
 
-@keyframes munculModalHapus {
-    from {
-        opacity: 0;
-        transform: translateY(12px) scale(.95);
-    }
+        @keyframes munculModalHapus {
+            from {
+                opacity: 0;
+                transform: translateY(12px) scale(.95);
+            }
 
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
 
 
         @media (max-width: 1024px) {
@@ -891,89 +891,90 @@
                 flex-direction: column;
             }
         }
-           /* NAVIGASI BAWAH KHUSUS HP */
-.mobile-bottom-nav {
-display: none;
-}
 
-@media (max-width: 768px) {
-.mobile-bottom-nav {
-position: fixed;
-left: 0;
-right: 0;
-bottom: 0;
-z-index: 900;
+        /* NAVIGASI BAWAH KHUSUS HP */
+        .mobile-bottom-nav {
+            display: none;
+        }
 
-    display: flex;
-    align-items: stretch;
-    gap: 6px;
+        @media (max-width: 768px) {
+            .mobile-bottom-nav {
+                position: fixed;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 900;
 
-    padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
-    overflow-x: auto;
-    overflow-y: hidden;
-    white-space: nowrap;
+                display: flex;
+                align-items: stretch;
+                gap: 6px;
 
-    background: #ffffff;
-    border-top: 1px solid #e2e8f0;
-    box-shadow: 0 -4px 18px rgba(15, 23, 42, 0.08);
+                padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+                overflow-x: auto;
+                overflow-y: hidden;
+                white-space: nowrap;
 
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-}
+                background: #ffffff;
+                border-top: 1px solid #e2e8f0;
+                box-shadow: 0 -4px 18px rgba(15, 23, 42, 0.08);
 
-.mobile-bottom-nav::-webkit-scrollbar {
-    display: none;
-}
+                scrollbar-width: none;
+                -webkit-overflow-scrolling: touch;
+            }
 
-.mobile-bottom-nav a,
-.mobile-bottom-nav .mobile-logout {
-    flex: 0 0 76px;
-    min-width: 76px;
-    min-height: 54px;
+            .mobile-bottom-nav::-webkit-scrollbar {
+                display: none;
+            }
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
+            .mobile-bottom-nav a,
+            .mobile-bottom-nav .mobile-logout {
+                flex: 0 0 76px;
+                min-width: 76px;
+                min-height: 54px;
 
-    padding: 7px 4px;
-    border: none;
-    border-radius: 12px;
-    background: transparent;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 5px;
 
-    color: #64748b;
-    font-family: inherit;
-    font-size: 10px;
-    font-weight: 800;
-    line-height: 1.2;
-    text-align: center;
-    text-decoration: none;
-    white-space: normal;
-    cursor: pointer;
-}
+                padding: 7px 4px;
+                border: none;
+                border-radius: 12px;
+                background: transparent;
 
-.mobile-bottom-nav a span,
-.mobile-bottom-nav .mobile-logout span {
-    display: block;
-    font-size: 20px;
-    line-height: 1;
-}
+                color: #64748b;
+                font-family: inherit;
+                font-size: 10px;
+                font-weight: 800;
+                line-height: 1.2;
+                text-align: center;
+                text-decoration: none;
+                white-space: normal;
+                cursor: pointer;
+            }
 
-.mobile-bottom-nav a.active {
-    color: #0d9488;
-    background: #ccfbf1;
-}
+            .mobile-bottom-nav a span,
+            .mobile-bottom-nav .mobile-logout span {
+                display: block;
+                font-size: 20px;
+                line-height: 1;
+            }
 
-.mobile-bottom-nav .mobile-logout {
-    color: #dc2626;
-}
+            .mobile-bottom-nav a.active {
+                color: #0d9488;
+                background: #ccfbf1;
+            }
 
-.content {
-    padding-bottom: 100px;
-}
+            .mobile-bottom-nav .mobile-logout {
+                color: #dc2626;
+            }
 
-}
+            .content {
+                padding-bottom: 100px;
+            }
+
+        }
     </style>
 </head>
 
@@ -1008,7 +1009,7 @@ z-index: 900;
                     <span>✓</span> Pembayaran Kas
                 </a>
 
-                    <a href="{{ route('verifikasi-pembayaran.index') }}"
+                <a href="{{ route('verifikasi-pembayaran.index') }}"
                     class="nav-link {{ request()->routeIs('verifikasi-pembayaran.*') ? 'active' : '' }}">
                     <span>●</span> Verifikasi Pembayaran
                 </a>
@@ -1099,7 +1100,6 @@ z-index: 900;
                                     @endforeach
                                 </select>
                             </div>
-
                             <!-- TOTAL BAYAR -->
                             <div class="form-group">
                                 <label for="Total_bayar">Total Bayar (Rp) *</label>
@@ -1157,7 +1157,8 @@ z-index: 900;
                         <div class="payment-header">
                             <h2>Transaksi Hari Ini</h2>
                             <span class="total">
-                                Rp {{ number_format($transaksiHariIni->sum('nominal') ?? 0, 0, ',', '.') }}
+                                Rp
+                                {{ number_format($transaksiHariIni->sum(fn($item) => $item->detailPembayaran->nominal ?? 0), 0, ',', '.') }}
                             </span>
                         </div>
 
@@ -1176,29 +1177,23 @@ z-index: 900;
                                                     {{ $transaksi->siswa->nama_lengkap ?? 'Siswa tidak ditemukan' }}
                                                 </div>
                                                 <div style="font-size:12px; color:#64748b;">
-                                                    {{ $transaksi->status }}
-                                                </div>
+                                                    {{ $transaksi->transaksi->status ?? 'Belum ada status' }} </div>
                                             </div>
                                         </div>
 
-{{-- TOMBOL HAPUS PEMBAYARAN --}}
-<form
-    action="{{ route('pembayaran-kas.destroy', $transaksi->id_pembayaran) }}"
-    method="POST"
-    class="hapus-pembayaran-form"
-    data-nama="{{ $transaksi->siswa->nama_lengkap ?? 'siswa ini' }}"
->
-    @csrf
-    @method('DELETE')
+                                        {{-- TOMBOL HAPUS PEMBAYARAN --}}
+                                        <form
+                                            action="{{ route('pembayaran-kas.destroy', $transaksi->id_pembayaran) }}"
+                                            method="POST" class="hapus-pembayaran-form"
+                                            data-nama="{{ $transaksi->siswa->nama_lengkap ?? 'siswa ini' }}">
+                                            @csrf
+                                            @method('DELETE')
 
-    <button
-        type="button"
-        class="delete-btn"
-        onclick="bukaKonfirmasiHapusPembayaran(this.form)"
-    >
-        Hapus
-    </button>
-</form>
+                                            <button type="button" class="delete-btn"
+                                                onclick="bukaKonfirmasiHapusPembayaran(this.form)">
+                                                Hapus
+                                            </button>
+                                        </form>
 
                                     </div>
 
@@ -1220,7 +1215,8 @@ z-index: 900;
                                         </div>
                                         {{-- NOMINAL --}}
                                         <div style="font-size: 16px; font-weight:900; color:#0d9488;">
-                                            Rp {{ number_format($transaksi->nominal, 0, ',', '.') }}
+                                            Rp
+                                            {{ number_format($transaksi->detailPembayaran->nominal ?? 0, 0, ',', '.') }}
                                         </div>
                                     </div>
                                 </div>
@@ -1384,43 +1380,42 @@ z-index: 900;
             form.submit();
         }
 
-let formHapusPembayaranAktif = null;
+        let formHapusPembayaranAktif = null;
 
-function bukaKonfirmasiHapusPembayaran(form) {
-    formHapusPembayaranAktif = form;
+        function bukaKonfirmasiHapusPembayaran(form) {
+            formHapusPembayaranAktif = form;
 
-    const nama = form.dataset.nama || 'siswa ini';
+            const nama = form.dataset.nama || 'siswa ini';
 
-    document.getElementById('pesanHapusPembayaran').textContent =
-        `Yakin ingin menghapus pembayaran milik ${nama}? Tindakan ini tidak dapat dibatalkan.`;
+            document.getElementById('pesanHapusPembayaran').textContent =
+                `Yakin ingin menghapus pembayaran milik ${nama}? Tindakan ini tidak dapat dibatalkan.`;
 
-    document
-        .getElementById('modalHapusPembayaran')
-        .classList.add('aktif');
-}
-
-function tutupKonfirmasiHapusPembayaran() {
-    document
-        .getElementById('modalHapusPembayaran')
-        .classList.remove('aktif');
-
-    formHapusPembayaranAktif = null;
-}
-
-function konfirmasiHapusPembayaran() {
-    if (formHapusPembayaranAktif) {
-        formHapusPembayaranAktif.submit();
-    }
-}
-
-document
-    .getElementById('modalHapusPembayaran')
-    .addEventListener('click', function (event) {
-        if (event.target === this) {
-            tutupKonfirmasiHapusPembayaran();
+            document
+                .getElementById('modalHapusPembayaran')
+                .classList.add('aktif');
         }
-    });
 
+        function tutupKonfirmasiHapusPembayaran() {
+            document
+                .getElementById('modalHapusPembayaran')
+                .classList.remove('aktif');
+
+            formHapusPembayaranAktif = null;
+        }
+
+        function konfirmasiHapusPembayaran() {
+            if (formHapusPembayaranAktif) {
+                formHapusPembayaranAktif.submit();
+            }
+        }
+
+        document
+            .getElementById('modalHapusPembayaran')
+            .addEventListener('click', function(event) {
+                if (event.target === this) {
+                    tutupKonfirmasiHapusPembayaran();
+                }
+            });
     </script>
 
     <!-- NAVIGASI BAWAH KHUSUS HP -->
@@ -1464,14 +1459,12 @@ document
             Pengumuman
         </a>
 
-         <a href="{{ route('laporan.index') }}"
-           class="{{ request()->routeIs('laporan.*') ? 'active' : '' }}">
+        <a href="{{ route('laporan.index') }}" class="{{ request()->routeIs('laporan.*') ? 'active' : '' }}">
             <span>▤</span>
             Laporan
         </a>
 
-        <form action="{{ route('logout') }}" method="POST"
-              onsubmit="return confirm('Yakin ingin keluar?')">
+        <form action="{{ route('logout') }}" method="POST" onsubmit="return confirm('Yakin ingin keluar?')">
             @csrf
             <button type="submit" class="mobile-logout">
                 <span>↪</span>
@@ -1480,36 +1473,29 @@ document
         </form>
     </nav>
 
-{{-- MODAL KONFIRMASI HAPUS PEMBAYARAN --}}
-<div id="modalHapusPembayaran" class="modal-hapus-pembayaran">
-    <div class="modal-hapus-pembayaran-box">
-        <div class="modal-hapus-pembayaran-icon">🗑️</div>
+    {{-- MODAL KONFIRMASI HAPUS PEMBAYARAN --}}
+    <div id="modalHapusPembayaran" class="modal-hapus-pembayaran">
+        <div class="modal-hapus-pembayaran-box">
+            <div class="modal-hapus-pembayaran-icon">🗑️</div>
 
-        <h3>Hapus Pembayaran?</h3>
+            <h3>Hapus Pembayaran?</h3>
 
-        <p id="pesanHapusPembayaran">
-            Yakin ingin menghapus pembayaran ini?
-        </p>
+            <p id="pesanHapusPembayaran">
+                Yakin ingin menghapus pembayaran ini?
+            </p>
 
-        <div class="modal-hapus-pembayaran-actions">
-            <button
-                type="button"
-                class="btn-batal-hapus"
-                onclick="tutupKonfirmasiHapusPembayaran()"
-            >
-                Batal
-            </button>
+            <div class="modal-hapus-pembayaran-actions">
+                <button type="button" class="btn-batal-hapus" onclick="tutupKonfirmasiHapusPembayaran()">
+                    Batal
+                </button>
 
-            <button
-                type="button"
-                class="btn-konfirmasi-hapus"
-                onclick="konfirmasiHapusPembayaran()"
-            >
-                Ya, Hapus
-            </button>
+                <button type="button" class="btn-konfirmasi-hapus" onclick="konfirmasiHapusPembayaran()">
+                    Ya, Hapus
+                </button>
+            </div>
         </div>
     </div>
-</div>
 
 </body>
+
 </html>

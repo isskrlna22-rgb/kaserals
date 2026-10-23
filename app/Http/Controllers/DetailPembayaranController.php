@@ -67,28 +67,46 @@ class DetailPembayaranController extends Controller
 
 
 
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'id_pembayaran' => 'required|exists:pembayaran_kas,id_pembayaran',
-            'id_siswa' => 'required|exists:siswa,id_siswa',
-            'minggu_ke' => 'required|integer|min:1',
-            'nominal' => 'required|numeric|min:1',
+
+public function store(Request $request)
+{
+    $validated = $request->validate([
+        'id_pembayaran' => 'required|exists:pembayaran_kas,id_pembayaran',
+        'id_siswa' => 'required|exists:siswa,id_siswa',
+        'minggu_ke' => 'required|integer|min:1',
+        'nominal' => 'required|numeric|min:1',
+    ]);
+
+    // Pastikan siswa sesuai dengan pembayaran yang dipilih.
+    $pembayaran = \App\Models\PembayaranKas::findOrFail(
+        $validated['id_pembayaran']
+    );
+
+    if ((int) $pembayaran->id_siswa !== (int) $validated['id_siswa']) {
+        return back()
+            ->withInput()
+            ->withErrors([
+                'id_siswa' => 'Siswa tidak sesuai dengan pembayaran yang dipilih.',
+            ]);
+    }
+
+    // Cari detail berdasarkan ID pembayaran.
+    $detail = DetailPembayaran::where(
+        'id_pembayaran',
+        $validated['id_pembayaran']
+    )->first();
+
+    if ($detail) {
+        // Perbarui detail yang sudah ada.
+        $detail->update([
+            'id_siswa' => $validated['id_siswa'],
+            'minggu_ke' => $validated['minggu_ke'],
+            'nominal' => $validated['nominal'],
         ]);
 
-        // Pastikan siswa sesuai dengan pembayaran yang dipilih.
-        $pembayaran = \App\Models\PembayaranKas::findOrFail(
-            $validated['id_pembayaran']
-        );
-
-        if ((int) $pembayaran->id_siswa !== (int) $validated['id_siswa']) {
-            return back()
-                ->withInput()
-                ->withErrors([
-                    'id_siswa' => 'Siswa tidak sesuai dengan pembayaran yang dipilih.',
-                ]);
-        }
-
+        $pesan = 'Detail pembayaran berhasil diperbarui.';
+    } else {
+        // Buat detail baru jika belum ada.
         DetailPembayaran::create([
             'id_pembayaran' => $validated['id_pembayaran'],
             'id_siswa' => $validated['id_siswa'],
@@ -96,8 +114,12 @@ class DetailPembayaranController extends Controller
             'nominal' => $validated['nominal'],
         ]);
 
-        return redirect()
-            ->route('detail-pembayaran.index')
-            ->with('success', 'Detail pembayaran berhasil ditambahkan.');
+        $pesan = 'Detail pembayaran berhasil ditambahkan.';
     }
+
+    return redirect()
+        ->route('detail-pembayaran.index')
+        ->with('success', $pesan);
+}
+
 }

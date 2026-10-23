@@ -234,7 +234,6 @@
             font-weight: 600;
             margin-bottom: 15px;
         }
-
         .profile-avatar {
             width: 42px;
             height: 42px;
@@ -675,6 +674,32 @@
             border-radius: 50%;
         }
 
+
+.btn-hapus-custom {
+    padding: 9px 13px;
+    border: 1px solid #fecaca;
+    border-radius: 11px;
+    background: white;
+    color: #dc2626;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-hapus-custom:hover {
+    border-color: #dc2626;
+    background: #fef2f2;
+    color: #b91c1c;
+    transform: scale(1.05);
+}
+
+.btn-hapus-custom:active {
+    transform: scale(0.96);
+}
+
+
         /* =========================
            RESPONSIVE
         ========================= */
@@ -721,6 +746,7 @@
             .mascot-container {
                 display: none;
             }
+
         }
 
         @media (max-width: 600px) {
@@ -887,6 +913,8 @@
                     justify-content: space-between;
                     gap: 10px;
                 }
+
+
     </style>
 </head>
 
@@ -1150,18 +1178,22 @@
                                         Ubah
                                     </button>
 
-                                    <form action="{{ route('pengeluaran.web.destroy', $item->id_pengeluaran) }}"
-                                        method="POST"
-                                        onsubmit="return confirm('Yakin ingin menghapus pengeluaran ini?')"
-                                        style="margin: 0;">
-                                        @csrf
-                                        @method('DELETE')
 
-                                        <button type="submit" class="btn-edit" style="color: #dc2626;">
-                                            Hapus
-                                        </button>
-                                    </form>
 
+
+<form action="{{ route('pengeluaran.web.destroy', $item->id_pengeluaran) }}"
+      method="POST"
+      class="delete-form"
+      data-nama="{{ $item->kategori }}">
+    @csrf
+    @method('DELETE')
+
+    <button type="button"
+            class="btn-hapus-custom"
+            onclick="showDeleteModal(this.form)">
+        Hapus
+    </button>
+</form>
                                 </div>
 
                             </div>
@@ -1479,6 +1511,158 @@
             </button>
         </form>
     </nav>
+
+<div id="deleteModal" class="delete-modal">
+    <div class="delete-modal-box">
+        <div class="delete-modal-icon">🗑️</div>
+
+        <h3>Hapus Pengeluaran?</h3>
+        <p id="deleteMessage">
+            Yakin ingin menghapus pengeluaran ini?
+        </p>
+
+        <div class="delete-modal-buttons">
+            <button type="button"
+                    class="delete-cancel"
+                    onclick="closeDeleteModal()">
+                Batal
+            </button>
+
+            <button type="button"
+                    class="delete-confirm"
+                    onclick="confirmDelete()">
+                Ya, Hapus
+            </button>
+        </div>
+    </div>
+</div>
+
+<style>
+.delete-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(15, 23, 42, .55);
+    backdrop-filter: blur(5px);
+}
+
+.delete-modal.show {
+    display: flex;
+}
+
+.delete-modal-box {
+    width: 100%;
+    max-width: 400px;
+    padding: 30px;
+    text-align: center;
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 25px 70px rgba(0, 0, 0, .2);
+    animation: deletePop .25s ease;
+}
+
+.delete-modal-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    background: #fee2e2;
+    font-size: 32px;
+}
+
+.delete-modal-box h3 {
+    margin-bottom: 10px;
+    color: #0f172a;
+    font-size: 21px;
+    font-weight: 900;
+}
+
+.delete-modal-box p {
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.delete-modal-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.delete-modal-buttons button {
+    flex: 1;
+    padding: 13px;
+    border: none;
+    border-radius: 12px;
+    font-family: inherit;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.delete-cancel {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.delete-confirm {
+    background: #ef4444;
+    color: white;
+}
+
+.delete-confirm:hover {
+    background: #dc2626;
+}
+
+@keyframes deletePop {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+</style>
+
+<script>
+let deleteFormTarget = null;
+
+function showDeleteModal(form) {
+    deleteFormTarget = form;
+
+    const nama = form.dataset.nama || 'pengeluaran ini';
+
+    document.getElementById('deleteMessage').textContent =
+        `Yakin ingin menghapus pengeluaran ${nama}?`;
+
+    document.getElementById('deleteModal').classList.add('show');
+}
+
+function closeDeleteModal() {
+    document.getElementById('deleteModal').classList.remove('show');
+    deleteFormTarget = null;
+}
+
+function confirmDelete() {
+    if (deleteFormTarget) {
+        deleteFormTarget.submit();
+    }
+}
+
+document.getElementById('deleteModal').addEventListener('click', function(event) {
+    if (event.target === this) {
+        closeDeleteModal();
+    }
+});
+</script>
 
 </body>
 

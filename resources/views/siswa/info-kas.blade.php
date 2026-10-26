@@ -561,28 +561,23 @@
             border-radius: 50%;
         }
 
+
         /* ================= BOTTOM NAV MOBILE ================= */
         .bottom-nav {
             display: none;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(255, 255, 255, 0.95);
-            border-top: 1px solid #e2e8f0;
-            grid-template-columns: repeat(4, 1fr);
-            padding: 10px 12px 14px;
-            z-index: 100;
-            backdrop-filter: blur(10px);
         }
 
         .nav-item {
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
+            min-width: 0;
+            width: 100%;
             text-decoration: none;
             color: #94a3b8;
-            gap: 2px;
+            gap: 4px;
+            padding: 5px 0;
             transition: 0.3s;
         }
 
@@ -593,10 +588,13 @@
 
         .nav-icon {
             font-size: 18px;
+            line-height: 1.2;
         }
 
         .nav-text {
-            font-size: 10px;
+            font-size: 9px;
+            text-align: center;
+            white-space: nowrap;
         }
 
         @media (max-width: 900px) {
@@ -612,17 +610,25 @@
 
             .main {
                 margin-left: 0;
-                padding: 20px 16px 90px;
+                padding: 20px 12px 100px;
             }
 
             .bottom-nav {
                 display: grid;
+                grid-template-columns: repeat(6, minmax(0, 1fr));
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                width: 100%;
+                padding: 8px 4px calc(8px + env(safe-area-inset-bottom));
+                background: rgba(255, 255, 255, 0.97);
+                border-top: 1px solid #e2e8f0;
+                z-index: 100;
+                backdrop-filter: blur(10px);
             }
 
-            .mascot-container {
-                display: none;
-            }
-
+            .mascot-container,
             .profile {
                 display: none;
             }
@@ -634,7 +640,7 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                margin: -20px -16px 24px -16px;
+                margin: -20px -12px 24px;
             }
 
             .brand-mobile {
@@ -866,22 +872,37 @@
     </div>
 
     <!-- BOTTOM NAV MOBILE -->
+
     <nav class="bottom-nav">
         <a href="{{ route('dashboard.siswa') }}" class="nav-item">
             <span class="nav-icon">⌂</span>
             <span class="nav-text">Dashboard</span>
         </a>
+
         <a href="{{ route('dashboard.siswa.pembayaran') }}" class="nav-item">
             <span class="nav-icon">💳</span>
-            <span class="nav-text">Bayar Kas</span>
+            <span class="nav-text">Bayar</span>
         </a>
+
         <a href="{{ route('dashboard.siswa.status') }}" class="nav-item">
             <span class="nav-icon">✓</span>
             <span class="nav-text">Status</span>
         </a>
-        <a href="#" class="nav-item active">
+
+        <a href="{{ route('dashboard.siswa.riwayat') }}" class="nav-item">
+            <span class="nav-icon">⏱</span>
+            <span class="nav-text">Riwayat</span>
+        </a>
+
+        <a href="{{ route('dashboard.siswa') }}#info-kas" class="nav-item active">
             <span class="nav-icon">ⓘ</span>
             <span class="nav-text">Info Kas</span>
+        </a>
+
+        <a href="{{ route('logout') }}" class="nav-item"
+            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            <span class="nav-icon">⎋</span>
+            <span class="nav-text">Keluar</span>
         </a>
     </nav>
 

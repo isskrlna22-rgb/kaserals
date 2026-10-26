@@ -678,7 +678,7 @@
                 display: none;
             }
 
-            /* Navigasi khusus mobile */
+            /* ================= NAVIGASI MOBILE ADMIN ================= */
             .mobile-nav {
                 display: none;
             }
@@ -691,31 +691,44 @@
                     left: 0;
                     right: 0;
                     z-index: 200;
-                    justify-content: space-around;
-                    align-items: center;
-                    gap: 4px;
-                    padding: 10px 6px calc(10px + env(safe-area-inset-bottom));
+
+                    gap: 6px;
+                    padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+
                     background: #ffffff;
                     border-top: 1px solid #e2e8f0;
                     box-shadow: 0 -4px 20px rgba(15, 23, 42, 0.08);
+
+                    overflow-x: auto;
+                    overflow-y: hidden;
+                    justify-content: flex-start;
+                    scrollbar-width: thin;
+                    -webkit-overflow-scrolling: touch;
                 }
 
                 .mobile-nav a {
                     display: flex;
-                    flex: 1;
+                    flex: 0 0 72px;
+                    min-width: 72px;
                     flex-direction: column;
                     align-items: center;
+                    justify-content: center;
                     gap: 4px;
+
+                    padding: 8px 3px;
+                    border-radius: 12px;
+
                     color: #64748b;
                     font-size: 10px;
                     font-weight: 800;
                     text-align: center;
-                    padding: 6px 2px;
-                    border-radius: 10px;
+                    text-decoration: none;
+                    white-space: normal;
                 }
 
                 .mobile-nav a span {
                     font-size: 19px;
+                    line-height: 1.2;
                 }
 
                 .mobile-nav a.active {
@@ -724,80 +737,72 @@
                 }
 
                 .content {
-                    padding: 16px 12px 100px;
+                    padding-bottom: 100px;
                 }
 
-                .topbar {
-                    height: 68px;
-                    padding: 0 16px;
+                .mobile-logout-form {
+                    display: flex;
+                    flex: 0 0 72px;
+                    min-width: 72px;
+                    margin: 0;
                 }
 
-                .topbar h2 {
-                    font-size: 18px;
+                .mobile-logout-btn {
+                    display: flex;
+                    width: 100%;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 5px;
+
+                    padding: 8px 3px;
+                    border: 1px solid #fecaca;
+                    border-radius: 14px;
+                    background: linear-gradient(135deg, #fff1f2, #ffe4e6);
+
+                    color: #dc2626;
+                    font-family: inherit;
+                    font-size: 10px;
+                    font-weight: 900;
+                    cursor: pointer;
+                    transition: all 0.25s ease;
                 }
 
-                .welcome-card {
-                    padding: 22px 18px;
-                    border-radius: 18px;
+                .mobile-logout-btn .logout-icon {
+                    display: flex;
+                    width: 30px;
+                    height: 30px;
+                    align-items: center;
+                    justify-content: center;
+
+                    border-radius: 10px;
+                    background: linear-gradient(135deg, #fb7185, #dc2626);
+                    color: white;
+                    font-size: 22px;
+                    font-weight: 900;
+                    box-shadow: 0 4px 10px rgba(220, 38, 38, 0.2);
                 }
 
-                .welcome-text h1 {
-                    font-size: 24px;
-                    overflow-wrap: anywhere;
+                .mobile-logout-btn .logout-label {
+                    font-size: 10px;
                 }
 
-                .welcome-text p {
-                    font-size: 14px;
+                .mobile-logout-btn:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 5px 12px rgba(220, 38, 38, 0.15);
                 }
 
-                .banner-kasi {
-                    width: 90px;
+                .mobile-logout-btn:active {
+                    transform: scale(0.95);
                 }
 
-                .stats-grid {
-                    grid-template-columns: repeat(2, minmax(0, 1fr));
-                    gap: 12px;
+                @media (min-width: 901px) {
+                    .mobile-logout-form {
+                        display: none;
+                    }
                 }
 
-                .stat-card {
-                    min-width: 0;
-                    padding: 16px 12px;
-                    border-radius: 16px;
-                }
-
-                .stat-value {
-                    font-size: 20px;
-                    overflow-wrap: anywhere;
-                }
-
-                .panel {
-                    min-width: 0;
-                    padding: 16px 12px;
-                    border-radius: 16px;
-                }
-
-                .panel-title {
-                    font-size: 16px;
-                    gap: 8px;
-                }
-
-                .mascot-container {
-                    display: none;
-                }
             }
-
-            @media (max-width: 380px) {
-                .stats-grid {
-                    grid-template-columns: 1fr;
-                }
-
-                .welcome-date {
-                    font-size: 12px;
-                    padding: 8px 12px;
-                }
-            }
-
-        }
     </style>
 </head>
 
@@ -842,7 +847,7 @@
                     class="nav-link {{ request()->routeIs('detail-pembayaran.*') ? 'active' : '' }}">
                     <span>●</span> Detail pembayaran
                 </a>
-                
+
                 <!-- Menu 4 -->
                 <a href="{{ route('verifikasi-pembayaran.index') }}" class="nav-link">
                     <span>●</span> Verifikasi Pembayaran
@@ -1104,10 +1109,16 @@
     </div>
 
 
+
     <nav class="mobile-nav">
-        <a href="#" class="active">
+       <a href="{{ route('dashboard') }}" class="active">
             <span>◫</span>
             Dashboard
+        </a>
+
+        <a href="{{ route('akun.index') }}">
+            <span>⚙️</span>
+            Kelola Akun
         </a>
 
         <a href="{{ route('data-siswa.index') }}">
@@ -1115,9 +1126,34 @@
             Data Siswa
         </a>
 
+        <a href="{{ route('pembayaran-kas.index') }}">
+            <span>💰</span>
+            Pembayaran
+        </a>
+
+        <a href="{{ route('detail-pembayaran.index') }}">
+            <span>📋</span>
+            Detail Bayar
+        </a>
+
         <a href="{{ route('verifikasi-pembayaran.index') }}">
-            <span>✓</span>
+            <span>✅</span>
             Verifikasi
+        </a>
+
+        <a href="{{ route('pengeluaran.web.index') }}">
+            <span>💸</span>
+            Pengeluaran
+        </a>
+
+        <a href="{{ route('admin.status-pembayaran') }}">
+            <span>👤</span>
+            Status Bayar
+        </a>
+
+        <a href="{{ route('riwayat.index') }}">
+            <span>🔄</span>
+            Riwayat
         </a>
 
         <a href="{{ route('pengumuman.index') }}">
@@ -1126,10 +1162,29 @@
         </a>
 
         <a href="{{ route('laporan.index') }}">
-            <span>▤</span>
+            <span>📊</span>
             Laporan
         </a>
+
+        <a href="{{ route('profile.edit') }}">
+            <span>⚙️</span>
+            Profil
+        </a>
+
+
+
+        <form method="POST" action="{{ route('logout') }}" class="mobile-logout-form">
+            @csrf
+
+            <button type="submit" class="mobile-logout-btn">
+                <span class="logout-icon">⇥</span>
+                <span class="logout-label">Keluar</span>
+            </button>
+        </form>
+
+
     </nav>
+
 
 
 </body>

@@ -938,28 +938,57 @@
             }
 
             @media (max-width: 768px) {
+
+                .mobile-logout-form {
+                    display: flex;
+                    flex: 0 0 72px;
+                    margin: 0;
+                }
+
                 .mobile-logout {
                     display: flex;
+                    width: 100%;
                     flex-direction: column;
                     align-items: center;
                     justify-content: center;
                     gap: 5px;
-                    flex: 0 0 65px;
                     padding: 7px 3px;
-                    border: none;
+
+                    border: 1px solid #fecaca;
                     border-radius: 12px;
-                    background: transparent;
+                    background: linear-gradient(135deg, #fff1f2, #ffe4e6);
                     color: #dc2626;
+
+                    font-family: inherit;
                     font-size: 10px;
-                    font-weight: 700;
+                    font-weight: 800;
                     cursor: pointer;
+                    transition: all 0.25s ease;
                 }
 
                 .mobile-logout span {
-                    font-size: 19px;
+                    display: flex;
+                    width: 30px;
+                    height: 30px;
+                    align-items: center;
+                    justify-content: center;
+
+                    border-radius: 9px;
+                    background: linear-gradient(135deg, #fb7185, #dc2626);
+                    color: white;
+                    font-size: 21px;
                 }
+
+                .mobile-logout:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 5px 12px rgba(220, 38, 38, 0.15);
+                }
+
+                .mobile-logout:active {
+                    transform: scale(0.95);
+                }
+
             }
-        }
     </style>
 </head>
 
@@ -1424,7 +1453,7 @@
         }
     </script>
 
-    
+
     <!-- MODAL KONFIRMASI HAPUS -->
     <div id="modalHapus" class="modal-hapus"
         style="display: none; position: fixed; inset: 0; z-index: 2000;
@@ -1459,51 +1488,65 @@
             </div>
         </div>
     </div>
+
     <nav class="mobile-bottom-nav" aria-label="Navigasi utama">
         <a href="{{ route('dashboard') }}">
-            <span>▣</span>Dashboard
+            <span>▣</span>
+            Dashboard
         </a>
 
         <a href="{{ route('data-siswa.index') }}" class="active">
-            <span>◉</span>Data Siswa
+            <span>◉</span>
+            Data Siswa
         </a>
 
         <a href="{{ route('pembayaran-kas.index') }}">
-            <span>✓</span>Pembayaran
+            <span>✓</span>
+            Pembayaran
         </a>
 
         <a href="{{ route('detail-pembayaran.index') }}">
-            <span>▤</span>Detail Kas
+            <span>▤</span>
+            Detail Kas
         </a>
 
         <a href="{{ route('verifikasi-pembayaran.index') }}">
-            <span>●</span>Verifikasi
+            <span>●</span>
+            Verifikasi
         </a>
 
         <a href="{{ route('pengeluaran.web.index') }}">
-            <span>↑</span>Pengeluaran
+            <span>↑</span>
+            Pengeluaran
         </a>
 
         <a href="{{ route('riwayat.index') }}">
-            <span>↻</span>Riwayat
+            <span>↻</span>
+            Riwayat
         </a>
 
         @if (Route::has('pengumuman.index'))
             <a href="{{ route('pengumuman.index') }}">
-                <span>▣</span>Pengumuman
+                <span>▣</span>
+                Pengumuman
             </a>
-            <a href="{{ route('laporan.index') }}">
-                <span>▤</span>Laporan
-            </a>
-            <form action="{{ route('logout') }}" method="POST" onsubmit="return confirm('Yakin ingin keluar?')">
-                @csrf
-                <button type="submit" class="mobile-logout">
-                    <span>↪</span>
-                    Keluar
-                </button>
+        @endif
+
+        <a href="{{ route('laporan.index') }}">
+            <span>▤</span>
+            Laporan
+        </a>
+
+        <form action="{{ route('logout') }}" method="POST" class="mobile-logout-form">
+            @csrf
+            <button type="submit" class="mobile-logout">
+                <span>↪</span>
+                Keluar
+            </button>
+        </form>
     </nav>
-    </form>
-    @endif
+
+
 
 
 

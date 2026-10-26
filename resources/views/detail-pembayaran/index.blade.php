@@ -633,26 +633,146 @@
     display: none;
 }
 
+
 @media (max-width: 768px) {
-    /* Di HP gunakan menu bawah, bukan sidebar */
     .sidebar {
         display: none !important;
     }
 
+    .page,
+    .main {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .topbar {
+        height: 68px;
+        padding: 0 16px;
+        gap: 12px;
+    }
+
+    .topbar h2 {
+        font-size: 17px;
+        line-height: 1.4;
+    }
+
+    .avatar {
+        width: 38px;
+        height: 38px;
+        flex-shrink: 0;
+        font-size: 12px;
+    }
+
+    .content {
+        width: 100%;
+        min-width: 0;
+        padding: 22px 14px 110px;
+    }
+
+    .title h1 {
+        font-size: 23px;
+        line-height: 1.3;
+    }
+
+    .title p {
+        font-size: 13px;
+        line-height: 1.7;
+        margin-bottom: 22px;
+    }
+
+    .columns {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 18px;
+    }
+
+    .card {
+        width: 100%;
+        min-width: 0;
+        padding: 20px 15px;
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    .card h2 {
+        font-size: 19px;
+        line-height: 1.4;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        min-width: 0;
+        margin-bottom: 17px;
+    }
+
+    .form-group label {
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .form-control {
+        width: 100%;
+        min-width: 0;
+        min-height: 48px;
+        padding: 0 12px;
+        font-size: 14px;
+        border-radius: 13px;
+    }
+
+    .buttons {
+        display: flex;
+        flex-direction: column-reverse;
+        gap: 10px;
+    }
+
+    .buttons .btn {
+        width: 100%;
+        min-height: 46px;
+        padding: 12px;
+        font-size: 14px;
+        border-radius: 13px;
+    }
+
+    .payment-header {
+        margin-bottom: 12px;
+    }
+
+    .payment-row {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 12px;
+        padding: 18px 0;
+    }
+
+    .student-avatar {
+        width: 40px;
+        height: 40px;
+        flex-shrink: 0;
+    }
+
+    .badge-minggu {
+        font-size: 12px;
+    }
+
+    .delete-btn {
+        width: 100%;
+        min-height: 42px;
+    }
+
     .mobile-bottom-nav {
+        display: flex;
         position: fixed;
         left: 0;
         right: 0;
         bottom: 0;
-        z-index: 900;
-        display: flex;
-        gap: 4px;
-        padding: 9px 8px calc(9px + env(safe-area-inset-bottom));
+        z-index: 9999;
+        gap: 5px;
+        padding: 8px 8px calc(8px + env(safe-area-inset-bottom));
         overflow-x: auto;
+        overflow-y: hidden;
         background: #fff;
         border-top: 1px solid #e2e8f0;
         box-shadow: 0 -5px 20px rgba(15, 23, 42, .08);
         scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
     }
 
     .mobile-bottom-nav::-webkit-scrollbar {
@@ -661,22 +781,25 @@
 
     .mobile-bottom-nav a {
         flex: 0 0 76px;
+        min-width: 76px;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         gap: 5px;
-        padding: 8px 3px;
+        padding: 9px 3px;
         border-radius: 12px;
         color: #64748b;
         font-size: 10px;
         font-weight: 800;
         text-align: center;
-        white-space: nowrap;
+        white-space: normal;
+        line-height: 1.3;
     }
 
     .mobile-bottom-nav a span {
         font-size: 19px;
+        line-height: 1.2;
     }
 
     .mobile-bottom-nav a.active {
@@ -684,16 +807,29 @@
         background: #ccfbf1;
     }
 
-    /* Beri ruang supaya konten terakhir tidak tertutup menu */
-    .content {
-        padding-bottom: 100px;
+    .mascot-container {
+        display: none;
     }
 
-    .mascot-container {
-        bottom: 78px;
-        right: 14px;
+    .modal-box {
+        width: 100%;
+        max-width: 360px;
+        padding: 25px 18px;
+        border-radius: 22px;
+    }
+
+    .modal-buttons {
+        gap: 8px;
+    }
+
+    .modal-buttons .btn,
+    .modal-buttons .btn-confirm {
+        min-width: 0;
+        padding: 12px 8px;
+        font-size: 13px;
     }
 }
+
 
     </style>
 </head>

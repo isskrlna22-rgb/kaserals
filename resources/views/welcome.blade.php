@@ -97,8 +97,6 @@
                             <i class="fa-solid fa-right-to-bracket"></i>
                             <span>Portal Login</span>
                         </a>
-
-
                     @endauth
                 </div>
 
@@ -604,7 +602,7 @@
                             </div>
                             <div class="pt-4 border-t border-slate-200 text-xs text-slate-500 flex justify-between items-center">
                                 <span>Disusun oleh Bendahara: <strong>Iis Karlina</strong></span>
-                                <span>Disetujui Wali Kelas: <strong>Asep Baban Sobana S.T., M.Si.</strong></span>
+                                <span>Disetujui: <strong>Wali Kelas</strong></span>
                             </div>
                         </div>
                     </div>
@@ -716,7 +714,9 @@
                 <h2 class="text-2xl sm:text-4xl font-black tracking-tight text-white">Di balik KASERALS: TIM FINORA</h2>
                 <p class="text-slate-400 text-sm sm:text-base">Program Keahlian Pengembangan Perangkat Lunak dan Gim (PPLG) <br><strong>SMK Budi Bakti Ciwidey, Kabupaten Bandung</strong> • Tahun Ajaran 2026/2027</p>
             </div>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
+
+            <!-- Penyesuaian grid max-w-3xl agar jika hanya 2 kartu (Iis & Nesya) letaknya rapi ke tengah -->
+            <div class="grid sm:grid-cols-2 gap-8 items-stretch max-w-4xl mx-auto">
                 <!-- Developer 1 -->
                 <div class="bg-slate-800/90 rounded-3xl p-6 sm:p-8 border border-slate-700/80 space-y-6 flex flex-col justify-between hover:border-brand-500/60 transition-all shadow-xl">
                     <div class="space-y-4">
@@ -763,27 +763,6 @@
                     </div>
                     <div class="pt-4 border-t border-slate-700/60 flex items-center justify-between text-xs text-slate-400">
                         <span>Role UKK: Frontend Lead</span><i class="fa-solid fa-pen-nib text-emerald-400"></i>
-                    </div>
-                </div>
-                <!-- Supervisor -->
-                <div class="bg-slate-800/90 rounded-3xl p-6 sm:p-8 border border-slate-700/80 space-y-6 flex flex-col justify-between lg:col-span-1 md:col-span-2 shadow-xl">
-                    <div class="space-y-4">
-                        <div class="flex items-center gap-4">
-                            <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-500 to-orange-600 text-white flex items-center justify-center font-black text-2xl shadow-lg shadow-amber-500/30">AB</div>
-                            <div>
-                                <h3 class="text-lg font-bold text-white">Asep Baban Sobana S.T., GR, M.Si.</h3>
-                                <p class="text-xs text-amber-400 font-medium">Admin KASERALS</p>
-                                <span class="inline-block mt-1 text-[10px] bg-amber-500/20 text-amber-300 font-bold px-2.5 py-0.5 rounded-full border border-amber-500/30">Supervisor & Assessor</span>
-                            </div>
-                        </div>
-                        <div class="text-xs text-slate-300 space-y-2 pt-2 border-t border-slate-700/60">
-                            <p><strong>Status Gate 1 Review:</strong></p>
-                            <p class="text-emerald-400 font-bold bg-emerald-500/10 p-2.5 rounded-xl border border-emerald-500/20 flex items-center gap-2"><i class="fa-solid fa-circle-check"></i> DISETUJUI (GO) - Sidang Gate 1</p>
-                            <p class="text-[11px] text-slate-400 italic">"Tim diizinkan melanjutkan pengembangan sistem KASERALS."</p>
-                        </div>
-                    </div>
-                    <div class="pt-4 border-t border-slate-700/60 flex items-center justify-between text-xs text-slate-400">
-                        <span>SMK Budi Bakti Ciwidey</span><i class="fa-solid fa-school text-amber-400"></i>
                     </div>
                 </div>
             </div>
@@ -846,7 +825,7 @@
                 </div>
                 <div class="bg-emerald-50 p-4 rounded-2xl border border-emerald-200 text-emerald-950">
                     <h4 class="font-bold text-emerald-900 mb-1">3. Status Pengesahan Gate 1 Review</h4>
-                    <p>Disetujui pada tanggal 9 September 2026 di Ciwidey oleh Tim FINORA (Iis Karlina dan Nesya Shahira) serta Admin (Asep Baban Sobana S.T., M.Si.).</p>
+                    <p>Disetujui pada tanggal 9 September 2026 di Ciwidey oleh Tim FINORA (Iis Karlina dan Nesya Shahira).</p>
                 </div>
             </div>
             <div class="pt-2 text-right">

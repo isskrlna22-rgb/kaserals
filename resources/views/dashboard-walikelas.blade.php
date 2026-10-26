@@ -677,19 +677,19 @@
 
         /* ================= BOTTOM NAV MOBILE ================= */
         .bottom-nav {
-            display: none;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(255, 255, 255, 0.95);
-            border-top: 1px solid #e2e8f0;
-            grid-template-columns: repeat(3, 1fr);
-            padding: 10px 12px 14px;
-            z-index: 100;
-            backdrop-filter: blur(10px);
-        }
-
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.95);
+    border-top: 1px solid #e2e8f0;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    padding: 10px 8px 14px;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    align-items: center;
+}
         .nav-item {
             display: flex;
             flex-direction: column;
@@ -798,6 +798,14 @@
             .mascot-container {
                 display: none;
             }
+            .nav-item.nav-logout {
+    color: #dc2626;
+}
+
+.nav-item.nav-logout:hover,
+.nav-item.nav-logout:focus-visible {
+    color: #b91c1c;
+}
         }
     </style>
 </head>
@@ -962,91 +970,98 @@
                             <span>{{ $trx->siswa->nama_lengkap ?? 'Siswa' }}</span>
                             <span>{{ $trx->tanggal ? \Carbon\Carbon::parse($trx->tanggal)->format('d/m/Y') : '-' }}</span>
 
-<span>
-    @php
-        $status = $trx->transaksi?->status ?? 'Menunggu';
-    @endphp
+                            <span>
+                                @php
+                                    $status = $trx->transaksi?->status ?? 'Menunggu';
+                                @endphp
 
-    @if ($status === 'Diterima')
-        <span class="badge-status badge-masuk">Diterima</span>
-    @elseif ($status === 'Ditolak')
-        <span class="badge-status badge-keluar">Ditolak</span>
-    @else
-        <span class="badge-status" style="background:#fef3c7;color:#92400e;">
-            Menunggu
-        </span>
-    @endif
-</span>
+                                @if ($status === 'Diterima')
+                                    <span class="badge-status badge-masuk">Diterima</span>
+                                @elseif ($status === 'Ditolak')
+                                    <span class="badge-status badge-keluar">Ditolak</span>
+                                @else
+                                    <span class="badge-status" style="background:#fef3c7;color:#92400e;">
+                                        Menunggu
+                                    </span>
+                                @endif
+                            </span>
 
-                    <span class="nominal-in">Rp
-                        {{ number_format($trx->detailPembayaran?->nominal ?? 0, 0, ',', '.') }}</span>
-                </div>
-                @empty
-                    <div class="table-row">
-                        <span>Belum ada pembayaran</span>
-                        <span>-</span>
-                        <span>-</span>
-                        <span>-</span>
-                    </div>
+                            <span class="nominal-in">Rp
+                                {{ number_format($trx->detailPembayaran?->nominal ?? 0, 0, ',', '.') }}</span>
+                        </div>
+                    @empty
+                        <div class="table-row">
+                            <span>Belum ada pembayaran</span>
+                            <span>-</span>
+                            <span>-</span>
+                            <span>-</span>
+                        </div>
                     @endforelse
-            </div>
-
-            <!-- SISWA PERLU PERHATIAN (MENUNGGAK) -->
-            <div class="panel" style="border-top: 4px solid #f59e0b;">
-                <div class="panel-header">
-                    <div class="section-title">Perlu Perhatian ⚠️</div>
                 </div>
-                <p style="font-size: 12px; color: #64748b; margin-bottom: 16px;">
-                    Ringkasan siswa yang memiliki pembayaran berstatus Menunggu atau Ditolak.
-                </p>
-                <div class="alert-list">
-                    <div class="alert-item">
-                        <div class="alert-info">
-                            <div class="name">Pembayaran perlu diperiksa</div>
-                            <div class="detail">
-                                {{ $jumlahMenunggak ?? 0 }} siswa memiliki pembayaran berstatus Menunggu atau Ditolak.
+
+                <!-- SISWA PERLU PERHATIAN (MENUNGGAK) -->
+                <div class="panel" style="border-top: 4px solid #f59e0b;">
+                    <div class="panel-header">
+                        <div class="section-title">Perlu Perhatian ⚠️</div>
+                    </div>
+                    <p style="font-size: 12px; color: #64748b; margin-bottom: 16px;">
+                        Ringkasan siswa yang memiliki pembayaran berstatus Menunggu atau Ditolak.
+                    </p>
+                    <div class="alert-list">
+                        <div class="alert-item">
+                            <div class="alert-info">
+                                <div class="name">Pembayaran perlu diperiksa</div>
+                                <div class="detail">
+                                    {{ $jumlahMenunggak ?? 0 }} siswa memiliki pembayaran berstatus Menunggu atau
+                                    Ditolak.
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
             </section>
-            </div>
-        </main>
-
-        <!-- ================= MASCOT POJOK BAWAH (^ᴗ^) ================= -->
-        <div class="mascot-container">
-            <div class="mascot-bubble">
-                Selamat bertugas, Bapak/Ibu! 📚<br>
-                <span>Semoga kas kelasnya lancar selalu! ✨</span>
-            </div>
-            <div class="mascot-body">
-                <div class="mascot-face">^ᴗ^</div>
-            </div>
         </div>
+    </main>
 
-        <!-- BOTTOM NAV MOBILE -->
-        <nav class="bottom-nav">
-            <a href="{{ route('wali-kelas.dashboard') }}" class="nav-item active">
-                <span class="nav-icon">⌂</span>
-                <span class="nav-text">Dashboard</span>
-            </a>
-            <a href="{{ route('wali-kelas.laporan-keuangan') }}" class="nav-item">
-                <span class="nav-icon">📊</span>
-                <span class="nav-text">Laporan</span>
-            </a>
-            <a href="{{ route('wali-kelas.riwayat-transaksi') }}" class="nav-item">
-                <span class="nav-icon">⏱</span>
-                <span class="nav-text">Riwayat</span>
-            </a>
-        </nav>
+    <!-- ================= MASCOT POJOK BAWAH (^ᴗ^) ================= -->
+    <div class="mascot-container">
+        <div class="mascot-bubble">
+            Selamat bertugas, Bapak/Ibu! 📚<br>
+            <span>Semoga kas kelasnya lancar selalu! ✨</span>
+        </div>
+        <div class="mascot-body">
+            <div class="mascot-face">^ᴗ^</div>
+        </div>
+    </div>
 
-        <!-- LOGOUT FORM HIDDEN -->
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
-            @csrf
-        </form>
+    <!-- BOTTOM NAV MOBILE -->
+    <nav class="bottom-nav">
+        <a href="{{ route('wali-kelas.dashboard') }}" class="nav-item active">
+            <span class="nav-icon">⌂</span>
+            <span class="nav-text">Dashboard</span>
+        </a>
+        <a href="{{ route('wali-kelas.laporan-keuangan') }}" class="nav-item">
+            <span class="nav-icon">📊</span>
+            <span class="nav-text">Laporan</span>
+        </a>
+        <a href="{{ route('wali-kelas.riwayat-transaksi') }}" class="nav-item">
+            <span class="nav-icon">⏱</span>
+            <span class="nav-text">Riwayat</span>
+        </a>
 
-    </body>
+        <a href="{{ route('logout') }}" class="nav-item nav-logout"
+            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            <span class="nav-icon">⎋</span>
+            <span class="nav-text">Keluar</span>
+        </a>
+    </nav>
 
-    </html>
+    <!-- LOGOUT FORM HIDDEN -->
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
+        @csrf
+    </form>
+
+</body>
+
+</html>

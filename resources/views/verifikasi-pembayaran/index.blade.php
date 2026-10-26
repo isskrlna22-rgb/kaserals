@@ -1270,7 +1270,7 @@
         <a href="{{ route('detail-pembayaran.index') }}"
             class="{{ request()->routeIs('detail-pembayaran.*') ? 'active' : '' }}">
             <span>▤</span>
-            Detail
+            Detail kas
         </a>
 
         <a href="{{ route('pengeluaran.web.index') }}"

@@ -1443,6 +1443,11 @@
             Verifikasi
         </a>
 
+         <a href="{{ route('detail-pembayaran.index') }}">
+            <span>▤</span>
+            Detail pembayaran
+        </a>
+
         <a href="{{ route('pengeluaran.web.index') }}"
             class="{{ request()->routeIs('pengeluaran.*') ? 'active' : '' }}">
             <span>↑</span>

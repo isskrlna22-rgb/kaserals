@@ -11,11 +11,9 @@
     <title>Pembayaran Kas - KASERALS</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-
         rel="stylesheet">
 
     <style>
-
         * {
 
             margin: 0;
@@ -746,11 +744,15 @@
 
         }
 
-        .form-group inpu&#x74;:focus,
+        .form-group inpu&#x74;
+        :focus,
 
-        .form-group selec&#x74;:focus,
+        .form-group selec&#x74;
+        :focus,
 
-        .form-group textare&#x61;:focus {
+        .form-group textare&#x61;
+
+        :focus {
 
             border-color: #0d9488;
 
@@ -1200,79 +1202,53 @@
 
         /* ================= BOTTOM NAV MOBILE ================= */
 
-        .bottom-nav {
+      .bottom-nav {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    align-items: center;
+    width: 100%;
+    padding: 8px 2px calc(8px + env(safe-area-inset-bottom));
+    gap: 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.97);
+    border-top: 1px solid #e2e8f0;
+    z-index: 100;
+    box-sizing: border-box;
+}
 
-            display: none;
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    width: 100%;
+    gap: 4px;
+    padding: 5px 0;
+    text-decoration: none;
+    color: #94a3b8;
+    text-align: center;
+    box-sizing: border-box;
+}
 
-            position: fixed;
+.nav-item.active {
+    color: #0d9488;
+    font-weight: 700;
+}
 
-            bottom: 0;
+.nav-icon {
+    font-size: 17px;
+    line-height: 1;
+}
 
-            left: 0;
-
-            right: 0;
-
-            background: rgba(255, 255, 255, 0.95);
-
-            border-top: 1px solid #e2e8f0;
-
-            grid-template-columns: repeat(4, 1fr);
-
-            padding: 10px 12px 14px;
-
-            z-index: 100;
-
-            backdrop-filter: blur(10px);
-
-        }
-
-        .nav-item {
-
-            display: flex;
-
-            flex-direction: column;
-
-            align-items: center;
-
-            text-decoration: none;
-
-            color: #94a3b8;
-
-            gap: 2px;
-
-            transition: 0.3s;
-
-        }
-
-        .nav-item.active {
-
-            color: #0d9488;
-
-            font-weight: 700;
-
-        }
-
-        .nav-icon {
-
-            font-size: 18px;
-
-        }
-
-        .nav-text {
-
-            font-size: 10px;
-
-        }
-
-        @media (max-width: 900px) {
-
-            .content-grid {
-
-                grid-template-columns: 1fr;
-
-            }
-
-        }
+.nav-text {
+    font-size: 9px;
+    line-height: 1.2;
+    white-space: nowrap;
+}
 
         @media (max-width: 760px) {
 
@@ -1350,8 +1326,93 @@
 
             }
 
-        }
+.mobile-bottom-nav {
+    display: none;
+}
 
+@media (max-width: 768px) {
+    .mobile-bottom-nav {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 900;
+        display: flex;
+        gap: 4px;
+        padding: 9px 8px calc(9px + env(safe-area-inset-bottom));
+        overflow-x: auto;
+        background: #fff;
+        border-top: 1px solid #e2e8f0;
+        box-shadow: 0 -4px 18px rgba(15, 23, 42, .08);
+        scrollbar-width: none;
+    }
+
+    .mobile-bottom-nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    .mobile-bottom-nav > a {
+        flex: 0 0 76px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        padding: 7px 3px;
+        border-radius: 12px;
+        color: #64748b;
+        font-size: 10px;
+        font-weight: 700;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .mobile-bottom-nav > a span {
+        font-size: 19px;
+    }
+
+    .mobile-bottom-nav > a.active {
+        color: #0d9488;
+        background: #ccfbf1;
+    }
+
+    .mobile-logout-form {
+        display: flex;
+        flex: 0 0 72px;
+        margin: 0;
+    }
+
+    .mobile-logout {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        padding: 7px 3px;
+        border: 1px solid #fecaca;
+        border-radius: 12px;
+        background: #fff1f2;
+        color: #dc2626;
+        font-family: inherit;
+        font-size: 10px;
+        font-weight: 800;
+        cursor: pointer;
+    }
+
+    .mobile-logout span {
+        display: flex;
+        width: 30px;
+        height: 30px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 9px;
+        background: #dc2626;
+        color: white;
+        font-size: 21px;
+    }
+
+        }
     </style>
 
 </head>
@@ -1457,7 +1518,6 @@
             </div>
 
             <a href="{{ route('logout') }}" class="menu-item menu-logout"
-
                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
 
                 <span class="menu-icon">⎋</span> Keluar
@@ -1577,13 +1637,11 @@
             </section>
 
             @if (session('success'))
-
                 <div class="alert alert-success">
 
                     {{ session('success') }}
 
                 </div>
-
             @endif
 
             @if ($errors->any())
@@ -1595,9 +1653,7 @@
                     <ul>
 
                         @foreach ($errors->all() as $error)
-
                             <li>{{ $error }}</li>
-
                         @endforeach
 
                     </ul>
@@ -1623,7 +1679,6 @@
                     </p>
 
                     <form action="{{ route('dashboard.siswa.pembayaran.simpan') }}" method="POST"
-
                         enctype="multipart/form-data">
 
                         @csrf
@@ -1633,20 +1688,12 @@
                             <label for="nominal">Nominal Pembayaran (Rp)</label>
 
                             <input type="number" id="nominal" name="nominal" min="1" step="1"
-
                                 value="{{ old('nominal') }}" placeholder="Masukkan nominal pembayaran" required>
-                                <div class="form-group">
-    <label for="minggu_ke">Minggu Ke-</label>
-    <input
-        type="number"
-        id="minggu_ke"
-        name="minggu_ke"
-        min="1"
-        value="{{ old('minggu_ke') }}"
-        placeholder="Masukkan minggu pembayaran"
-        required
-    >
-</div>
+                            <div class="form-group">
+                                <label for="minggu_ke">Minggu Ke-</label>
+                                <input type="number" id="minggu_ke" name="minggu_ke" min="1"
+                                    value="{{ old('minggu_ke') }}" placeholder="Masukkan minggu pembayaran" required>
+                            </div>
 
                         </div>
 
@@ -1660,7 +1707,7 @@
                         <div class="form-group" id="bukti-group">
                             <label for="bukti_transfer">Bukti Transfer</label>
                             <input type="file" id="bukti_transfer" name="bukti_transfer"
-                                   accept=".jpg,.jpeg,.png,.pdf" required>
+                                accept=".jpg,.jpeg,.png,.pdf" required>
                             <span class="hint">
                                 Format yang diperbolehkan: JPG, JPEG, PNG, atau PDF.
                                 Maksimal ukuran file 2 MB.
@@ -1700,7 +1747,6 @@
                     <div class="history-list">
 
                         @forelse ($pembayaran as $item)
-
                             <article class="history-item">
 
                                 <div class="history-top">
@@ -1754,13 +1800,11 @@
                                             @php
 
                                                 $statusClass = match ($item->status) {
-
                                                     'Diterima' => 'status-diterima',
 
                                                     'Ditolak' => 'status-ditolak',
 
                                                     default => 'status-menunggu',
-
                                                 };
 
                                             @endphp
@@ -1778,15 +1822,12 @@
                                 </div>
 
                                 @if ($item->keterangan)
-
                                     <div
-
                                         style="margin-top: 12px; background: #f8fafc; padding: 10px; border-radius: 8px;">
 
                                         <div class="detail-label">Keterangan</div>
 
                                         <div class="detail-value"
-
                                             style="font-size: 11px; font-weight: 500; color: #64748b;">
 
                                             {{ $item->keterangan }}
@@ -1794,19 +1835,15 @@
                                         </div>
 
                                     </div>
-
                                 @endif
 
                                 @if ($item->bukti_transfer)
-
                                     <a href="{{ asset('storage/' . $item->bukti_transfer) }}" target="_blank"
-
                                         rel="noopener noreferrer" class="proof-link">
 
                                         Lihat Bukti Pembayaran ↗
 
                                     </a>
-
                                 @endif
 
                             </article>
@@ -1828,7 +1865,6 @@
                                 </p>
 
                             </div>
-
                         @endforelse
 
                     </div>
@@ -1853,9 +1889,7 @@
 
         <div class="mascot-bubble">
 
-            Semangat bayar kasnya ya Kak! 💸<br>
-
-            <span>Catatannya jangan lupa diisi! ✨</span>
+            <span>Semangat bayar kas nya ✨</span>
 
         </div>
 
@@ -1866,36 +1900,40 @@
         </div>
 
     </div>
+<!-- BOTTOM NAV MOBILE -->
+<nav class="bottom-nav">
+    <a href="{{ route('dashboard.siswa') }}" class="nav-item">
+        <span class="nav-icon">⌂</span>
+        <span class="nav-text">Dashboard</span>
+    </a>
 
-    <!-- BOTTOM NAV MOBILE -->
+    <a href="{{ route('dashboard.siswa.pembayaran') }}" class="nav-item active">
+        <span class="nav-icon">💳</span>
+        <span class="nav-text">Bayar</span>
+    </a>
 
-    <nav class="bottom-nav">
+    <a href="{{ route('dashboard.siswa.status') }}" class="nav-item">
+        <span class="nav-icon">✓</span>
+        <span class="nav-text">Status</span>
+    </a>
 
-        <a href="{{ route('dashboard.siswa') }}" class="nav-item">
+    <a href="{{ route('dashboard.siswa.riwayat') }}" class="nav-item">
+        <span class="nav-icon">⏱</span>
+        <span class="nav-text">Riwayat</span>
+    </a>
 
-            <span class="nav-icon">⌂</span>
+    <a href="{{ route('dashboard.siswa.info-kas') }}" class="nav-item">
+        <span class="nav-icon">ⓘ</span>
+        <span class="nav-text">Info Kas</span>
+    </a>
 
-            <span class="nav-text">Dashboard</span>
-
-        </a>
-
-        <a href="{{ route('dashboard.siswa.pembayaran') }}" class="nav-item active">
-
-            <span class="nav-icon">💳</span>
-
-            <span class="nav-text">Bayar Kas</span>
-
-        </a>
-
-        <a href="{{ route('dashboard.siswa.status') }}" class="nav-item">
-
-            <span class="nav-icon">✓</span>
-
-            <span class="nav-text">Status</span>
-
-        </a>
-
-    </nav>
+    <a href="{{ route('logout') }}"
+       class="nav-item nav-logout"
+       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+        <span class="nav-icon">⎋</span>
+        <span class="nav-text">Keluar</span>
+    </a>
+</nav>
 
     <!-- LOGOUT FORM HIDDEN -->
 

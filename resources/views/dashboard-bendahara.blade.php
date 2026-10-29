@@ -968,16 +968,17 @@
                     <span class="menu-icon">✓</span>
                     Pembayaran Kas
                 </a>
-                {{-- Detail Pembayaran --}}
-                <a href="{{ route('detail-pembayaran.index') }}">
-                    <span class="menu-icon">▤</span>
-                    Detail Pembayaran
-                </a>
 
                 {{-- Verifikasi Pembayaran --}}
                 <a href="{{ route('verifikasi-pembayaran.index') }}">
                     <span class="menu-icon">●</span>
                     Verifikasi Pembayaran
+                </a>
+
+                {{-- Detail Pembayaran --}}
+                <a href="{{ route('detail-pembayaran.index') }}">
+                    <span class="menu-icon">▤</span>
+                    Detail Pembayaran
                 </a>
 
 
@@ -1427,16 +1428,17 @@
             Pembayaran
         </a>
 
-        <a href="{{ route('detail-pembayaran.index') }}"
-            class="{{ request()->routeIs('detail-pembayaran.*') ? 'active' : '' }}">
-            <span>▤</span>
-            Detail Kas
-        </a>
 
         <a href="{{ route('verifikasi-pembayaran.index') }}"
             class="{{ request()->routeIs('verifikasi-pembayaran.*') ? 'active' : '' }}">
             <span>●</span>
             Verifikasi
+        </a>
+
+        <a href="{{ route('detail-pembayaran.index') }}"
+            class="{{ request()->routeIs('detail-pembayaran.*') ? 'active' : '' }}">
+            <span>▤</span>
+            Detail Kas
         </a>
 
         <a href="{{ route('pengeluaran.web.index') }}"

@@ -30,10 +30,12 @@
 
         /* ================= ANIMASI ================= */
         @keyframes floatMascot {
+
             0%,
             100% {
                 transform: translateY(0);
             }
+
             50% {
                 transform: translateY(-10px);
             }
@@ -43,20 +45,24 @@
             0% {
                 box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.4);
             }
+
             70% {
                 box-shadow: 0 0 0 12px rgba(13, 148, 136, 0);
             }
+
             100% {
                 box-shadow: 0 0 0 0 rgba(13, 148, 136, 0);
             }
         }
 
         @keyframes blink {
+
             0%,
             96%,
             98% {
                 opacity: 1;
             }
+
             97% {
                 opacity: 0;
                 transform: scaleY(0.1);
@@ -513,9 +519,23 @@
             font-weight: 800;
         }
 
-        .badge-diterima { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0;}
-        .badge-menunggu { background: #fef3c7; color: #b45309; border: 1px solid #fde68a;}
-        .badge-ditolak { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca;}
+        .badge-diterima {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .badge-menunggu {
+            background: #fef3c7;
+            color: #b45309;
+            border: 1px solid #fde68a;
+        }
+
+        .badge-ditolak {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
 
         .empty-state {
             text-align: center;
@@ -598,104 +618,104 @@
             border-radius: 50%;
         }
 
-      /* ================= BOTTOM NAV MOBILE ================= */
+        /* ================= BOTTOM NAV MOBILE ================= */
 
-.bottom-nav {
-    display: none;
-}
+        .bottom-nav {
+            display: none;
+        }
 
-.nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-width: 0;
-    width: 100%;
-    gap: 4px;
-    padding: 5px 0;
-    text-align: center;
-    text-decoration: none;
-    color: #94a3b8;
-    box-sizing: border-box;
-}
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-width: 0;
+            width: 100%;
+            gap: 4px;
+            padding: 5px 0;
+            text-align: center;
+            text-decoration: none;
+            color: #94a3b8;
+            box-sizing: border-box;
+        }
 
-.nav-item.active {
-    color: #0d9488;
-    font-weight: 700;
-}
+        .nav-item.active {
+            color: #0d9488;
+            font-weight: 700;
+        }
 
-.nav-icon {
-    font-size: 17px;
-    line-height: 1;
-}
+        .nav-icon {
+            font-size: 17px;
+            line-height: 1;
+        }
 
-.nav-text {
-    font-size: 9px;
-    line-height: 1.2;
-    white-space: nowrap;
-}
+        .nav-text {
+            font-size: 9px;
+            line-height: 1.2;
+            white-space: nowrap;
+        }
 
-@media (max-width: 900px) {
-    .summary-grid {
-        grid-template-columns: 1fr;
-    }
-}
+        @media (max-width: 900px) {
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
 
-@media (max-width: 760px) {
-    .sidebar {
-        display: none;
-    }
+        @media (max-width: 760px) {
+            .sidebar {
+                display: none;
+            }
 
-    .main {
-        margin-left: 0;
-        padding: 20px 16px 90px;
-    }
+            .main {
+                margin-left: 0;
+                padding: 20px 16px 90px;
+            }
 
-    .bottom-nav {
-        display: grid;
-        grid-template-columns: repeat(6, minmax(0, 1fr));
-        align-items: center;
-        width: 100%;
-        gap: 0;
-        padding: 8px 2px calc(8px + env(safe-area-inset-bottom));
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: rgba(255, 255, 255, 0.97);
-        border-top: 1px solid #e2e8f0;
-        backdrop-filter: blur(10px);
-        z-index: 100;
-        box-sizing: border-box;
-    }
+            .bottom-nav {
+                display: grid;
+                grid-template-columns: repeat(6, minmax(0, 1fr));
+                align-items: center;
+                width: 100%;
+                gap: 0;
+                padding: 8px 2px calc(8px + env(safe-area-inset-bottom));
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.97);
+                border-top: 1px solid #e2e8f0;
+                backdrop-filter: blur(10px);
+                z-index: 100;
+                box-sizing: border-box;
+            }
 
-    .mascot-container {
-        display: none;
-    }
+            .mascot-container {
+                display: none;
+            }
 
-    .profile {
-        display: none;
-    }
+            .profile {
+                display: none;
+            }
 
-    .topbar-mobile {
-        background: #091320;
-        color: white;
-        padding: 16px 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin: -20px -16px 24px;
-    }
+            .topbar-mobile {
+                background: #091320;
+                color: white;
+                padding: 16px 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin: -20px -16px 24px;
+            }
 
-    .brand-mobile {
-        font-size: 20px;
-        font-weight: 800;
-    }
+            .brand-mobile {
+                font-size: 20px;
+                font-weight: 800;
+            }
 
-    .brand-mobile span {
-        color: #2dd4bf;
-    }
-}
+            .brand-mobile span {
+                color: #2dd4bf;
+            }
+        }
     </style>
 </head>
 
@@ -837,7 +857,7 @@
                         STATUS PEMBAYARAN
                     </div>
                     <div class="summary-value">
-                        @if($statusPembayaran === 'SUDAH BAYAR')
+                        @if ($statusPembayaran === 'SUDAH BAYAR')
                             <span class="status-badge status-sudah">
                                 <span class="status-dot"></span>
                                 SUDAH BAYAR
@@ -857,7 +877,7 @@
                 <div class="status-title">
                     STATUS PEMBAYARAN KAS
                 </div>
-                @if($statusPembayaran === 'SUDAH BAYAR')
+                @if ($statusPembayaran === 'SUDAH BAYAR')
                     <div class="status-badge status-sudah">
                         <span class="status-dot"></span>
                         SUDAH BAYAR
@@ -876,7 +896,7 @@
                     Riwayat Pembayaran
                 </h3>
 
-                @if($pembayaran->count() > 0)
+                @if ($pembayaran->count() > 0)
                     <div class="table-wrapper">
                         <table>
                             <thead>
@@ -889,49 +909,43 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($pembayaran as $item)
+                                @foreach ($pembayaran as $item)
+                                    <tr>
+                                        <td>
+                                            {{ \Carbon\Carbon::parse($item->tanggal)->format('d/m/Y') }}
+                                        </td>
 
-<tr>
-    <td>
-        {{ \Carbon\Carbon::parse($item->tanggal)->format('d/m/Y') }}
-    </td>
+                                        <td>
+                                            {{ $item->detailPembayaran?->minggu_ke ? 'Minggu ' . $item->detailPembayaran->minggu_ke : 'Belum diisi' }}
+                                        </td>
 
-    <td>
-        {{ $item->detailPembayaran?->minggu_ke
-            ? 'Minggu '.$item->detailPembayaran->minggu_ke
-            : 'Belum diisi' }}
-    </td>
+                                        <td>
+                                            <strong>
+                                                Rp
+                                                {{ number_format((float) ($item->detailPembayaran?->nominal ?? 0), 0, ',', '.') }}
+                                            </strong>
+                                        </td>
 
-    <td>
-        <strong>
-            Rp {{ number_format(
-                (float) ($item->detailPembayaran?->nominal ?? 0),
-                0, ',', '.'
-            ) }}
-        </strong>
-    </td>
+                                        <td>
+                                            {{ $item->metode_pembayaran ?? '-' }}
+                                        </td>
 
-    <td>
-        {{ $item->metode_pembayaran ?? '-' }}
-    </td>
+                                        <td>
+                                            @php
+                                                $status = $item->transaksi->status ?? 'Menunggu';
+                                            @endphp
 
-    <td>
-        @php
-            $status = $item->transaksi->status ?? 'Menunggu';
-        @endphp
-
-        @if($status === 'Diterima')
-            <span class="badge badge-diterima">Diterima</span>
-        @elseif($status === 'Menunggu')
-            <span class="badge badge-menunggu">Menunggu</span>
-        @elseif($status === 'Ditolak')
-            <span class="badge badge-ditolak">Ditolak</span>
-        @else
-            <span class="badge badge-menunggu">{{ $status }}</span>
-        @endif
-    </td>
-</tr>
-
+                                            @if ($status === 'Diterima')
+                                                <span class="badge badge-diterima">Diterima</span>
+                                            @elseif($status === 'Menunggu')
+                                                <span class="badge badge-menunggu">Menunggu</span>
+                                            @elseif($status === 'Ditolak')
+                                                <span class="badge badge-ditolak">Ditolak</span>
+                                            @else
+                                                <span class="badge badge-menunggu">{{ $status }}</span>
+                                            @endif
+                                        </td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -959,39 +973,38 @@
     </div>
 
     <!-- BOTTOM NAV MOBILE -->
-   <nav class="bottom-nav">
-    <a href="{{ route('dashboard.siswa') }}" class="nav-item">
-        <span class="nav-icon">⌂</span>
-        <span class="nav-text">Dashboard</span>
-    </a>
+    <nav class="bottom-nav">
+        <a href="{{ route('dashboard.siswa') }}" class="nav-item">
+            <span class="nav-icon">⌂</span>
+            <span class="nav-text">Dashboard</span>
+        </a>
 
-    <a href="{{ route('dashboard.siswa.pembayaran') }}" class="nav-item">
-        <span class="nav-icon">💳</span>
-        <span class="nav-text">Bayar</span>
-    </a>
+        <a href="{{ route('dashboard.siswa.pembayaran') }}" class="nav-item">
+            <span class="nav-icon">💳</span>
+            <span class="nav-text">Bayar</span>
+        </a>
 
-    <a href="{{ route('dashboard.siswa.status') }}" class="nav-item active">
-        <span class="nav-icon">✓</span>
-        <span class="nav-text">Status</span>
-    </a>
+        <a href="{{ route('dashboard.siswa.status') }}" class="nav-item active">
+            <span class="nav-icon">✓</span>
+            <span class="nav-text">Status</span>
+        </a>
 
-    <a href="{{ route('dashboard.siswa.riwayat') }}" class="nav-item">
-        <span class="nav-icon">⏱</span>
-        <span class="nav-text">Riwayat</span>
-    </a>
+        <a href="{{ route('dashboard.siswa.riwayat') }}" class="nav-item">
+            <span class="nav-icon">⏱</span>
+            <span class="nav-text">Riwayat</span>
+        </a>
 
-    <a href="{{ route('dashboard.siswa') }}#info-kas" class="nav-item">
-        <span class="nav-icon">ⓘ</span>
-        <span class="nav-text">Info Kas</span>
-    </a>
+        <a href="{{ route('dashboard.siswa') }}#info-kas" class="nav-item">
+            <span class="nav-icon">ⓘ</span>
+            <span class="nav-text">Info Kas</span>
+        </a>
 
-    <a href="{{ route('logout') }}"
-       class="nav-item nav-logout"
-       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-        <span class="nav-icon">⎋</span>
-        <span class="nav-text">Keluar</span>
-    </a>
-</nav>
+        <a href="{{ route('logout') }}" class="nav-item nav-logout"
+            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            <span class="nav-icon">⎋</span>
+            <span class="nav-text">Keluar</span>
+        </a>
+    </nav>
     <!-- LOGOUT FORM HIDDEN -->
     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
         @csrf

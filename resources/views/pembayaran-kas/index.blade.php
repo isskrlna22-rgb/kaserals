@@ -1443,7 +1443,7 @@
             Verifikasi
         </a>
 
-         <a href="{{ route('detail-pembayaran.index') }}">
+        <a href="{{ route('detail-pembayaran.index') }}">
             <span>▤</span>
             Detail pembayaran
         </a>

@@ -1202,53 +1202,53 @@
 
         /* ================= BOTTOM NAV MOBILE ================= */
 
-      .bottom-nav {
-    display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    align-items: center;
-    width: 100%;
-    padding: 8px 2px calc(8px + env(safe-area-inset-bottom));
-    gap: 0;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(255, 255, 255, 0.97);
-    border-top: 1px solid #e2e8f0;
-    z-index: 100;
-    box-sizing: border-box;
-}
+        .bottom-nav {
+            display: grid;
+            grid-template-columns: repeat(6, minmax(0, 1fr));
+            align-items: center;
+            width: 100%;
+            padding: 8px 2px calc(8px + env(safe-area-inset-bottom));
+            gap: 0;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.97);
+            border-top: 1px solid #e2e8f0;
+            z-index: 100;
+            box-sizing: border-box;
+        }
 
-.nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-width: 0;
-    width: 100%;
-    gap: 4px;
-    padding: 5px 0;
-    text-decoration: none;
-    color: #94a3b8;
-    text-align: center;
-    box-sizing: border-box;
-}
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-width: 0;
+            width: 100%;
+            gap: 4px;
+            padding: 5px 0;
+            text-decoration: none;
+            color: #94a3b8;
+            text-align: center;
+            box-sizing: border-box;
+        }
 
-.nav-item.active {
-    color: #0d9488;
-    font-weight: 700;
-}
+        .nav-item.active {
+            color: #0d9488;
+            font-weight: 700;
+        }
 
-.nav-icon {
-    font-size: 17px;
-    line-height: 1;
-}
+        .nav-icon {
+            font-size: 17px;
+            line-height: 1;
+        }
 
-.nav-text {
-    font-size: 9px;
-    line-height: 1.2;
-    white-space: nowrap;
-}
+        .nav-text {
+            font-size: 9px;
+            line-height: 1.2;
+            white-space: nowrap;
+        }
 
         @media (max-width: 760px) {
 
@@ -1326,93 +1326,93 @@
 
             }
 
-.mobile-bottom-nav {
-    display: none;
-}
+            .mobile-bottom-nav {
+                display: none;
+            }
 
-@media (max-width: 768px) {
-    .mobile-bottom-nav {
-        position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 900;
-        display: flex;
-        gap: 4px;
-        padding: 9px 8px calc(9px + env(safe-area-inset-bottom));
-        overflow-x: auto;
-        background: #fff;
-        border-top: 1px solid #e2e8f0;
-        box-shadow: 0 -4px 18px rgba(15, 23, 42, .08);
-        scrollbar-width: none;
-    }
+            @media (max-width: 768px) {
+                .mobile-bottom-nav {
+                    position: fixed;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    z-index: 900;
+                    display: flex;
+                    gap: 4px;
+                    padding: 9px 8px calc(9px + env(safe-area-inset-bottom));
+                    overflow-x: auto;
+                    background: #fff;
+                    border-top: 1px solid #e2e8f0;
+                    box-shadow: 0 -4px 18px rgba(15, 23, 42, .08);
+                    scrollbar-width: none;
+                }
 
-    .mobile-bottom-nav::-webkit-scrollbar {
-        display: none;
-    }
+                .mobile-bottom-nav::-webkit-scrollbar {
+                    display: none;
+                }
 
-    .mobile-bottom-nav > a {
-        flex: 0 0 76px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 5px;
-        padding: 7px 3px;
-        border-radius: 12px;
-        color: #64748b;
-        font-size: 10px;
-        font-weight: 700;
-        text-align: center;
-        white-space: nowrap;
-    }
+                .mobile-bottom-nav>a {
+                    flex: 0 0 76px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 5px;
+                    padding: 7px 3px;
+                    border-radius: 12px;
+                    color: #64748b;
+                    font-size: 10px;
+                    font-weight: 700;
+                    text-align: center;
+                    white-space: nowrap;
+                }
 
-    .mobile-bottom-nav > a span {
-        font-size: 19px;
-    }
+                .mobile-bottom-nav>a span {
+                    font-size: 19px;
+                }
 
-    .mobile-bottom-nav > a.active {
-        color: #0d9488;
-        background: #ccfbf1;
-    }
+                .mobile-bottom-nav>a.active {
+                    color: #0d9488;
+                    background: #ccfbf1;
+                }
 
-    .mobile-logout-form {
-        display: flex;
-        flex: 0 0 72px;
-        margin: 0;
-    }
+                .mobile-logout-form {
+                    display: flex;
+                    flex: 0 0 72px;
+                    margin: 0;
+                }
 
-    .mobile-logout {
-        display: flex;
-        width: 100%;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 5px;
-        padding: 7px 3px;
-        border: 1px solid #fecaca;
-        border-radius: 12px;
-        background: #fff1f2;
-        color: #dc2626;
-        font-family: inherit;
-        font-size: 10px;
-        font-weight: 800;
-        cursor: pointer;
-    }
+                .mobile-logout {
+                    display: flex;
+                    width: 100%;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 5px;
+                    padding: 7px 3px;
+                    border: 1px solid #fecaca;
+                    border-radius: 12px;
+                    background: #fff1f2;
+                    color: #dc2626;
+                    font-family: inherit;
+                    font-size: 10px;
+                    font-weight: 800;
+                    cursor: pointer;
+                }
 
-    .mobile-logout span {
-        display: flex;
-        width: 30px;
-        height: 30px;
-        align-items: center;
-        justify-content: center;
-        border-radius: 9px;
-        background: #dc2626;
-        color: white;
-        font-size: 21px;
-    }
+                .mobile-logout span {
+                    display: flex;
+                    width: 30px;
+                    height: 30px;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 9px;
+                    background: #dc2626;
+                    color: white;
+                    font-size: 21px;
+                }
 
-        }
+            }
     </style>
 
 </head>
@@ -1900,40 +1900,39 @@
         </div>
 
     </div>
-<!-- BOTTOM NAV MOBILE -->
-<nav class="bottom-nav">
-    <a href="{{ route('dashboard.siswa') }}" class="nav-item">
-        <span class="nav-icon">⌂</span>
-        <span class="nav-text">Dashboard</span>
-    </a>
+    <!-- BOTTOM NAV MOBILE -->
+    <nav class="bottom-nav">
+        <a href="{{ route('dashboard.siswa') }}" class="nav-item">
+            <span class="nav-icon">⌂</span>
+            <span class="nav-text">Dashboard</span>
+        </a>
 
-    <a href="{{ route('dashboard.siswa.pembayaran') }}" class="nav-item active">
-        <span class="nav-icon">💳</span>
-        <span class="nav-text">Bayar</span>
-    </a>
+        <a href="{{ route('dashboard.siswa.pembayaran') }}" class="nav-item active">
+            <span class="nav-icon">💳</span>
+            <span class="nav-text">Bayar</span>
+        </a>
 
-    <a href="{{ route('dashboard.siswa.status') }}" class="nav-item">
-        <span class="nav-icon">✓</span>
-        <span class="nav-text">Status</span>
-    </a>
+        <a href="{{ route('dashboard.siswa.status') }}" class="nav-item">
+            <span class="nav-icon">✓</span>
+            <span class="nav-text">Status</span>
+        </a>
 
-    <a href="{{ route('dashboard.siswa.riwayat') }}" class="nav-item">
-        <span class="nav-icon">⏱</span>
-        <span class="nav-text">Riwayat</span>
-    </a>
+        <a href="{{ route('dashboard.siswa.riwayat') }}" class="nav-item">
+            <span class="nav-icon">⏱</span>
+            <span class="nav-text">Riwayat</span>
+        </a>
 
-    <a href="{{ route('dashboard.siswa.info-kas') }}" class="nav-item">
-        <span class="nav-icon">ⓘ</span>
-        <span class="nav-text">Info Kas</span>
-    </a>
+        <a href="{{ route('dashboard.siswa.info-kas') }}" class="nav-item">
+            <span class="nav-icon">ⓘ</span>
+            <span class="nav-text">Info Kas</span>
+        </a>
 
-    <a href="{{ route('logout') }}"
-       class="nav-item nav-logout"
-       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-        <span class="nav-icon">⎋</span>
-        <span class="nav-text">Keluar</span>
-    </a>
-</nav>
+        <a href="{{ route('logout') }}" class="nav-item nav-logout"
+            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            <span class="nav-icon">⎋</span>
+            <span class="nav-text">Keluar</span>
+        </a>
+    </nav>
 
     <!-- LOGOUT FORM HIDDEN -->
 

@@ -171,19 +171,25 @@ select {
                         <div class="error">{{ $message }}</div>
                     @enderror
                 </div>
+{{-- KELAS --}}
+<div class="form-group">
+    <label for="kelas">Kelas</label>
 
-                {{-- KELAS --}}
-                <div class="form-group">
-                    <label for="kelas">Kelas</label>
+    <select name="kelas" id="kelas" required>
+        <option value="">-- Pilih Kelas --</option>
 
-                    <input type="text" id="kelas" name="kelas" value="{{ old('kelas') }}"
-                        placeholder="Contoh: XII RPL 1" required>
+        @foreach ($kelas as $namaKelas)
+            <option value="{{ $namaKelas }}"
+                {{ old('kelas') == $namaKelas ? 'selected' : '' }}>
+                {{ $namaKelas }}
+            </option>
+        @endforeach
+    </select>
 
-                    @error('kelas')
-                        <div class="error">{{ $message }}</div>
-                    @enderror
-                </div>
-
+    @error('kelas')
+        <div class="error">{{ $message }}</div>
+    @enderror
+</div>
                 {{-- JURUSAN --}}
                 <div class="form-group">
                     <label for="jurusan">Jurusan</label>

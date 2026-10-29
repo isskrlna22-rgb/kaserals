@@ -1164,9 +1164,7 @@
                     </div>
 
                     <select id="filterKelas" class="filter-select">
-                        <option value="">
-                            Kelas: Semua
-                        </option>
+
                         @foreach ($siswa->pluck('kelas')->unique()->sort() as $kelas)
                             <option value="{{ $kelas }}">
                                 {{ $kelas }}
@@ -1505,14 +1503,14 @@
             Pembayaran
         </a>
 
-        <a href="{{ route('detail-pembayaran.index') }}">
-            <span>▤</span>
-            Detail Kas
-        </a>
-
         <a href="{{ route('verifikasi-pembayaran.index') }}">
             <span>●</span>
             Verifikasi
+        </a>
+
+        <a href="{{ route('detail-pembayaran.index') }}">
+            <span>▤</span>
+            Detail Kas
         </a>
 
         <a href="{{ route('pengeluaran.web.index') }}">

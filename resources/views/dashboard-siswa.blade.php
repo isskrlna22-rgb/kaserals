@@ -787,58 +787,56 @@
             }
 
 
-.bottom-nav {
-    display: none;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(255, 255, 255, 0.97);
-    border-top: 1px solid #e2e8f0;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    padding: 9px 4px 12px;
-    z-index: 100;
-    backdrop-filter: blur(10px);
-    align-items: center;
-}
+            .bottom-nav {
+                display: none;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.97);
+                border-top: 1px solid #e2e8f0;
+                grid-template-columns: repeat(6, minmax(0, 1fr));
+                padding: 9px 4px 12px;
+                z-index: 100;
+                backdrop-filter: blur(10px);
+                align-items: center;
+            }
 
-.nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    color: #94a3b8;
-    gap: 3px;
-    min-width: 0;
-}
+            .nav-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-decoration: none;
+                color: #94a3b8;
+                gap: 3px;
+                min-width: 0;
+            }
 
-.nav-item.active {
-    color: #0d9488;
-    font-weight: 700;
-}
+            .nav-item.active {
+                color: #0d9488;
+                font-weight: 700;
+            }
 
-.nav-item.nav-logout {
-    color: #dc2626;
-}
+            .nav-item.nav-logout {
+                color: #dc2626;
+            }
 
-.nav-icon {
-    font-size: 16px;
-}
+            .nav-icon {
+                font-size: 16px;
+            }
 
-.nav-text {
-    font-size: 9px;
-    line-height: 1.2;
-    white-space: nowrap;
-}
+            .nav-text {
+                font-size: 9px;
+                line-height: 1.2;
+                white-space: nowrap;
+            }
 
-@media (max-width: 768px) {
-    .bottom-nav {
-        display: grid;
-    }
-}
-
-        
+            @media (max-width: 768px) {
+                .bottom-nav {
+                    display: grid;
+                }
+            }
     </style>
 </head>
 
@@ -1132,39 +1130,38 @@
 
     <!-- BOTTOM NAV MOBILE -->
 
-<nav class="bottom-nav">
-    <a href="{{ route('dashboard.siswa') }}" class="nav-item active">
-        <span class="nav-icon">⌂</span>
-        <span class="nav-text">Dashboard</span>
-    </a>
+    <nav class="bottom-nav">
+        <a href="{{ route('dashboard.siswa') }}" class="nav-item active">
+            <span class="nav-icon">⌂</span>
+            <span class="nav-text">Dashboard</span>
+        </a>
 
-    <a href="{{ route('dashboard.siswa.pembayaran') }}" class="nav-item">
-        <span class="nav-icon">💳</span>
-        <span class="nav-text">Bayar</span>
-    </a>
+        <a href="{{ route('dashboard.siswa.pembayaran') }}" class="nav-item">
+            <span class="nav-icon">💳</span>
+            <span class="nav-text">Bayar</span>
+        </a>
 
-    <a href="{{ route('dashboard.siswa.status') }}" class="nav-item">
-        <span class="nav-icon">✓</span>
-        <span class="nav-text">Status</span>
-    </a>
+        <a href="{{ route('dashboard.siswa.status') }}" class="nav-item">
+            <span class="nav-icon">✓</span>
+            <span class="nav-text">Status</span>
+        </a>
 
-    <a href="{{ route('dashboard.siswa.riwayat') }}" class="nav-item">
-        <span class="nav-icon">⏱</span>
-        <span class="nav-text">Riwayat</span>
-    </a>
+        <a href="{{ route('dashboard.siswa.riwayat') }}" class="nav-item">
+            <span class="nav-icon">⏱</span>
+            <span class="nav-text">Riwayat</span>
+        </a>
 
-    <a href="{{ route('dashboard.siswa.info-kas') }}" class="nav-item">
-        <span class="nav-icon">ⓘ</span>
-        <span class="nav-text">Info Kas</span>
-    </a>
+        <a href="{{ route('dashboard.siswa.info-kas') }}" class="nav-item">
+            <span class="nav-icon">ⓘ</span>
+            <span class="nav-text">Info Kas</span>
+        </a>
 
-    <a href="{{ route('logout') }}"
-       class="nav-item nav-logout"
-       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-        <span class="nav-icon">⎋</span>
-        <span class="nav-text">Keluar</span>
-    </a>
-</nav>
+        <a href="{{ route('logout') }}" class="nav-item nav-logout"
+            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            <span class="nav-icon">⎋</span>
+            <span class="nav-text">Keluar</span>
+        </a>
+    </nav>
 
 
     <!-- LOGOUT FORM HIDDEN -->

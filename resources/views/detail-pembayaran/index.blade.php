@@ -1299,16 +1299,16 @@ document.getElementById('deleteModal').addEventListener('click', function (event
         Pembayaran
     </a>
 
-    <a href="{{ route('detail-pembayaran.index') }}"
-       class="{{ request()->routeIs('detail-pembayaran.*') ? 'active' : '' }}">
-        <span>▤</span>
-        Detail Kas
-    </a>
-
     <a href="{{ route('verifikasi-pembayaran.index') }}"
        class="{{ request()->routeIs('verifikasi-pembayaran.*') ? 'active' : '' }}">
         <span>●</span>
         Verifikasi
+    </a>
+
+      <a href="{{ route('detail-pembayaran.index') }}"
+       class="{{ request()->routeIs('detail-pembayaran.*') ? 'active' : '' }}">
+        <span>▤</span>
+        Detail Kas
     </a>
 
     <a href="{{ route('pengeluaran.web.index') }}"

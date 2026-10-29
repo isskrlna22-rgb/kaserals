@@ -95,28 +95,26 @@
                         @enderror
                     </div>
 
-                    <!-- KELAS -->
-                    <div class="mb-6">
-                        <label for="kelas" class="mb-2 block text-lg font-bold">
-                            Kelas
-                        </label>
+<!-- KELAS -->
+<div class="mb-6">
+    <label for="kelas" class="mb-2 block text-lg font-bold">
+        Kelas
+    </label>
 
-                        <input
-                            type="text"
-                            id="kelas"
-                            name="kelas"
-                            value="{{ old('kelas', $siswa->kelas) }}"
-                            class="w-full rounded-2xl border-2 border-slate-300 px-5 py-4 text-lg outline-none focus:border-kaserals"
-                            required>
+    <input
+        type="text"
+        id="kelas"
+        name="kelas"
+        value="{{ old('kelas', $siswa->kelas) }}"
+        class="w-full rounded-2xl border-2 border-slate-300 px-5 py-4 text-lg outline-none focus:border-kaserals"
+        readonly>
 
-                        @error('kelas')
-                            <p class="mt-2 text-sm font-medium text-red-600">
-                                {{ $message }}
-                            </p>
-                        @enderror
-                    </div>
-
-
+    @error('kelas')
+        <p class="mt-2 text-sm font-medium text-red-600">
+            {{ $message }}
+        </p>
+    @enderror
+</div>
 
 <!-- JURUSAN -->
 <div class="mb-6">

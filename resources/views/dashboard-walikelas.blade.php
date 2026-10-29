@@ -677,19 +677,20 @@
 
         /* ================= BOTTOM NAV MOBILE ================= */
         .bottom-nav {
-    display: none;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(255, 255, 255, 0.95);
-    border-top: 1px solid #e2e8f0;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    padding: 10px 8px 14px;
-    z-index: 100;
-    backdrop-filter: blur(10px);
-    align-items: center;
-}
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            border-top: 1px solid #e2e8f0;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            padding: 10px 8px 14px;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            align-items: center;
+        }
+
         .nav-item {
             display: flex;
             flex-direction: column;
@@ -798,14 +799,15 @@
             .mascot-container {
                 display: none;
             }
-            .nav-item.nav-logout {
-    color: #dc2626;
-}
 
-.nav-item.nav-logout:hover,
-.nav-item.nav-logout:focus-visible {
-    color: #b91c1c;
-}
+            .nav-item.nav-logout {
+                color: #dc2626;
+            }
+
+            .nav-item.nav-logout:hover,
+            .nav-item.nav-logout:focus-visible {
+                color: #b91c1c;
+            }
         }
     </style>
 </head>

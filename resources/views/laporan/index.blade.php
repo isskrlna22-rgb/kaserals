@@ -1303,15 +1303,14 @@
             Pembayaran
         </a>
 
+        <a href="{{ route('verifikasi-pembayaran.index') }}">
+            <span>●</span>
+            Verifikasi
+        </a>
 
         <a href="{{ route('detail-pembayaran.index') }}"
             class="nav-link {{ request()->routeIs('detail-pembayaran.*') ? 'active' : '' }}">
             <span>●</span> Detail pembayaran
-        </a>
-
-        <a href="{{ route('verifikasi-pembayaran.index') }}">
-            <span>●</span>
-            Verifikasi
         </a>
 
         <a href="{{ route('pengeluaran.web.index') }}">

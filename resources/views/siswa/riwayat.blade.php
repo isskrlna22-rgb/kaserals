@@ -718,97 +718,96 @@
         }
 
 
-/* ================= BOTTOM NAV MOBILE ================= */
-.bottom-nav {
-    display: none;
-}
+        /* ================= BOTTOM NAV MOBILE ================= */
+        .bottom-nav {
+            display: none;
+        }
 
-.nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-width: 0;
-    width: 100%;
-    text-decoration: none;
-    color: #94a3b8;
-    gap: 4px;
-    padding: 5px 0;
-    transition: 0.3s;
-}
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-width: 0;
+            width: 100%;
+            text-decoration: none;
+            color: #94a3b8;
+            gap: 4px;
+            padding: 5px 0;
+            transition: 0.3s;
+        }
 
-.nav-item.active {
-    color: #0d9488;
-    font-weight: 700;
-}
+        .nav-item.active {
+            color: #0d9488;
+            font-weight: 700;
+        }
 
-.nav-icon {
-    font-size: 18px;
-    line-height: 1.2;
-}
+        .nav-icon {
+            font-size: 18px;
+            line-height: 1.2;
+        }
 
-.nav-text {
-    font-size: 9px;
-    text-align: center;
-    white-space: nowrap;
-}
+        .nav-text {
+            font-size: 9px;
+            text-align: center;
+            white-space: nowrap;
+        }
 
-@media (max-width: 900px) {
-    .stats {
-        grid-template-columns: 1fr;
-    }
-}
+        @media (max-width: 900px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
 
-@media (max-width: 760px) {
-    .sidebar {
-        display: none;
-    }
+        @media (max-width: 760px) {
+            .sidebar {
+                display: none;
+            }
 
-    .main {
-        margin-left: 0;
-        padding: 20px 12px 100px;
-    }
+            .main {
+                margin-left: 0;
+                padding: 20px 12px 100px;
+            }
 
-    .bottom-nav {
-        display: grid;
-        grid-template-columns: repeat(6, minmax(0, 1fr));
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
-        padding: 8px 4px calc(8px + env(safe-area-inset-bottom));
-        background: rgba(255, 255, 255, 0.97);
-        border-top: 1px solid #e2e8f0;
-        z-index: 100;
-        backdrop-filter: blur(10px);
-    }
+            .bottom-nav {
+                display: grid;
+                grid-template-columns: repeat(6, minmax(0, 1fr));
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                width: 100%;
+                padding: 8px 4px calc(8px + env(safe-area-inset-bottom));
+                background: rgba(255, 255, 255, 0.97);
+                border-top: 1px solid #e2e8f0;
+                z-index: 100;
+                backdrop-filter: blur(10px);
+            }
 
-    .mascot-container,
-    .profile {
-        display: none;
-    }
+            .mascot-container,
+            .profile {
+                display: none;
+            }
 
-    .topbar-mobile {
-        background: #091320;
-        color: white;
-        padding: 16px 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin: -20px -12px 24px;
-    }
+            .topbar-mobile {
+                background: #091320;
+                color: white;
+                padding: 16px 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin: -20px -12px 24px;
+            }
 
-    .brand-mobile {
-        font-size: 20px;
-        font-weight: 800;
-    }
+            .brand-mobile {
+                font-size: 20px;
+                font-weight: 800;
+            }
 
-    .brand-mobile span {
-        color: #2dd4bf;
-    }
-}
-
+            .brand-mobile span {
+                color: #2dd4bf;
+            }
+        }
     </style>
 </head>
 
@@ -1114,38 +1113,38 @@
 
     <!-- BOTTOM NAV MOBILE -->
 
-<nav class="bottom-nav">
-    <a href="{{ route('dashboard.siswa') }}" class="nav-item">
-        <span class="nav-icon">⌂</span>
-        <span class="nav-text">Dashboard</span>
-    </a>
+    <nav class="bottom-nav">
+        <a href="{{ route('dashboard.siswa') }}" class="nav-item">
+            <span class="nav-icon">⌂</span>
+            <span class="nav-text">Dashboard</span>
+        </a>
 
-    <a href="{{ route('dashboard.siswa.pembayaran') }}" class="nav-item">
-        <span class="nav-icon">💳</span>
-        <span class="nav-text">Bayar</span>
-    </a>
+        <a href="{{ route('dashboard.siswa.pembayaran') }}" class="nav-item">
+            <span class="nav-icon">💳</span>
+            <span class="nav-text">Bayar</span>
+        </a>
 
-    <a href="{{ route('dashboard.siswa.status') }}" class="nav-item">
-        <span class="nav-icon">✓</span>
-        <span class="nav-text">Status</span>
-    </a>
+        <a href="{{ route('dashboard.siswa.status') }}" class="nav-item">
+            <span class="nav-icon">✓</span>
+            <span class="nav-text">Status</span>
+        </a>
 
-    <a href="{{ route('dashboard.siswa.riwayat') }}" class="nav-item active">
-        <span class="nav-icon">⏱</span>
-        <span class="nav-text">Riwayat</span>
-    </a>
+        <a href="{{ route('dashboard.siswa.riwayat') }}" class="nav-item active">
+            <span class="nav-icon">⏱</span>
+            <span class="nav-text">Riwayat</span>
+        </a>
 
-    <a href="{{ route('dashboard.siswa') }}#info-kas" class="nav-item">
-        <span class="nav-icon">ⓘ</span>
-        <span class="nav-text">Info Kas</span>
-    </a>
+        <a href="{{ route('dashboard.siswa') }}#info-kas" class="nav-item">
+            <span class="nav-icon">ⓘ</span>
+            <span class="nav-text">Info Kas</span>
+        </a>
 
-    <a href="{{ route('logout') }}" class="nav-item"
-       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-        <span class="nav-icon">⎋</span>
-        <span class="nav-text">Keluar</span>
-    </a>
-</nav>
+        <a href="{{ route('logout') }}" class="nav-item"
+            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            <span class="nav-icon">⎋</span>
+            <span class="nav-text">Keluar</span>
+        </a>
+    </nav>
 
 
     <!-- LOGOUT FORM HIDDEN -->

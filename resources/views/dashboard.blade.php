@@ -637,172 +637,180 @@
             border-radius: 50%;
         }
 
-        /* ================= RESPONSIVE ================= */
-        @media (max-width: 1200px) {
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
 
-            .bottom-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+/* ================= RESPONSIVE ================= */
 
-        @media (max-width: 900px) {
-            .sidebar {
-                display: none;
-            }
+/* Menu mobile disembunyikan secara default */
+.mobile-nav {
+    display: none;
+}
 
-            .main {
-                width: 100%;
-                margin-left: 0;
-            }
+.mobile-logout-form {
+    display: none;
+}
 
-            .welcome-card {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 20px;
-            }
+/* Tablet dan layar menengah */
+@media (max-width: 1200px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 
-            .welcome-left {
-                flex-direction: column;
-                align-items: flex-start;
-                text-align: left;
-            }
+    .bottom-grid {
+        grid-template-columns: 1fr;
+    }
+}
 
-            .content {
-                padding: 20px;
-            }
+/* Tampilan HP */
+@media (max-width: 900px) {
+    .sidebar {
+        display: none;
+    }
 
-            .mascot-container {
-                display: none;
-            }
+    .main {
+        width: 100%;
+        margin-left: 0;
+    }
 
-            /* ================= NAVIGASI MOBILE ADMIN ================= */
-            .mobile-nav {
-                display: none;
-            }
+    .welcome-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
 
-            @media (max-width: 900px) {
-                .mobile-nav {
-                    display: flex;
-                    position: fixed;
-                    bottom: 0;
-                    left: 0;
-                    right: 0;
-                    z-index: 200;
+    .welcome-left {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+    }
 
-                    gap: 6px;
-                    padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+    .content {
+        padding: 20px;
+        padding-bottom: 100px;
+    }
 
-                    background: #ffffff;
-                    border-top: 1px solid #e2e8f0;
-                    box-shadow: 0 -4px 20px rgba(15, 23, 42, 0.08);
+    .mascot-container {
+        display: none;
+    }
 
-                    overflow-x: auto;
-                    overflow-y: hidden;
-                    justify-content: flex-start;
-                    scrollbar-width: thin;
-                    -webkit-overflow-scrolling: touch;
-                }
+    /* Navigasi mobile */
+    .mobile-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 200;
 
-                .mobile-nav a {
-                    display: flex;
-                    flex: 0 0 72px;
-                    min-width: 72px;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 4px;
+        gap: 6px;
+        padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
 
-                    padding: 8px 3px;
-                    border-radius: 12px;
+        background: #ffffff;
+        border-top: 1px solid #e2e8f0;
+        box-shadow: 0 -4px 20px rgba(15, 23, 42, 0.08);
 
-                    color: #64748b;
-                    font-size: 10px;
-                    font-weight: 800;
-                    text-align: center;
-                    text-decoration: none;
-                    white-space: normal;
-                }
+        overflow-x: auto;
+        overflow-y: hidden;
+        justify-content: flex-start;
+        scrollbar-width: thin;
+        -webkit-overflow-scrolling: touch;
+    }
 
-                .mobile-nav a span {
-                    font-size: 19px;
-                    line-height: 1.2;
-                }
+    .mobile-nav a {
+        display: flex;
+        flex: 0 0 72px;
+        min-width: 72px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
 
-                .mobile-nav a.active {
-                    color: #0d9488;
-                    background: #ccfbf1;
-                }
+        padding: 8px 3px;
+        border-radius: 12px;
 
-                .content {
-                    padding-bottom: 100px;
-                }
+        color: #64748b;
+        font-size: 10px;
+        font-weight: 800;
+        text-align: center;
+        text-decoration: none;
+        white-space: normal;
+    }
 
-                .mobile-logout-form {
-                    display: flex;
-                    flex: 0 0 72px;
-                    min-width: 72px;
-                    margin: 0;
-                }
+    .mobile-nav a span {
+        font-size: 19px;
+        line-height: 1.2;
+    }
 
-                .mobile-logout-btn {
-                    display: flex;
-                    width: 100%;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 5px;
+    .mobile-nav a.active {
+        color: #0d9488;
+        background: #ccfbf1;
+    }
 
-                    padding: 8px 3px;
-                    border: 1px solid #fecaca;
-                    border-radius: 14px;
-                    background: linear-gradient(135deg, #fff1f2, #ffe4e6);
+    /* Tombol keluar pada navigasi mobile */
+    .mobile-logout-form {
+        display: flex;
+        flex: 0 0 72px;
+        min-width: 72px;
+        margin: 0;
+    }
 
-                    color: #dc2626;
-                    font-family: inherit;
-                    font-size: 10px;
-                    font-weight: 900;
-                    cursor: pointer;
-                    transition: all 0.25s ease;
-                }
+    .mobile-logout-btn {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
 
-                .mobile-logout-btn .logout-icon {
-                    display: flex;
-                    width: 30px;
-                    height: 30px;
-                    align-items: center;
-                    justify-content: center;
+        padding: 8px 3px;
+        border: 1px solid #fecaca;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #fff1f2, #ffe4e6);
 
-                    border-radius: 10px;
-                    background: linear-gradient(135deg, #fb7185, #dc2626);
-                    color: white;
-                    font-size: 22px;
-                    font-weight: 900;
-                    box-shadow: 0 4px 10px rgba(220, 38, 38, 0.2);
-                }
+        color: #dc2626;
+        font-family: inherit;
+        font-size: 10px;
+        font-weight: 900;
+        cursor: pointer;
+        transition: all 0.25s ease;
+    }
 
-                .mobile-logout-btn .logout-label {
-                    font-size: 10px;
-                }
+    .mobile-logout-btn .logout-icon {
+        display: flex;
+        width: 30px;
+        height: 30px;
+        align-items: center;
+        justify-content: center;
 
-                .mobile-logout-btn:hover {
-                    transform: translateY(-2px);
-                    box-shadow: 0 5px 12px rgba(220, 38, 38, 0.15);
-                }
+        border-radius: 10px;
+        background: linear-gradient(135deg, #fb7185, #dc2626);
+        color: white;
+        font-size: 22px;
+        font-weight: 900;
+        box-shadow: 0 4px 10px rgba(220, 38, 38, 0.2);
+    }
 
-                .mobile-logout-btn:active {
-                    transform: scale(0.95);
-                }
+    .mobile-logout-btn .logout-label {
+        font-size: 10px;
+    }
 
-                @media (min-width: 901px) {
-                    .mobile-logout-form {
-                        display: none;
-                    }
-                }
+    .mobile-logout-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 12px rgba(220, 38, 38, 0.15);
+    }
 
-            }
+    .mobile-logout-btn:active {
+        transform: scale(0.95);
+    }
+}
+
+/* Desktop: pastikan navigasi mobile tidak muncul */
+@media (min-width: 901px) {
+    .mobile-nav,
+    .mobile-logout-form {
+        display: none !important;
+    }
+}
+
     </style>
 </head>
 

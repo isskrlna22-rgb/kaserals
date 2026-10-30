@@ -52,11 +52,34 @@ class AkunController extends Controller
     /**
      * Menyimpan akun baru.
      */
+
     public function store(Request $request)
     {
+        $domainByRole = [
+            'ADMIN' => 'admin.kaserals.id',
+            'BENDAHARA' => 'bendahara.kaserals.id',
+            'WALI_KELAS' => 'walikelas.kaserals.id',
+            'SISWA' => 'siswa.kaserals.id',
+        ];
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email',
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                'unique:users,email',
+                function ($attribute, $value, $fail) use ($request, $domainByRole) {
+                    $domain = $domainByRole[$request->input('role')] ?? null;
+
+                    if (
+                        !$domain ||
+                        !str_ends_with(strtolower($value), '@' . $domain)
+                    ) {
+                        $fail('Email harus sesuai dengan domain peran yang dipilih.');
+                    }
+                },
+            ],
             'password' => 'required|string|min:8',
             'role' => 'required|in:ADMIN,BENDAHARA,WALI_KELAS,SISWA',
         ]);
@@ -64,7 +87,7 @@ class AkunController extends Controller
         User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
-            'password_hash' => $validated['password'],
+            'password_hash' => Hash::make($validated['password']),
             'role' => $validated['role'],
         ]);
 
@@ -72,6 +95,7 @@ class AkunController extends Controller
             ->route('akun.index')
             ->with('success', 'Akun berhasil ditambahkan.');
     }
+
 
     /**
      * Form edit akun.
@@ -84,11 +108,38 @@ class AkunController extends Controller
     /**
      * Memperbarui akun.
      */
+
     public function update(Request $request, User $user)
     {
+        $domainByRole = [
+            'ADMIN' => 'admin.kaserals.id',
+            'BENDAHARA' => 'bendahara.kaserals.id',
+            'WALI_KELAS' => 'walikelas.kaserals.id',
+            'SISWA' => 'siswa.kaserals.id',
+        ];
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . $user->id_users . ',id_users',
+
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('users', 'email')
+                    ->ignore($user->id_users, 'id_users'),
+
+                function ($attribute, $value, $fail) use ($request, $domainByRole) {
+                    $domain = $domainByRole[$request->input('role')] ?? null;
+
+                    if (
+                        !$domain ||
+                        !str_ends_with(strtolower($value), '@' . $domain)
+                    ) {
+                        $fail('Email harus sesuai dengan domain peran yang dipilih.');
+                    }
+                },
+            ],
+
             'password' => 'nullable|string|min:8',
             'role' => 'required|in:ADMIN,BENDAHARA,WALI_KELAS,SISWA',
         ]);
@@ -98,7 +149,7 @@ class AkunController extends Controller
         $user->role = $validated['role'];
 
         if (!empty($validated['password'])) {
-            $user->password_hash = $validated['password'];
+            $user->password_hash = Hash::make($validated['password']);
         }
 
         $user->save();
@@ -107,6 +158,7 @@ class AkunController extends Controller
             ->route('akun.index')
             ->with('success', 'Akun berhasil diperbarui.');
     }
+
 
     /**
      * Menghapus akun.

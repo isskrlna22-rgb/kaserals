@@ -288,40 +288,40 @@
             align-items: start;
         }
 
-@media (max-width: 800px) {
-    .page {
-        display: block;
-        width: 100%;
-        min-width: 0;
-    }
+        @media (max-width: 800px) {
+            .page {
+                display: block;
+                width: 100%;
+                min-width: 0;
+            }
 
-    .sidebar {
-        display: none !important;
-    }
+            .sidebar {
+                display: none !important;
+            }
 
-    .main {
-        display: flex;
-        width: 100%;
-        min-width: 0;
-    }
+            .main {
+                display: flex;
+                width: 100%;
+                min-width: 0;
+            }
 
-    .content {
-        width: 100%;
-        min-width: 0;
-        padding: 20px 12px 100px;
-    }
+            .content {
+                width: 100%;
+                min-width: 0;
+                padding: 20px 12px 100px;
+            }
 
-    .columns {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 18px;
-        min-width: 0;
-    }
+            .columns {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 18px;
+                min-width: 0;
+            }
 
-    .card {
-        width: 100%;
-        min-width: 0;
-    }
-}
+            .card {
+                width: 100%;
+                min-width: 0;
+            }
+        }
 
 
         /* KARTU */
@@ -611,89 +611,87 @@
 
 
 
-/* NAVBAR BAWAH: DESKTOP DISEMBUNYIKAN */
-.mobile-bottom-nav {
-    display: none;
-}
+        /* NAVBAR BAWAH: DESKTOP DISEMBUNYIKAN */
+        .mobile-bottom-nav {
+            display: none;
+        }
 
-@media (max-width: 800px) {
-    .mobile-bottom-nav {
-        position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 900;
+        @media (max-width: 800px) {
+            .mobile-bottom-nav {
+                position: fixed;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 900;
 
-        display: flex;
-        flex-direction: row;
-        align-items: stretch;
-        gap: 6px;
+                display: flex;
+                flex-direction: row;
+                align-items: stretch;
+                gap: 6px;
 
-        padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
-        overflow-x: auto;
-        overflow-y: hidden;
-        scrollbar-width: none;
-        -webkit-overflow-scrolling: touch;
+                padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+                overflow-x: auto;
+                overflow-y: hidden;
+                scrollbar-width: none;
+                -webkit-overflow-scrolling: touch;
 
-        background: #fff;
-        border-top: 1px solid #e2e8f0;
-        box-shadow: 0 -4px 18px rgba(15, 23, 42, .08);
-    }
+                background: #fff;
+                border-top: 1px solid #e2e8f0;
+                box-shadow: 0 -4px 18px rgba(15, 23, 42, .08);
+            }
 
-    .mobile-bottom-nav::-webkit-scrollbar {
-        display: none;
-    }
+            .mobile-bottom-nav::-webkit-scrollbar {
+                display: none;
+            }
 
-    .mobile-bottom-nav a,
-    .mobile-bottom-nav .mobile-logout {
-        flex: 0 0 76px;
-        min-width: 76px;
-        min-height: 54px;
+            .mobile-bottom-nav a,
+            .mobile-bottom-nav .mobile-logout {
+                flex: 0 0 76px;
+                min-width: 76px;
+                min-height: 54px;
 
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 5px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 5px;
 
-        padding: 7px 4px;
-        border: none;
-        border-radius: 12px;
-        background: transparent;
+                padding: 7px 4px;
+                border: none;
+                border-radius: 12px;
+                background: transparent;
 
-        color: #64748b;
-        font-family: inherit;
-        font-size: 10px;
-        font-weight: 800;
-        line-height: 1.2;
-        text-align: center;
-        text-decoration: none;
-        cursor: pointer;
-    }
+                color: #64748b;
+                font-family: inherit;
+                font-size: 10px;
+                font-weight: 800;
+                line-height: 1.2;
+                text-align: center;
+                text-decoration: none;
+                cursor: pointer;
+            }
 
-    .mobile-bottom-nav a span,
-    .mobile-bottom-nav .mobile-logout span {
-        display: block;
-        font-size: 20px;
-        line-height: 1;
-    }
+            .mobile-bottom-nav a span,
+            .mobile-bottom-nav .mobile-logout span {
+                display: block;
+                font-size: 20px;
+                line-height: 1;
+            }
 
-    .mobile-bottom-nav a.active {
-        color: #0d9488;
-        background: #ccfbf1;
-    }
+            .mobile-bottom-nav a.active {
+                color: #0d9488;
+                background: #ccfbf1;
+            }
 
-    .mobile-bottom-nav .mobile-logout {
-        color: #dc2626;
-    }
+            .mobile-bottom-nav .mobile-logout {
+                color: #dc2626;
+            }
 
-    /* Sisakan ruang agar konten tidak tertutup navbar */
-    .content {
-        padding-bottom: 100px;
-    }
-}
-
-
+            /* Sisakan ruang agar konten tidak tertutup navbar */
+            .content {
+                padding-bottom: 100px;
+            }
+        }
     </style>
 </head>
 
@@ -729,7 +727,7 @@
                     class="nav-link {{ request()->routeIs('detail-pembayaran.*') ? 'active' : '' }}">
                     <span>●</span> Detail pembayaran
                 </a>
-                
+
                 <a href="{{ route('verifikasi-pembayaran.index') }}" class="nav-link">
                     <span>●</span> Verifikasi Pembayaran
                 </a>
@@ -794,7 +792,7 @@
                     <!-- KOLOM KIRI: FORM PENGUMUMAN -->
                     <div class="card">
                         <h2>Buat Pengumuman</h2>
-                        <form action="{{ route('pengumuman.store') }}" method="POST">
+                        <form action="{{ route('pengumuman.store') }}" method="POST" novalidate>
                             @csrf
 
                             <div class="form-group">
@@ -802,17 +800,30 @@
                                 <input type="text" id="judul" name="judul" class="form-control"
                                     placeholder="Contoh: Tagihan Kas Bulan Oktober" required
                                     value="{{ old('judul') }}">
+
+                                @error('judul')
+                                    <small style="color: #dc2626; display: block; margin-top: 6px;">
+                                        Judul pengumuman wajib diisi.
+                                    </small>
+                                @enderror
                             </div>
 
                             <div class="form-group">
                                 <label for="isi">Isi Pesan / Keterangan *</label>
                                 <textarea id="isi" name="isi" class="form-control"
                                     placeholder="Tuliskan pesan atau rincian kegiatan dengan jelas..." required>{{ old('isi') }}</textarea>
+
+                                @error('isi')
+                                    <small style="color: #dc2626; display: block; margin-top: 6px;">
+                                        Isi pengumuman wajib diisi.
+                                    </small>
+                                @enderror
                             </div>
 
                             <button type="submit" class="btn-save">Terbitkan Pengumuman</button>
                         </form>
                     </div>
+
 
                     <!-- KOLOM KANAN: DAFTAR PENGUMUMAN -->
                     <div class="card">
@@ -855,20 +866,16 @@
 
                                             <!-- TOMBOL HAPUS -->
                                             @if (Route::has('pengumuman.destroy'))
+                                                <form action="{{ route('pengumuman.destroy', $item->id_pengumuman) }}"
+                                                    method="POST" style="margin: 0;">
+                                                    @csrf
+                                                    @method('DELETE')
 
-<form action="{{ route('pengumuman.destroy', $item->id_pengumuman) }}"
-      method="POST"
-      style="margin: 0;">
-    @csrf
-    @method('DELETE')
-
-    <button type="button"
-            class="delete-btn"
-            onclick="openDeleteModal(this.form)">
-        Hapus
-    </button>
-</form>
-
+                                                    <button type="button" class="delete-btn"
+                                                        onclick="openDeleteModal(this.form)">
+                                                        Hapus
+                                                    </button>
+                                                </form>
                                             @endif
 
                                         </div>
@@ -1061,223 +1068,219 @@
             });
     </script>
 
-<!-- NAVBAR BAWAH KHUSUS MOBILE -->
-<nav class="mobile-bottom-nav">
+    <!-- NAVBAR BAWAH KHUSUS MOBILE -->
+    <nav class="mobile-bottom-nav">
 
-    <a href="{{ route('dashboard') }}">
-        <span>▣</span>
-        Dashboard
-    </a>
+        <a href="{{ route('dashboard') }}">
+            <span>▣</span>
+            Dashboard
+        </a>
 
-    <a href="{{ route('data-siswa.index') }}">
-        <span>◉</span>
-        Data Siswa
-    </a>
+        <a href="{{ route('data-siswa.index') }}">
+            <span>◉</span>
+            Data Siswa
+        </a>
 
-    <a href="{{ route('pembayaran-kas.index') }}">
-        <span>✓</span>
-        Pembayaran
-    </a>
+        <a href="{{ route('pembayaran-kas.index') }}">
+            <span>✓</span>
+            Pembayaran
+        </a>
 
-    <a href="{{ route('verifikasi-pembayaran.index') }}">
-        <span>●</span>
-        Verifikasi
-    </a>
+        <a href="{{ route('verifikasi-pembayaran.index') }}">
+            <span>●</span>
+            Verifikasi
+        </a>
 
-    <a href="{{ route('detail-pembayaran.index') }}">
-        <span>▤</span>
-        Detail Kas
-    </a>
+        <a href="{{ route('detail-pembayaran.index') }}">
+            <span>▤</span>
+            Detail Kas
+        </a>
 
-    <a href="{{ route('pengeluaran.web.index') }}">
-        <span>↑</span>
-        Pengeluaran
-    </a>
+        <a href="{{ route('pengeluaran.web.index') }}">
+            <span>↑</span>
+            Pengeluaran
+        </a>
 
-    <a href="{{ route('riwayat.index') }}">
-        <span>↻</span>
-        Riwayat
-    </a>
+        <a href="{{ route('riwayat.index') }}">
+            <span>↻</span>
+            Riwayat
+        </a>
 
-    <a href="{{ route('pengumuman.index') }}" class="active">
-        <span>▣</span>
-        Pengumuman
-    </a>
+        <a href="{{ route('pengumuman.index') }}" class="active">
+            <span>▣</span>
+            Pengumuman
+        </a>
 
-    <a href="{{ route('laporan.index') }}">
-        <span>▤</span>
-        Laporan
-    </a>
+        <a href="{{ route('laporan.index') }}">
+            <span>▤</span>
+            Laporan
+        </a>
 
-    <form method="POST"
-          action="{{ route('logout') }}"
-          style="display:flex; flex:0 0 76px;">
-        @csrf
+        <form method="POST" action="{{ route('logout') }}" style="display:flex; flex:0 0 76px;">
+            @csrf
 
-        <button type="submit" class="mobile-logout">
-            <span>↪</span>
-            Keluar
-        </button>
-    </form>
-
-</nav>
-
-<!-- MODAL KONFIRMASI HAPUS PENGUMUMAN -->
-<div id="deletePengumumanModal" class="delete-modal">
-    <div class="delete-modal-box">
-        <div class="delete-icon">🗑️</div>
-
-        <h3>Hapus Pengumuman?</h3>
-        <p>
-            Apakah kamu yakin ingin menghapus pengumuman ini?
-            Tindakan ini tidak dapat dibatalkan.
-        </p>
-
-        <div class="delete-actions">
-            <button type="button"
-                    class="cancel-delete"
-                    onclick="closeDeleteModal()">
-                Batal
+            <button type="submit" class="mobile-logout">
+                <span>↪</span>
+                Keluar
             </button>
+        </form>
 
-            <button type="button"
-                    class="confirm-delete"
-                    onclick="confirmDelete()">
-                Ya, Hapus
-            </button>
+    </nav>
+
+    <!-- MODAL KONFIRMASI HAPUS PENGUMUMAN -->
+    <div id="deletePengumumanModal" class="delete-modal">
+        <div class="delete-modal-box">
+            <div class="delete-icon">🗑️</div>
+
+            <h3>Hapus Pengumuman?</h3>
+            <p>
+                Apakah kamu yakin ingin menghapus pengumuman ini?
+                Tindakan ini tidak dapat dibatalkan.
+            </p>
+
+            <div class="delete-actions">
+                <button type="button" class="cancel-delete" onclick="closeDeleteModal()">
+                    Batal
+                </button>
+
+                <button type="button" class="confirm-delete" onclick="confirmDelete()">
+                    Ya, Hapus
+                </button>
+            </div>
         </div>
     </div>
-</div>
 
-<style>
-.delete-modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 100000;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    background: rgba(15, 23, 42, .6);
-    backdrop-filter: blur(5px);
-}
-
-.delete-modal.show {
-    display: flex;
-}
-
-.delete-modal-box {
-    width: 100%;
-    max-width: 410px;
-    padding: 30px;
-    text-align: center;
-    background: #fff;
-    border-radius: 24px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, .2);
-    animation: deleteAppear .2s ease;
-}
-
-.delete-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 76px;
-    height: 76px;
-    margin: 0 auto 18px;
-    border-radius: 50%;
-    background: #fee2e2;
-    font-size: 34px;
-}
-
-.delete-modal-box h3 {
-    margin: 0 0 12px;
-    color: #0f172a;
-    font-size: 22px;
-    font-weight: 900;
-}
-
-.delete-modal-box p {
-    margin: 0;
-    color: #64748b;
-    font-size: 14px;
-    line-height: 1.7;
-}
-
-.delete-actions {
-    display: flex;
-    gap: 12px;
-    margin-top: 26px;
-}
-
-.delete-actions button {
-    flex: 1;
-    padding: 13px 10px;
-    border: none;
-    border-radius: 12px;
-    font: inherit;
-    font-weight: 800;
-    cursor: pointer;
-}
-
-.cancel-delete {
-    color: #475569;
-    background: #f1f5f9;
-}
-
-.confirm-delete {
-    color: white;
-    background: #ef4444;
-}
-
-.confirm-delete:hover {
-    background: #dc2626;
-}
-
-@keyframes deleteAppear {
-    from {
-        opacity: 0;
-        transform: translateY(10px) scale(.96);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-</style>
-
-<script>
-let deletePengumumanForm = null;
-
-function openDeleteModal(form) {
-    deletePengumumanForm = form;
-
-    document
-        .getElementById('deletePengumumanModal')
-        .classList.add('show');
-}
-
-function closeDeleteModal() {
-    document
-        .getElementById('deletePengumumanModal')
-        .classList.remove('show');
-
-    deletePengumumanForm = null;
-}
-
-function confirmDelete() {
-    if (deletePengumumanForm) {
-        deletePengumumanForm.submit();
-    }
-}
-
-document
-    .getElementById('deletePengumumanModal')
-    .addEventListener('click', function (event) {
-        if (event.target === this) {
-            closeDeleteModal();
+    <style>
+        .delete-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 100000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(15, 23, 42, .6);
+            backdrop-filter: blur(5px);
         }
-    });
-</script>
+
+        .delete-modal.show {
+            display: flex;
+        }
+
+        .delete-modal-box {
+            width: 100%;
+            max-width: 410px;
+            padding: 30px;
+            text-align: center;
+            background: #fff;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .2);
+            animation: deleteAppear .2s ease;
+        }
+
+        .delete-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 76px;
+            height: 76px;
+            margin: 0 auto 18px;
+            border-radius: 50%;
+            background: #fee2e2;
+            font-size: 34px;
+        }
+
+        .delete-modal-box h3 {
+            margin: 0 0 12px;
+            color: #0f172a;
+            font-size: 22px;
+            font-weight: 900;
+        }
+
+        .delete-modal-box p {
+            margin: 0;
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .delete-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 26px;
+        }
+
+        .delete-actions button {
+            flex: 1;
+            padding: 13px 10px;
+            border: none;
+            border-radius: 12px;
+            font: inherit;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .cancel-delete {
+            color: #475569;
+            background: #f1f5f9;
+        }
+
+        .confirm-delete {
+            color: white;
+            background: #ef4444;
+        }
+
+        .confirm-delete:hover {
+            background: #dc2626;
+        }
+
+        @keyframes deleteAppear {
+            from {
+                opacity: 0;
+                transform: translateY(10px) scale(.96);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+    </style>
+
+    <script>
+        let deletePengumumanForm = null;
+
+        function openDeleteModal(form) {
+            deletePengumumanForm = form;
+
+            document
+                .getElementById('deletePengumumanModal')
+                .classList.add('show');
+        }
+
+        function closeDeleteModal() {
+            document
+                .getElementById('deletePengumumanModal')
+                .classList.remove('show');
+
+            deletePengumumanForm = null;
+        }
+
+        function confirmDelete() {
+            if (deletePengumumanForm) {
+                deletePengumumanForm.submit();
+            }
+        }
+
+        document
+            .getElementById('deletePengumumanModal')
+            .addEventListener('click', function(event) {
+                if (event.target === this) {
+                    closeDeleteModal();
+                }
+            });
+    </script>
 
 </body>
+
 </html>

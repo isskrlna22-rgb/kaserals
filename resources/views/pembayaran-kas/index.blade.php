@@ -1085,8 +1085,22 @@
                     <div class="card">
                         <h2>Form Pembayaran Kas</h2>
                         <form id="paymentForm" action="{{ route('pembayaran-kas.store') }}" method="POST"
-                            enctype="multipart/form-data">
+                            enctype="multipart/form-data" novalidate>
                             @csrf
+
+                            <div id="formAlert"
+                                style="
+        display: none;
+        padding: 14px 16px;
+        margin-bottom: 20px;
+        border-radius: 12px;
+        background: #fee2e2;
+        color: #b91c1c;
+        border: 1px solid #fecaca;
+        font-size: 14px;
+        font-weight: 800;
+    ">
+                            </div>
 
                             <!-- SISWA -->
                             <div class="form-group">
@@ -1353,23 +1367,85 @@
         });
 
         // Script Modal Confirm
+
+        function tampilkanPesanForm(pesan, elemen) {
+            const alertBox = document.getElementById('formAlert');
+
+            alertBox.textContent = '⚠️ ' + pesan;
+            alertBox.style.display = 'block';
+
+            alertBox.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+
+            if (elemen) {
+                elemen.focus();
+            }
+        }
+
         function showConfirmModal() {
-            // Validasi manual khusus kembalian jika pilih Tunai
-            if (metodePembayaran.value === 'Tunai') {
-                const total = parseFloat(totalBayar.value) || 0;
-                const dibayar = parseFloat(uangDibayarkan.value) || 0;
+            const siswa = document.getElementById('id_siswa');
+            const nominal = document.getElementById('Total_bayar');
+            const metode = document.getElementById('metode_pembayaran');
+
+            const alertBox = document.getElementById('formAlert');
+            alertBox.style.display = 'none';
+
+            if (!siswa.value) {
+                tampilkanPesanForm(
+                    'Silakan pilih siswa terlebih dahulu.',
+                    siswa
+                );
+                return;
+            }
+
+            if (!nominal.value || Number(nominal.value) <= 0) {
+                tampilkanPesanForm(
+                    'Total pembayaran wajib diisi dengan nominal yang benar.',
+                    nominal
+                );
+                return;
+            }
+
+            if (!metode.value) {
+                tampilkanPesanForm(
+                    'Silakan pilih metode pembayaran.',
+                    metode
+                );
+                return;
+            }
+
+            if (metode.value === 'Transfer' && !buktiTransfer.files.length) {
+                tampilkanPesanForm(
+                    'Silakan unggah bukti transfer terlebih dahulu.',
+                    buktiTransfer
+                );
+                return;
+            }
+
+            if (metode.value === 'Tunai') {
+                const dibayar = Number(uangDibayarkan.value) || 0;
+                const total = Number(nominal.value);
+
+                if (!uangDibayarkan.value || dibayar <= 0) {
+                    tampilkanPesanForm(
+                        'Masukkan jumlah uang yang dibayarkan.',
+                        uangDibayarkan
+                    );
+                    return;
+                }
+
                 if (dibayar < total) {
-                    alert('Uang yang dibayarkan tidak boleh kurang dari total bayar!');
-                    uangDibayarkan.focus();
-                    return; // Batalkan kemunculan modal jika uang kurang
+                    tampilkanPesanForm(
+                        'Uang yang dibayarkan masih kurang dari total pembayaran.',
+                        uangDibayarkan
+                    );
+                    return;
                 }
             }
 
-            if (form.checkValidity()) {
-                modal.classList.add('active');
-            } else {
-                form.reportValidity();
-            }
+            modal.classList.add('active');
         }
 
         function closeConfirmModal() {

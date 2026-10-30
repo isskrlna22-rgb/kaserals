@@ -78,6 +78,20 @@
             color: #334155;
             margin-right: 10px;
         }
+
+        .error-message {
+            display: none;
+            color: #dc2626;
+            font-size: 13px;
+            margin-top: 6px;
+            font-weight: 600;
+        }
+
+        input.invalid,
+        select.invalid {
+            border-color: #dc2626;
+            background: #fffafa;
+        }
     </style>
 </head>
 
@@ -91,31 +105,35 @@
             Tambahkan akun pengguna KASERALS.
         </p>
 
-        <form action="{{ route('akun.store') }}" method="POST">
+        <form action="{{ route('akun.store') }}" method="POST" novalidate>
             @csrf
+
+            @if ($errors->any())
+                <div
+                    style="
+        background: #fee2e2;
+        color: #b91c1c;
+        padding: 12px 16px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        font-size: 14px;
+    ">
+                    @foreach ($errors->all() as $error)
+                        <div>{{ $error }}</div>
+                    @endforeach
+                </div>
+            @endif
 
             <div class="form-group">
                 <label for="name">Nama Lengkap</label>
 
-                <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value="{{ old('name') }}"
-                    required
-                >
+                <input type="text" id="name" name="name" value="{{ old('name') }}" required>
             </div>
 
             <div class="form-group">
                 <label for="email">Email</label>
 
-                <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value="{{ old('email') }}"
-                    required
-                >
+                <input type="email" id="email" name="email" value="{{ old('email') }}" required>
             </div>
 
             <div class="form-group">
@@ -133,12 +151,7 @@
             <div class="form-group">
                 <label for="password">Password</label>
 
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    required
-                >
+                <input type="password" id="password" name="password" required>
             </div>
 
             <a href="{{ route('akun.index') }}" class="back">
@@ -152,7 +165,70 @@
         </form>
 
     </div>
+    <script>
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const fields = [{
+                    id: 'name',
+                    message: 'Nama lengkap wajib diisi.'
+                },
+                {
+                    id: 'email',
+                    message: 'Email wajib diisi.'
+                },
+                {
+                    id: 'role',
+                    message: 'Silakan pilih hak akses.'
+                },
+                {
+                    id: 'password',
+                    message: 'Password wajib diisi.'
+                }
+            ];
 
+            let firstInvalid = null;
+
+            fields.forEach(field => {
+                const input = document.getElementById(field.id);
+                let error = input.parentElement.querySelector('.error-message');
+
+                if (!error) {
+                    error = document.createElement('small');
+                    error.className = 'error-message';
+                    input.insertAdjacentElement('afterend', error);
+                }
+
+                let message = '';
+
+                if (!input.value.trim()) {
+                    message = field.message;
+                } else if (field.id === 'email' && !input.validity.valid) {
+                    message = 'Format email belum benar.';
+                }
+
+                input.classList.toggle('invalid', !!message);
+                error.textContent = message;
+                error.style.display = message ? 'block' : 'none';
+
+                if (message && !firstInvalid) {
+                    firstInvalid = input;
+                }
+
+
+                if (!/^[a-zA-Z0-9._%+-]+@admin\.kaserals\.id$/.test(emailValue)) {
+                    e.preventDefault();
+                    error.textContent = 'Gunakan format nama@admin.kaserals.id.';
+                    email.focus();
+                    return;
+                }
+
+            });
+
+            if (firstInvalid) {
+                e.preventDefault();
+                firstInvalid.focus();
+            }
+        });
+    </script>
 </body>
 
 </html>

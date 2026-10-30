@@ -123,58 +123,50 @@ select {
                 Masukkan data siswa untuk menambahkan siswa baru.
             </p>
 
-            <form action="{{ route('data-siswa.store') }}" method="POST">
+       <form action="{{ route('data-siswa.store') }}" method="POST" novalidate>
                 @csrf
 
 
-                {{-- AKUN SISWA --}}
-                <div class="form-group">
-                    <label for="id_user">Akun Siswa</label>
 
-                    <select name="id_user" id="id_user" required>
-                        <option value="">-- Pilih Akun Siswa --</option>
+{{-- NAMA LENGKAP --}}
+<div class="form-group">
+    <label for="nama_lengkap">Nama Siswa</label>
+    <input type="text" id="nama_lengkap" name="nama_lengkap"
+        value="{{ old('nama_lengkap') }}"
+        placeholder="Masukkan nama lengkap siswa" required>
 
-                        @foreach ($users as $user)
-                            <option value="{{ $user->id_users }}"
-                                {{ old('id_user') == $user->id_users ? 'selected' : '' }}>
-                                {{ $user->name }} (ID: {{ $user->id_users }})
-                            </option>
-                        @endforeach
-                    </select>
+    @error('nama_lengkap')
+        <div class="error">{{ $message }}</div>
+    @enderror
+</div>
 
-                    @error('id_user')
-                        <div class="error">{{ $message }}</div>
-                    @enderror
-                </div>
+{{-- NISN --}}
+<div class="form-group">
+    <label for="nisn">NISN</label>
+    <input type="text" id="nisn" name="nisn"
+        value="{{ old('nisn') }}"
+        placeholder="Masukkan NISN" required>
 
+    @error('nisn')
+        <div class="error">{{ $message }}</div>
+    @enderror
+</div>
 
-                {{-- NISN --}}
-                <div class="form-group">
-                    <label for="nisn">NISN</label>
+{{-- JURUSAN --}}
+<div class="form-group">
+    <label for="jurusan">Jurusan</label>
+    <input type="text" id="jurusan" name="jurusan"
+        value="{{ old('jurusan') }}"
+        placeholder="Contoh: Rekayasa Perangkat Lunak" required>
 
-                    <input type="text" id="nisn" name="nisn" value="{{ old('nisn') }}"
-                        placeholder="Masukkan NISN" required>
+    @error('jurusan')
+        <div class="error">{{ $message }}</div>
+    @enderror
+</div>
 
-                    @error('nisn')
-                        <div class="error">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                {{-- NAMA LENGKAP --}}
-                <div class="form-group">
-                    <label for="nama_lengkap">Nama Siswa</label>
-
-                    <input type="text" id="nama_lengkap" name="nama_lengkap" value="{{ old('nama_lengkap') }}"
-                        placeholder="Masukkan nama lengkap siswa" required>
-
-                    @error('nama_lengkap')
-                        <div class="error">{{ $message }}</div>
-                    @enderror
-                </div>
 {{-- KELAS --}}
 <div class="form-group">
     <label for="kelas">Kelas</label>
-
     <select name="kelas" id="kelas" required>
         <option value="">-- Pilih Kelas --</option>
 
@@ -190,29 +182,37 @@ select {
         <div class="error">{{ $message }}</div>
     @enderror
 </div>
-                {{-- JURUSAN --}}
-                <div class="form-group">
-                    <label for="jurusan">Jurusan</label>
 
-                    <input type="text" id="jurusan" name="jurusan" value="{{ old('jurusan') }}"
-                        placeholder="Contoh: Rekayasa Perangkat Lunak" required>
+{{-- NO HP --}}
+<div class="form-group">
+    <label for="no_hp">No. HP</label>
+    <input type="text" id="no_hp" name="no_hp"
+        value="{{ old('no_hp') }}"
+        placeholder="Masukkan nomor HP">
 
-                    @error('jurusan')
-                        <div class="error">{{ $message }}</div>
-                    @enderror
-                </div>
+    @error('no_hp')
+        <div class="error">{{ $message }}</div>
+    @enderror
+</div>
 
-                {{-- NO HP --}}
-                <div class="form-group">
-                    <label for="no_hp">No. HP</label>
+{{-- AKUN SISWA --}}
+<div class="form-group">
+    <label for="id_user">Akun Siswa</label>
+    <select name="id_user" id="id_user" required>
+        <option value="">-- Pilih Akun Siswa --</option>
 
-                    <input type="text" id="no_hp" name="no_hp" value="{{ old('no_hp') }}"
-                        placeholder="Masukkan nomor HP">
+        @foreach ($users as $user)
+            <option value="{{ $user->id_users }}"
+                {{ old('id_user') == $user->id_users ? 'selected' : '' }}>
+                {{ $user->name }} (ID: {{ $user->id_users }})
+            </option>
+        @endforeach
+    </select>
 
-                    @error('no_hp')
-                        <div class="error">{{ $message }}</div>
-                    @enderror
-                </div>
+    @error('id_user')
+        <div class="error">{{ $message }}</div>
+    @enderror
+</div>
 
                 {{-- BUTTON --}}
                 <div class="actions">

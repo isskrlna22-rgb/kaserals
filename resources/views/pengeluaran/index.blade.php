@@ -1061,8 +1061,9 @@
                     <!-- FORM -->
                     <div class="card">
                         <h2 class="card-title">Tambah Pengeluaran</h2>
-                        <form action="{{ route('pengeluaran.web.store') }}" method="POST">
+                        <form action="{{ route('pengeluaran.web.store') }}" method="POST" novalidate>
                             @csrf
+
                             @if (Auth::user()->role === 'ADMIN')
                                 <div class="form-group">
                                     <label class="form-label">Kelas *</label>
@@ -1075,6 +1076,12 @@
                                             </option>
                                         @endforeach
                                     </select>
+
+                                    @error('nama_kelas')
+                                        <small style="color: #dc2626; display: block; margin-top: 6px;">
+                                            Kelas wajib dipilih.
+                                        </small>
+                                    @enderror
                                 </div>
                             @elseif (Auth::user()->role === 'BENDAHARA')
                                 <div class="form-group">
@@ -1087,8 +1094,15 @@
                             <!-- TANGGAL -->
                             <div class="form-group">
                                 <label class="form-label">Tanggal *</label>
+
                                 <input type="date" name="tanggal" value="{{ old('tanggal', date('Y-m-d')) }}"
                                     required class="form-input">
+
+                                @error('tanggal')
+                                    <small style="color: #dc2626; display: block; margin-top: 6px;">
+                                        Tanggal pengeluaran wajib diisi.
+                                    </small>
+                                @enderror
                             </div>
 
                             <!-- KATEGORI -->
@@ -1100,6 +1114,12 @@
                                     <option value="Perlengkapan">Perlengkapan kelas</option>
                                     <option value="Lainnya">Lainnya</option>
                                 </select>
+
+                                @error('kategori')
+                                    <small style="color: #dc2626; display: block; margin-top: 6px;">
+                                        Kategori pengeluaran wajib dipilih.
+                                    </small>
+                                @enderror
                             </div>
 
                             <!-- NOMINAL -->
@@ -1107,6 +1127,12 @@
                                 <label class="form-label">Nominal *</label>
                                 <input type="number" name="nominal" value="{{ old('nominal') }}" min="1"
                                     required placeholder="150000" class="form-input">
+
+                                @error('nominal')
+                                    <small style="color: #dc2626; display: block; margin-top: 6px;">
+                                        Nominal pengeluaran wajib diisi .
+                                    </small>
+                                @enderror
                             </div>
 
                             <!-- KETERANGAN -->

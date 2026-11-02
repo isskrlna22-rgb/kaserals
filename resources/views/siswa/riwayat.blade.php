@@ -862,7 +862,7 @@
             <a href="{{ route('dashboard.siswa.riwayat') }}" class="menu-item active">
                 <span class="menu-icon">⏱</span> Riwayat Transaksi
             </a>
-            <a href="{{ route('dashboard.siswa') }}#info-kas" class="menu-item">
+            <a href="{{ route('dashboard.siswa.info-kas') }}" class="menu-item">
                 <span class="menu-icon">ⓘ</span> Info Kas
             </a>
         </div>
@@ -1134,7 +1134,7 @@
             <span class="nav-text">Riwayat</span>
         </a>
 
-        <a href="{{ route('dashboard.siswa') }}#info-kas" class="nav-item">
+        <a href="{{ route('dashboard.siswa.info-kas') }}" class="nav-item">
             <span class="nav-icon">ⓘ</span>
             <span class="nav-text">Info Kas</span>
         </a>

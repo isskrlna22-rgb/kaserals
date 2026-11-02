@@ -174,15 +174,30 @@ class SiswaController extends Controller
             ],
             'jurusan' => 'required|string|max:100',
             'no_hp' => 'nullable|string|max:20',
-        ], [
+               ], [
             'id_user.required' => 'Akun siswa wajib dipilih.',
             'id_user.exists' => 'Akun siswa tidak ditemukan.',
+
             'nisn.required' => 'NISN wajib diisi.',
+            'nisn.string' => 'NISN harus berupa teks.',
+            'nisn.max' => 'NISN maksimal 255 karakter.',
             'nisn.unique' => 'NISN sudah terdaftar.',
+
             'nama_lengkap.required' => 'Nama siswa wajib diisi.',
+            'nama_lengkap.string' => 'Nama siswa harus berupa teks.',
+            'nama_lengkap.max' => 'Nama siswa maksimal 255 karakter.',
+
             'kelas.required' => 'Kelas wajib dipilih.',
+            'kelas.string' => 'Kelas harus berupa teks.',
+            'kelas.max' => 'Kelas maksimal 50 karakter.',
             'kelas.in' => 'Kelas yang dipilih tidak tersedia.',
+
             'jurusan.required' => 'Jurusan wajib diisi.',
+            'jurusan.string' => 'Jurusan harus berupa teks.',
+            'jurusan.max' => 'Jurusan maksimal 100 karakter.',
+
+            'no_hp.string' => 'Nomor HP harus berupa teks.',
+            'no_hp.max' => 'Nomor HP maksimal 20 karakter.',
         ]);
 
         \App\Models\Siswa::create($validated);
@@ -192,8 +207,6 @@ class SiswaController extends Controller
             ->with('success', 'Data siswa berhasil ditambahkan.');
     }
 
-
-
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -201,7 +214,30 @@ class SiswaController extends Controller
             'nisn' => 'required|string|max:50|unique:siswa,nisn',
             'nama_lengkap' => 'required|string|max:255',
             'kelas' => 'required|string|max:50',
+            'jurusan' => 'required|string|max:100',
             'no_hp' => 'nullable|string|max:20',
+        ], [
+            'id_user.exists' => 'Akun pengguna tidak ditemukan.',
+
+            'nisn.required' => 'NISN wajib diisi.',
+            'nisn.string' => 'NISN harus berupa teks.',
+            'nisn.max' => 'NISN maksimal 50 karakter.',
+            'nisn.unique' => 'NISN sudah terdaftar.',
+
+            'nama_lengkap.required' => 'Nama siswa wajib diisi.',
+            'nama_lengkap.string' => 'Nama siswa harus berupa teks.',
+            'nama_lengkap.max' => 'Nama siswa maksimal 255 karakter.',
+
+            'kelas.required' => 'Kelas wajib diisi.',
+            'kelas.string' => 'Kelas harus berupa teks.',
+            'kelas.max' => 'Kelas maksimal 50 karakter.',
+
+            'jurusan.required' => 'Jurusan wajib diisi.',
+            'jurusan.string' => 'Jurusan harus berupa teks.',
+            'jurusan.max' => 'Jurusan maksimal 100 karakter.',
+
+            'no_hp.string' => 'Nomor HP harus berupa teks.',
+            'no_hp.max' => 'Nomor HP maksimal 20 karakter.',
         ]);
 
         $siswa = Siswa::create($validated);

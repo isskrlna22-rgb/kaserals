@@ -1200,219 +1200,451 @@
 
         }
 
-        /* ================= BOTTOM NAV MOBILE ================= */
 
-        .bottom-nav {
-            display: grid;
-            grid-template-columns: repeat(6, minmax(0, 1fr));
-            align-items: center;
-            width: 100%;
-            padding: 8px 2px calc(8px + env(safe-area-inset-bottom));
-            gap: 0;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(255, 255, 255, 0.97);
-            border-top: 1px solid #e2e8f0;
-            z-index: 100;
-            box-sizing: border-box;
-        }
+/* =========================================
+   RESPONSIVE PEMBAYARAN KAS SISWA
+   ========================================= */
 
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-width: 0;
-            width: 100%;
-            gap: 4px;
-            padding: 5px 0;
-            text-decoration: none;
-            color: #94a3b8;
-            text-align: center;
-            box-sizing: border-box;
-        }
+/* Dasar agar halaman tidak melebar */
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
 
-        .nav-item.active {
-            color: #0d9488;
-            font-weight: 700;
-        }
+* {
+    box-sizing: border-box;
+}
 
-        .nav-icon {
-            font-size: 17px;
-            line-height: 1;
-        }
+.main,
+.container,
+.content-grid,
+.card {
+    min-width: 0;
+    max-width: 100%;
+}
 
-        .nav-text {
-            font-size: 9px;
-            line-height: 1.2;
-            white-space: nowrap;
-        }
+img {
+    max-width: 100%;
+}
 
-        @media (max-width: 760px) {
+/* Navigasi bawah disembunyikan di desktop */
+.bottom-nav {
+    display: none;
+}
 
-            .sidebar {
+/* =========================================
+   TABLET
+   ========================================= */
 
-                display: none;
+@media (max-width: 1024px) {
+    .content-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 18px;
+    }
 
-            }
+    .main {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
 
-            .main {
+    .card {
+        padding: 24px;
+    }
+}
 
-                margin-left: 0;
+/* =========================================
+   MOBILE
+   ========================================= */
 
-                padding: 20px 16px 90px;
+@media (max-width: 760px) {
 
-            }
+    html,
+    body {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
 
-            .student-info {
+    body {
+        font-size: 14px;
+        padding-bottom: 85px;
+    }
 
-                grid-template-columns: 1fr;
+    /* Sidebar desktop disembunyikan */
+    .sidebar {
+        display: none;
+    }
 
-                gap: 14px;
+    /* Konten utama */
+    .main {
+        width: 100%;
+        max-width: 100%;
+        margin-left: 0;
+        padding: 16px 13px 30px;
+    }
 
-            }
+    .container {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+    }
 
-            .bottom-nav {
+    /* Header mobile */
+    .topbar-mobile {
+        display: flex;
+        width: calc(100% + 26px);
+        margin: -16px -13px 22px;
+        padding: 13px 16px;
+        min-height: 58px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        background: #091320;
+        color: white;
+    }
 
-                display: grid;
+    .brand-mobile {
+        font-size: 17px;
+        font-weight: 800;
+    }
 
-            }
+    .brand-mobile span {
+        color: #2dd4bf;
+    }
 
-            .mascot-container {
+    .topbar-mobile small {
+        font-size: 10px;
+        white-space: nowrap;
+    }
 
-                display: none;
+    /* Judul halaman */
+    .topbar {
+        display: block;
+        margin-bottom: 18px;
+    }
 
-            }
+    .page-heading h1 {
+        font-size: 22px;
+        line-height: 1.35;
+        margin-bottom: 7px;
+    }
 
-            .profile {
+    .page-heading p {
+        font-size: 12px;
+        line-height: 1.6;
+    }
 
-                display: none;
+    .profile {
+        display: none;
+    }
 
-            }
+    /* Informasi siswa */
+    .student-card {
+        padding: 18px;
+        border-radius: 17px;
+        margin-bottom: 17px;
+    }
 
-            /* Sembunyikan profil topbar di mobile agar tidak sempit */
+    .student-card h3 {
+        font-size: 14px;
+        margin-bottom: 13px;
+    }
 
-            .topbar-mobile {
+    .student-info {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 12px;
+    }
 
-                background: #091320;
+    .info-label {
+        font-size: 10px;
+        margin-bottom: 4px;
+    }
 
-                color: white;
+    .info-value {
+        font-size: 13px;
+        overflow-wrap: anywhere;
+    }
 
-                padding: 16px 20px;
+    /* Notifikasi */
+    .alert {
+        padding: 12px;
+        font-size: 12px;
+        margin-bottom: 16px;
+    }
 
-                display: flex;
+    /* Form dan riwayat menjadi satu kolom */
+    .content-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 16px;
+        width: 100%;
+    }
 
-                justify-content: space-between;
+    .card {
+        width: 100%;
+        min-width: 0;
+        padding: 17px;
+        border-radius: 17px;
+    }
 
-                align-items: center;
+    .card h2 {
+        font-size: 16px;
+    }
 
-                margin: -20px -16px 24px -16px;
+    .card-description {
+        font-size: 11px;
+        line-height: 1.6;
+        margin-bottom: 17px;
+    }
 
-            }
+    /* Form pembayaran */
+    .form-group {
+        margin-bottom: 15px;
+        min-width: 0;
+    }
 
-            .brand-mobile {
+    .form-group label {
+        font-size: 12px;
+        margin-bottom: 6px;
+    }
 
-                font-size: 20px;
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+        padding: 11px 12px;
+        font-size: 12px;
+        border-radius: 11px;
+    }
 
-                font-weight: 800;
+    .form-group textarea {
+        min-height: 80px;
+    }
 
-            }
+    .hint {
+        font-size: 10px;
+    }
 
-            .brand-mobile span {
+    .btn-submit {
+        width: 100%;
+        padding: 12px;
+        font-size: 13px;
+        border-radius: 11px;
+    }
 
-                color: #2dd4bf;
+    /* Riwayat pembayaran */
+    .history-list {
+        gap: 12px;
+    }
 
-            }
+    .history-item {
+        width: 100%;
+        min-width: 0;
+        padding: 13px;
+        border-radius: 13px;
+    }
 
-            .mobile-bottom-nav {
-                display: none;
-            }
+    .history-top {
+        gap: 8px;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+    }
 
-            @media (max-width: 768px) {
-                .mobile-bottom-nav {
-                    position: fixed;
-                    left: 0;
-                    right: 0;
-                    bottom: 0;
-                    z-index: 900;
-                    display: flex;
-                    gap: 4px;
-                    padding: 9px 8px calc(9px + env(safe-area-inset-bottom));
-                    overflow-x: auto;
-                    background: #fff;
-                    border-top: 1px solid #e2e8f0;
-                    box-shadow: 0 -4px 18px rgba(15, 23, 42, .08);
-                    scrollbar-width: none;
-                }
+    .history-title {
+        font-size: 12px;
+        overflow-wrap: anywhere;
+    }
 
-                .mobile-bottom-nav::-webkit-scrollbar {
-                    display: none;
-                }
+    .history-date {
+        font-size: 10px;
+    }
 
-                .mobile-bottom-nav>a {
-                    flex: 0 0 76px;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 5px;
-                    padding: 7px 3px;
-                    border-radius: 12px;
-                    color: #64748b;
-                    font-size: 10px;
-                    font-weight: 700;
-                    text-align: center;
-                    white-space: nowrap;
-                }
+    .amount {
+        font-size: 12px;
+    }
 
-                .mobile-bottom-nav>a span {
-                    font-size: 19px;
-                }
+    .history-details {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        font-size: 11px;
+    }
 
-                .mobile-bottom-nav>a.active {
-                    color: #0d9488;
-                    background: #ccfbf1;
-                }
+    .detail-label {
+        font-size: 9px;
+    }
 
-                .mobile-logout-form {
-                    display: flex;
-                    flex: 0 0 72px;
-                    margin: 0;
-                }
+    .detail-value {
+        font-size: 11px;
+        overflow-wrap: anywhere;
+    }
 
-                .mobile-logout {
-                    display: flex;
-                    width: 100%;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 5px;
-                    padding: 7px 3px;
-                    border: 1px solid #fecaca;
-                    border-radius: 12px;
-                    background: #fff1f2;
-                    color: #dc2626;
-                    font-family: inherit;
-                    font-size: 10px;
-                    font-weight: 800;
-                    cursor: pointer;
-                }
+    .status {
+        font-size: 9px;
+        padding: 4px 8px;
+    }
 
-                .mobile-logout span {
-                    display: flex;
-                    width: 30px;
-                    height: 30px;
-                    align-items: center;
-                    justify-content: center;
-                    border-radius: 9px;
-                    background: #dc2626;
-                    color: white;
-                    font-size: 21px;
-                }
+    .proof-link {
+        font-size: 10px;
+        padding: 7px 9px;
+    }
 
-            }
+    .empty-state {
+        padding: 28px 12px;
+        font-size: 12px;
+    }
+
+    /* Footer */
+    .footer {
+        padding: 22px 5px 15px;
+        font-size: 9px;
+        line-height: 1.6;
+    }
+
+    /* Mascot disembunyikan */
+    .mascot-container {
+        display: none;
+    }
+
+    /* =====================================
+       NAVIGASI BAWAH MOBILE
+       Bisa digeser ke samping
+       ===================================== */
+
+    .bottom-nav {
+        display: flex;
+        align-items: center;
+        gap: 3px;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1000;
+
+        width: 100%;
+        max-width: 100%;
+        min-height: 62px;
+
+        padding: 7px 8px calc(7px + env(safe-area-inset-bottom));
+
+        overflow-x: auto;
+        overflow-y: hidden;
+        overscroll-behavior-x: contain;
+        -webkit-overflow-scrolling: touch;
+
+        background: rgba(255, 255, 255, 0.97);
+        border-top: 1px solid #e2e8f0;
+        box-shadow: 0 -4px 18px rgba(15, 23, 42, 0.08);
+
+        scrollbar-width: none;
+    }
+
+    .bottom-nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    .nav-item {
+        display: flex;
+        flex: 0 0 68px;
+        min-width: 68px;
+        width: 68px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+
+        padding: 6px 3px;
+        border-radius: 10px;
+
+        color: #94a3b8;
+        text-align: center;
+        text-decoration: none;
+        white-space: nowrap;
+    }
+
+    .nav-item.active {
+        color: #0d9488;
+        background: #ccfbf1;
+        font-weight: 700;
+    }
+
+    .nav-icon {
+        font-size: 16px;
+        line-height: 1;
+    }
+
+    .nav-text {
+        font-size: 9px;
+        line-height: 1.2;
+        white-space: nowrap;
+    }
+}
+
+/* =========================================
+   HP KECIL
+   ========================================= */
+
+@media (max-width: 380px) {
+
+    .main {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .topbar-mobile {
+        width: calc(100% + 20px);
+        margin-left: -10px;
+        margin-right: -10px;
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .page-heading h1 {
+        font-size: 20px;
+    }
+
+    .student-card,
+    .card {
+        padding: 14px;
+    }
+
+    .history-details {
+        gap: 7px;
+    }
+
+    .nav-item {
+        flex-basis: 64px;
+        min-width: 64px;
+        width: 64px;
+    }
+}
+
+/* =========================================
+   DESKTOP
+   ========================================= */
+
+@media (min-width: 761px) {
+
+    .topbar-mobile {
+        display: none;
+    }
+
+    .bottom-nav {
+        display: none;
+    }
+
+    .sidebar {
+        display: flex;
+    }
+
+    .main {
+        margin-left: 250px;
+    }
+}
+
     </style>
 
 </head>
@@ -1677,10 +1909,8 @@
                         Untuk transfer, lampirkan bukti pembayaran.
 
                     </p>
-
                     <form action="{{ route('dashboard.siswa.pembayaran.simpan') }}" method="POST"
-                        enctype="multipart/form-data">
-
+                        enctype="multipart/form-data" novalidate>
                         @csrf
 
                         <div class="form-group">

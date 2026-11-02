@@ -8,7 +8,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
 
     <style>
@@ -19,7 +19,7 @@
         }
 
         body {
-            font-family: 'Nunito', Arial, Helvetica, sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             background: #f8fafc;
             color: #0f172a;
             overflow-x: hidden;
@@ -298,15 +298,19 @@
         /* ================= GRID LAYOUT ================= */
         .settings-grid {
             display: grid;
-            grid-template-columns: 1fr 1.6fr;
-            gap: 30px;
+            grid-template-columns: minmax(0, 780px);
+            justify-content: center;
+            gap: 24px;
             align-items: start;
+            width: 100%;
+            max-width: 780px;
+            margin: 0 auto;
         }
 
         .panel {
             background: white;
-            border-radius: 24px;
-            padding: 30px;
+            border-radius: 20px;
+            padding: 24px;
             box-shadow: 0 10px 40px -10px rgba(15, 23, 42, .06);
         }
 
@@ -344,7 +348,7 @@
 
         .form-control {
             width: 100%;
-            padding: 14px 16px;
+            padding: 11px 14px;
             border: 2px solid #e2e8f0;
             border-radius: 16px;
             background: #f8fafc;
@@ -708,184 +712,329 @@
             border-radius: 50%;
         }
 
-        /* ================= RESPONSIVE ================= */
-        @media (max-width: 1200px) {
-            .settings-grid {
-                grid-template-columns: 1fr;
-            }
-        }
 
-        @media (max-width: 900px) {
-            .sidebar {
-                display: none;
-            }
+/* ================= RESPONSIVE KELola AKUN ================= */
 
-            .main {
-                width: 100%;
-                margin-left: 0;
-            }
+/* Navigasi mobile disembunyikan di desktop */
+.mobile-nav {
+    display: none;
+}
 
-            .content {
-                padding: 20px;
-            }
+.mobile-logout-form {
+    display: none;
+}
 
-            .mascot-container {
-                display: none;
-            }
-        }
+/* ================= TAMPILAN HP ================= */
+@media (max-width: 900px) {
 
-        .content {
-            width: 100%;
-            max-width: 100%;
-            padding: 20px 14px 110px;
-            margin: 0;
-            overflow-wrap: anywhere;
-        }
+    html,
+    body {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
 
-        .page-heading h1 {
-            font-size: 24px;
-            line-height: 1.3;
-        }
+    .page {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        overflow-x: hidden;
+    }
 
-        .page-heading p {
-            font-size: 13px;
-            line-height: 1.6;
-        }
+    .sidebar {
+        display: none;
+    }
 
-        .settings-grid {
-            width: 100%;
-            grid-template-columns: minmax(0, 1fr);
-            gap: 18px;
-        }
+    .main {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        margin-left: 0;
+    }
 
-        .panel {
-            width: 100%;
-            min-width: 0;
-            padding: 18px 14px;
-            border-radius: 18px;
-        }
+    .topbar {
+        width: 100%;
+        height: 66px;
+        min-height: 66px;
+        padding: 0 16px;
+        gap: 10px;
+    }
 
-        .panel-header {
-            gap: 12px;
-            flex-wrap: wrap;
-        }
+    .topbar h2 {
+        font-size: 18px;
+    }
 
-        .panel-title {
-            font-size: 17px;
-        }
+    .avatar {
+        width: 40px;
+        height: 40px;
+        flex-shrink: 0;
+    }
 
-        .panel-subtitle {
-            font-size: 12px;
-            line-height: 1.5;
-        }
+    .content {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        padding: 18px 12px 110px;
+        margin: 0;
+        overflow-wrap: anywhere;
+    }
 
-        .form-group {
-            min-width: 0;
-        }
+    .page-heading {
+        margin-bottom: 20px;
+    }
 
-        .form-control {
-            width: 100%;
-            min-width: 0;
-            font-size: 14px;
-            padding: 12px;
-        }
+    .page-heading h1 {
+        font-size: 23px;
+        line-height: 1.3;
+        overflow-wrap: anywhere;
+    }
 
-        .btn-save {
-            width: 100%;
-            max-width: 100%;
-            padding: 13px 10px;
-            font-size: 13px;
-            white-space: normal;
-            overflow-wrap: anywhere;
-        }
+    .page-heading p {
+        font-size: 13px;
+        line-height: 1.6;
+    }
 
-        .table-wrapper {
-            width: 100%;
-            max-width: 100%;
-            overflow-x: auto;
-        }
+    .settings-grid {
+        display: grid;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 18px;
+        margin: 0;
+    }
 
-        .mobile-nav {
-            display: flex;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: 9999;
-            gap: 6px;
-            padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
-            background: #fff;
-            border-top: 1px solid #e2e8f0;
-            box-shadow: 0 -4px 20px rgba(15, 23, 42, .08);
-            overflow-x: auto;
-            overflow-y: hidden;
-            align-items: stretch;
-            justify-content: flex-start;
-            -webkit-overflow-scrolling: touch;
-        }
+    .panel {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        padding: 18px 14px;
+        border-radius: 18px;
+    }
 
-        .mobile-nav a {
-            display: flex;
-            flex: 0 0 72px;
-            min-width: 72px;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
-            padding: 8px 3px;
-            border-radius: 12px;
-            color: #64748b;
-            font-size: 10px;
-            font-weight: 800;
-            text-align: center;
-            text-decoration: none;
-            position: relative;
-            z-index: 1;
-            pointer-events: auto;
-        }
+    .panel-header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 18px;
+    }
 
-        .mobile-nav a span {
-            font-size: 19px;
-        }
+    .panel-title {
+        font-size: 17px;
+        line-height: 1.4;
+    }
 
-        .mobile-nav a.active {
-            color: #0d9488;
-            background: #ccfbf1;
-        }
+    .panel-subtitle {
+        font-size: 12px;
+        line-height: 1.5;
+    }
 
-        .mobile-logout-form {
-            display: flex;
-            flex: 0 0 72px;
-            min-width: 72px;
-            margin: 0;
-        }
+    .btn-add {
+        max-width: 100%;
+        font-size: 12px;
+        padding: 10px 14px;
+    }
 
-        .mobile-logout-btn {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            border: 1px solid #fecaca;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #fff1f2, #ffe4e6);
-            color: #dc2626;
-            font-family: inherit;
-            font-size: 10px;
-            font-weight: 800;
-            cursor: pointer;
-        }
+    .form-group {
+        width: 100%;
+        min-width: 0;
+    }
 
-        .mobile-logout-btn .logout-icon {
-            font-size: 21px;
-        }
+    .form-control {
+        width: 100%;
+        min-width: 0;
+        font-size: 14px;
+        padding: 12px;
+    }
 
-        @media (min-width: 901px) {
-            .mobile-nav {
-                display: none;
-            }
-        }
+    .btn-save {
+        width: 100%;
+        max-width: 100%;
+        padding: 13px 10px;
+        font-size: 14px;
+    }
+
+    /* Tabel hanya bisa digeser di area tabel */
+    .table-wrapper {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
+    }
+
+    .transaction-table {
+        width: 600px;
+        min-width: 600px;
+        border-collapse: collapse;
+    }
+
+    .transaction-table th,
+    .transaction-table td {
+        white-space: nowrap;
+    }
+
+    .action-btns {
+        flex-wrap: nowrap;
+    }
+
+    .mascot-container {
+        display: none;
+    }
+
+    /* Navigasi bawah mobile */
+    .mobile-nav {
+        display: flex;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 9999;
+        width: 100%;
+        max-width: 100%;
+        gap: 4px;
+        padding: 9px 8px calc(9px + env(safe-area-inset-bottom));
+        background: #fff;
+        border-top: 1px solid #e2e8f0;
+        box-shadow: 0 -4px 18px rgba(15, 23, 42, .08);
+        overflow-x: auto;
+        overflow-y: hidden;
+        justify-content: flex-start;
+        align-items: stretch;
+        flex-wrap: nowrap;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
+    }
+
+    .mobile-nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    .mobile-nav a {
+        display: flex;
+        flex: 0 0 76px;
+        min-width: 76px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        padding: 7px 3px;
+        border-radius: 12px;
+        color: #64748b;
+        font-size: 10px;
+        font-weight: 800;
+        text-align: center;
+        text-decoration: none;
+        white-space: normal;
+    }
+
+    .mobile-nav a span {
+        font-size: 19px;
+        line-height: 1.2;
+    }
+
+    .mobile-nav a.active {
+        color: #0d9488;
+        background: #ccfbf1;
+    }
+
+    .mobile-logout-form {
+        display: flex;
+        flex: 0 0 76px;
+        min-width: 76px;
+        margin: 0;
+    }
+
+    .mobile-logout-btn {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        padding: 7px 3px;
+        border: 1px solid #fecaca;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #fff1f2, #ffe4e6);
+        color: #dc2626;
+        font-family: inherit;
+        font-size: 10px;
+        font-weight: 800;
+        cursor: pointer;
+    }
+
+    .mobile-logout-btn .logout-icon {
+        display: flex;
+        width: 30px;
+        height: 30px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 9px;
+        background: linear-gradient(135deg, #fb7185, #dc2626);
+        color: white;
+        font-size: 21px;
+    }
+
+    .mobile-logout-btn .logout-label {
+        font-size: 10px;
+    }
+
+    /* Modal menyesuaikan layar HP */
+    .modal-overlay {
+        padding: 14px;
+        overflow-y: auto;
+    }
+
+    .modal-card {
+        width: 100%;
+        max-width: 480px;
+        max-height: calc(100vh - 28px);
+        overflow-y: auto;
+        padding: 24px 18px;
+        border-radius: 20px;
+    }
+
+    .modal-title {
+        font-size: 19px;
+    }
+
+    .modal-footer {
+        gap: 10px;
+    }
+}
+
+/* HP kecil */
+@media (max-width: 380px) {
+    .content {
+        padding-left: 9px;
+        padding-right: 9px;
+    }
+
+    .page-heading h1 {
+        font-size: 21px;
+    }
+
+    .panel {
+        padding: 16px 12px;
+    }
+}
+
+/* ================= TAMPILAN DESKTOP ================= */
+@media (min-width: 901px) {
+    .mobile-nav,
+    .mobile-logout-form {
+        display: none !important;
+    }
+}
+
     </style>
 </head>
 
@@ -985,7 +1134,7 @@
             <section class="content">
 
                 <div class="page-heading">
-                    <h1>Kelola Akun & Sistem ⚙️</h1>
+                    <h1>KELOLA AKUN & SISTEM ⚙️</h1>
                     <p>Atur konfigurasi kelas, nominal uang kas, serta kelola hak akses pengguna.</p>
                 </div>
 
@@ -1071,7 +1220,7 @@
                             </div>
 
                             <button type="submit" class="btn-save">
-                                Simpan Perubahan
+                                SIMPAN
                             </button>
                         </form>
 
@@ -1239,8 +1388,8 @@
     <!-- ================= MASCOT POJOK BAWAH ================= -->
     <div class="mascot-container">
         <div class="mascot-bubble" id="mascotText">
-            Coba klik tombol <b>+ Tambah Akun</b> deh! 🤩<br>
-            <span>Nanti bakal keluar form Pop-up yang keren banget loh!</span>
+            <b>SEMANGAT YA</b> 🤩<br>
+            <span>cek lagi yang bener</span>
         </div>
         <div class="mascot-body">
             <div class="mascot-face">^ᴗ^</div>

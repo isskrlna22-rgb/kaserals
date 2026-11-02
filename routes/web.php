@@ -87,7 +87,6 @@ Route::get('/api/laporan', [LaporanController::class, 'index'])
 Route::get('/api/siswa/dashboard', [SiswaDashboardController::class, 'index'])
     ->middleware(['auth', 'role:SISWA']);
 
-
 // ================= FILE ROUTES =================
 
 require __DIR__ . '/dashboard.php';
@@ -102,6 +101,7 @@ require __DIR__ . '/siswa-dashboard.php';
 require __DIR__ . '/akun.php';
 require __DIR__ . '/wali-kelas.php';
 require __DIR__.'/profil.php';
+require __DIR__ . '/auth.php';
 
 
 

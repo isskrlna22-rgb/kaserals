@@ -714,138 +714,322 @@
         }
 
 
-        /* RESPONSIVE MOBILE KASERALS */
-        .mobile-bottom-nav {
-            display: none;
-        }
+/* ================= RESPONSIVE MOBILE KASERALS ================= */
 
-        @media (max-width: 768px) {
-            .page {
-                display: block;
-                width: 100%;
-            }
+.mobile-bottom-nav {
+    display: none;
+}
 
-            .sidebar {
-                display: none;
-            }
+/* TABLET DAN HP */
+@media (max-width: 768px) {
 
-            .main {
-                width: 100%;
-                min-width: 0;
-            }
+    html,
+    body {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
 
-            .topbar {
-                height: 68px;
-                padding: 0 16px;
-            }
+    .page {
+        display: block;
+        width: 100%;
+        min-width: 0;
+    }
 
-            .topbar h2 {
-                font-size: 18px;
-            }
+    .sidebar {
+        display: none;
+    }
 
-            .content {
-                padding: 18px 12px 100px;
-            }
+    .main {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        min-width: 0;
+        margin: 0;
+    }
 
-            .title h1 {
-                font-size: 25px;
-            }
+    .topbar {
+        width: 100%;
+        height: 68px;
+        flex-shrink: 0;
+        padding: 0 16px;
+    }
 
-            .title p {
-                font-size: 14px;
-                line-height: 1.6;
-                margin-bottom: 22px;
-            }
+    .topbar h2 {
+        font-size: 18px;
+    }
 
-            .card {
-                min-width: 0;
-                padding: 16px 12px;
-                border-radius: 18px;
-            }
+    .avatar {
+        width: 40px;
+        height: 40px;
+        font-size: 13px;
+    }
 
-            .mascot-container {
-                display: none;
-            }
+    .content {
+        width: 100%;
+        min-width: 0;
+        padding: 20px 12px 110px;
+    }
 
-            .mobile-bottom-nav {
-                position: fixed;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                z-index: 900;
+    .title h1 {
+        font-size: 25px;
+        line-height: 1.3;
+    }
 
-                display: flex;
-                align-items: stretch;
-                gap: 6px;
-                padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+    .title p {
+        font-size: 14px;
+        line-height: 1.6;
+        margin-bottom: 22px;
+    }
 
-                overflow-x: auto;
-                overflow-y: hidden;
-                background: #fff;
-                border-top: 1px solid #e2e8f0;
-                box-shadow: 0 -4px 18px rgba(15, 23, 42, .08);
+    .card {
+        width: 100%;
+        min-width: 0;
+        padding: 16px 12px;
+        border-radius: 18px;
+        overflow: hidden;
+    }
 
-                scrollbar-width: none;
-                -webkit-overflow-scrolling: touch;
-            }
+    /* TABEL SCROLL SENDIRI */
+    .card > div {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
+    }
 
-            .mobile-bottom-nav::-webkit-scrollbar {
-                display: none;
-            }
+    table {
+        width: 100%;
+        min-width: 800px;
+    }
 
-            .mobile-bottom-nav a,
-            .mobile-bottom-nav .mobile-logout {
-                flex: 0 0 76px;
-                min-width: 76px;
-                min-height: 54px;
+    th {
+        padding: 13px;
+        font-size: 12px;
+    }
 
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                gap: 5px;
+    td {
+        padding: 15px 13px;
+    }
 
-                padding: 7px 4px;
-                border: none;
-                border-radius: 12px;
-                background: transparent;
+    .student-info {
+        gap: 10px;
+    }
 
-                color: #64748b;
-                font-family: inherit;
-                font-size: 10px;
-                font-weight: 800;
-                line-height: 1.2;
-                text-align: center;
-                text-decoration: none;
-                white-space: normal;
-                cursor: pointer;
-            }
+    .student-avatar {
+        width: 42px;
+        height: 42px;
+        flex-shrink: 0;
+    }
 
-            .mobile-bottom-nav a span,
-            .mobile-bottom-nav .mobile-logout span {
-                display: block;
-                font-size: 20px;
-                line-height: 1;
-            }
+    .student-name {
+        font-size: 14px;
+    }
 
-            .mobile-bottom-nav a.active {
-                color: #0d9488;
-                background: #ccfbf1;
-            }
+    .nominal-text {
+        font-size: 16px;
+        white-space: nowrap;
+    }
 
-            .mobile-bottom-nav .mobile-logout {
-                color: #dc2626;
-            }
+    .badge {
+        font-size: 12px;
+        white-space: nowrap;
+    }
 
-            .action-buttons {
-                flex-wrap: wrap;
-            }
+    .action-buttons {
+        display: flex;
+        gap: 8px;
+        flex-wrap: nowrap;
+    }
 
-            .modal-box {
-                width: calc(100% - 28px);
-                padding: 28px 18px;
-            }
-        }
+    .btn-action {
+        padding: 9px 13px;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+
+    .btn-lihat {
+        white-space: nowrap;
+    }
+
+    /* MASCOT */
+    .mascot-container {
+        display: none;
+    }
+
+    /* NAVIGASI BAWAH */
+    .mobile-bottom-nav {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 900;
+
+        display: flex;
+        align-items: stretch;
+        gap: 6px;
+
+        width: 100%;
+        max-width: 100%;
+        padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+
+        overflow-x: auto;
+        overflow-y: hidden;
+        overscroll-behavior-x: contain;
+        -webkit-overflow-scrolling: touch;
+
+        background: #ffffff;
+        border-top: 1px solid #e2e8f0;
+        box-shadow: 0 -4px 18px rgba(15, 23, 42, .08);
+
+        scrollbar-width: none;
+    }
+
+    .mobile-bottom-nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    .mobile-bottom-nav > a,
+    .mobile-bottom-nav > form {
+        flex: 0 0 76px;
+        min-width: 76px;
+        width: 76px;
+    }
+
+    .mobile-bottom-nav a,
+    .mobile-bottom-nav .mobile-logout {
+        width: 100%;
+        min-height: 54px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+
+        padding: 7px 4px;
+        border: none;
+        border-radius: 12px;
+        background: transparent;
+
+        color: #64748b;
+        font-family: inherit;
+        font-size: 10px;
+        font-weight: 800;
+        line-height: 1.2;
+        text-align: center;
+        text-decoration: none;
+        white-space: normal;
+        cursor: pointer;
+    }
+
+    .mobile-bottom-nav a span,
+    .mobile-bottom-nav .mobile-logout span {
+        display: block;
+        font-size: 20px;
+        line-height: 1;
+    }
+
+    .mobile-bottom-nav a.active {
+        color: #0d9488;
+        background: #ccfbf1;
+    }
+
+    .mobile-bottom-nav .mobile-logout {
+        color: #dc2626;
+    }
+
+    /* MODAL */
+    .modal-overlay {
+        padding: 14px;
+        overflow-y: auto;
+    }
+
+    .modal-box {
+        width: 100%;
+        max-width: 420px;
+        max-height: calc(100vh - 28px);
+        overflow-y: auto;
+        padding: 28px 18px;
+        border-radius: 22px;
+    }
+
+    .modal-box.image-modal {
+        width: 100%;
+        max-width: 500px;
+        padding: 24px 16px;
+    }
+
+    .modal-img-preview {
+        max-height: 65vh;
+        object-fit: contain;
+    }
+
+    .modal-buttons {
+        gap: 8px;
+    }
+
+    .modal-btn {
+        padding: 12px 8px;
+        font-size: 13px;
+    }
+}
+
+/* HP KECIL */
+@media (max-width: 380px) {
+
+    .content {
+        padding-left: 9px;
+        padding-right: 9px;
+    }
+
+    .topbar {
+        padding: 0 12px;
+    }
+
+    .topbar h2 {
+        font-size: 16px;
+    }
+
+    .title h1 {
+        font-size: 22px;
+    }
+
+    .card {
+        padding: 12px 9px;
+    }
+
+    .mobile-bottom-nav {
+        gap: 4px;
+        padding-left: 7px;
+        padding-right: 7px;
+    }
+
+    .mobile-bottom-nav > a,
+    .mobile-bottom-nav > form {
+        flex-basis: 72px;
+        min-width: 72px;
+        width: 72px;
+    }
+}
+
+/* DESKTOP */
+@media (min-width: 769px) {
+
+    .sidebar {
+        display: flex;
+    }
+
+    .mobile-bottom-nav {
+        display: none;
+    }
+
+    .main {
+        min-width: 0;
+    }
+}
     </style>
 </head>
 

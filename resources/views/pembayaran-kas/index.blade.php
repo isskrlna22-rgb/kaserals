@@ -1074,7 +1074,7 @@
             <section class="content">
 
                 <div class="title">
-                    <h1>Catat Pembayaran 💸</h1>
+                    <h1>Catat Pembayaran📝💷</h1>
                     <p>Catat total pembayaran kas siswa. Rincian tagihan dapat diisi di menu Detail Pembayaran.</p>
                 </div>
 

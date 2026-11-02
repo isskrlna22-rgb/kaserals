@@ -34,50 +34,530 @@
             }
         }
     </script>
-    <style>
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
+<style>
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
 
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(226, 232, 240, 0.8);
-        }
+/* ==============================
+   KOMPONEN UTAMA
+============================== */
 
-        .dark-glass {
-            background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(51, 65, 85, 0.5);
-        }
+.glass-panel {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+}
 
-        .gradient-text {
-            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 50%, #059669 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+.dark-glass {
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(51, 65, 85, 0.5);
+}
 
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
+.gradient-text {
+    background: linear-gradient(
+        135deg,
+        #2563eb 0%,
+        #1d4ed8 50%,
+        #059669 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
 
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f1f5f9;
-            border-radius: 8px;
-        }
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
 
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 8px;
-        }
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 8px;
+}
 
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
-    </style>
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* ==============================
+   PENGATURAN GLOBAL
+============================== */
+
+html {
+    scroll-behavior: smooth;
+}
+
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+img,
+video,
+iframe {
+    max-width: 100%;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+header > div {
+    position: relative;
+}
+
+#toast-container {
+    max-width: calc(100vw - 24px);
+}
+
+/* ==============================
+   TABLET
+============================== */
+
+@media (max-width: 1024px) {
+
+    section {
+        scroll-margin-top: 85px;
+    }
+
+    /* Hero */
+    #beranda {
+        padding-top: 32px;
+        padding-bottom: 48px;
+    }
+
+    #beranda .grid {
+        gap: 30px;
+    }
+
+    /* Simulator */
+    #demo-simulator .min-h-\[380px\] {
+        min-height: 0;
+    }
+
+    #demo-simulator .p-6 {
+        padding: 18px;
+    }
+
+    #demo-simulator table {
+        min-width: 620px;
+    }
+
+    /* Laporan */
+    #report-preview-box {
+        overflow-x: auto;
+    }
+
+    /* Modal */
+    #login-modal,
+    #proposal-modal {
+        padding: 14px;
+    }
+}
+
+/* ==============================
+   RESPONSIVE HP
+============================== */
+
+@media (max-width: 768px) {
+
+    body {
+        font-size: 14px;
+    }
+
+    /* Header */
+    header .h-20 {
+        height: 66px;
+    }
+
+    header .w-11 {
+        width: 38px;
+        height: 38px;
+    }
+
+    header .text-xl {
+        font-size: 17px;
+    }
+
+    header .flex.items-center.gap-3 {
+        gap: 8px;
+    }
+
+    header a[href*="login"],
+    header a[href*="dashboard"],
+    header form button {
+        padding: 9px 11px;
+        font-size: 11px;
+    }
+
+    /* Hero */
+    #beranda {
+        padding-top: 28px;
+        padding-bottom: 42px;
+    }
+
+    #beranda h1 {
+        width: 100%;
+        max-width: 100%;
+        font-size: 29px;
+        line-height: 1.25;
+        overflow-wrap: anywhere;
+    }
+
+    #beranda p {
+        max-width: 100%;
+        font-size: 13px;
+        line-height: 1.7;
+        overflow-wrap: break-word;
+    }
+
+    #beranda .grid {
+        gap: 24px;
+        min-width: 0;
+    }
+
+    #beranda .grid.grid-cols-3 {
+        gap: 8px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    #beranda .grid.grid-cols-3 span:first-child {
+        font-size: 16px;
+    }
+
+    #beranda .grid.grid-cols-3 span:last-child {
+        font-size: 10px;
+        text-align: center;
+    }
+
+    /* Dashboard mini */
+    #beranda .bg-slate-900.rounded-3xl {
+        padding: 16px;
+        border-radius: 20px;
+    }
+
+    #hero-live-balance {
+        font-size: 25px;
+        overflow-wrap: anywhere;
+    }
+
+    #hero-live-income,
+    #hero-live-expense {
+        font-size: 14px;
+    }
+
+    /* Jarak section */
+    #masalah-solusi,
+    #fitur,
+    #demo-simulator,
+    #stakeholder,
+    #tim-finora {
+        padding-top: 42px;
+        padding-bottom: 42px;
+    }
+
+    section h2 {
+        line-height: 1.3;
+    }
+
+    /* Kartu masalah dan solusi */
+    #masalah-solusi .grid {
+        gap: 16px;
+    }
+
+    #masalah-solusi .grid > div {
+        min-width: 0;
+        padding: 18px;
+    }
+
+    /* Kartu fitur */
+    #fitur .grid {
+        gap: 12px;
+    }
+
+    #fitur .grid > div {
+        min-width: 0;
+        padding: 17px;
+    }
+
+    /* Simulator */
+    #demo-simulator .rounded-3xl {
+        border-radius: 17px;
+    }
+
+    #demo-simulator .p-6 {
+        padding: 13px;
+    }
+
+    #demo-simulator .px-6 {
+        padding-left: 13px;
+        padding-right: 13px;
+    }
+
+    #demo-simulator .grid.grid-cols-2 {
+        gap: 9px;
+    }
+
+    #demo-simulator .grid.grid-cols-2 > div {
+        min-width: 0;
+        padding: 12px;
+    }
+
+    #sim-balance,
+    #sim-income,
+    #sim-expense,
+    #sim-paid-percent {
+        font-size: 17px;
+        overflow-wrap: anywhere;
+    }
+
+    /* Tab simulator */
+    #demo-simulator .overflow-x-auto {
+        width: 100%;
+        max-width: 100%;
+        overscroll-behavior-x: contain;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    #demo-simulator .sim-tab-btn {
+        padding: 9px 12px;
+        font-size: 11px;
+        white-space: nowrap;
+    }
+
+    /* Form simulator */
+    #demo-simulator input,
+    #demo-simulator select,
+    #demo-simulator textarea {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+        font-size: 13px;
+    }
+
+    #demo-simulator form {
+        padding: 13px;
+    }
+
+    /* Tabel simulator */
+    #demo-simulator table {
+        min-width: 620px;
+    }
+
+    /* Filter riwayat */
+    #history-search,
+    #history-filter-type {
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    /* Laporan */
+    #report-preview-box {
+        padding: 15px;
+    }
+
+    #report-preview-box .grid-cols-3 {
+        grid-template-columns: 1fr;
+        gap: 9px;
+    }
+
+    #report-preview-box .text-base {
+        font-size: 13px;
+    }
+
+    /* Stakeholder */
+    #stakeholder .grid {
+        gap: 12px;
+    }
+
+    /* Tim */
+    #tim-finora .grid {
+        gap: 14px;
+    }
+
+    /* Footer */
+    footer {
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+
+    /* Toast */
+    #toast-container {
+        right: 12px;
+        bottom: 12px;
+        left: 12px;
+    }
+
+    #toast-container > div {
+        width: 100%;
+        font-size: 11px;
+    }
+}
+
+/* ==============================
+   HP KECIL
+============================== */
+
+@media (max-width: 380px) {
+
+    #beranda h1 {
+        font-size: 25px;
+    }
+
+    #beranda .grid.grid-cols-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    #demo-simulator .grid.grid-cols-2 {
+        grid-template-columns: 1fr;
+    }
+
+    #demo-simulator .sim-tab-btn {
+        font-size: 10px;
+    }
+
+    header .text-xl {
+        font-size: 15px;
+    }
+}
+
+/* ==============================
+   DESKTOP
+============================== */
+
+@media (min-width: 1025px) {
+
+    #mobile-menu,
+    #mobile-menu-button {
+        display: none;
+    }
+
+/* =====================================
+   FIX HERO SECTION - RESPONSIVE HP
+===================================== */
+
+@media (max-width: 768px) {
+
+    /* Batasi seluruh area beranda */
+    #beranda {
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+    }
+
+    #beranda > div {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+    }
+
+    /* Perbaiki grid hero */
+    #beranda .grid {
+        width: 100%;
+        min-width: 0;
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    /* Kolom teks */
+    #beranda .grid > div {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+    }
+
+    /* Judul utama */
+    #beranda h1 {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        font-size: clamp(24px, 6.5vw, 30px);
+        line-height: 1.3;
+        text-align: center;
+        white-space: normal;
+        overflow-wrap: break-word;
+        word-break: normal;
+    }
+
+    /* Baris judul */
+    #beranda .hero-title-main,
+    #beranda .hero-title-gradient {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        white-space: normal;
+        overflow-wrap: break-word;
+    }
+
+    #beranda .hero-title-gradient {
+        margin-top: 5px;
+    }
+
+    /* Deskripsi */
+    #beranda p {
+        width: 100%;
+        max-width: 100%;
+        font-size: 13px;
+        line-height: 1.7;
+        overflow-wrap: break-word;
+    }
+
+    /* Badge informasi */
+    #beranda .inline-flex {
+        max-width: 100%;
+        white-space: normal;
+        justify-content: center;
+        text-align: center;
+    }
+
+    /* Tombol */
+    #beranda a,
+    #beranda button {
+        max-width: 100%;
+        white-space: normal;
+        text-align: center;
+    }
+
+    /* Statistik bawah */
+    #beranda .grid.grid-cols-3 {
+        width: 100%;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    #beranda .grid.grid-cols-3 > div {
+        min-width: 0;
+        overflow-wrap: break-word;
+    }
+}
+
+/* HP kecil */
+@media (max-width: 380px) {
+    #beranda h1 {
+        font-size: 24px;
+    }
+
+    #beranda .hero-title-gradient {
+        font-size: 23px;
+    }
+}
+
+
+</style>
 </head>
 
 <body class="bg-slate-50 text-slate-800 antialiased selection:bg-brand-500 selection:text-white">
@@ -153,22 +633,51 @@
                     @endauth
                 </div>
 
-                <!-- Mobile Navigation Drawer -->
-                <div id="mobile-menu"
-                    class="hidden lg:hidden border-t border-slate-200 bg-white/95 backdrop-blur-md px-4 py-4 space-y-3">
-                    <a href="#beranda" onclick="toggleMobileMenu()"
-                        class="block text-slate-700 font-medium py-2 hover:text-brand-600">Beranda</a>
-                    <a href="#masalah-solusi" onclick="toggleMobileMenu()"
-                        class="block text-slate-700 font-medium py-2 hover:text-brand-600">Masalah & Solusi</a>
-                    <a href="#fitur" onclick="toggleMobileMenu()"
-                        class="block text-slate-700 font-medium py-2 hover:text-brand-600">Fitur Utama</a>
-                    <a href="#demo-simulator" onclick="toggleMobileMenu()"
-                        class="block text-brand-600 font-bold py-2">Demo Kas Real-Time</a>
-                    <a href="#stakeholder" onclick="toggleMobileMenu()"
-                        class="block text-slate-700 font-medium py-2 hover:text-brand-600">Stakeholder & Persona</a>
-                    <a href="#tim-finora" onclick="toggleMobileMenu()"
-                        class="block text-slate-700 font-medium py-2 hover:text-brand-600">Tim Finora</a>
-                </div>
+
+                <!-- Tombol Menu Mobile -->
+                <button type="button" onclick="toggleMobileMenu()" aria-label="Buka menu navigasi"
+                    aria-expanded="false" id="mobile-menu-button"
+                    class="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+
+
+
+<!-- Mobile Navigation Drawer -->
+<div id="mobile-menu"
+    class="hidden lg:hidden absolute top-full left-0 right-0 z-50 border-t border-slate-200 bg-white/95 backdrop-blur-md px-5 py-4 shadow-xl space-y-2">
+
+    <a href="#beranda" onclick="toggleMobileMenu()"
+        class="block text-slate-700 font-semibold text-sm py-3 border-b border-slate-100">
+        Beranda
+    </a>
+
+    <a href="#masalah-solusi" onclick="toggleMobileMenu()"
+        class="block text-slate-700 font-semibold text-sm py-3 border-b border-slate-100">
+        Masalah & Solusi
+    </a>
+
+    <a href="#fitur" onclick="toggleMobileMenu()"
+        class="block text-slate-700 font-semibold text-sm py-3 border-b border-slate-100">
+        Fitur Utama
+    </a>
+
+    <a href="#demo-simulator" onclick="toggleMobileMenu()"
+        class="block text-brand-600 font-bold text-sm py-3 border-b border-slate-100">
+        Demo Kas Real-Time
+    </a>
+
+    <a href="#stakeholder" onclick="toggleMobileMenu()"
+        class="block text-slate-700 font-semibold text-sm py-3 border-b border-slate-100">
+        Stakeholder & Persona
+    </a>
+
+    <a href="#tim-finora" onclick="toggleMobileMenu()"
+        class="block text-slate-700 font-semibold text-sm py-3">
+        Tim Finora
+    </a>
+</div>
+
             </div>
         </div>
     </header>
@@ -187,11 +696,16 @@
                         <i class="fa-solid fa-shield-halved text-brand-600"></i>
                         <span>Solusi Proyek UKK PPLG SMK Budi Bakti Ciwidey</span>
                     </div>
-                    <h1
-                        class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 leading-[1.15]">
-                        Pengelolaan Kas Kelas Digital: <br class="hidden sm:inline">
-                        <span class="gradient-text">Transparan, Akurat, & Bebas Repot</span>
-                    </h1>
+
+<h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 leading-[1.15]">
+    <span class="hero-title-main">
+        Pengelolaan Kas Kelas Digital
+    </span>
+    <span class="gradient-text hero-title-gradient">
+        Transparan, Akurat, & Bebas Repot
+    </span>
+</h1>
+
                     <p
                         class="text-slate-600 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0 font-medium">
                         <strong class="text-slate-800">KASERALS</strong> hadir sebagai aplikasi web terpusat dari
@@ -477,7 +991,8 @@
                     class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all hover:-translate-y-1 group">
                     <div
                         class="w-12 h-12 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center text-xl mb-4 group-hover:bg-brand-600 group-hover:text-white transition-colors">
-                        <i class="fa-solid fa-chart-pie"></i></div>
+                        <i class="fa-solid fa-chart-pie"></i>
+                    </div>
                     <span
                         class="text-[10px] font-mono bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-semibold">FR-002</span>
                     <h3 class="text-base font-bold text-slate-900 mt-2 mb-1">Dashboard Real-Time</h3>
@@ -488,7 +1003,8 @@
                     class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all hover:-translate-y-1 group">
                     <div
                         class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl mb-4 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
-                        <i class="fa-solid fa-hand-holding-dollar"></i></div>
+                        <i class="fa-solid fa-hand-holding-dollar"></i>
+                    </div>
                     <span
                         class="text-[10px] font-mono bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-semibold">FR-004
                         & FR-005</span>
@@ -500,7 +1016,8 @@
                     class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all hover:-translate-y-1 group">
                     <div
                         class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl mb-4 group-hover:bg-amber-600 group-hover:text-white transition-colors">
-                        <i class="fa-solid fa-receipt"></i></div>
+                        <i class="fa-solid fa-receipt"></i>
+                    </div>
                     <span
                         class="text-[10px] font-mono bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-semibold">FR-006
                         & FR-007</span>
@@ -512,7 +1029,8 @@
                     class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all hover:-translate-y-1 group">
                     <div
                         class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl mb-4 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
-                        <i class="fa-solid fa-calculator"></i></div>
+                        <i class="fa-solid fa-calculator"></i>
+                    </div>
                     <span
                         class="text-[10px] font-mono bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-semibold">FR-008</span>
                     <h3 class="text-base font-bold text-slate-900 mt-2 mb-1">Kalkulasi Saldo Presisi</h3>
@@ -523,7 +1041,8 @@
                     class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all hover:-translate-y-1 group">
                     <div
                         class="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl mb-4 group-hover:bg-purple-600 group-hover:text-white transition-colors">
-                        <i class="fa-solid fa-list-check"></i></div>
+                        <i class="fa-solid fa-list-check"></i>
+                    </div>
                     <span
                         class="text-[10px] font-mono bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-semibold">FR-009
                         & FR-010</span>
@@ -535,7 +1054,8 @@
                     class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all hover:-translate-y-1 group">
                     <div
                         class="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-xl mb-4 group-hover:bg-rose-600 group-hover:text-white transition-colors">
-                        <i class="fa-solid fa-file-export"></i></div>
+                        <i class="fa-solid fa-file-export"></i>
+                    </div>
                     <span
                         class="text-[10px] font-mono bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-semibold">FR-011
                         & FR-012</span>
@@ -547,7 +1067,8 @@
                     class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all hover:-translate-y-1 group">
                     <div
                         class="w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center text-xl mb-4 group-hover:bg-sky-600 group-hover:text-white transition-colors">
-                        <i class="fa-solid fa-bullhorn"></i></div>
+                        <i class="fa-solid fa-bullhorn"></i>
+                    </div>
                     <span
                         class="text-[10px] font-mono bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-semibold">FR-016</span>
                     <h3 class="text-base font-bold text-slate-900 mt-2 mb-1">Pengumuman Kas</h3>
@@ -558,7 +1079,8 @@
                     class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all hover:-translate-y-1 group">
                     <div
                         class="w-12 h-12 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center text-xl mb-4 group-hover:bg-teal-600 group-hover:text-white transition-colors">
-                        <i class="fa-solid fa-user-check"></i></div>
+                        <i class="fa-solid fa-user-check"></i>
+                    </div>
                     <span
                         class="text-[10px] font-mono bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-semibold">FR-015</span>
                     <h3 class="text-base font-bold text-slate-900 mt-2 mb-1">Akses Wali Kelas</h3>
@@ -596,12 +1118,14 @@
                     <div class="flex items-center gap-3">
                         <div
                             class="w-10 h-10 rounded-xl bg-brand-600 flex items-center justify-center text-white font-bold text-lg">
-                            <i class="fa-solid fa-wallet"></i></div>
+                            <i class="fa-solid fa-wallet"></i>
+                        </div>
                         <div>
                             <h3 class="text-base font-bold text-white flex items-center gap-2">KASERALS App Simulator
                                 <span
                                     class="text-[10px] bg-brand-500/20 text-brand-300 border border-brand-500/30 font-semibold px-2 py-0.5 rounded-full">Kelas
-                                    X PPLG 1</span></h3>
+                                    X PPLG 1</span>
+                            </h3>
                             <p class="text-xs text-slate-400">Tahun Ajaran 2026/2027 • Bendahara: Iis Karlina</p>
                         </div>
                     </div>
@@ -1021,7 +1545,8 @@
                     <div class="flex items-center gap-3">
                         <div
                             class="w-12 h-12 rounded-2xl bg-amber-500 text-white flex items-center justify-center font-bold text-lg shadow-md shadow-amber-500/20">
-                            <i class="fa-solid fa-user-shield"></i></div>
+                            <i class="fa-solid fa-user-shield"></i>
+                        </div>
                         <div>
                             <span
                                 class="text-[10px] font-bold text-amber-600 uppercase tracking-wider">Governance</span>
@@ -1041,7 +1566,8 @@
                     <div class="flex items-center gap-3">
                         <div
                             class="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-bold text-lg shadow-md shadow-indigo-500/20">
-                            <i class="fa-solid fa-graduation-cap"></i></div>
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
                         <div>
                             <span class="text-[10px] font-bold text-indigo-600 uppercase tracking-wider">Assessor /
                                 Evaluator</span>
@@ -1151,7 +1677,8 @@
             <div class="text-center space-y-2">
                 <div
                     class="w-12 h-12 rounded-2xl bg-brand-600 text-white flex items-center justify-center text-xl mx-auto shadow-md">
-                    <i class="fa-solid fa-lock"></i></div>
+                    <i class="fa-solid fa-lock"></i>
+                </div>
                 <h3 class="text-xl font-extrabold text-slate-900">Portal Login KASERALS</h3>
                 <p class="text-xs text-slate-500">Pilih Role Pengguna untuk Memulai Simulasi</p>
             </div>
@@ -1230,7 +1757,8 @@
                 <div class="flex items-center gap-3">
                     <div
                         class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-emerald-500 flex items-center justify-center text-white font-bold">
-                        <i class="fa-solid fa-wallet"></i></div>
+                        <i class="fa-solid fa-wallet"></i>
+                    </div>
                     <div>
                         <span class="text-lg font-black text-white">KASERALS</span>
                         <p class="text-xs text-slate-500">Sistem Pengelolaan Kas Kelas Berbasis Web</p>
@@ -1731,10 +2259,23 @@
             showToast(`Berhasil Login sebagai [${role}]. Mengarahkan ke Dashboard...`, 'success');
         }
 
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-        }
+
+function toggleMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    const button = document.getElementById('mobile-menu-button');
+    const icon = button.querySelector('i');
+
+    menu.classList.toggle('hidden');
+
+    const isOpen = !menu.classList.contains('hidden');
+
+    button.setAttribute('aria-expanded', isOpen);
+
+    icon.className = isOpen
+        ? 'fa-solid fa-xmark text-lg'
+        : 'fa-solid fa-bars text-lg';
+}
+
 
         // INITIALIZE APP ON LOAD
         window.onload = function() {

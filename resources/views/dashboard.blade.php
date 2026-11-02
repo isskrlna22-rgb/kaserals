@@ -6,24 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Admin - KASERALS</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
 
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+ *{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
 
         body {
-            font-family: 'Nunito', Arial, Helvetica, sans-serif;
-            background: #f8fafc;
-            color: #0f172a;
-            overflow-x: hidden;
-        }
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: #f8fafc;
+    color: #0f172a;
+    overflow-x: hidden;
+}
 
         a {
             text-decoration: none;
@@ -660,71 +661,212 @@
     }
 }
 
+
+/* ================= RESPONSIVE DASHBOARD ADMIN ================= */
+
 /* Tampilan HP */
 @media (max-width: 900px) {
+
+    html,
+    body {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    .page {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        overflow-x: hidden;
+    }
+
+    /* Sidebar disembunyikan */
     .sidebar {
         display: none;
     }
 
+    /* Konten utama */
     .main {
+        display: flex;
+        flex-direction: column;
         width: 100%;
+        max-width: 100%;
+        min-width: 0;
         margin-left: 0;
     }
 
-    .welcome-card {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 20px;
+    .topbar {
+        width: 100%;
+        height: 66px;
+        padding: 0 16px;
+        gap: 10px;
     }
 
-    .welcome-left {
-        flex-direction: column;
-        align-items: flex-start;
-        text-align: left;
+    .topbar h2 {
+        font-size: 19px;
     }
 
     .content {
-        padding: 20px;
-        padding-bottom: 100px;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        padding: 18px 12px 110px;
+        margin: 0;
     }
 
+    /* Banner sambutan */
+    .welcome-card {
+        width: 100%;
+        min-width: 0;
+        padding: 24px 20px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .welcome-left {
+        width: 100%;
+        min-width: 0;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+        text-align: left;
+    }
+
+    .banner-kasi {
+        width: 85px;
+        max-width: 100%;
+    }
+
+    .welcome-text {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .welcome-text h1 {
+        font-size: 23px;
+        line-height: 1.3;
+        overflow-wrap: anywhere;
+    }
+
+    .welcome-text p {
+        font-size: 13px;
+        line-height: 1.6;
+        overflow-wrap: anywhere;
+    }
+
+    .welcome-date {
+        max-width: 100%;
+        font-size: 12px;
+        padding: 10px 12px;
+        overflow-wrap: anywhere;
+    }
+
+    /* Kartu statistik */
+    .stats-grid {
+        width: 100%;
+        min-width: 0;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .stat-card {
+        min-width: 0;
+        padding: 16px;
+    }
+
+    .stat-title {
+        font-size: 10px;
+        line-height: 1.5;
+    }
+
+    .stat-value {
+        font-size: 19px;
+        overflow-wrap: anywhere;
+    }
+
+    /* Panel aktivitas dan akses cepat */
+    .bottom-grid {
+        width: 100%;
+        min-width: 0;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 16px;
+    }
+
+    .panel {
+        width: 100%;
+        min-width: 0;
+        padding: 18px;
+    }
+
+    .panel-title {
+        font-size: 16px;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    /* Tabel hanya bisa digeser di dalam area tabel */
+    .table-wrapper {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
+    }
+
+    .transaction-table {
+        width: 500px;
+        min-width: 500px;
+    }
+
+    /* Maskot disembunyikan di HP */
     .mascot-container {
         display: none;
     }
 
-    /* Navigasi mobile */
+    /* Navigasi bawah HP */
     .mobile-nav {
         display: flex;
         position: fixed;
-        bottom: 0;
         left: 0;
         right: 0;
+        bottom: 0;
         z-index: 200;
 
-        gap: 6px;
-        padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+        width: 100%;
+        max-width: 100%;
+        gap: 4px;
+        padding: 9px 8px calc(9px + env(safe-area-inset-bottom));
 
         background: #ffffff;
         border-top: 1px solid #e2e8f0;
-        box-shadow: 0 -4px 20px rgba(15, 23, 42, 0.08);
+        box-shadow: 0 -4px 18px rgba(15, 23, 42, .08);
 
         overflow-x: auto;
         overflow-y: hidden;
         justify-content: flex-start;
-        scrollbar-width: thin;
+        flex-wrap: nowrap;
+        scrollbar-width: none;
         -webkit-overflow-scrolling: touch;
+    }
+
+    .mobile-nav::-webkit-scrollbar {
+        display: none;
     }
 
     .mobile-nav a {
         display: flex;
-        flex: 0 0 72px;
-        min-width: 72px;
+        flex: 0 0 76px;
+        min-width: 76px;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 4px;
+        gap: 5px;
 
-        padding: 8px 3px;
+        padding: 7px 3px;
         border-radius: 12px;
 
         color: #64748b;
@@ -732,7 +874,6 @@
         font-weight: 800;
         text-align: center;
         text-decoration: none;
-        white-space: normal;
     }
 
     .mobile-nav a span {
@@ -745,7 +886,7 @@
         background: #ccfbf1;
     }
 
-    /* Tombol keluar pada navigasi mobile */
+    /* Tombol keluar */
     .mobile-logout-form {
         display: flex;
         flex: 0 0 72px;
@@ -761,9 +902,9 @@
         justify-content: center;
         gap: 5px;
 
-        padding: 8px 3px;
+        padding: 7px 3px;
         border: 1px solid #fecaca;
-        border-radius: 14px;
+        border-radius: 12px;
         background: linear-gradient(135deg, #fff1f2, #ffe4e6);
 
         color: #dc2626;
@@ -771,7 +912,6 @@
         font-size: 10px;
         font-weight: 900;
         cursor: pointer;
-        transition: all 0.25s ease;
     }
 
     .mobile-logout-btn .logout-icon {
@@ -781,37 +921,41 @@
         align-items: center;
         justify-content: center;
 
-        border-radius: 10px;
+        border-radius: 9px;
         background: linear-gradient(135deg, #fb7185, #dc2626);
         color: white;
-        font-size: 22px;
-        font-weight: 900;
-        box-shadow: 0 4px 10px rgba(220, 38, 38, 0.2);
+        font-size: 21px;
     }
 
     .mobile-logout-btn .logout-label {
         font-size: 10px;
     }
+}
 
-    .mobile-logout-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 12px rgba(220, 38, 38, 0.15);
+/* Layar kecil */
+@media (max-width: 380px) {
+    .content {
+        padding-right: 9px;
+        padding-left: 9px;
     }
 
-    .mobile-logout-btn:active {
-        transform: scale(0.95);
+    .welcome-text h1 {
+        font-size: 21px;
+    }
+
+    .stat-card {
+        padding: 12px;
     }
 }
 
-/* Desktop: pastikan navigasi mobile tidak muncul */
+/* Desktop: navigasi mobile disembunyikan */
 @media (min-width: 901px) {
     .mobile-nav,
     .mobile-logout-form {
         display: none !important;
     }
 }
-
-    </style>
+</style>
 </head>
 
 <body>
@@ -935,7 +1079,7 @@
                         <img src="{{ asset('images/kasi.svg') }}" alt="KASI Kucing Tosca" class="banner-kasi">
 
                         <div class="welcome-text">
-                            <h1>Halo, Administrator!</h1>
+                            <h1>Halo, Administrator👋🏻</h1>
                             <p>Selamat datang kembali di panel KASERALS. Semua kendali sistem ada di tanganmu.</p>
                         </div>
                     </div>
@@ -949,7 +1093,7 @@
                 <!-- Stats Grid -->
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <div class="stat-icon icon-teal">💰</div>
+                        <div class="stat-icon icon-teal">💸</div>
                         <div class="stat-title">Saldo Kas Saat Ini</div>
                         <div class="stat-value">
                             Rp {{ number_format($saldo, 0, ',', '.') }}
@@ -957,7 +1101,7 @@
                     </div>
 
                     <div class="stat-card">
-                        <div class="stat-icon icon-blue">👥</div>
+                        <div class="stat-icon icon-blue">👫🏻</div>
                         <div class="stat-title">Total Data Siswa</div>
                         <div class="stat-value">
                             {{ $totalSiswa }} Siswa
@@ -1085,7 +1229,7 @@
                                 <span class="shortcut-arrow">→</span>
                             </a>
                             <a href="{{ route('data-siswa.index') }}" class="shortcut-btn">
-                                <span class="shortcut-icon">👤</span>
+                                <span class="shortcut-icon">👫🏻</span>
 
                                 <div class="shortcut-content">
                                     <strong>Tambah Data Siswa</strong>

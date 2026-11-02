@@ -282,6 +282,11 @@
             flex-shrink: 0;
         }
 
+        /* Sembunyikan status pembayaran yang duplikat di HP */
+        .summary-grid .summary-card:last-child {
+            display: none;
+        }
+
         .profile:hover {
             background: white;
             border-color: #e2e8f0;

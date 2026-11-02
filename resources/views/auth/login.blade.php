@@ -388,6 +388,7 @@
             background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0) 100%);
             transform: skewX(-20deg);
             transition: 0.5s;
+            pointer-events: none;
         }
 
         .login-button:hover {

@@ -164,24 +164,24 @@ select {
     @enderror
 </div>
 
+
 {{-- KELAS --}}
 <div class="form-group">
     <label for="kelas">Kelas</label>
-    <select name="kelas" id="kelas" required>
-        <option value="">-- Pilih Kelas --</option>
-
-        @foreach ($kelas as $namaKelas)
-            <option value="{{ $namaKelas }}"
-                {{ old('kelas') == $namaKelas ? 'selected' : '' }}>
-                {{ $namaKelas }}
-            </option>
-        @endforeach
-    </select>
+    <input
+        type="text"
+        id="kelas"
+        name="kelas"
+        value="{{ old('kelas') }}"
+        placeholder="Contoh: XII RPL 1"
+        required
+    >
 
     @error('kelas')
         <div class="error">{{ $message }}</div>
     @enderror
 </div>
+
 
 {{-- NO HP --}}
 <div class="form-group">

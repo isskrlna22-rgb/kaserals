@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pengumuman;
 use App\Models\PengaturanSistem;
+use App\Models\Siswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,52 +18,75 @@ class PengumumanController extends Controller
         )->pluck('nama_kelas');
     }
 
-    public function index()
-    {
-        $query = Pengumuman::with('user')->latest('created_at');
+  public function index()
+{
+    $user = Auth::user();
 
-        if (Auth::user()->role === 'BENDAHARA') {
-            $query->whereIn('nama_kelas', $this->kelasBendahara());
+    $query = Pengumuman::with('user')->latest('created_at');
+
+    if ($user->role === 'BENDAHARA') {
+        $kelasSaya = $this->kelasBendahara();
+
+        $query->where(function ($q) use ($kelasSaya) {
+            $q->whereIn('nama_kelas', $kelasSaya)
+              ->orWhereNull('nama_kelas');
+        });
+
+    } elseif ($user->role === 'SISWA') {
+
+        $kelasSiswa = Siswa::where(
+            'id_user',
+            Auth::id()
+        )->value('kelas');
+
+        if (!$kelasSiswa) {
+            abort(403, 'Data kelas siswa belum tersedia.');
         }
 
-        $pengumuman = $query->get();
-
-        return view('pengumuman.index', compact('pengumuman'));
+        $query->where(function ($q) use ($kelasSiswa) {
+            $q->where('nama_kelas', $kelasSiswa)
+              ->orWhereNull('nama_kelas');
+        });
     }
 
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'judul' => 'required|string|max:150',
-            'isi' => 'required|string',
-        ]);
+    $pengumuman = $query->get();
 
-        $user = Auth::user();
+    return view('pengumuman.index', compact('pengumuman'));
+}
+   public function store(Request $request)
+{
+    $validated = $request->validate([
+        'judul' => 'required|string|max:150',
+        'isi' => 'required|string',
+    ]);
 
-        if ($user->role === 'BENDAHARA') {
-            $kelasSaya = $this->kelasBendahara();
+    $user = Auth::user();
 
-            if ($kelasSaya->isEmpty()) {
-                abort(403, 'Akun Bendahara belum memiliki kelas.');
-            }
+    if ($user->role === 'BENDAHARA') {
+        $kelasSaya = $this->kelasBendahara();
 
-            $validated['nama_kelas'] = $kelasSaya->first();
-        } elseif ($user->role === 'ADMIN') {
-            $validated['nama_kelas'] = $request->validate([
-                'nama_kelas' => 'required|string|max:100',
-            ])['nama_kelas'];
-        } else {
-            abort(403, 'Anda tidak memiliki akses.');
+        if ($kelasSaya->isEmpty()) {
+            abort(403, 'Akun Bendahara belum memiliki kelas.');
         }
 
-        $validated['id_user'] = Auth::id();
+        $validated['nama_kelas'] = $kelasSaya->first();
 
-        Pengumuman::create($validated);
+    } elseif ($user->role === 'ADMIN') {
+        // Pengumuman admin berlaku untuk semua kelas
+        $validated['nama_kelas'] = null;
 
-        return redirect()
-            ->route('pengumuman.index')
-            ->with('success', 'Pengumuman berhasil ditambahkan.');
+    } else {
+        abort(403, 'Anda tidak memiliki akses.');
     }
+
+    $validated['id_user'] = Auth::id();
+
+    Pengumuman::create($validated);
+
+    return redirect()
+        ->route('pengumuman.index')
+        ->with('success', 'Pengumuman berhasil ditambahkan.');
+}
 
     public function update(Request $request, Pengumuman $pengumuman)
     {

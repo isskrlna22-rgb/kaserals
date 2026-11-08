@@ -497,7 +497,7 @@
             right: 0;
             background: rgba(255, 255, 255, 0.95);
             border-top: 1px solid #e2e8f0;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             padding: 10px 12px 14px;
             z-index: 100;
             backdrop-filter: blur(10px);
@@ -530,6 +530,11 @@
             .sidebar {
                 display: none;
             }
+
+            .nav-item.nav-logout {
+                color: #dc2626;
+            }
+
 
             .main {
                 margin-left: 0;
@@ -741,14 +746,25 @@
             <span class="nav-icon">⌂</span>
             <span class="nav-text">Dashboard</span>
         </a>
-        <a href="{{ route('wali-kelas.laporan-keuangan') }}" class="nav-item">
-            <span class="nav-icon">📊</span>
-            <span class="nav-text">Laporan</span>
-        </a>
+
         <a href="{{ route('wali-kelas.riwayat-transaksi') }}" class="nav-item active">
             <span class="nav-icon">⏱</span>
             <span class="nav-text">Riwayat</span>
         </a>
+
+        <a href="{{ route('wali-kelas.laporan-keuangan') }}" class="nav-item">
+            <span class="nav-icon">📊</span>
+            <span class="nav-text">Laporan</span>
+        </a>
+
+        <a href="{{ route('logout') }}" class="nav-item nav-logout"
+            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            <span class="nav-icon">⎋</span>
+            <span class="nav-text">Keluar</span>
+        </a>
+
+
+
     </nav>
 
     <!-- LOGOUT FORM HIDDEN -->

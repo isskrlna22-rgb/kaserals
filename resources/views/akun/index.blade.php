@@ -1403,43 +1403,41 @@
         </a>
 
         <a href="{{ route('akun.index') }}" class="active">
-            <span>⚙️</span>Kelola Akun
+            <span>◉</span>Kelola Akun
         </a>
 
         <a href="{{ route('data-siswa.index') }}">
-            <span>👥</span>Data Siswa
+            <span>◉</span>Data Siswa
         </a>
 
         <a href="{{ route('pembayaran-kas.index') }}">
-            <span>💰</span>Pembayaran
+            <span>✓</span>Pembayaran
         </a>
+
+          <a href="{{ route('verifikasi-pembayaran.index') }}">
+            <span>●</span>Verifikasi
+        </a>
+
 
         <a href="{{ route('detail-pembayaran.index') }}">
-            <span>📋</span>Detail Bayar
+            <span>▤</span>Detail kas
         </a>
 
-        <a href="{{ route('verifikasi-pembayaran.index') }}">
-            <span>✅</span>Verifikasi
-        </a>
 
         <a href="{{ route('pengeluaran.web.index') }}">
-            <span>💸</span>Pengeluaran
-        </a>
-
-        <a href="{{ route('dashboard.siswa.status') }}">
-            <span>👤</span>Status Bayar
+            <span>↑</span>Pengeluaran
         </a>
 
         <a href="{{ route('riwayat.index') }}">
-            <span>🔄</span>Riwayat
+            <span>↻</span>Riwayat
         </a>
 
         <a href="{{ route('pengumuman.index') }}">
-            <span>📢</span>Pengumuman
+            <span>▣</span>Pengumuman
         </a>
 
         <a href="{{ route('laporan.index') }}">
-            <span>📊</span>Laporan
+            <span>▤</span>Laporan
         </a>
 
         <a href="{{ route('profile.edit') }}">

@@ -183,8 +183,12 @@ class SiswaDashboardController extends Controller
 
         $pembayaranDiterima = $pembayaran->where('status', 'Diterima');
 
-        $totalPembayaranKas = PembayaranKas::where('status', 'Diterima')
-            ->sum('nominal');
+        $totalPembayaranKas = DetailPembayaran::whereHas(
+            'pembayaranKas.transaksi',
+            function ($query) {
+                $query->where('status', 'Diterima');
+            }
+        )->sum('nominal');
 
         $totalPengeluaran = Pengeluaran::sum('nominal');
 

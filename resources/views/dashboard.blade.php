@@ -1009,14 +1009,6 @@
                     <span>↑</span> Catat Pengeluaran
                 </a>
 
-                <p class="section-title">AKSES SISWA</p>
-
-
-                <a href="{{ route('admin.status-pembayaran') }}" class="nav-link">
-                    <span>👤</span> Status Bayar Pribadi
-                </a>
-
-
                 <p class="section-title">CATATAN & LAPORAN</p>
                 <!-- Menu 9 -->
                 <a href="{{ route('riwayat.index') }}" class="nav-link">
@@ -1269,52 +1261,48 @@
         </a>
 
         <a href="{{ route('akun.index') }}">
-            <span>⚙️</span>
+            <span>◉</span>
             Kelola Akun
         </a>
 
         <a href="{{ route('data-siswa.index') }}">
-            <span>👥</span>
+            <span>◉</span>
             Data Siswa
         </a>
 
         <a href="{{ route('pembayaran-kas.index') }}">
-            <span>💰</span>
+            <span>✓</span>
             Pembayaran
         </a>
 
-        <a href="{{ route('detail-pembayaran.index') }}">
-            <span>📋</span>
-            Detail Bayar
-        </a>
-
-        <a href="{{ route('verifikasi-pembayaran.index') }}">
-            <span>✅</span>
+           <a href="{{ route('verifikasi-pembayaran.index') }}">
+            <span>●</span>
             Verifikasi
         </a>
 
+        <a href="{{ route('detail-pembayaran.index') }}">
+            <span>▤</span>
+            Detail Kas
+        </a>
+
         <a href="{{ route('pengeluaran.web.index') }}">
-            <span>💸</span>
+            <span>↑</span>
             Pengeluaran
         </a>
 
-        <a href="{{ route('admin.status-pembayaran') }}">
-            <span>👤</span>
-            Status Bayar
-        </a>
 
         <a href="{{ route('riwayat.index') }}">
-            <span>🔄</span>
+            <span>↻</span>
             Riwayat
         </a>
 
-        <a href="{{ route('pengumuman.index') }}">
-            <span>📢</span>
+          <a href="{{ route('pengumuman.index') }}">
+            <span>▣</span>
             Pengumuman
         </a>
 
         <a href="{{ route('laporan.index') }}">
-            <span>📊</span>
+            <span>▤</span>
             Laporan
         </a>
 

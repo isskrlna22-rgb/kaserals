@@ -166,12 +166,7 @@ class SiswaController extends Controller
             'id_user' => 'required|exists:users,id_users',
             'nisn' => 'required|string|max:255|unique:siswa,nisn',
             'nama_lengkap' => 'required|string|max:255',
-            'kelas' => [
-                'required',
-                'string',
-                'max:50',
-                \Illuminate\Validation\Rule::in($daftarKelas->toArray()),
-            ],
+           'kelas' => 'required|string|max:50',
             'jurusan' => 'required|string|max:100',
             'no_hp' => 'nullable|string|max:20',
                ], [
@@ -190,7 +185,7 @@ class SiswaController extends Controller
             'kelas.required' => 'Kelas wajib dipilih.',
             'kelas.string' => 'Kelas harus berupa teks.',
             'kelas.max' => 'Kelas maksimal 50 karakter.',
-            'kelas.in' => 'Kelas yang dipilih tidak tersedia.',
+
 
             'jurusan.required' => 'Jurusan wajib diisi.',
             'jurusan.string' => 'Jurusan harus berupa teks.',

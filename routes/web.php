@@ -61,10 +61,6 @@ Route::apiResource('pengeluaran', PengeluaranController::class)
     ->middleware(['auth', 'role:ADMIN,BENDAHARA']);
 
 
-// ================= PENGUMUMAN =================
-
-Route::apiResource('pengumuman', PengumumanController::class)
-    ->middleware(['auth', 'role:ADMIN,BENDAHARA']);
 
 
 // ================= DASHBOARD API =================
@@ -101,7 +97,6 @@ require __DIR__ . '/siswa-dashboard.php';
 require __DIR__ . '/akun.php';
 require __DIR__ . '/wali-kelas.php';
 require __DIR__.'/profil.php';
-require __DIR__ . '/auth.php';
 
 
 

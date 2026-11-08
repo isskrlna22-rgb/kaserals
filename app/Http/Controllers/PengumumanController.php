@@ -18,75 +18,72 @@ class PengumumanController extends Controller
         )->pluck('nama_kelas');
     }
 
-  public function index()
-{
-    $user = Auth::user();
+    public function index()
+    {
+        $user = Auth::user();
 
-    $query = Pengumuman::with('user')->latest('created_at');
+        $query = Pengumuman::with('user')->latest('created_at');
 
-    if ($user->role === 'BENDAHARA') {
-        $kelasSaya = $this->kelasBendahara();
+        if ($user->role === 'BENDAHARA') {
+            $kelasSaya = $this->kelasBendahara();
 
-        $query->where(function ($q) use ($kelasSaya) {
-            $q->whereIn('nama_kelas', $kelasSaya)
-              ->orWhereNull('nama_kelas');
-        });
+            $query->where(function ($q) use ($kelasSaya) {
+                $q->whereIn('nama_kelas', $kelasSaya)
+                    ->orWhereNull('nama_kelas');
+            });
+        } elseif ($user->role === 'SISWA') {
 
-    } elseif ($user->role === 'SISWA') {
+            $kelasSiswa = Siswa::where(
+                'id_user',
+                Auth::id()
+            )->value('kelas');
 
-        $kelasSiswa = Siswa::where(
-            'id_user',
-            Auth::id()
-        )->value('kelas');
+            if (!$kelasSiswa) {
+                abort(403, 'Data kelas siswa belum tersedia.');
+            }
 
-        if (!$kelasSiswa) {
-            abort(403, 'Data kelas siswa belum tersedia.');
+            $query->where(function ($q) use ($kelasSiswa) {
+                $q->where('nama_kelas', $kelasSiswa)
+                    ->orWhereNull('nama_kelas');
+            });
         }
 
-        $query->where(function ($q) use ($kelasSiswa) {
-            $q->where('nama_kelas', $kelasSiswa)
-              ->orWhereNull('nama_kelas');
-        });
+        $pengumuman = $query->get();
+
+        return view('pengumuman.index', compact('pengumuman'));
     }
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'judul' => 'required|string|max:150',
+            'isi' => 'required|string',
+        ]);
 
-    $pengumuman = $query->get();
+        $user = Auth::user();
 
-    return view('pengumuman.index', compact('pengumuman'));
-}
-   public function store(Request $request)
-{
-    $validated = $request->validate([
-        'judul' => 'required|string|max:150',
-        'isi' => 'required|string',
-    ]);
+        if ($user->role === 'BENDAHARA') {
+            $kelasSaya = $this->kelasBendahara();
 
-    $user = Auth::user();
+            if ($kelasSaya->isEmpty()) {
+                abort(403, 'Akun Bendahara belum memiliki kelas.');
+            }
 
-    if ($user->role === 'BENDAHARA') {
-        $kelasSaya = $this->kelasBendahara();
-
-        if ($kelasSaya->isEmpty()) {
-            abort(403, 'Akun Bendahara belum memiliki kelas.');
+            $validated['nama_kelas'] = $kelasSaya->first();
+        } elseif ($user->role === 'ADMIN') {
+            // Pengumuman admin berlaku untuk semua kelas
+            $validated['nama_kelas'] = null;
+        } else {
+            abort(403, 'Anda tidak memiliki akses.');
         }
 
-        $validated['nama_kelas'] = $kelasSaya->first();
+        $validated['id_user'] = Auth::id();
 
-    } elseif ($user->role === 'ADMIN') {
-        // Pengumuman admin berlaku untuk semua kelas
-        $validated['nama_kelas'] = null;
+        Pengumuman::create($validated);
 
-    } else {
-        abort(403, 'Anda tidak memiliki akses.');
+        return redirect()
+            ->route('pengumuman.index')
+            ->with('success', 'Pengumuman berhasil ditambahkan.');
     }
-
-    $validated['id_user'] = Auth::id();
-
-    Pengumuman::create($validated);
-
-    return redirect()
-        ->route('pengumuman.index')
-        ->with('success', 'Pengumuman berhasil ditambahkan.');
-}
 
     public function update(Request $request, Pengumuman $pengumuman)
     {

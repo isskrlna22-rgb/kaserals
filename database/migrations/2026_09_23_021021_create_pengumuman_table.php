@@ -1,4 +1,3 @@
-
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -9,15 +8,26 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('pengumuman', function (Blueprint $table) {
-            $table->string('nama_kelas')->nullable()->after('isi');
+        Schema::create('pengumuman', function (Blueprint $table) {
+            $table->id('id_pengumuman');
+
+            $table->unsignedBigInteger('id_user')->nullable();
+
+            $table->string('judul', 150);
+            $table->text('isi');
+            $table->string('nama_kelas', 255)->nullable();
+
+            $table->timestamps();
+
+            $table->foreign('id_user')
+                ->references('id_users')
+                ->on('users')
+                ->nullOnDelete();
         });
     }
 
     public function down(): void
     {
-        Schema::table('pengumuman', function (Blueprint $table) {
-            $table->dropColumn('nama_kelas');
-        });
+        Schema::dropIfExists('pengumuman');
     }
 };

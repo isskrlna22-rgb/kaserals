@@ -7,6 +7,7 @@ use App\Models\Siswa;
 use App\Models\PengaturanSistem;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 
 class DetailPembayaranController extends Controller
 {
@@ -121,4 +122,25 @@ class DetailPembayaranController extends Controller
             ->route('detail-pembayaran.index')
             ->with('success', $pesan);
     }
+
+    /**
+ * Menghapus detail pembayaran.
+ */
+public function destroy(int $id): RedirectResponse
+{
+    $user = Auth::user();
+
+    if (!in_array($user->role, ['ADMIN', 'BENDAHARA'])) {
+        abort(403, 'Anda tidak memiliki akses untuk menghapus detail pembayaran.');
+    }
+
+    $detail = DetailPembayaran::findOrFail($id);
+
+    $detail->delete();
+
+    return redirect()
+        ->route('detail-pembayaran.index')
+        ->with('success', 'Detail pembayaran berhasil dihapus.');
 }
+}
+

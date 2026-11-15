@@ -1,4 +1,4 @@
-# KASERALS — Kas Era Digitals
+# KASERALS — Kas kelas Digitals
 
 **Aplikasi Web Pengelolaan Kas Kelas Digital**
 

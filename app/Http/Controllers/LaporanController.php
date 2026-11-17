@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PembayaranKas;
 use App\Models\Pengeluaran;
+use Illuminate\Support\Facades\DB;
 use App\Models\PengaturanSistem;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,6 +20,38 @@ class LaporanController extends Controller
             Auth::id()
         )->pluck('nama_kelas');
     }
+
+    /**
+ * Rekap pembayaran berdasarkan kelas sesuai hak akses.
+ */
+private function queryRekapPerKelas()
+{
+    $query = DB::table('detail_pembayaran')
+        ->join(
+            'siswa',
+            'detail_pembayaran.id_siswa',
+            '=',
+            'siswa.id_siswa'
+        );
+
+    if (Auth::user()->role === 'BENDAHARA') {
+        $kelasSaya = $this->kelasBendahara();
+
+        $query->whereIn('siswa.kelas', $kelasSaya);
+    } elseif (Auth::user()->role !== 'ADMIN') {
+        abort(403, 'Anda tidak memiliki akses ke laporan keuangan.');
+    }
+
+    return $query
+        ->select(
+            'siswa.kelas',
+            DB::raw('COUNT(detail_pembayaran.id_detail) as jumlah_pembayaran'),
+            DB::raw('SUM(detail_pembayaran.nominal) as total_kas')
+        )
+        ->groupBy('siswa.kelas')
+        ->orderBy('siswa.kelas')
+        ->get();
+}
 
     /**
      * Query pembayaran sesuai hak akses.
@@ -89,35 +122,62 @@ class LaporanController extends Controller
         $totalPengeluaran = $pengeluaran->sum('nominal');
         $saldo = $totalPembayaran - $totalPengeluaran;
 
-        return response()->json([
-            'ringkasan' => [
-                'total_pembayaran' => $totalPembayaran,
-                'total_pengeluaran' => $totalPengeluaran,
-                'saldo' => $saldo,
-            ],
-            'pembayaran' => $pembayaran,
-            'pengeluaran' => $pengeluaran,
-        ]);
+        $rekapPerKelas = DB::table('detail_pembayaran')
+    ->join(
+        'siswa',
+        'detail_pembayaran.id_siswa',
+        '=',
+        'siswa.id_siswa'
+    )
+    ->select(
+        'siswa.kelas',
+        DB::raw('COUNT(detail_pembayaran.id_detail) as jumlah_pembayaran'),
+        DB::raw('SUM(detail_pembayaran.nominal) as total_kas')
+    )
+    ->groupBy('siswa.kelas')
+    ->orderBy('siswa.kelas')
+    ->get();
+return response()->json([
+    'ringkasan' => [
+        'total_pembayaran' => $totalPembayaran,
+        'total_pengeluaran' => $totalPengeluaran,
+        'saldo' => $saldo,
+    ],
+    'rekap_per_kelas' => $rekapPerKelas,
+    'pembayaran' => $pembayaran,
+    'pengeluaran' => $pengeluaran,
+]);
     }
+
 
     /**
      * HALAMAN WEB LAPORAN
      */
-    public function page()
-    {
-        $pembayaran = $this->queryPembayaran()->get();
-        $pengeluaran = $this->queryPengeluaran()->get();
 
-        $totalPembayaran = $this->hitungTotalPembayaran($pembayaran);
-        $totalPengeluaran = $pengeluaran->sum('nominal');
-        $saldo = $totalPembayaran - $totalPengeluaran;
+/**
+ * HALAMAN WEB LAPORAN
+ */
+public function page()
+{
+    $pembayaran = $this->queryPembayaran()->get();
+    $pengeluaran = $this->queryPengeluaran()->get();
 
-        return view('laporan.index', compact(
-            'pembayaran',
-            'pengeluaran',
-            'totalPembayaran',
-            'totalPengeluaran',
-            'saldo'
-        ));
-    }
+    $totalPembayaran = $this->hitungTotalPembayaran($pembayaran);
+    $totalPengeluaran = $pengeluaran->sum('nominal');
+    $saldo = $totalPembayaran - $totalPengeluaran;
+
+    // Rekap pembayaran sesuai hak akses
+    $rekapPerKelas = $this->queryRekapPerKelas();
+
+    return view('laporan.index', compact(
+        'pembayaran',
+        'pengeluaran',
+        'totalPembayaran',
+        'totalPengeluaran',
+        'saldo',
+        'rekapPerKelas'
+    ));
 }
+
+    }
+

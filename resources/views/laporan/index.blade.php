@@ -1148,6 +1148,48 @@
 
                 </div>
 
+
+<!-- ================= REKAP KAS PER KELAS ================= -->
+<div class="panel">
+    <h2 class="panel-title">Rekap Kas Per Kelas</h2>
+    <p class="panel-subtitle">
+        Ringkasan jumlah dan total pembayaran berdasarkan kelas.
+    </p>
+
+    <div class="table-wrapper">
+        <table class="transaction-table">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Kelas</th>
+                    <th>Jumlah Pembayaran</th>
+                    <th>Total Kas</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @forelse ($rekapPerKelas as $index => $rekap)
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $rekap->kelas }}</td>
+                        <td>{{ $rekap->jumlah_pembayaran }}</td>
+                        <td>
+                            Rp {{ number_format($rekap->total_kas, 0, ',', '.') }}
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4" style="text-align: center;">
+                            Belum ada data pembayaran.
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
                 <!-- ================= TABEL TRANSAKSI ================= -->
                 <div class="panel">
                     <h2 class="panel-title">Detail Transaksi</h2>

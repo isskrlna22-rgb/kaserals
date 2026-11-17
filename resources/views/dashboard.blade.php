@@ -1117,6 +1117,43 @@
                     </div>
                 </div>
 
+<!-- REKAP STATISTIK PEMBAYARAN PER KELAS -->
+<div class="panel" style="margin-bottom: 30px;">
+    <div class="panel-title">
+        Statistik Pembayaran Per Kelas
+    </div>
+
+    <div class="table-wrapper">
+        <table class="transaction-table">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Kelas</th>
+                    <th>Jumlah Pembayaran</th>
+                    <th>Total Kas</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @forelse ($rekapPerKelas as $index => $rekap)
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $rekap->kelas }}</td>
+                        <td>{{ $rekap->jumlah_pembayaran }}</td>
+                        <td>Rp {{ number_format($rekap->total_kas, 0, ',', '.') }}</td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4" style="text-align:center;">
+                            Belum ada data pembayaran.
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+</div>
+
                 <!-- Bottom Grid (Table & Shortcuts) -->
                 <div class="bottom-grid">
 

@@ -1217,6 +1217,43 @@
 
 
 
+{{-- REKAP PEMBAYARAN PER KELAS --}}
+<div class="card" style="margin-bottom:28px;">
+    <div class="card-header">
+        <h2>Statistik Pembayaran Per Kelas</h2>
+    </div>
+
+    <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse;">
+            <thead>
+                <tr>
+                    <th style="padding:12px;text-align:left;">No</th>
+                    <th style="padding:12px;text-align:left;">Kelas</th>
+                    <th style="padding:12px;text-align:left;">Jumlah Pembayaran</th>
+                    <th style="padding:12px;text-align:right;">Total Kas</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse ($rekapPerKelas as $index => $rekap)
+                    <tr style="border-top:1px solid #e2e8f0;">
+                        <td style="padding:12px;">{{ $index + 1 }}</td>
+                        <td style="padding:12px;">{{ $rekap->kelas }}</td>
+                        <td style="padding:12px;">{{ $rekap->jumlah_pembayaran }}</td>
+                        <td style="padding:12px;text-align:right;">
+                            Rp {{ number_format($rekap->total_kas, 0, ',', '.') }}
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4" style="padding:20px;text-align:center;">
+                            Belum ada data pembayaran.
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+</div>
 
                 {{-- ================= VERIFIKASI ================= --}}
 

@@ -150,10 +150,6 @@ return response()->json([
     }
 
 
-    /**
-     * HALAMAN WEB LAPORAN
-     */
-
 /**
  * HALAMAN WEB LAPORAN
  */

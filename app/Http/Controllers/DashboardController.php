@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Transaksi;
 use App\Models\DetailPembayaran;
 use App\Models\PengaturanSistem;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
@@ -73,6 +74,25 @@ class DashboardController extends Controller
 
         $totalPengeluaran = $queryPengeluaran->sum('nominal');
         $saldo = $totalPembayaran - $totalPengeluaran;
+
+        // Statistik pembayaran per kelas
+$rekapPerKelas = DB::table('detail_pembayaran')
+    ->join('siswa', 'detail_pembayaran.id_siswa', '=', 'siswa.id_siswa')
+    ->join('pembayaran_kas', 'detail_pembayaran.id_pembayaran', '=', 'pembayaran_kas.id_pembayaran')
+    ->join('transaksi', 'pembayaran_kas.id_pembayaran', '=', 'transaksi.id_pembayaran')
+    ->where('transaksi.status', 'Diterima')
+    ->when($user->role === 'BENDAHARA', function ($query) use ($kelasSaya) {
+        $query->whereIn('siswa.kelas', $kelasSaya);
+    })
+    ->select(
+        'siswa.kelas',
+        DB::raw('COUNT(detail_pembayaran.id_detail) as jumlah_pembayaran'),
+        DB::raw('SUM(detail_pembayaran.nominal) as total_kas')
+    )
+    ->groupBy('siswa.kelas')
+    ->orderBy('siswa.kelas')
+    ->get();
+
 
         $jumlahMenunggu = (clone $queryTransaksi)
             ->where('status', 'Menunggu')
@@ -192,7 +212,8 @@ class DashboardController extends Controller
                 'jumlahMenunggu',
                 'jumlahPengumuman',
                 'mingguAktif',
-                'transaksiTerbaru'
+                'transaksiTerbaru',
+                'rekapPerKelas'
             ));
         }
 
@@ -209,7 +230,8 @@ class DashboardController extends Controller
             'jumlahMenunggu',
             'jumlahPengumuman',
             'mingguAktif',
-            'transaksiTerbaru'
+            'transaksiTerbaru',
+            'rekapPerKelas'
         ));
     }
 }

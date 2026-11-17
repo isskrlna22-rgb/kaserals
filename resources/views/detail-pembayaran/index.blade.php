@@ -932,7 +932,16 @@
                             novalidate>
                             @csrf
 
-                            
+                            @if ($errors->any())
+                                <div
+                                    style="background:#fee2e2; color:#b91c1c; padding:12px 15px; margin-bottom:20px; border-radius:12px;">
+                                    @foreach ($errors->all() as $error)
+                                        <p>{{ $error }}</p>
+                                    @endforeach
+                                </div>
+                            @endif
+
+
 
                             <div id="formAlert"
                                 style="

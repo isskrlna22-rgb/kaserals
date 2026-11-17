@@ -70,7 +70,8 @@ class DetailPembayaranController extends Controller
 
 
 
-   public function store(Request $request)
+
+public function store(Request $request)
 {
     $validated = $request->validate([
         'id_pembayaran' => 'required|exists:pembayaran_kas,id_pembayaran',
@@ -84,55 +85,39 @@ class DetailPembayaranController extends Controller
     );
 
     if ((int) $pembayaran->id_siswa !== (int) $validated['id_siswa']) {
-        return back()
-            ->withInput()
-            ->withErrors([
-                'id_siswa' => 'Siswa tidak sesuai dengan pembayaran yang dipilih.',
-            ]);
+        return back()->withInput()->withErrors([
+            'id_siswa' => 'Siswa tidak sesuai dengan pembayaran yang dipilih.',
+        ]);
     }
 
-    $detail = DetailPembayaran::where(
-        'id_pembayaran',
-        $validated['id_pembayaran']
-    )->first();
+    // Cek apakah ID pembayaran sudah pernah digunakan.
+if (DetailPembayaran::where(
+    'id_pembayaran',
+    $validated['id_pembayaran']
+)->exists()) {
+    return back()->withInput()->withErrors([
+        'id_pembayaran' => 'Pembayaran ini sudah memiliki detail. Silakan pilih pembayaran lain.',
+    ]);
+}
 
-    // Periksa apakah siswa sudah memiliki pembayaran pada minggu yang sama.
-    $duplikat = DetailPembayaran::where(
-        'id_siswa',
-        $validated['id_siswa']
-    )
+    // Cek apakah siswa sudah memiliki detail pada minggu yang sama.
+    $duplikat = DetailPembayaran::where('id_siswa', $validated['id_siswa'])
         ->where('minggu_ke', $validated['minggu_ke'])
-        ->when($detail, function ($query) use ($detail) {
-            $query->where('id_detail', '!=', $detail->id_detail);
-        })
         ->exists();
 
     if ($duplikat) {
-        return back()
-            ->withInput()
-            ->withErrors([
-                'minggu_ke' => 'Siswa ini sudah memiliki detail pembayaran untuk minggu tersebut.',
-            ]);
-    }
-
-    if ($detail) {
-        $detail->update([
-            'id_siswa' => $validated['id_siswa'],
-            'minggu_ke' => $validated['minggu_ke'],
-            'nominal' => $validated['nominal'],
+        return back()->withInput()->withErrors([
+            'minggu_ke' => 'Pembayaran siswa untuk minggu tersebut sudah tercatat. Silakan periksa kembali data Anda.',
         ]);
-
-        $pesan = 'Detail pembayaran berhasil diperbarui.';
-    } else {
-        DetailPembayaran::create($validated);
-
-        $pesan = 'Detail pembayaran berhasil ditambahkan.';
     }
+
+    DetailPembayaran::create($validated);
 
     return redirect()
         ->route('detail-pembayaran.index')
-        ->with('success', $pesan);
+        ->with('success', 'Detail pembayaran berhasil ditambahkan.');
 }
+
 
     /**
  * Menghapus detail pembayaran.

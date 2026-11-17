@@ -2027,23 +2027,19 @@ img {
 
                                         <div>
 
-                                            @php
+                                          @php
+    $status = $item->transaksi?->status ?? 'Menunggu';
 
-                                                $statusClass = match ($item->status) {
-                                                    'Diterima' => 'status-diterima',
+    $statusClass = match ($status) {
+        'Diterima' => 'status-diterima',
+        'Ditolak' => 'status-ditolak',
+        default => 'status-menunggu',
+    };
+@endphp
 
-                                                    'Ditolak' => 'status-ditolak',
-
-                                                    default => 'status-menunggu',
-                                                };
-
-                                            @endphp
-
-                                            <span class="status {{ $statusClass }}">
-
-                                                {{ $item->status ?? 'Menunggu' }}
-
-                                            </span>
+<span class="status {{ $statusClass }}">
+    {{ $status }}
+</span>
 
                                         </div>
 

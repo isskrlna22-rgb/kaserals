@@ -221,26 +221,32 @@ class SiswaDashboardController extends Controller
     }
 
 
-    public function pembayaran()
-    {
-        $user = Auth::user();
 
-        $siswa = Siswa::where('id_user', $user->id_users)->first();
+public function pembayaran()
+{
+    $user = Auth::user();
 
-        if (!$siswa) {
-            abort(404, 'Data siswa belum terhubung dengan akun ini.');
-        }
+    $siswa = Siswa::where('id_user', $user->id_users)->first();
 
-        $pembayaran = PembayaranKas::where('id_siswa', $siswa->id_siswa)
-            ->latest('tanggal')
-            ->latest('id_pembayaran')
-            ->get();
-
-        return view('siswa.pembayaran', compact(
-            'siswa',
-            'pembayaran'
-        ));
+    if (!$siswa) {
+        abort(404, 'Data siswa belum terhubung dengan akun ini.');
     }
+
+    $pembayaran = PembayaranKas::with([
+        'transaksi',
+        'detailPembayaran',
+    ])
+        ->where('id_siswa', $siswa->id_siswa)
+        ->latest('tanggal')
+        ->latest('id_pembayaran')
+        ->get();
+
+    return view('siswa.pembayaran', compact(
+        'siswa',
+        'pembayaran'
+    ));
+}
+
 
     public function riwayat()
     {

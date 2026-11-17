@@ -714,322 +714,322 @@
         }
 
 
-/* ================= RESPONSIVE MOBILE KASERALS ================= */
+        /* ================= RESPONSIVE MOBILE KASERALS ================= */
 
-.mobile-bottom-nav {
-    display: none;
-}
+        .mobile-bottom-nav {
+            display: none;
+        }
 
-/* TABLET DAN HP */
-@media (max-width: 768px) {
+        /* TABLET DAN HP */
+        @media (max-width: 768px) {
 
-    html,
-    body {
-        width: 100%;
-        max-width: 100%;
-        overflow-x: hidden;
-    }
+            html,
+            body {
+                width: 100%;
+                max-width: 100%;
+                overflow-x: hidden;
+            }
 
-    .page {
-        display: block;
-        width: 100%;
-        min-width: 0;
-    }
+            .page {
+                display: block;
+                width: 100%;
+                min-width: 0;
+            }
 
-    .sidebar {
-        display: none;
-    }
+            .sidebar {
+                display: none;
+            }
 
-    .main {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        min-width: 0;
-        margin: 0;
-    }
+            .main {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                min-width: 0;
+                margin: 0;
+            }
 
-    .topbar {
-        width: 100%;
-        height: 68px;
-        flex-shrink: 0;
-        padding: 0 16px;
-    }
+            .topbar {
+                width: 100%;
+                height: 68px;
+                flex-shrink: 0;
+                padding: 0 16px;
+            }
 
-    .topbar h2 {
-        font-size: 18px;
-    }
+            .topbar h2 {
+                font-size: 18px;
+            }
 
-    .avatar {
-        width: 40px;
-        height: 40px;
-        font-size: 13px;
-    }
+            .avatar {
+                width: 40px;
+                height: 40px;
+                font-size: 13px;
+            }
 
-    .content {
-        width: 100%;
-        min-width: 0;
-        padding: 20px 12px 110px;
-    }
+            .content {
+                width: 100%;
+                min-width: 0;
+                padding: 20px 12px 110px;
+            }
 
-    .title h1 {
-        font-size: 25px;
-        line-height: 1.3;
-    }
+            .title h1 {
+                font-size: 25px;
+                line-height: 1.3;
+            }
 
-    .title p {
-        font-size: 14px;
-        line-height: 1.6;
-        margin-bottom: 22px;
-    }
+            .title p {
+                font-size: 14px;
+                line-height: 1.6;
+                margin-bottom: 22px;
+            }
 
-    .card {
-        width: 100%;
-        min-width: 0;
-        padding: 16px 12px;
-        border-radius: 18px;
-        overflow: hidden;
-    }
+            .card {
+                width: 100%;
+                min-width: 0;
+                padding: 16px 12px;
+                border-radius: 18px;
+                overflow: hidden;
+            }
 
-    /* TABEL SCROLL SENDIRI */
-    .card > div {
-        width: 100%;
-        max-width: 100%;
-        overflow-x: auto;
-        overflow-y: hidden;
-        -webkit-overflow-scrolling: touch;
-        overscroll-behavior-x: contain;
-    }
+            /* TABEL SCROLL SENDIRI */
+            .card>div {
+                width: 100%;
+                max-width: 100%;
+                overflow-x: auto;
+                overflow-y: hidden;
+                -webkit-overflow-scrolling: touch;
+                overscroll-behavior-x: contain;
+            }
 
-    table {
-        width: 100%;
-        min-width: 800px;
-    }
+            table {
+                width: 100%;
+                min-width: 800px;
+            }
 
-    th {
-        padding: 13px;
-        font-size: 12px;
-    }
+            th {
+                padding: 13px;
+                font-size: 12px;
+            }
 
-    td {
-        padding: 15px 13px;
-    }
+            td {
+                padding: 15px 13px;
+            }
 
-    .student-info {
-        gap: 10px;
-    }
+            .student-info {
+                gap: 10px;
+            }
 
-    .student-avatar {
-        width: 42px;
-        height: 42px;
-        flex-shrink: 0;
-    }
+            .student-avatar {
+                width: 42px;
+                height: 42px;
+                flex-shrink: 0;
+            }
 
-    .student-name {
-        font-size: 14px;
-    }
+            .student-name {
+                font-size: 14px;
+            }
 
-    .nominal-text {
-        font-size: 16px;
-        white-space: nowrap;
-    }
+            .nominal-text {
+                font-size: 16px;
+                white-space: nowrap;
+            }
 
-    .badge {
-        font-size: 12px;
-        white-space: nowrap;
-    }
+            .badge {
+                font-size: 12px;
+                white-space: nowrap;
+            }
 
-    .action-buttons {
-        display: flex;
-        gap: 8px;
-        flex-wrap: nowrap;
-    }
+            .action-buttons {
+                display: flex;
+                gap: 8px;
+                flex-wrap: nowrap;
+            }
 
-    .btn-action {
-        padding: 9px 13px;
-        font-size: 12px;
-        white-space: nowrap;
-    }
+            .btn-action {
+                padding: 9px 13px;
+                font-size: 12px;
+                white-space: nowrap;
+            }
 
-    .btn-lihat {
-        white-space: nowrap;
-    }
+            .btn-lihat {
+                white-space: nowrap;
+            }
 
-    /* MASCOT */
-    .mascot-container {
-        display: none;
-    }
+            /* MASCOT */
+            .mascot-container {
+                display: none;
+            }
 
-    /* NAVIGASI BAWAH */
-    .mobile-bottom-nav {
-        position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 900;
+            /* NAVIGASI BAWAH */
+            .mobile-bottom-nav {
+                position: fixed;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 900;
 
-        display: flex;
-        align-items: stretch;
-        gap: 6px;
+                display: flex;
+                align-items: stretch;
+                gap: 6px;
 
-        width: 100%;
-        max-width: 100%;
-        padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+                width: 100%;
+                max-width: 100%;
+                padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
 
-        overflow-x: auto;
-        overflow-y: hidden;
-        overscroll-behavior-x: contain;
-        -webkit-overflow-scrolling: touch;
+                overflow-x: auto;
+                overflow-y: hidden;
+                overscroll-behavior-x: contain;
+                -webkit-overflow-scrolling: touch;
 
-        background: #ffffff;
-        border-top: 1px solid #e2e8f0;
-        box-shadow: 0 -4px 18px rgba(15, 23, 42, .08);
+                background: #ffffff;
+                border-top: 1px solid #e2e8f0;
+                box-shadow: 0 -4px 18px rgba(15, 23, 42, .08);
 
-        scrollbar-width: none;
-    }
+                scrollbar-width: none;
+            }
 
-    .mobile-bottom-nav::-webkit-scrollbar {
-        display: none;
-    }
+            .mobile-bottom-nav::-webkit-scrollbar {
+                display: none;
+            }
 
-    .mobile-bottom-nav > a,
-    .mobile-bottom-nav > form {
-        flex: 0 0 76px;
-        min-width: 76px;
-        width: 76px;
-    }
+            .mobile-bottom-nav>a,
+            .mobile-bottom-nav>form {
+                flex: 0 0 76px;
+                min-width: 76px;
+                width: 76px;
+            }
 
-    .mobile-bottom-nav a,
-    .mobile-bottom-nav .mobile-logout {
-        width: 100%;
-        min-height: 54px;
+            .mobile-bottom-nav a,
+            .mobile-bottom-nav .mobile-logout {
+                width: 100%;
+                min-height: 54px;
 
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 5px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 5px;
 
-        padding: 7px 4px;
-        border: none;
-        border-radius: 12px;
-        background: transparent;
+                padding: 7px 4px;
+                border: none;
+                border-radius: 12px;
+                background: transparent;
 
-        color: #64748b;
-        font-family: inherit;
-        font-size: 10px;
-        font-weight: 800;
-        line-height: 1.2;
-        text-align: center;
-        text-decoration: none;
-        white-space: normal;
-        cursor: pointer;
-    }
+                color: #64748b;
+                font-family: inherit;
+                font-size: 10px;
+                font-weight: 800;
+                line-height: 1.2;
+                text-align: center;
+                text-decoration: none;
+                white-space: normal;
+                cursor: pointer;
+            }
 
-    .mobile-bottom-nav a span,
-    .mobile-bottom-nav .mobile-logout span {
-        display: block;
-        font-size: 20px;
-        line-height: 1;
-    }
+            .mobile-bottom-nav a span,
+            .mobile-bottom-nav .mobile-logout span {
+                display: block;
+                font-size: 20px;
+                line-height: 1;
+            }
 
-    .mobile-bottom-nav a.active {
-        color: #0d9488;
-        background: #ccfbf1;
-    }
+            .mobile-bottom-nav a.active {
+                color: #0d9488;
+                background: #ccfbf1;
+            }
 
-    .mobile-bottom-nav .mobile-logout {
-        color: #dc2626;
-    }
+            .mobile-bottom-nav .mobile-logout {
+                color: #dc2626;
+            }
 
-    /* MODAL */
-    .modal-overlay {
-        padding: 14px;
-        overflow-y: auto;
-    }
+            /* MODAL */
+            .modal-overlay {
+                padding: 14px;
+                overflow-y: auto;
+            }
 
-    .modal-box {
-        width: 100%;
-        max-width: 420px;
-        max-height: calc(100vh - 28px);
-        overflow-y: auto;
-        padding: 28px 18px;
-        border-radius: 22px;
-    }
+            .modal-box {
+                width: 100%;
+                max-width: 420px;
+                max-height: calc(100vh - 28px);
+                overflow-y: auto;
+                padding: 28px 18px;
+                border-radius: 22px;
+            }
 
-    .modal-box.image-modal {
-        width: 100%;
-        max-width: 500px;
-        padding: 24px 16px;
-    }
+            .modal-box.image-modal {
+                width: 100%;
+                max-width: 500px;
+                padding: 24px 16px;
+            }
 
-    .modal-img-preview {
-        max-height: 65vh;
-        object-fit: contain;
-    }
+            .modal-img-preview {
+                max-height: 65vh;
+                object-fit: contain;
+            }
 
-    .modal-buttons {
-        gap: 8px;
-    }
+            .modal-buttons {
+                gap: 8px;
+            }
 
-    .modal-btn {
-        padding: 12px 8px;
-        font-size: 13px;
-    }
-}
+            .modal-btn {
+                padding: 12px 8px;
+                font-size: 13px;
+            }
+        }
 
-/* HP KECIL */
-@media (max-width: 380px) {
+        /* HP KECIL */
+        @media (max-width: 380px) {
 
-    .content {
-        padding-left: 9px;
-        padding-right: 9px;
-    }
+            .content {
+                padding-left: 9px;
+                padding-right: 9px;
+            }
 
-    .topbar {
-        padding: 0 12px;
-    }
+            .topbar {
+                padding: 0 12px;
+            }
 
-    .topbar h2 {
-        font-size: 16px;
-    }
+            .topbar h2 {
+                font-size: 16px;
+            }
 
-    .title h1 {
-        font-size: 22px;
-    }
+            .title h1 {
+                font-size: 22px;
+            }
 
-    .card {
-        padding: 12px 9px;
-    }
+            .card {
+                padding: 12px 9px;
+            }
 
-    .mobile-bottom-nav {
-        gap: 4px;
-        padding-left: 7px;
-        padding-right: 7px;
-    }
+            .mobile-bottom-nav {
+                gap: 4px;
+                padding-left: 7px;
+                padding-right: 7px;
+            }
 
-    .mobile-bottom-nav > a,
-    .mobile-bottom-nav > form {
-        flex-basis: 72px;
-        min-width: 72px;
-        width: 72px;
-    }
-}
+            .mobile-bottom-nav>a,
+            .mobile-bottom-nav>form {
+                flex-basis: 72px;
+                min-width: 72px;
+                width: 72px;
+            }
+        }
 
-/* DESKTOP */
-@media (min-width: 769px) {
+        /* DESKTOP */
+        @media (min-width: 769px) {
 
-    .sidebar {
-        display: flex;
-    }
+            .sidebar {
+                display: flex;
+            }
 
-    .mobile-bottom-nav {
-        display: none;
-    }
+            .mobile-bottom-nav {
+                display: none;
+            }
 
-    .main {
-        min-width: 0;
-    }
-}
+            .main {
+                min-width: 0;
+            }
+        }
     </style>
 </head>
 
@@ -1122,6 +1122,12 @@
                 <div class="title">
                     <h1>Menunggu Verifikasi 🔍</h1>
                     <p>Cek bukti transfer dan pastikan nominalnya sesuai sebelum disetujui ya!</p>
+                    @if ($errors->has('alasan_penolakan'))
+    <div style="background:#fee2e2; color:#b91c1c;
+                padding:14px; border-radius:12px; margin-bottom:20px;">
+        {{ $errors->first('alasan_penolakan') }}
+    </div>
+@endif
                 </div>
 
                 <!-- TABEL TRANSAKSI -->
@@ -1349,6 +1355,24 @@
                 @method('PUT')
                 <input type="hidden" name="status" id="inputStatus">
 
+
+                <div id="alasanPenolakanGroup" style="display:none; text-align:left; margin-bottom:20px;">
+
+                    <label for="alasan_penolakan" style="display:block; font-weight:800; margin-bottom:8px;">
+                        Alasan Penolakan <span style="color:red;">*</span>
+                    </label>
+
+                    <textarea name="alasan_penolakan" id="alasan_penolakan" rows="4" maxlength="1000"
+                        placeholder="Tuliskan alasan pembayaran ditolak..."
+                        style="width:100%; padding:12px; border:1px solid #cbd5e1;
+               border-radius:12px; resize:vertical; font-family:inherit;"></textarea>
+
+                    <small style="color:#64748b; display:block; margin-top:6px;">
+                        Alasan wajib diisi jika pembayaran ditolak.
+                    </small>
+                </div>
+
+
                 <div class="modal-buttons">
                     <button type="button" class="modal-btn btn-cancel" onclick="closeModals()">Batal</button>
                     <button type="submit" class="modal-btn" id="confirmSubmitBtn">Ya, Lanjutkan</button>
@@ -1382,6 +1406,8 @@
             const text = document.getElementById('confirmText');
             const submitBtn = document.getElementById('confirmSubmitBtn');
             const inputStatus = document.getElementById('inputStatus');
+            const alasanGroup = document.getElementById('alasanPenolakanGroup');
+            const alasanInput = document.getElementById('alasan_penolakan');
 
             // Ganti URL Action form sesuai ID (Sesuaikan dengan route Laravel kamu)
             form.action = `/verifikasi-pembayaran/${paymentId}`;
@@ -1391,6 +1417,9 @@
                 icon.innerText = '✓';
                 title.innerText = 'Terima Pembayaran?';
                 text.innerHTML =
+                alasanGroup.style.display = 'none';
+alasanInput.required = false;
+alasanInput.value = '';
                     `Kamu akan memverifikasi setoran dari <b>${studentName}</b>. Saldo kas akan otomatis bertambah! ✨`;
 
                 submitBtn.style.background = '#10b981';
@@ -1403,6 +1432,8 @@
                 icon.innerText = '✕';
                 title.innerText = 'Tolak Pembayaran?';
                 text.innerHTML =
+                alasanGroup.style.display = 'block';
+alasanInput.required = true;
                     `Setoran dari <b>${studentName}</b> akan ditolak. Pastikan kamu ngasih tau alasannya ke siswa ya! 🚨`;
 
                 submitBtn.style.background = '#ef4444';

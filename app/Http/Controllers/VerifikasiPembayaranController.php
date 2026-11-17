@@ -74,57 +74,71 @@ class VerifikasiPembayaranController extends Controller
         return view('verifikasi-pembayaran.index', compact('siswa'));
     }
 
-    public function update(
-        Request $request,
-        PembayaranKas $pembayaranKas
-    ) {
-        $validated = $request->validate([
-            'status' => 'required|in:Diterima,Ditolak',
-        ]);
 
-        $siswa = Siswa::where(
-            'id_siswa',
-            $pembayaranKas->id_siswa
-        )->firstOrFail();
+public function update(
+    Request $request,
+    PembayaranKas $pembayaranKas
+) {
+    // Validasi data yang dikirim dari form.
+    $validated = $request->validate([
+        'status' => 'required|in:Diterima,Ditolak',
+        'alasan_penolakan' => 'nullable|required_if:status,Ditolak|string|max:1000',
+    ], [
+        'alasan_penolakan.required_if' => 'Alasan penolakan wajib diisi.',
+        'alasan_penolakan.max' => 'Alasan penolakan maksimal 1000 karakter.',
+    ]);
 
-        if (Auth::user()->role === 'BENDAHARA') {
-            $punyaAkses = PengaturanSistem::where(
-                'id_bendahara',
-                Auth::id()
-            )
-                ->where('nama_kelas', $siswa->kelas)
-                ->exists();
+    $siswa = Siswa::where(
+        'id_siswa',
+        $pembayaranKas->id_siswa
+    )->firstOrFail();
 
-            abort_unless(
-                $punyaAkses,
-                403,
-                'Anda tidak memiliki akses untuk memverifikasi pembayaran kelas ini.'
-            );
-        } elseif (Auth::user()->role !== 'ADMIN') {
-            abort(
-                403,
-                'Anda tidak memiliki akses untuk memverifikasi pembayaran.'
-            );
-        }
+    if (Auth::user()->role === 'BENDAHARA') {
+        $punyaAkses = PengaturanSistem::where(
+            'id_bendahara',
+            Auth::id()
+        )
+            ->where('nama_kelas', $siswa->kelas)
+            ->exists();
 
-        DB::transaction(function () use ($validated, $pembayaranKas, $siswa) {
-            Transaksi::updateOrCreate(
-                [
-                    'id_pembayaran' => $pembayaranKas->id_pembayaran,
-                ],
-                [
-                    'id_siswa' => $siswa->id_siswa,
-                    'status' => $validated['status'],
-                ]
-            );
-        });
-
-        $pesan = $validated['status'] === 'Diterima'
-            ? 'Pembayaran berhasil diterima dan transaksi berhasil dicatat.'
-            : 'Pembayaran berhasil ditolak dan status transaksi diperbarui.';
-
-        return redirect()
-            ->route('verifikasi-pembayaran.index')
-            ->with('success', $pesan);
+        abort_unless(
+            $punyaAkses,
+            403,
+            'Anda tidak memiliki akses untuk memverifikasi pembayaran kelas ini.'
+        );
+    } elseif (Auth::user()->role !== 'ADMIN') {
+        abort(
+            403,
+            'Anda tidak memiliki akses untuk memverifikasi pembayaran.'
+        );
     }
+
+    DB::transaction(function () use (
+        $validated,
+        $pembayaranKas,
+        $siswa
+    ) {
+        Transaksi::updateOrCreate(
+            [
+                'id_pembayaran' => $pembayaranKas->id_pembayaran,
+            ],
+            [
+                'id_siswa' => $siswa->id_siswa,
+                'status' => $validated['status'],
+                'alasan_penolakan' => $validated['status'] === 'Ditolak'
+                    ? $validated['alasan_penolakan']
+                    : null,
+            ]
+        );
+    });
+
+    $pesan = $validated['status'] === 'Diterima'
+        ? 'Pembayaran berhasil diterima dan transaksi berhasil dicatat.'
+        : 'Pembayaran berhasil ditolak. Alasan penolakan berhasil disimpan.';
+
+    return redirect()
+        ->route('verifikasi-pembayaran.index')
+        ->with('success', $pesan);
+}
+
 }

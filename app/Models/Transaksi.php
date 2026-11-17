@@ -14,13 +14,13 @@ class Transaksi extends Model
 
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'update_at';
-
-    protected $fillable = [
-        'id_pembayaran',
-        'id_siswa',
-        'status',
-    ];
-
+    
+protected $fillable = [
+    'id_pembayaran',
+    'id_siswa',
+    'status',
+    'alasan_penolakan',
+];
     public function pembayaran()
     {
         return $this->belongsTo(

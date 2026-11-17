@@ -911,6 +911,7 @@
                                     <th>Nominal</th>
                                     <th>Metode</th>
                                     <th>Status</th>
+                                    <th>Alasan Penolakan</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -950,6 +951,15 @@
                                                 <span class="badge badge-menunggu">{{ $status }}</span>
                                             @endif
                                         </td>
+                                        <td>
+    @if ($status === 'Ditolak')
+        <span style="color: #b91c1c; font-weight: 600;">
+            {{ $item->transaksi?->alasan_penolakan ?? 'Alasan belum tersedia.' }}
+        </span>
+    @else
+        <span style="color: #94a3b8;">-</span>
+    @endif
+</td>
                                     </tr>
                                 @endforeach
                             </tbody>

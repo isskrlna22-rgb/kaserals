@@ -48,9 +48,65 @@ class PembayaranKasController extends Controller
             abort(403, 'Anda tidak memiliki akses ke halaman ini.');
         }
 
-        $siswa = $querySiswa
-            ->orderBy('nama_lengkap')
-            ->get();
+      $siswa = $querySiswa
+    ->with([
+        'pembayaranKas.detailPembayaran',
+        'pembayaranKas.transaksi'
+    ])
+    ->orderBy('nama_lengkap')
+    ->get();
+
+// Ambil daftar minggu yang sudah tercatat
+$mingguTersedia = $siswa
+    ->flatMap(function ($item) {
+        return $item->pembayaranKas->map(function ($pembayaran) {
+            return $pembayaran->detailPembayaran?->minggu_ke;
+        });
+    })
+    ->filter(fn ($minggu) => $minggu !== null)
+    ->unique()
+    ->sort()
+    ->values();
+
+// Ambil minggu yang dipilih
+$mingguDipilih = request('minggu_ke');
+
+if (!$mingguTersedia->contains((int) $mingguDipilih)) {
+    $mingguDipilih = $mingguTersedia->last();
+}
+
+// Susun status pembayaran setiap siswa
+$daftarStatusPembayaran = collect();
+
+if ($mingguDipilih !== null) {
+    $daftarStatusPembayaran = $siswa->map(function ($item) use ($mingguDipilih) {
+
+        $pembayaranMinggu = $item->pembayaranKas
+            ->filter(function ($pembayaran) use ($mingguDipilih) {
+                return $pembayaran->detailPembayaran
+                    && (int) $pembayaran->detailPembayaran->minggu_ke
+                        === (int) $mingguDipilih;
+            });
+
+        $statusTransaksi = $pembayaranMinggu
+            ->map(fn ($p) => $p->transaksi?->status);
+
+        if ($statusTransaksi->contains('Diterima')) {
+            $status = 'Lunas';
+        } elseif ($statusTransaksi->contains('Menunggu')) {
+            $status = 'Menunggu';
+        } elseif ($statusTransaksi->contains('Ditolak')) {
+            $status = 'Ditolak';
+        } else {
+            $status = 'Belum Membayar';
+        }
+
+        return [
+            'siswa' => $item,
+            'status' => $status
+        ];
+    });
+}
 
         $pembayaran = $queryPembayaran
             ->latest('tanggal')
@@ -74,11 +130,14 @@ class PembayaranKasController extends Controller
             ->sum('nominal');
 
         return view('pembayaran-kas.index', compact(
-            'siswa',
-            'pembayaran',
-            'transaksiHariIni',
-            'totalHariIni'
-        ));
+    'siswa',
+    'pembayaran',
+    'transaksiHariIni',
+    'totalHariIni',
+    'mingguTersedia',
+    'mingguDipilih',
+    'daftarStatusPembayaran'
+));
     }
 
 

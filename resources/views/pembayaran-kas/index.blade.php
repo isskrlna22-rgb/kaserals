@@ -767,6 +767,200 @@
             transform: translateY(-2px);
         }
 
+
+/* DAFTAR STATUS PEMBAYARAN SISWA */
+.status-list-card {
+    margin-top: 28px;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 22px;
+    box-shadow: 0 10px 35px rgba(15, 23, 42, 0.06);
+    border: 1px solid #edf2f7;
+}
+
+.status-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.status-list-header h2 {
+    margin: 0 0 7px;
+    font-size: 22px;
+    font-weight: 900;
+    color: #0f172a;
+}
+
+.status-list-header p {
+    color: #64748b;
+    font-size: 14px;
+    margin: 0;
+}
+
+.status-list-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    background: #ccfbf1;
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.status-filter {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+    padding: 17px;
+    background: #f8fafc;
+    border-radius: 14px;
+}
+
+.status-filter label {
+    font-size: 14px;
+    font-weight: 800;
+    color: #334155;
+}
+
+.status-filter select {
+    min-width: 160px;
+    padding: 11px 15px;
+    border: 1px solid #cbd5e1;
+    border-radius: 11px;
+    background: white;
+    color: #0f172a;
+    font-size: 14px;
+    font-weight: 700;
+    outline: none;
+    cursor: pointer;
+}
+
+.status-filter select:focus {
+    border-color: #0d9488;
+    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.12);
+}
+
+.status-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #e8edf3;
+    border-radius: 15px;
+}
+
+.status-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 550px;
+}
+
+.status-table thead {
+    background: #f1f5f9;
+}
+
+.status-table th {
+    padding: 17px 18px;
+    color: #475569;
+    font-size: 12px;
+    font-weight: 900;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-table td {
+    padding: 18px;
+    border-bottom: 1px solid #edf2f7;
+    color: #475569;
+    font-size: 14px;
+}
+
+.status-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.status-table tbody tr:hover {
+    background: #f8fffd;
+}
+
+.student-name {
+    color: #1e293b;
+    font-weight: 800;
+}
+
+.class-label {
+    color: #64748b;
+    font-weight: 700;
+}
+
+.payment-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 13px;
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.badge-lunas {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.badge-menunggu {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.badge-ditolak {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.badge-belum {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+.empty-status {
+    padding: 30px !important;
+    text-align: center;
+    color: #94a3b8 !important;
+    font-weight: 700;
+}
+
+@media (max-width: 768px) {
+    .status-list-card {
+        padding: 20px 14px;
+        border-radius: 18px;
+    }
+
+    .status-list-header h2 {
+        font-size: 18px;
+    }
+
+    .status-list-header p {
+        font-size: 12px;
+    }
+
+    .status-filter {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .status-filter select {
+        width: 100%;
+    }
+}
+
+
         /* RESPONSIVE MOBILE PEMBAYARAN KAS */
         @media (max-width: 768px) {
             .page {
@@ -1246,6 +1440,105 @@
                     </div>
 
                 </div>
+
+
+<!-- DAFTAR STATUS PEMBAYARAN SISWA -->
+<div class="status-list-card">
+
+    <div class="status-list-header">
+        <div>
+            <h2>Daftar Status Pembayaran Siswa</h2>
+            <p>Pantau pembayaran kas siswa berdasarkan minggu.</p>
+        </div>
+
+        <div class="status-list-icon">📋</div>
+    </div>
+
+    <!-- FILTER MINGGU -->
+    <form method="GET"
+        action="{{ route('pembayaran-kas.index') }}"
+        class="status-filter">
+
+        <label for="minggu_ke">Pilih Periode Minggu</label>
+
+        <select name="minggu_ke"
+            id="minggu_ke"
+            onchange="this.form.submit()">
+
+            @forelse ($mingguTersedia as $minggu)
+                <option value="{{ $minggu }}"
+                    {{ (string) $mingguDipilih === (string) $minggu ? 'selected' : '' }}>
+                    Minggu ke-{{ $minggu }}
+                </option>
+            @empty
+                <option value="">Belum ada minggu tercatat</option>
+            @endforelse
+
+        </select>
+    </form>
+
+    <!-- TABEL STATUS -->
+    <div class="status-table-wrapper">
+        <table class="status-table">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama Siswa</th>
+                    <th>Kelas</th>
+                    <th>Status Pembayaran</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @forelse ($daftarStatusPembayaran as $item)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+
+                        <td>
+                            <strong class="student-name">
+                                {{ $item['siswa']->nama_lengkap }}
+                            </strong>
+                        </td>
+
+                        <td>
+                            <span class="class-label">
+                                {{ $item['siswa']->kelas }}
+                            </span>
+                        </td>
+
+                        <td>
+                            @if ($item['status'] === 'Lunas')
+                                <span class="payment-badge badge-lunas">
+                                    ✓ Lunas
+                                </span>
+                            @elseif ($item['status'] === 'Menunggu')
+                                <span class="payment-badge badge-menunggu">
+                                    ◷ Menunggu Verifikasi
+                                </span>
+                            @elseif ($item['status'] === 'Ditolak')
+                                <span class="payment-badge badge-ditolak">
+                                    ✕ Ditolak
+                                </span>
+                            @else
+                                <span class="payment-badge badge-belum">
+                                    Belum Membayar
+                                </span>
+                            @endif
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4" class="empty-status">
+                            📭 Belum ada data pembayaran untuk minggu ini.
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
 
             </section>
         </main>

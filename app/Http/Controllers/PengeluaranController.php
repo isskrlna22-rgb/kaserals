@@ -25,11 +25,18 @@ class PengeluaranController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nominal' => 'required|numeric|min:1',
-            'tanggal' => 'required|date',
-            'kategori' => 'required|string|max:255',
-            'keterangan' => 'nullable|string',
-        ]);
+    'nominal' => 'required|numeric|min:1',
+    'tanggal' => 'required|date',
+    'kategori' => 'required|string|max:255',
+    'keterangan' => 'nullable|string',
+    'bukti_pengeluaran' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+]);
+
+if ($request->hasFile('bukti_pengeluaran')) {
+    $validated['bukti_pengeluaran'] = $request
+        ->file('bukti_pengeluaran')
+        ->store('bukti-pengeluaran', 'public');
+}
 
         $validated['id_user'] = Auth::id();
 
@@ -48,23 +55,29 @@ class PengeluaranController extends Controller
         );
     }
 
-    public function update(Request $request, Pengeluaran $pengeluaran)
-    {
-        $validated = $request->validate([
-            'nominal' => 'required|numeric|min:1',
-            'tanggal' => 'required|date',
-            'kategori' => 'required|string|max:255',
-            'keterangan' => 'nullable|string',
-        ]);
+   public function update(Request $request, Pengeluaran $pengeluaran)
+{
+    $validated = $request->validate([
+        'nominal' => 'required|numeric|min:1',
+        'tanggal' => 'required|date',
+        'kategori' => 'required|string|max:255',
+        'keterangan' => 'nullable|string',
+        'bukti_pengeluaran' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+    ]);
 
-        $pengeluaran->update($validated);
-
-        return response()->json([
-            'message' => 'Pengeluaran berhasil diperbarui.',
-            'data' => $pengeluaran->load('user'),
-        ]);
+    if ($request->hasFile('bukti_pengeluaran')) {
+        $validated['bukti_pengeluaran'] = $request
+            ->file('bukti_pengeluaran')
+            ->store('bukti-pengeluaran', 'public');
     }
 
+    $pengeluaran->update($validated);
+
+    return response()->json([
+        'message' => 'Pengeluaran berhasil diperbarui.',
+        'data' => $pengeluaran->load('user'),
+    ]);
+}
     public function destroy(Pengeluaran $pengeluaran)
     {
         $pengeluaran->delete();
@@ -105,12 +118,19 @@ public function page()
 
 public function storePage(Request $request)
 {
-    $validated = $request->validate([
-        'nominal' => 'required|numeric|min:1',
-        'tanggal' => 'required|date',
-        'kategori' => 'required|string|max:255',
-        'keterangan' => 'nullable|string',
-    ]);
+   $validated = $request->validate([
+    'nominal' => 'required|numeric|min:1',
+    'tanggal' => 'required|date',
+    'kategori' => 'required|string|max:255',
+    'keterangan' => 'nullable|string',
+    'bukti_pengeluaran' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+]);
+
+if ($request->hasFile('bukti_pengeluaran')) {
+    $validated['bukti_pengeluaran'] = $request
+        ->file('bukti_pengeluaran')
+        ->store('bukti-pengeluaran', 'public');
+}
 
     $user = Auth::user();
 

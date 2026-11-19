@@ -623,6 +623,133 @@
             border-radius: 50%;
         }
 
+
+
+.weekly-card {
+    background: #ffffff;
+    padding: 28px;
+    border-radius: 20px;
+    margin: 24px 0;
+    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.05);
+}
+
+.weekly-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.weekly-header h3 {
+    margin: 0 0 7px;
+    color: #172033;
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.weekly-header p {
+    margin: 0;
+    color: #8993a4;
+    font-size: 13px;
+}
+
+.weekly-icon {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e8f8f5;
+    border-radius: 14px;
+    font-size: 21px;
+}
+
+.weekly-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+}
+
+.weekly-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 17px;
+    background: #f8fafc;
+    border: 1px solid #edf0f4;
+    border-radius: 15px;
+}
+
+.weekly-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.weekly-number {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #e0f5f1;
+    color: #078b7e;
+    font-weight: 700;
+}
+
+.weekly-info strong {
+    display: block;
+    color: #202b40;
+    font-size: 14px;
+}
+
+.weekly-info small {
+    display: block;
+    margin-top: 4px;
+    color: #98a1af;
+    font-size: 11px;
+}
+
+.weekly-badge {
+    padding: 7px 11px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.weekly-badge.lunas {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.weekly-badge.menunggu {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.weekly-badge.ditolak {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.weekly-badge.belum {
+    background: #e2e8f0;
+    color: #475569;
+}
+
+@media (max-width: 600px) {
+    .weekly-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .weekly-card {
+        padding: 20px;
+    }
+}
+
         /* ================= BOTTOM NAV MOBILE ================= */
 
         .bottom-nav {
@@ -894,6 +1021,48 @@
                     </div>
                 @endif
             </div>
+
+
+
+<!-- ================= STATUS MINGGUAN ================= -->
+<div class="weekly-card">
+    <div class="weekly-header">
+        <div>
+<h3>
+    Status Pembayaran {{ now()->locale('id')->translatedFormat('F Y') }}
+</h3>            <p>Pantau pembayaran kas setiap minggu</p>
+        </div>
+        <span class="weekly-icon">📅</span>
+    </div>
+
+    <div class="weekly-grid">
+        @foreach ($statusMingguan as $item)
+            <div class="weekly-item">
+                <div class="weekly-info">
+                    <span class="weekly-number">
+                        {{ $item['minggu'] }}
+                    </span>
+                    <div>
+                        <strong>Minggu {{ $item['minggu'] }}</strong>
+                        <small>Pembayaran kas</small>
+                    </div>
+                </div>
+
+                @if ($item['status'] === 'Lunas')
+                    <span class="weekly-badge lunas">Lunas</span>
+                @elseif ($item['status'] === 'Menunggu')
+                    <span class="weekly-badge menunggu">Menunggu</span>
+                @elseif ($item['status'] === 'Ditolak')
+                    <span class="weekly-badge ditolak">Ditolak</span>
+                @else
+                    <span class="weekly-badge belum">Belum Bayar</span>
+                @endif
+            </div>
+        @endforeach
+    </div>
+</div>
+
+
 
             <!-- ================= RIWAYAT ================= -->
             <div class="history-card">

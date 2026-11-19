@@ -1061,8 +1061,8 @@
                     <!-- FORM -->
                     <div class="card">
                         <h2 class="card-title">Tambah Pengeluaran</h2>
-                        <form action="{{ route('pengeluaran.web.store') }}" method="POST" novalidate>
-                            @csrf
+                        <form action="{{ route('pengeluaran.web.store') }}" method="POST"
+                            enctype="multipart/form-data" novalidate> @csrf
 
                             @if (Auth::user()->role === 'ADMIN')
                                 <div class="form-group">
@@ -1091,6 +1091,23 @@
                                         readonly>
                                 </div>
                             @endif
+                            <!-- BUKTI PENGELUARAN -->
+                            <div class="form-group">
+                                <label class="form-label">Bukti Pengeluaran</label>
+
+                                <input type="file" name="bukti_pengeluaran" accept=".jpg,.jpeg,.png"
+                                    class="form-input">
+
+                                <small style="color: #64748b;">
+                                    Format JPG, JPEG, atau PNG. Maksimal 2 MB.
+                                </small>
+
+                                @error('bukti_pengeluaran')
+                                    <small style="color: #dc2626; display: block;">
+                                        {{ $message }}
+                                    </small>
+                                @enderror
+                            </div>
                             <!-- TANGGAL -->
                             <div class="form-group">
                                 <label class="form-label">Tanggal *</label>
@@ -1184,6 +1201,20 @@
                                             {{ $item->keterangan }}
                                         </p>
                                     @endif
+
+                                    @if ($item->bukti_pengeluaran)
+                                        <a href="{{ asset('storage/' . $item->bukti_pengeluaran) }}" target="_blank"
+                                            style="display: inline-block; margin-top: 8px;
+        color: #0d9488; font-size: 12px; font-weight: 700;">
+
+                                            📎 Lihat Bukti Pengeluaran
+                                        </a>
+                                    @else
+                                        <p class="expense-description">
+                                            Belum ada bukti pengeluaran.
+                                        </p>
+                                    @endif
+
                                 </div>
 
                                 <span class="expense-nominal">

@@ -117,48 +117,90 @@ class SiswaDashboardController extends Controller
     // =========================
 
 
-    public function statusPembayaran()
-    {
-        $user = Auth::user();
 
-        $siswa = Siswa::where('id_user', $user->id_users)->first();
+public function statusPembayaran()
+{
+    $user = Auth::user();
 
-        if (!$siswa) {
-            abort(404, 'Data siswa belum terhubung dengan akun ini.');
+    $siswa = Siswa::where('id_user', $user->id_users)->first();
+
+    if (!$siswa) {
+        abort(404, 'Data siswa belum terhubung dengan akun ini.');
+    }
+
+    $bulanIni = now()->month;
+    $tahunIni = now()->year;
+
+    $pembayaran = PembayaranKas::with([
+        'transaksi',
+        'detailPembayaran',
+    ])
+        ->where('id_siswa', $siswa->id_siswa)
+        ->orderByDesc('tanggal')
+        ->orderByDesc('id_pembayaran')
+        ->get();
+
+    // Ambil pembayaran khusus bulan dan tahun ini.
+    $pembayaranBulanIni = $pembayaran->filter(function ($item) use (
+        $bulanIni,
+        $tahunIni
+    ) {
+        return $item->tanggal
+            && \Carbon\Carbon::parse($item->tanggal)->month == $bulanIni
+            && \Carbon\Carbon::parse($item->tanggal)->year == $tahunIni;
+    });
+
+    // Buat status untuk Minggu 1 sampai Minggu 4.
+    $statusMingguan = collect(range(1, 4))->map(function ($minggu) use (
+        $pembayaranBulanIni
+    ) {
+        $dataMinggu = $pembayaranBulanIni->filter(function ($item) use ($minggu) {
+            return (int) ($item->detailPembayaran?->minggu_ke) === $minggu;
+        });
+
+        $statusTransaksi = $dataMinggu
+            ->map(fn ($item) => $item->transaksi?->status);
+
+        if ($statusTransaksi->contains('Diterima')) {
+            $status = 'Lunas';
+        } elseif ($statusTransaksi->contains('Menunggu')) {
+            $status = 'Menunggu';
+        } elseif ($statusTransaksi->contains('Ditolak')) {
+            $status = 'Ditolak';
+        } else {
+            $status = 'Belum Bayar';
         }
 
-        $pembayaran = PembayaranKas::with([
-            'transaksi',
-            'detailPembayaran',
-        ])
-            ->where('id_siswa', $siswa->id_siswa)
-            ->orderByDesc('tanggal')
-            ->orderByDesc('id_pembayaran')
-            ->get();
+        return [
+            'minggu' => $minggu,
+            'status' => $status,
+        ];
+    });
 
-        // Hanya transaksi yang sudah diterima yang dihitung sebagai pembayaran lunas.
-        $pembayaranDiterima = $pembayaran->filter(function ($item) {
-            return $item->transaksi?->status === 'Diterima';
-        });
+    // Hitung total pembayaran yang sudah diterima.
+    $pembayaranDiterima = $pembayaran->filter(function ($item) {
+        return $item->transaksi?->status === 'Diterima';
+    });
 
-        $totalPembayaranSiswa = $pembayaranDiterima->sum(function ($item) {
-            return (float) ($item->detailPembayaran?->nominal ?? 0);
-        });
+    $totalPembayaranSiswa = $pembayaranDiterima->sum(function ($item) {
+        return (float) ($item->detailPembayaran?->nominal ?? 0);
+    });
 
-        $jumlahPembayaran = $pembayaranDiterima->count();
+    $jumlahPembayaran = $pembayaranDiterima->count();
 
-        $statusPembayaran = $pembayaranDiterima->isNotEmpty()
-            ? 'SUDAH BAYAR'
-            : 'BELUM BAYAR';
+    $statusPembayaran = $pembayaranDiterima->isNotEmpty()
+        ? 'SUDAH BAYAR'
+        : 'BELUM BAYAR';
 
-        return view('siswa.status-pembayaran', compact(
-            'siswa',
-            'pembayaran',
-            'totalPembayaranSiswa',
-            'jumlahPembayaran',
-            'statusPembayaran'
-        ));
-    }
+    return view('siswa.status-pembayaran', compact(
+        'siswa',
+        'pembayaran',
+        'totalPembayaranSiswa',
+        'jumlahPembayaran',
+        'statusPembayaran',
+        'statusMingguan'
+    ));
+}
 
 
     // =========================
